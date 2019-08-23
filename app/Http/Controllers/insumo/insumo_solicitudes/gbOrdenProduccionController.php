@@ -420,9 +420,41 @@ class gbOrdenProduccionController extends Controller
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+        //$orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+        //                                    ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_planta_id',$planta->id_planta)->get();
         $orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
-                                            ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_planta_id',$planta->id_planta)->get();
-        return Datatables::of($orden_produccion)->addColumn('acciones', function ($orden_produccion) {
+                                            ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
+                                            ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                            ->leftjoin('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                            ->where('orprod_planta_id',$planta->id_planta)
+                                            ->orderBy('orprod_id','DESC')
+                                            ->get();
+        return Datatables::of($orden_produccion)->addColumn('nombreReceta', function ($nombreReceta) {
+                return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
+        })->addColumn('lineaProduccion', function ($lineaProduccion) {
+            if ($lineaProduccion->rece_lineaprod_id == 1) {
+                return 'LACTEOS';
+            }elseif($lineaProduccion->rece_lineaprod_id == 2){
+                return 'ALMENDRA';
+            }elseif($lineaProduccion->rece_lineaprod_id == 3) {
+                return 'MIEL';
+            }elseif($lineaProduccion->rece_lineaprod_id == 4) {
+                return 'FRUTOS';
+            }elseif($lineaProduccion->rece_lineaprod_id == 5) {
+                return 'DERIVADOS';
+            }
+        })->addColumn('estadoAprobacion', function ($estadoAprobacion) {
+            if ($estadoAprobacion->orprod_estado_orp == 'A') {
+                return $this->traeUser($estadoAprobacion->orprod_usr_id);
+            }elseif($estadoAprobacion->orprod_estado_orp == 'B'){
+                return $this->traeUser($estadoAprobacion->orprod_usr_vo);
+            }elseif($estadoAprobacion->orprod_estado_orp == 'C') {
+                return $this->traeUser($estadoAprobacion->orprod_usr_vodos);
+            }elseif($estadoAprobacion->orprod_estado_orp == 'D') {
+            return $this->traeUser($estadoAprobacion->orprod_usr_aprob);
+            }
+        })
+        ->addColumn('acciones', function ($orden_produccion) {
             if($orden_produccion->orprod_estado_orp == 'B'){
                 return 'PEDIDO ENVIADO';
             }elseif($orden_produccion->orprod_estado_orp == 'A'){
@@ -472,10 +504,42 @@ class gbOrdenProduccionController extends Controller
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+        //$orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                            //->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_planta_id',$planta->id_planta)
+                                            //->where('orprod_usr_vo','<>',null)->get();
         $orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
-                                            ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_planta_id',$planta->id_planta)
-                                            ->where('orprod_usr_vo','<>',null)->get();
-        return Datatables::of($orden_produccion)->addColumn('acciones', function ($orden_produccion) {
+                                            ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
+                                            ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                            ->leftjoin('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                            ->where('orprod_planta_id',$planta->id_planta)
+                                            ->where('orprod_usr_vo','<>',null)
+                                            ->orderBy('orprod_id','DESC')
+                                            ->get();
+        return Datatables::of($orden_produccion)->addColumn('nombreReceta', function ($nombreReceta) {
+                return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
+        })->addColumn('lineaProduccion', function ($lineaProduccion) {
+            if ($lineaProduccion->rece_lineaprod_id == 1) {
+                return 'LACTEOS';
+            }elseif($lineaProduccion->rece_lineaprod_id == 2){
+                return 'ALMENDRA';
+            }elseif($lineaProduccion->rece_lineaprod_id == 3) {
+                return 'MIEL';
+            }elseif($lineaProduccion->rece_lineaprod_id == 4) {
+                return 'FRUTOS';
+            }elseif($lineaProduccion->rece_lineaprod_id == 5) {
+                return 'DERIVADOS';
+            }
+        })->addColumn('estadoAprobacion', function ($estadoAprobacion) {
+            if ($estadoAprobacion->orprod_estado_orp == 'A') {
+                return $this->traeUser($estadoAprobacion->orprod_usr_id);
+            }elseif($estadoAprobacion->orprod_estado_orp == 'B'){
+                return $this->traeUser($estadoAprobacion->orprod_usr_vo);
+            }elseif($estadoAprobacion->orprod_estado_orp == 'C') {
+                return $this->traeUser($estadoAprobacion->orprod_usr_vodos);
+            }elseif($estadoAprobacion->orprod_estado_orp == 'D') {
+            return $this->traeUser($estadoAprobacion->orprod_usr_aprob);
+            }
+        })->addColumn('acciones', function ($orden_produccion) {
             if ($orden_produccion->orprod_estado_orp=='C') {
                 return "ENVIADO A ALMACEN";
             }elseif($orden_produccion->orprod_estado_orp=='B'){

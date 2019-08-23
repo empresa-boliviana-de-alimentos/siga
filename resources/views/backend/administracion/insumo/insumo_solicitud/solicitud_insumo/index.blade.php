@@ -1,4 +1,17 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_insumo.partials.modalCreateAdiInsumo')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_insumo.partials.modalBoletaSolAdiInsumo')
@@ -28,27 +41,35 @@
                             <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-adicional">
                                 <thead class="cf">
                                     <tr>
-                                        <th>
-                                            Nro
+                                        <th class="text-center">
+                                            #
                                         </th>
-
-                                        <th>
-                                            No. ORP
+                                        <th class="tex-center">
+                                            NRO. ORP
                                         </th>
-                                        <th>
-                                            No. SOLICITUD
+                                        <th class="text-center">
+                                            NRO. SOLICITUD
                                         </th>
-                                        <th>
-                                            Fecha
+                                        <th class="text-center">
+                                            FECHA SOLICITUD ORP
                                         </th>
-                                        <th>
-                                            Producto
+                                        <th class="text-center">
+                                            FECHA SOL. INS ADICIONAL
                                         </th>
-                                        <th>
-                                            Cantidad
+                                        <th class="text-center">
+                                            PRODUCTO PRODUCIR
                                         </th>
-                                        <th>
-                                            Estado
+                                        <th class="text-center">
+                                            UNIDAD MEDIDA
+                                        </th>
+                                        <th class="text-center">
+                                            LINEA PRODUCCIÓN
+                                        </th>
+                                        <th class="text-center">
+                                            CANTIDAD PRODUCIR
+                                        </th>
+                                        <th class="text-center">
+                                            REPORTE SOLICITUD
                                         </th>
                                     </tr>
                                 </thead>
@@ -57,26 +78,35 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>
-                                            Nro
+                                        <th class="text-center">
+                                            #
                                         </th>
-                                        <th>
-                                            No. ORP
+                                        <th class="tex-center">
+                                            NRO. ORP
                                         </th>
-                                        <th>
-                                            No. SOLICITUD
+                                        <th class="text-center">
+                                            NRO. SOLICITUD
                                         </th>
-                                        <th>
-                                            Fecha
+                                        <th class="text-center">
+                                            FECHA SOLICITUD ORP
                                         </th>
-                                        <th>
-                                            Producto
+                                        <th class="text-center">
+                                            FECHA SOLICITUD INS ADICIONAL
                                         </th>
-                                        <th>
-                                            Cantidad
+                                        <th class="text-center">
+                                            PRODUCTO PRODUCIR
                                         </th>
-                                        <th>
-                                            Estado
+                                        <th class="text-center">
+                                            UNIDAD MEDIDA
+                                        </th>
+                                        <th class="text-center">
+                                            LINEA PRODUCCIÓN
+                                        </th>
+                                        <th class="text-center">
+                                            CANTIDAD PRODUCIR
+                                        </th>
+                                        <th class="text-center">
+                                            REPORTE SOLICITUD
                                         </th>
                                     </tr>
                                 </tfoot>
@@ -106,9 +136,12 @@
                 {data: 'orprod_nro_orden'},
                 {data: 'orprod_nro_solicitud'},
                 {data: 'orprod_registrado'},
-                {data: 'rece_nombre'},
+                {data: 'fecha_orp'},
+                {data: 'nombreReceta'},
+                {data: 'umed_nombre'},
+                {data: 'lineaProduccion'},
                 {data: 'orprod_cantidad'},
-                {data: 'orprod_estado'}
+                {data: 'orprod_accion'}
         ],
         "columnDefs": [ {
             "searchable": false,

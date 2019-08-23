@@ -1,4 +1,17 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -24,22 +37,28 @@
                             <thead class="cf">
                                 <tr>
                                     <th class="text-center">
-                                        No
+                                        #
                                     </th>
                                     <th class="text-center">
-                                        No ORP
+                                        NRO ORP
                                     </th>
                                     <th class="text-center">
-                                        FECHA
+                                        FECHA SOLICITUD
                                     </th>
                                     <th class="text-center">
-                                        PRODUCTO
+                                        FECHA ENVIO ALMACEN
                                     </th>
                                     <th class="text-center">
-                                        CANTIDAD
+                                        PRODUCTO PRODUCIR
                                     </th>
                                     <th class="text-center">
-                                        ORIGEN
+                                        UNIDAD MEDIDA
+                                    </th>
+                                    <th class="text-center">
+                                        LINEA PRUCCIÓN
+                                    </th>
+                                    <th class="text-center">
+                                        CANTIDAD PRODUCIR
                                     </th>
                                     <th class="text-center">
                                         ESTADO
@@ -52,22 +71,28 @@
                             <tfoot>
                                 <tr>
                                     <th class="text-center">
-                                        No
+                                        #
                                     </th>
                                     <th class="text-center">
-                                        No ORP
+                                        NRO ORP
                                     </th>
                                     <th class="text-center">
-                                        FECHA
+                                        FECHA SOLICITUD
                                     </th>
                                     <th class="text-center">
-                                        PRODUCTO
+                                        FECHA ENVIO ALMACEN
                                     </th>
                                     <th class="text-center">
-                                        CANTIDAD
+                                        PRODUCTO PRODUCIR
                                     </th>
                                     <th class="text-center">
-                                        ORIGEN
+                                        UNIDAD MEDIDA
+                                    </th>
+                                    <th class="text-center">
+                                        LINEA PRUCCIÓN
+                                    </th>
+                                    <th class="text-center">
+                                        CANTIDAD PRODUCIR
                                     </th>
                                     <th class="text-center">
                                         ESTADO
@@ -96,8 +121,10 @@ var t = $('#lts-orprod').DataTable( {
                 {data: 'orprod_id'},
                 {data: 'orprod_nro_orden'},
                 {data: 'orprod_registrado'},
-                {data: 'nombre_planta'},
-                {data: 'rece_nombre'},
+                {data: 'orprod_modificado'},
+                {data: 'nombreReceta'},
+                {data: 'umed_nombre'},
+                {data: 'lineaProduccion'},
                 {data: 'orprod_cantidad'},
                 {data: 'acciones',orderable: false, searchable: false},
                 // {data: 'sol_id'},
