@@ -54,9 +54,9 @@ class gbInsumoController extends Controller
             }
         })->addColumn('nombre_generico', function ($nombre_generico) {
             if ($nombre_generico->ins_peso_presen) {
-                return $nombre_generico->ins_desc.' '.$nombre_generico->sab_nombre.' '.$nombre_generico->ins_peso_presen.' '.$nombre_generico->umed_nombre;
+                return $nombre_generico->ins_desc.' '.$nombre_generico->sab_nombre.' '.$nombre_generico->ins_peso_presen;
             }else{
-                return $nombre_generico->ins_desc.' '.$nombre_generico->sab_nombre.' '.$nombre_generico->ins_formato.' '.$nombre_generico->umed_nombre;
+                return $nombre_generico->ins_desc.' '.$nombre_generico->sab_nombre.' '.$nombre_generico->ins_formato;
             }            
         })
             ->editColumn('id', 'ID: {{$ins_id}}')
