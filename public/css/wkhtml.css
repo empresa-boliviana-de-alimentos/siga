@@ -3,8 +3,8 @@ author: cechus
 date: 15-02-2018
 */
 
-html,
-body {
+body,
+html {
   padding: 10px 10px 3px 10px;
   margin: 0;
   font-family: "Helvetica";
@@ -932,31 +932,31 @@ tr {
 }
 
 .rounded {
-  border-top-left-radius: .7rem;
-  border-top-right-radius: .7rem;
-  border-bottom-right-radius: .7rem;
-  border-bottom-left-radius: .7rem;
+  border-top-left-radius: 0.7rem;
+  border-top-right-radius: 0.7rem;
+  border-bottom-right-radius: 0.7rem;
+  border-bottom-left-radius: 0.7rem;
 }
 
 .rounded-t {
-  border-top-left-radius: .7rem;
-  border-top-right-radius: .7rem;
+  border-top-left-radius: 0.7rem;
+  border-top-right-radius: 0.7rem;
 }
 
 .rounded-tl {
-  border-top-left-radius: .7rem;
+  border-top-left-radius: 0.7rem;
 }
 
 .rounded-tr {
-  border-top-right-radius: .7rem;
+  border-top-right-radius: 0.7rem;
 }
 
 .rounded-bl {
-  border-bottom-left-radius: .7rem;
+  border-bottom-left-radius: 0.7rem;
 }
 
 .rounded-br {
-  border-bottom-right-radius: .7rem;
+  border-bottom-right-radius: 0.7rem;
 }
 
 .leading-none {

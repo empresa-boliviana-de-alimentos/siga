@@ -37,6 +37,8 @@ Route::get('sesion', [
 	'uses' => 'Auth\AuthController@Login',
 ]);
 
+Route::get('test_print','ReportController@test_print');
+
 Route::group(array('middleware' => 'auth'), function () {
 	Route::get('ReportePdf', 'RerportController@prueba');
 	Route::resource('Acceso', 'admin\gbAccesoController');
@@ -321,7 +323,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::resource('IngresoAlmacen', 'insumo\insumo_registros\gbIngresoAlmacenController');
 	Route::resource('IngresoPrima', 'insumo\insumo_registros\gbIngresoPrimaController');
 	Route::post('EvaluacionProv', 'insumo\insumo_registros\gbProveedorController@storeEvalProv');
-	Route::get('ExportarEvalucionProveedores','insumo\insumo_registros\gbProveedorController@exportarEvalucionProveedores');
+	Route::get('ExportarEvalucionProveedores','ReportController@reporte_proveedores');
 	Route::get('ListarEvalProv/{id}', 'insumo\insumo_registros\gbProveedorController@listarEvaluaciones');
 
 	/////**********LISTAS**************/////

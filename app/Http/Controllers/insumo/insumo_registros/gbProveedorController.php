@@ -36,8 +36,8 @@ class gbProveedorController extends Controller
     {
         $this->validate(request(), [
                 'nombre_proveedor' => 'required',
-                'nombre_responsable' => 'required',                
-        ]); 
+                'nombre_responsable' => 'required',
+        ]);
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                           ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         Proveedor::create([
@@ -138,7 +138,7 @@ class gbProveedorController extends Controller
                         </tr>
                     </table>
                     <br><br>
-                        
+
                     <table border="1" cellspacing="0" cellpadding="1">
                         <tr>
                             <th align="center" bgcolor="#3498DB" width="35">No.</th>
@@ -162,7 +162,7 @@ class gbProveedorController extends Controller
                                 <td align="center">'.date('d/m/Y',strtotime($eval->eval_registrado)).'</td>
                                 <td align="center">'.$total_puntaje.'</td>
                                 <td align="center">'.$total_puntos.'</td>
-                                <th align="center">'.$total_porcentaje.'</th>';       
+                                <th align="center">'.$total_porcentaje.'</th>';
             $html = $html . '</tr>';
         }
 
