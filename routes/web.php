@@ -1,5 +1,12 @@
 <?php
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use siga\Modelo\acopio\acopio_frutos\Provincia;
+use siga\Modelo\acopio\acopio_miel\Asociacion;
+use siga\Modelo\acopio\acopio_miel\Comunidad;
+use siga\Modelo\acopio\acopio_miel\Contrato;
+use siga\Modelo\acopio\acopio_miel\Municipio;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -473,7 +480,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::resource('OrdenProduccion', 'insumo\insumo_solicitudes\gbOrdenProduccionController');
 	Route::get('RegistroOrdenProd', 'insumo\insumo_solicitudes\gbOrdenProduccionController@viewRegistroProd');
 	Route::get('getProducto', 'insumo\insumo_solicitudes\gbOrdenProduccionController@getProducto');
-	Route::get('StockActualOP/{id}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@stock_actualOP');
+	Route::get('StockActualOP/{id}/{id_planta}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@stock_actualOP');
 	Route::get('OrdenProduccionCreate', 'insumo\insumo_solicitudes\gbOrdenProduccionController@ordenProduccionCreate');
 	Route::get('BoletaOrdenProduccion/{id}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@boletaOrdenProduccion');
 	Route::get('RecepcionORP', 'insumo\insumo_solicitudes\gbOrdenProduccionController@menuRecepcionORP');

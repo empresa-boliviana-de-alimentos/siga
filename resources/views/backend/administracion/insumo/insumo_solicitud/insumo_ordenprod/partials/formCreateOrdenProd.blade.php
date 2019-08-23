@@ -374,11 +374,11 @@ $( "#botonCalculos" ).click(function() {
       	$( "#TableRecetasEnv tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
       	$.get('getDataDetRecetaInsPrima?rece_id='+data.rece_id, function(data_det){
 	      	for (i = 0; i < data_det.length; i++){
-	      		function getstockActual(id)
+	      		function getstockActual(id,id_planta)
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOP/"+id+"/"+id_planta,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -397,17 +397,17 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
-	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'" style="background: #ffb4da;"></input></td></tr>');
+	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
 	        }
     	});
       	$("#OcultarSaborizacion").show();
       	$.get('getDataDetReceta?rece_id='+data.rece_id+'&tipo=4', function(data_det){
 	      	for (i = 0; i < data_det.length; i++){
-	      		function getstockActual(id)
+	      		function getstockActual(id,id_planta)
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOP/"+id+"/"+id_planta,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -426,17 +426,17 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
-	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'" style="background: #ffb4da;"></input></td></tr>');
+	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
 	        }
     	});
       	$("#OcultarMatEnv").show();
       	$.get('getDataDetReceta?rece_id='+data.rece_id+'&tipo=2', function(data_det){
 	      	for (i = 0; i < data_det.length; i++){
-	      		function getstockActual(id)
+	      		function getstockActual(id,id_planta)
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOP/"+id+"/"+id_planta,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -455,7 +455,7 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
-	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'" style="background: #ffb4da;"></input></td></tr>');
+	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
 	        }
     	});
       }else if(linea_tipo == 2 || linea_tipo == 3){
@@ -466,11 +466,11 @@ $( "#botonCalculos" ).click(function() {
       	$("#OcultarMateriaPrima").show();
       	$.get('getDataDetReceta?rece_id='+data.rece_id+'&tipo=3', function(data_det){
 	      	for (i = 0; i < data_det.length; i++){
-	      		function getstockActual(id)
+	      		function getstockActual(id,id_planta)
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOP/"+id+"/"+id_planta,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -489,7 +489,7 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
-	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'" style="background: #ffb4da;"></input></td></tr>');
+	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
 	        }
     	});
       	$("#OcultarformulacionBase").hide();
@@ -497,11 +497,11 @@ $( "#botonCalculos" ).click(function() {
       	$("#OcultarMatEnv").show();
       	$.get('getDataDetReceta?rece_id='+data.rece_id+'&tipo=2', function(data_det){
 	      	for (i = 0; i < data_det.length; i++){
-	      		function getstockActual(id)
+	      		function getstockActual(id,id_planta)
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOP/"+id+"/"+id_planta,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -520,7 +520,7 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
-	                '<td align="center" style="dislay: none; background:red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'" style="background: #ffb4da;"></input></td></tr>');
+	                '<td align="center" style="dislay: none; background:red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
 	        }
     	});
 

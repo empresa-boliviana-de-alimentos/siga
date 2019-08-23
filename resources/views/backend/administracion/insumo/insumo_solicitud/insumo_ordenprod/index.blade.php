@@ -1,4 +1,17 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -27,23 +40,28 @@
                             <thead class="cf">
                                 <tr>
                                     <th class="text-center">
-                                        No
-                                    </th>
-
-                                    <th class="text-center">
-                                        No ORP
+                                        #
                                     </th>
                                     <th class="text-center">
-                                        FECHA
+                                        CODIGO
                                     </th>
                                     <th class="text-center">
-                                        PLANTA
+                                        FECHA SOLICITUD
                                     </th>
                                     <th class="text-center">
-                                        PRODUCTO
+                                        PLANTA A PRODUCIR
                                     </th>
                                     <th class="text-center">
-                                        CANTIDAD
+                                        PRODUCTO A PRODUCIR
+                                    </th>
+                                    <th class="text-center">
+                                        UNIDAD MEDIDA
+                                    </th>
+                                    <th class="text-center">
+                                        LINEA PRODUCCIÓN
+                                    </th>
+                                    <th class="text-center">
+                                        CANTIDAD PRODUCIR
                                     </th>
                                     <th class="text-center">
                                         ESTADO
@@ -56,23 +74,28 @@
                             <tfoot>
                                 <tr>
                                     <th class="text-center">
-                                        No
-                                    </th>
-
-                                    <th class="text-center">
-                                        No ORP
+                                        #
                                     </th>
                                     <th class="text-center">
-                                        FECHA
+                                        CODIGO
                                     </th>
                                     <th class="text-center">
-                                        PLANTA
+                                        FECHA SOLICITUD
                                     </th>
                                     <th class="text-center">
-                                        PRODUCTO
+                                        PLANTA A PRODUCIR
                                     </th>
                                     <th class="text-center">
-                                        CANTIDAD
+                                        PRODUCTO A PRODUCIR
+                                    </th>
+                                    <th class="text-center">
+                                        UNIDAD MEDIDA
+                                    </th>
+                                    <th class="text-center">
+                                        LINEA PRODUCCIÓN
+                                    </th>
+                                    <th class="text-center">
+                                        CANTIDAD PRODUCIR
                                     </th>
                                     <th class="text-center">
                                         ESTADO
@@ -102,12 +125,14 @@ var t = $('#lts-orprod').DataTable( {
                 {data: 'acciones',orderable: false, searchable: false},
                 {data: 'orprod_registrado'},
                 {data: 'nombre_planta'},
-                {data: 'rece_nombre'},
+                {data: 'nombreReceta'},
+                {data: 'umed_nombre'},
+                {data: 'lineaProduccion'},
                 {data: 'orprod_cantidad'},
-                {data: 'orprod_estado'},
+                {data: 'estadoAprobacion'},
                 // {data: 'sol_id'},
         ],
-
+        "order": [[ 0, "desc" ]],
         "language": {
              "url": "/lenguaje"
         },

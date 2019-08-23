@@ -17,36 +17,56 @@
 @include('backend.administracion.insumo.insumo_registro..proveedores.partials.modalUpdate')
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3 class="panel-title">INSUMOS KARDEX</h3>
+        <div class="col-md-3"></div>
+        <div class="col-md-7">
+            <h3 class="panel-title"> </h3>
+        </div>
+        <div class="col-md-2"></div>
+        
+    </div>
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-2">
+                
+            </div>
+            <div class="col-md-7 text-center">
+                <p class="panel-title">INSUMOS KARDEX</p>
+            </div>
+            <div class="col-md-3 text-right">
+                <a href="RpMensual" class="btn btn-success" target="_blank"><h6 style="color: white"><span class="fa fa-file-o"></span> EXPORTAR INVENTARIO</h6></a>
+            </div>
+        </div>
     </div>
     <div class="panel-body">
         <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-inskardex">
-                            <thead>
-                                <tr>
-                                    <th style="width: 100px;">
-                                       #
-                                    </th>
-                                    <th style="width: 100px;">
-                                        kardex Valorado
-                                    </th>
-                                    <th style="width: 100px;">
-                                        Kardex Físico
-                                    </th>
-
-                                    <th style="width: 450px;">
-                                        Insumo
-                                    </th>
-                                    <th style="width: 250px;">
-                                        Unidad Medida
-                                    </th>
-                                    <th>
-                                        Stock Actual
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tr>
-                            </tr>
-                    </table>
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        kARDEX VALORADO
+                    </th>
+                    <th>
+                        KARDEX FÍSICO
+                    </th>
+                    <th>
+                        INSUMO
+                    </th>
+                    <th style="width: 250px;">
+                        UNIDAD DE MEDIDA
+                    </th>
+                    <th>
+                        STOCK ACTUAL
+                    </th>
+                    <th>
+                        PARTIDA
+                    </th>
+                </tr>
+            </thead>
+            <tr>
+            </tr>
+        </table>
     </div>
 </div>
 @endsection
@@ -63,7 +83,8 @@
                 {data: 'kardexFisico',orderable: false, searchable: false},
                 {data: 'NombreInsumo'},
                 {data: 'umed_nombre'},
-                {data: 'stocks_cantidad'}
+                {data: 'stocks_cantidad'},
+                {data: 'part_nombre'}
         ],
 
         "language": {

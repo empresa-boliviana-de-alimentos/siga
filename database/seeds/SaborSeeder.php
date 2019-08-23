@@ -13,6 +13,7 @@ class SaborSeeder extends Seeder
     public function run()
     {
         $sabores = [
+            ["sab_nombre"=>"NO CUENTA","sab_usr_id"=>1,"sab_registrado"=>Carbon\Carbon::now(),"sab_modificado"=>Carbon\Carbon::now()],
             ["sab_nombre"=>"COCO","sab_usr_id"=>1,"sab_registrado"=>Carbon\Carbon::now(),"sab_modificado"=>Carbon\Carbon::now()],
             ["sab_nombre"=>"CHOCOLATE","sab_usr_id"=>1,"sab_registrado"=>Carbon\Carbon::now(),"sab_modificado"=>Carbon\Carbon::now()],
             ["sab_nombre"=>"DURAZNO","sab_usr_id"=>1,"sab_registrado"=>Carbon\Carbon::now(),"sab_modificado"=>Carbon\Carbon::now()],

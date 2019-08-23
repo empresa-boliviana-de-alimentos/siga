@@ -42,6 +42,7 @@ class gbRecetasController extends Controller
     {
         //$receta = Receta::getListar();
         $receta = Receta::join('insumo.unidad_medida as uni','insumo.receta.rece_uni_id','uni.umed_id')
+                        ->leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
                         ->where('rece_estado','A')->orderBy('rece_id','DESC')->get();
         // dd($recetas);
         return Datatables::of($receta)->addColumn('acciones', function ($receta) {
@@ -58,6 +59,8 @@ class gbRecetasController extends Controller
             }elseif($linea_prod->rece_lineaprod_id == 5) {
                 return 'DERIVADOS';
             }
+        })->addColumn('nombreReceta', function ($nombreReceta) {
+            return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
         })
             ->editColumn('id', 'ID: {{$rece_id}}')
             ->make(true);
@@ -103,10 +106,14 @@ class gbRecetasController extends Controller
     public function nuevaReceta()
     {
         $sabor = Sabor::where('sab_estado','A')->get();
-        $listarInsumo = Insumo::where('ins_id_tip_ins',1)->orWhere('ins_id_tip_ins',3)->get();
-        $listarMateriaPrima = Insumo::where('ins_id_tip_ins',3)->get();
-        $listarEnvase = Insumo::where('ins_id_tip_ins',2)->get();
-        $listarSaborizantes = Insumo::where('ins_id_tip_ins',4)->get();
+        $listarInsumo = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+                                ->where('ins_id_tip_ins',1)->orWhere('ins_id_tip_ins',3)->get();
+        $listarMateriaPrima = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+                                    ->where('ins_id_tip_ins',3)->get();
+        $listarEnvase = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+                              ->where('ins_id_tip_ins',2)->get();
+        $listarSaborizantes = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+                                    ->where('ins_id_tip_ins',4)->get();
         $listarUnidades = UnidadMedida::where('umed_estado','A')->get();
         $sublinea = SubLinea::where('sublin_estado','A')->get();
         //dd($listarInsumo);
@@ -271,6 +278,8 @@ class gbRecetasController extends Controller
             'rece_rendimiento_base' => $request['rendimiento_base'],
             'rece_datos_json'       => $datosjson,
             'rece_usr_id'           => Auth::user()->usr_id,
+            'rece_umed_repre'=> $request['unidad_presentacion'],
+            'rece_obs'              => $request['observaciones'],
 
         ]);
         foreach ($detrecesta_datos as $det) {

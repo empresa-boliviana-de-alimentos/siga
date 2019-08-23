@@ -35,12 +35,30 @@ class gbSolInsumoAdController extends Controller
     public function create()
     {
         $solAdicional = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                        ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                        ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                                         ->where('orprod_tiporprod_id','=',2)->orderBy('orprod_id','desc')->get();
-        return Datatables::of($solAdicional)->addColumn('orprod_accion', function ($solAdicional) {
+        return Datatables::of($solAdicional)->addColumn('nombreReceta', function ($nombreReceta) {
+            return $nombreReceta->rece_nombre.' '.$nombreReceta->rece_presentacion.' '.$nombreReceta->sab_nombre;
+        })->addColumn('orprod_accion', function ($solAdicional) {
             if($solAdicional->orprod_estado_id == 'B'){
                 return '<div class="text-center"><h4 class="text"><span class="label label-info">RECIBIDO</span></h4></div>';
             }else {
                 return '<div class="text-center"><a href="boletaSolAdicional/' . $solAdicional->orprod_id . '" class="btn btn-md btn-primary" target="_blank">Boleta <i class="fa fa-file"></i></a></div>';
+            }
+        })->addColumn('fecha_orp', function ($fecha_orp) {
+            return $this->traeFechaOrp($fecha_orp->orprod_nro_orden);
+        })->addColumn('lineaProduccion', function ($lineaProduccion) {
+            if ($lineaProduccion->rece_lineaprod_id == 1) {
+                return 'LACTEOS';
+            }elseif($lineaProduccion->rece_lineaprod_id == 2){
+                return 'ALMENDRA';
+            }elseif($lineaProduccion->rece_lineaprod_id == 3) {
+                return 'MIEL';
+            }elseif($lineaProduccion->rece_lineaprod_id == 4) {
+                return 'FRUTOS';
+            }elseif($lineaProduccion->rece_lineaprod_id == 5) {
+                return 'DERIVADOS';
             }
         })
             ->editColumn('id', 'ID: {{$orprod_id}}')
@@ -48,7 +66,12 @@ class gbSolInsumoAdController extends Controller
             ->make(true);
     }
     //NUEVAS FUNCIONES
-
+    function traeFechaOrp($nro_orden)
+    {
+        $orp_adi = OrdenProduccion::where('orprod_nro_orden',$nro_orden)
+                                  ->first();
+        return $orp_adi->orprod_modificado;
+    }
     public function formInsumoAdicional()
     {
         //$ordenes_produccion = OrdenProduccion::where('orprod_nro_salida','<>',null)->get();

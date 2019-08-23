@@ -1,80 +1,56 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_registro.ufv.partials.modalCreate')
 @include('backend.administracion.insumo.insumo_registro.ufv.partials.modalUpdate')
-<div class="row">
-    <div class="col-md-12">
-        <div class="box box-default box-solid">
-            <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script> 
-            {{-- <head>
-                <script src="http://code.jquery.com/jquery-latest.js"></script>
-            </head> --}}
-            <div class="box-header with-border">
-            <div class="col-md-12"  id="contenido">
-                <?php  
-                 date_default_timezone_set('America/New_York');
-                 $fechact=date('Y-m-d');
-                 //echo $dat;
-                // echo $fechact;
-                 if($fechact==$fecha)
-                 { 
-                    /*echo  '<div class="hidden" id="contenido">';
-                    echo'<button id="reg" class="btn pull-right btn-default" style="background: #616A6B"  data-target="#myCreateUfv" data-toggle="modal"><h6 style="color: white;">+&nbsp;NUEVO REGISTRO</h6> </button>' ;
-                    echo '</div>';*/
-                 }
-                 else
-                 {
-                    /*echo  '<div>';
-                    echo'<button id="reg" class="btn pull-right btn-default" style="background: #616A6B" data-target="#myCreateUfv" data-toggle="modal"><h6 style="color: white;">+&nbsp;NUEVO REGISTRO</h6> </button>' ;
-                    echo '</div>';*/
-                 }
-                ?>
-                <div class="col-md-1">
-                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('InsumoRegistrosMenu') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
-                </div>  
-                <div class="col-md-8">
-                     <h4><label for="box-title">LISTA DE REGISTRO UFV</label></h4>
-                </div>
-                {{-- <div id="reg">
-                <button id="reg" class="btn pull-right btn-default" style="background: #616A6B" data-target="#myCreateUfv" data-toggle="modal"><h6 style="color: white;">+&nbsp;NUEVO REGISTRO</h6></button> 
-                </div> --}}
-                <div>
-                <a href="{{ url('ReporteUfvExcel') }}" class="btn pull-right btn-success" data-target="" data-toggle="modal"><h6 style="color: white;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>&nbsp;EXPORTAR EXCEL</h6></a>
-                </div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-2">
+                <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('InsumoRegistrosMenu') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
             </div>
+            <div class="col-md-7 text-center">
+                <p class="panel-title">LISTA DE REGISTRO UFV</p>
+            </div>
+            
+            <div class="col-md-3 text-right">
+                <a href="{{ url('ReporteUfvExcel') }}" class="btn pull-right btn-success" data-target="" data-toggle="modal"><h6 style="color: white;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i>&nbsp;EXPORTAR EXCEL</h6></a>
             </div>
         </div>
     </div>
-</div>
-<div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-header with-border"></div>
-                    <div class="box-body">
-                        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-ufv" style="width:100%">
-                            <thead class="cf">
-                                <tr>
-                                    <th>
-                                        #
-                                    </th>
-                                    <!--<th>
-                                        Operaciones
-                                    </th>-->
-                                    <th>
-                                        Fecha
-                                    </th>
-                                    <th>
-                                        Valor UFV
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tr>
-                            </tr>
-                    </table>
-                </div>    
-            </div>
+    <div class="panel-body">
+        <table class="col-md-12 table-bordered responsive table-striped table-condensed cf" id="lts-ufv" style="width:100%">
+            <thead class="cf">
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        FECHA
+                    </th>
+                    <th>
+                        VALOR UFV
+                    </th>
+                </tr>
+            </thead>
+            <tr>
+            </tr>
+        </table>
     </div>
 </div>
+
 @endsection
 @push('scripts')
 <script>

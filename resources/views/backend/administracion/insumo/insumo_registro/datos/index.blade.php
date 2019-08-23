@@ -1,4 +1,17 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_registro.datos.partials.modalCreateCat')
 @include('backend.administracion.insumo.insumo_registro.datos.partials.modalCreateUni')
@@ -28,53 +41,54 @@
 @include('backend.administracion.insumo.insumo_registro.datos.partials.modalUpdateProdEsp')
 @include('backend.administracion.insumo.insumo_registro.datos.partials.modalUpdateMunicipio')
 @include('backend.administracion.insumo.insumo_registro.datos.partials.modalUpdatePlantaMaquila')
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="box box-default box-solid">
-            <div class="box-header with-border">
-                <div class="col-md-1">
-                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('InsumoRegistrosMenu') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
-                </div>
-                <div class="col-md-6">
-                    <div class="col-md-12">
-                         <h4><label for="box-title">LISTA DE DATOS</label></h4>
-                    </div>
-                </div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-2">
+                <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('InsumoRegistrosMenu') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
             </div>
-        </div>
-    </div>
-</div>
-<br>
-<div class="row">
-    <div class="col-md-3">
-        <div class="form-group">
-            <div class="col-sm-12">
+            <div class="col-md-7 text-center">
+                <p class="panel-title">LISTA DE DATOS</p>
                 <h5>
                     <strong>Elige el dato a registrar:</strong>  
                 </h5>
-                <select class="form-control" id="cmblist" name="cmblist" placeholder="" value="" onchange="Lista();">
-                    <option value="">Seleccione...</option>
-                    <option value="1">PARTIDA</option>
-                    <option value="2">CATEGORIA</option>
-                    <option value="3">UNIDAD DE MEDIDA</option>
-                    <option value="4">TIPO INGRESO</option>
-                    <option value="5">TIPO INSUMO</option>
-                    <option value="6">TIPO ENVASE</option>
-                    <option value="7">MERCADO</option>
-                    <option value="8">COLOR</option>
-                    <option value="9">SABOR</option>
-                    <option value="10">LINEA DE PRODUCCION</option>
-                    <option value="11">SUB LINEA</option>
-                    <option value="12">PRODUCTO ESPECIFICO</option>
-                    <option value="13">MUNICIPIO</option>
-                    <option value="14">PLANTAS MAQUILAS</option>
-                </select> 
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <select class="form-control" id="cmblist" name="cmblist" placeholder="" value="" onchange="Lista();">
+                        <option value="">Seleccione...</option>
+                        <option value="1">PARTIDA</option>
+                        <option value="2">CATEGORIA</option>
+                        <option value="3">UNIDAD DE MEDIDA</option>
+                        <option value="4">TIPO INGRESO</option>
+                        <option value="5">TIPO INSUMO</option>
+                        <option value="6">TIPO ENVASE</option>
+                        <option value="7">MERCADO</option>
+                        <option value="8">COLOR</option>
+                        <option value="9">SABOR</option>
+                        <option value="10">LINEA DE PRODUCCION</option>
+                        <option value="11">SUB LINEA</option>
+                        <option value="12">PRODUCTO ESPECIFICO</option>
+                        <option value="13">MUNICIPIO</option>
+                        <option value="14">PLANTAS MAQUILAS</option>
+                    </select> </div>
+                    <div class="col-md-3"></div>                    
+                </div>
+            </div>
+            <div class="col-md-3 text-right">
+            </div>
+        </div>
+    </div>
+<br>
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="col-sm-12">
             </div>
         </div>
     </div>
     <div id="listcategoria" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA DE CATEGORIA</label></center></h4>
@@ -95,8 +109,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-categoria" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                                 <!--<th>Partida</th>-->
                             </tr>
                         </thead>
@@ -106,7 +120,7 @@
         </div>
     </div>
     <div class="row" id="listunidadmedida" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA DE UNIDAD DE MEDIDA</label></center></h4> 
@@ -127,9 +141,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-unidadmedida" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
-                                <th>Sigla</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
+                                <th>SIGLA</th>
                             </tr>
                         </thead>
                     </table>
@@ -138,7 +152,7 @@
         </div>
     </div>
     <div class="row" id="listpartida" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA DE PARTIDA</label></center></h4> 
@@ -159,9 +173,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-partida" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Codigo Partida</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>CODIGO PARTIDA</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -170,7 +184,7 @@
         </div>
     </div>
     <div class="row" id="listingreso" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA DE INGRESO</label></center></h4> 
@@ -191,8 +205,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoingreso" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -201,7 +215,7 @@
         </div>
     </div>
     <div class="row" id="listipoinsumo" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA TIPO INSUMO</label></center></h4> 
@@ -222,8 +236,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoinsumo" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -232,7 +246,7 @@
         </div>
     </div>
     <div class="row" id="listipoenvase" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA TIPO ENVASE</label></center></h4> 
@@ -253,8 +267,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoenvase" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -263,7 +277,7 @@
         </div>
     </div>
     <div class="row" id="listmercado" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA MERCADO</label></center></h4>
@@ -284,8 +298,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-mercado" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -294,7 +308,7 @@
         </div>
     </div>
     <div class="row" id="listcolor" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA COLOR</label></center></h4> 
@@ -315,8 +329,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-color" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -325,7 +339,7 @@
         </div>
     </div>
     <div class="row" id="listsabor" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA SABOR</label></center></h4> 
@@ -346,8 +360,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-sabor" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -356,7 +370,7 @@
         </div>
     </div>
     <div class="row" id="listlinprod" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA LINEA DE PRODUCCION</label></center></h4> 
@@ -377,8 +391,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-linprod" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -387,7 +401,7 @@
         </div>
     </div>
     <div class="row" id="listsublinea" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA SUB-LINEA</label></center></h4> 
@@ -408,9 +422,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-sublinea" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
-                                <th>Linea Produccion</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
+                                <th>LINEA PRODUCCIÓN</th>
                             </tr>
                         </thead>
                     </table>
@@ -419,7 +433,7 @@
         </div>
     </div>
     <div class="row" id="listprodesp" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA PRODUCTO ESPECIFICO</label></center></h4>
@@ -440,8 +454,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-prodesp" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -450,7 +464,7 @@
         </div>
     </div>
     <div class="row" id="listmunicipio" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA MUNICIPIO</label></center></h4> 
@@ -471,8 +485,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-municipio" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -481,7 +495,7 @@
         </div>
     </div>
     <div class="row" id="listmaquila" style="display: none;">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4><center><label for="box-title">LISTA PLANTAS MAQUILAS</label></center></h4> 
@@ -502,8 +516,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-maquila" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -1354,7 +1368,7 @@ $("#registroPlantaMaquila").click(function(){
         },
         success: function(data){
             $("#myCreatePlanMaquila").modal('toggle');Limpiar();
-            swal("Sub-Linea!", "registro correcto","success");
+            swal("Planta Maquila!", "registro correcto","success");
             $('#lts-maquila').DataTable().ajax.reload();             
         },
         error: function(result){

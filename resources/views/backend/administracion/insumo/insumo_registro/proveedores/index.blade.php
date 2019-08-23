@@ -38,26 +38,26 @@
         <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-proveedores">
             <thead>
                 <tr>
-                    <th style="width: 100px;">
+                    <th>
                         #
                     </th>
                     <th>
-                        Operaciones
+                        OPCIONES
                     </th>
                     <th>
-                        Proveedores
+                        PROVEEDOR
                     </th>
                     <th>
-                        Direccion
+                        DIRECCIÓN
                     </th>
                     <th>
-                        Telefono
+                        TELÉFONO
                     </th>
                     <th>
-                        Responsable
+                        RESPONSABLE
                     </th>
                     <th>
-                        Evaluación Proveedor
+                        EVAL. PROV.
                     </th>
                 </tr>
             </thead>

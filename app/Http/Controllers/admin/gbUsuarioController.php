@@ -50,7 +50,7 @@ class gbUsuarioController extends Controller {
 		if ($request->ajax()) {
 			Usuario::create([
 					'usr_usuario' => $request['usr_usuario'],
-					'usr_clave'   => bcrypt($request['usr_clave']),
+					'password'   => bcrypt($request['usr_clave']),
 					'usr_prs_id'  => $request['usr_prs_id'],
 					'usr_linea_trabajo' => $request['usr_linea_trabajo'],
 					'usr_planta_id' => $request['usr_planta_id'],
@@ -88,7 +88,7 @@ class gbUsuarioController extends Controller {
 	public function update(Request $request, $id) {
 
 		$dataA   = array("usr_usuario" => $request->all()['usr_usuario'],
-		                 "usr_clave" => bcrypt($request->all()['usr_clave']),
+		                 "password" => bcrypt($request->all()['usr_clave']),
 		                 "usr_prs_id" => $request->all()['usr_prs_id'],
 		                 "usr_id_turno" => $request->all()['usr_id_turno']);
 		//dd($dataA);

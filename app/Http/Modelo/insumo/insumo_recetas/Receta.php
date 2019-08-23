@@ -20,6 +20,8 @@ class Receta extends Model
         'rece_uni_id',
         'rece_prod_total',
         'rece_rendimiento_base',
+        'rece_umed_repre',
+        'rece_obs',
         'rece_datos_json',
         'rece_usr_id',
         'rece_registrado',
