@@ -7,16 +7,16 @@ use siga\Modelo\insumo\insumo_registros\Ufv;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 class User extends Authenticatable {
-	protected $fillable = array('usr_id', 'usr_prs_id', 'usr_usuario', 'usr_clave', 'usr_controlar_ip', 'usr_registrado', 'usr_modificado', 'usr_estado', 'password', 'usr_usr_id', 'usr_oid');
-	protected $hidden   = array('usr_clave');
+	// protected $fillable = array('usr_id', 'usr_prs_id', 'usr_usuario', 'password', 'usr_controlar_ip', 'usr_registrado', 'usr_modificado', 'usr_estado', 'password', 'usr_usr_id', 'usr_oid');
+	// protected $hidden   = array('usr_clave');
 
 	protected $table      = "_bp_usuarios";
 	protected $primaryKey = "usr_id";
 	public $timestamps    = false;
-	public static $login  = array(
-		'usr_clave'   => 'required',
-		'usr_usuario' => 'required',
-	);
+	// public static $login  = array(
+	// 	'usr_clave'   => 'required',
+	// 	'usr_usuario' => 'required',
+	// );
 
 	public function getAuthIdentifier() {
 		return $this->getKey();
@@ -66,7 +66,7 @@ class User extends Authenticatable {
 	                    $ufv = $numero_dos;
 	                    //Session::put('UFV', $numero_dos);
 	                }
-	                
+
 	            } else {
 	                return false;
 	            }
@@ -74,6 +74,6 @@ class User extends Authenticatable {
 			//Session::put('UFV', 'NO UFV');
 			$ufv = 'No ufv';
 		}
-		return $ufv;	
+		return $ufv;
 	}
 }
