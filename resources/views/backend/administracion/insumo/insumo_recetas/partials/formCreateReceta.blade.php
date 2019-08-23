@@ -84,7 +84,7 @@ tbody td {
                                         Sabor
                                     </label>
                                     <span class="block input-icon input-icon-right">
-                                        <select class="form-control" id="sabor" name="sabor">
+                                        <select class="form-control select_sabor" id="sabor" name="sabor">
                                             <option value="0">Seleccione</option>
                                             @foreach($sabor as $sab)
                                                 <option value="{{$sab->sab_id}}">{{$sab->sab_nombre}}</option>
@@ -120,7 +120,7 @@ tbody td {
                                         Sublinea
                                     </label>
                                     <span class="block input-icon input-icon-right">
-                                        <select class="form-control" id="sublinea" name="sublinea">
+                                        <select class="form-control select_sublinea" id="sublinea" name="sublinea">
                                             <option value="0">Seleccione</option>
                                             @foreach($sublinea as $sub)
                                             <option value="{{$sub->sublin_id}}">{{$sub->sublin_nombre}}</option>
@@ -150,7 +150,7 @@ tbody td {
                                         Unidad Medida
                                     </label>
                                     <span class="block input-icon input-icon-right">
-                                        <select class="form-control" id="unidad_medida" name="unidad_medida">
+                                        <select class="form-control select_umed" id="unidad_medida" name="unidad_medida">
                                             <option value="0">Seleccione</option>
                                             @foreach($listarUnidades as $uni)
                                                 <option value="{{$uni->umed_id}}">{{$uni->umed_nombre}}</option>
@@ -160,6 +160,8 @@ tbody td {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -182,7 +184,18 @@ tbody td {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        U. Medida de Presentación
+                                    </label>
+                                    <span class="block input-icon input-icon-right">
+                                        {!! Form::text('unidad_presentacion', null, array('placeholder' => 'U. medida presentación','class' => 'form-control','id'=>'unidad_presentacion')) !!}                                       </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
                 </div>
                 <div id="OcultarMateriaPrima" style="display: none">
                     <div class="col-md-6">
@@ -309,10 +322,10 @@ tbody td {
                                             </thead>
                                                 <!-- <th>Rango Adicional</th>                                             -->
                                             <tr class="items_columsReceta2">
-                                                <td id="tdformbase"><select name="descripcion_base[]" class="descripcion_base form-control">
+                                                <td id="tdformbase"><select name="descripcion_base[]" id="form_base" class="descripcion_base form-control">
                                                         <!--<option value="">Seleccione</option>-->
                                                         @foreach($listarInsumo as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}}</option>
+                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presen}}</option>
                                                         @endforeach
                                                     </select>
                                                 <td id="tdformbaseuni">
@@ -353,10 +366,10 @@ tbody td {
                                             </thead>
                                                 <!-- <th>Rango Adicional</th>                                             -->
                                             <tr class="items_columsReceta2">
-                                                <td id="tdformsab"><select name="descripcion_saborizacion[]" class="form-control">
+                                                <td id="tdformsab"><select name="descripcion_saborizacion[]" id="form_saborizacion" class="form-control">
                                                         <!--<option value="">Seleccione</option>-->
                                                         @foreach($listarSaborizantes as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}}</option>
+                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presen}}</option>
                                                         @endforeach
                                                     </select>
                                                 <td>
@@ -396,10 +409,10 @@ tbody td {
                                             </thead>
                                                 <!-- <th>Rango Adicional</th>                                             -->
                                             <tr class="items_columsReceta2">
-                                                <td id="tdformenv"><select name="descripcion_envase[]" class="form-control">
+                                                <td id="tdformenv"><select name="descripcion_envase[]" id="form_envasado" class="form-control">
                                                         <!--<option value="">Seleccione</option>-->
                                                         @foreach($listarEnvase as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}}</option>
+                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presen}}</option>
                                                         @endforeach
                                                     </select>
                                                 <td>
@@ -586,6 +599,19 @@ tbody td {
                     </div>
                 </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                            <label>
+                                Observaciones
+                            </label>
+                            <span class="block input-icon input-icon-right">
+                                {!! Form::textarea('observaciones', null, array('placeholder' => 'Observaciones','class' => 'form-control','id'=>'observaciones')) !!}                                       </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                     <br>
                     <div class="row">
                         <div class="col-lg-12">
@@ -610,6 +636,20 @@ tbody td {
 @endsection
 @push('scripts')
 <script>
+$("#form_base").select2({
+    width: 250
+});
+$("#form_saborizacion").select2({
+    width: 250
+});
+$("#form_envasado").select2({
+    width: 250
+});
+$(".select_sabor").select2();
+$(".select_sublinea").select2();
+
+$(".select_umed").select2();
+
 $(function(){
     $('#lineaProduccion').change(function(){
         if($(this).val()==1){

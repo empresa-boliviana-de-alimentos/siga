@@ -48,7 +48,7 @@ class gbInsumoReporteController extends Controller {
 			->join('insumo.stock as stock', 'insumo.insumo.ins_id', '=', 'stock.stock_ins_id')
 			->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
             ->leftjoin('insumo.partida as part','insumo.insumo.ins_id_part','=','part.part_id')
-			->select(DB::raw('sum(stock_cantidad) as stocks_cantidad'), 'insumo.ins_id', 'insumo.ins_codigo', 'insumo.ins_desc', 'umed.umed_nombre','sab.sab_nombre','insumo.ins_peso_presen')->groupBy('insumo.ins_id', 'insumo.ins_codigo', 'insumo.ins_desc', 'umed.umed_nombre','sab.sab_nombre','insumo.ins_peso_presen')
+			->select(DB::raw('sum(stock_cantidad) as stocks_cantidad'), 'insumo.ins_id', 'insumo.ins_codigo', 'insumo.ins_desc', 'umed.umed_nombre','sab.sab_nombre','insumo.ins_peso_presen','part.part_nombre')->groupBy('insumo.ins_id', 'insumo.ins_codigo', 'insumo.ins_desc', 'umed.umed_nombre','sab.sab_nombre','insumo.ins_peso_presen','part.part_nombre')
 			->where('stock_planta_id',$planta->id_planta)->get();
 		return Datatables::of($ins)->addColumn('kardexValorado', function ($ins) {
 

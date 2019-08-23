@@ -13,6 +13,7 @@ class UnidadMedidaSeeder extends Seeder
     public function run()
     {
         $unidades = [
+            ["umed_nombre"=>"NO CUENTA","umed_sigla"=>"NC","umed_usr_id"=>1,"umed_registrado"=>Carbon\Carbon::now(),"umed_modificado"=>Carbon\Carbon::now()],
             ["umed_nombre"=>"BOLSA","umed_sigla"=>"BOLSA","umed_usr_id"=>1,"umed_registrado"=>Carbon\Carbon::now(),"umed_modificado"=>Carbon\Carbon::now()],
             ["umed_nombre"=>"CAJA","umed_sigla"=>"CAJA","umed_usr_id"=>1,"umed_registrado"=>Carbon\Carbon::now(),"umed_modificado"=>Carbon\Carbon::now()],
             ["umed_nombre"=>"FRASCO","umed_sigla"=>"FRASCO","umed_usr_id"=>1,"umed_registrado"=>Carbon\Carbon::now(),"umed_modificado"=>Carbon\Carbon::now()],

@@ -173,9 +173,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-partida" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Codigo Partida</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>CODIGO PARTIDA</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -205,8 +205,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoingreso" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -236,8 +236,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoinsumo" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -267,8 +267,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoenvase" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -298,8 +298,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-mercado" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -329,8 +329,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-color" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -360,8 +360,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-sabor" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -391,8 +391,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-linprod" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -422,9 +422,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-sublinea" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
-                                <th>Linea Produccion</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
+                                <th>LINEA PRODUCCIÓN</th>
                             </tr>
                         </thead>
                     </table>
@@ -454,8 +454,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-prodesp" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -485,8 +485,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-municipio" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>
@@ -516,8 +516,8 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-maquila" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>Acciones</th>
-                                <th>Nombre</th>
+                                <th>OPCIONES</th>
+                                <th>NOMBRE</th>
                             </tr>
                         </thead>
                     </table>

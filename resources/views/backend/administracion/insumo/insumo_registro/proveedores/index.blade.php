@@ -38,7 +38,7 @@
         <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-proveedores">
             <thead>
                 <tr>
-                    <th style="width: 100px;">
+                    <th>
                         #
                     </th>
                     <th>

@@ -30,6 +30,8 @@ class CreateRecetaTable extends Migration
             $table->decimal('rece_rendimiento_base',18,2);
             $table->json('rece_datos_json');
             $table->integer('rece_usr_id');
+            $table->string('rece_umed_repre')->nullable();
+            $table->text('rece_obs')->nullable();
             $table->timestamp('rece_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('rece_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->char('rece_estado')->default('A');

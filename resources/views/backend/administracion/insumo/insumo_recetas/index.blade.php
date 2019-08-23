@@ -1,4 +1,17 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_recetas.partials.modalCreate')
 <!-- @include('backend.administracion.insumo.insumo_registro.servicios.partials.modalUpdate') -->
@@ -32,25 +45,25 @@
                                         #
                                     </th>
                                     <th>
-                                        Codigo Receta
+                                        CODIGO
                                     </th>
                                     <th>
-                                        Operaciones
+                                        NOMBRE RECETA
                                     </th>
                                     <th>
-                                        Nombre Receta
+                                        UNIDAD MEDIDA
                                     </th>
                                     <th>
-                                        Base
+                                        LINEA PRODUCCIÓN
                                     </th>
                                     <th>
-                                        Unidad
+                                        CANTIDAD BASE
                                     </th>
                                     <!--<th>
                                         Planta
                                     </th>-->
                                     <th>
-                                        Linea Producción
+                                        REPORTE
                                     </th>
                                 </tr>
                             </thead>
@@ -59,29 +72,29 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>
+                                     <th>
                                         #
                                     </th>
                                     <th>
-                                        Codigo Receta
+                                        CODIGO
                                     </th>
                                     <th>
-                                        Operaciones
+                                        NOMBRE RECETA
                                     </th>
                                     <th>
-                                        Nombre Receta
+                                        UNIDAD MEDIDA
                                     </th>
                                     <th>
-                                        Base
+                                        LINEA PRODUCCIÓN
                                     </th>
                                     <th>
-                                        Unidad
+                                        CANTIDAD BASE
                                     </th>
                                     <!--<th>
                                         Planta
                                     </th>-->
                                     <th>
-                                        Linea Producción
+                                        REPORTE
                                     </th>
 
                                 </tr>
@@ -106,13 +119,13 @@
             "serverSide": true,
             "ajax": "/InsumoRecetas/create/",
             "columns":[
-                {data: 'rece_id',orderable: false, searchable: false},
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'rece_id'},                
                 {data: 'rece_codigo'},
-                {data: 'rece_nombre'},
-                {data: 'rece_rendimiento_base'},
+                {data: 'nombreReceta'},
                 {data: 'umed_nombre'},
                 {data: 'linea_prod'},
+                {data: 'rece_rendimiento_base'},                                
+                {data: 'acciones',orderable: false, searchable: false},
 
         ],
         "columnDefs": [ {
@@ -120,7 +133,7 @@
             "orderable": false,
             "targets": 0
         } ],
-        "order": [[ 1, 'asc' ]],
+        //"order": [[ 1, 'asc' ]],
         "language": {
              "url": "/lenguaje"
         },

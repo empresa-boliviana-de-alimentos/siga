@@ -5,6 +5,12 @@
         width: 100% !important;
         color:gray;
     }
+    th {
+        font-size: 10px;
+    }
+    td {
+        font-size: 10px;
+    }
 
 </style>
 @section('main-content')
@@ -32,13 +38,13 @@
                                 <tr>
                                     <th>+</th>
                                     <th>#</th>
-                                    <th>Codigo</th>
-                                    <th>Detalle</th>
-                                    <th>U. Medida</th>
-                                    <th>Cantidad</th>
-                                    <th>Costo/U.</th>
-                                    <th>Proveedor</th>
-                                    <th>Fecha de vencimiento</th>
+                                    <th>CODIGO</th>
+                                    <th>DETALLE</th>
+                                    <th>U. MEDIDA</th>
+                                    <th>CANTIDAD</th>
+                                    <th>COSTO/U.</th>
+                                    <th>PROVEEDOR</th>
+                                    <th>FECHA VENCIMIENTO</th>
                                     <!--<th>Partida</th>-->
                                 </tr>
                             </thead>
@@ -83,17 +89,15 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>Agregar</th>
+                                    <th>+</th>
                                     <th>#</th>
-                                    <th>Codigo</th>
-                                    <th>Detalle</th>
-                                    <!--<th>U. Medida</th>-->
-                                    <th>Cantidad</th>
-                                    <th>Costo/U. Bs.</th>
-                                    <th>Proveedor</th>
-                                    <th>Fecha de vencimiento</th>
-                                    <th>Partida</th>
-                                    
+                                    <th>CODIGO</th>
+                                    <th>DETALLE</th>
+                                    <th>U. MEDIDA</th>
+                                    <th>CANTIDAD</th>
+                                    <th>COSTO/U</th>
+                                    <th>PROVEEDOR</th>
+                                    <th>FECHA VENCIMIENTO</th>                                    
                                 </tr>
                             </tfoot>
                         </table>
@@ -111,15 +115,15 @@
                             <table id="lts-carrito" class="table table-condensed" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>Insumo</th>
-                                        <th>Cantidad</th>
-                                        <th>Costo/U. Bs</th>
-                                        <th>SubTotal</th>
-                                        <th>Accion</th>
+                                        <th>INSUMO</th>
+                                        <th>CANTIDAD</th>
+                                        <th>COSTO/U</th>
+                                        <th>SUBSTOTAL</th>
+                                        <th>OPCIONES</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
-                                <th colspan="3" style="text-align:right">Total:</th>
+                                <th colspan="3" style="text-align:right">TOTAL:</th>
                                 <th></th>
                                 <th></th>
                             </tfoot>
