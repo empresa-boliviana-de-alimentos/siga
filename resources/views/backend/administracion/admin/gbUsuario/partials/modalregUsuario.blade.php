@@ -115,7 +115,7 @@ $('#usr_linea_trabajo').on('change', function(e){
     console.log(e);
     var linea_trabajo = e.target.value;
     $.get('/ajax-planta?linea_id='+linea_trabajo, function(data){
-        // console.log(data);
+         console.log(data);
         $('#usr_planta_id').empty();
         $('#usr_planta_id').append('<option value="0">Seleccione</option>');
         $.each(data, function(index, asocObj){

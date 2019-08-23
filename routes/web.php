@@ -1,5 +1,12 @@
 <?php
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use siga\Modelo\acopio\acopio_frutos\Provincia;
+use siga\Modelo\acopio\acopio_miel\Asociacion;
+use siga\Modelo\acopio\acopio_miel\Comunidad;
+use siga\Modelo\acopio\acopio_miel\Contrato;
+use siga\Modelo\acopio\acopio_miel\Municipio;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

@@ -77,7 +77,7 @@
                     		{data: 'prs_nombres'},
                     		{data: 'prs_paterno'},
                     		{data: 'usr_usuario'},
-                    		{data: 'usr_clave'},
+                    		{data: 'password'},
                     		{data: 'usr_estado'},
                     		{data: 'usr_registrado'},
                     		{data: 'areaProd'},
