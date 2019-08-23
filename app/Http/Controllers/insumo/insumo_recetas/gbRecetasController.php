@@ -33,7 +33,7 @@ class gbRecetasController extends Controller
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_linea_trabajo = Usuario::where('usr_id','=',Auth::user()->usr_id)->first();
         $ls_plantas = DB::table('public._bp_planta')->where('id_linea_trabajo','=',$id_linea_trabajo->usr_linea_trabajo)->get();
-        //dd($ls_plantas);                    
+        //dd($ls_plantas);
     	$lineaTrabajo = DB::table('acopio.linea_trab')->get();
         return view('backend.administracion.insumo.insumo_recetas.index',compact('listarInsumo','listarUnidades','plantas','planta','lineaTrabajo','listarMercados','ls_plantas'));
     }
@@ -60,11 +60,11 @@ class gbRecetasController extends Controller
             }
         })
             ->editColumn('id', 'ID: {{$rece_id}}')
-            ->make(true);   
+            ->make(true);
     }
 
     public function store(Request $request)
-    {   
+    {
         $this->validate(request(), [
             'nombre_receta'             => 'required',
             'cantidad_minima_receta'    => 'required',
@@ -77,7 +77,7 @@ class gbRecetasController extends Controller
         $arraycount = json_decode($request['rec_data']);
         if(count($arraycount)==0){
             dd("DATOS VACIOS");
-        } 
+        }
         Receta::create([
             'rec_nombre'        => $request['nombre_receta'],
             'rec_cant_min'      => $request['cantidad_minima_receta'],
@@ -114,7 +114,7 @@ class gbRecetasController extends Controller
     }
 
     public function registrarReceta(Request $request)
-    {   
+    {
         if ($request['lineaProduccion'] == 1) {
             //CODIGO LACTEOS
             $num = Receta::select(DB::raw('MAX(rece_enumeracion) as nrocod'))->where('rece_lineaprod_id',$request['lineaProduccion'])->first();
@@ -131,16 +131,16 @@ class gbRecetasController extends Controller
             $detrec_id_ins_env = $request['descripcion_envase'];
             $detrec_cantidad_env = $request['cantidad_envase'];
 
-            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
             }
 
         }elseif($request['lineaProduccion'] == 2){
@@ -156,12 +156,12 @@ class gbRecetasController extends Controller
             $detrec_id_ins_env = $request['descripcion_envase'];
             $detrec_cantidad_env = $request['cantidad_envase'];
 
-            for ($i=0; $i <sizeof($detrec_id_ins_materia) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_materia[$i], "cantidad"=>$detrec_cantidad_materia[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_materia) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_materia[$i], "cantidad"=>$detrec_cantidad_materia[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
             }
         }elseif($request['lineaProduccion'] == 3){
             //CODIGO MIEL
@@ -172,15 +172,15 @@ class gbRecetasController extends Controller
             //END CODIGO MIEL
             $detrec_id_ins_materia = $request['descripcion_materia'];
             $detrec_cantidad_materia = $request['cantidad_materia'];
-            
+
             $detrec_id_ins_env = $request['descripcion_envase'];
             $detrec_cantidad_env = $request['cantidad_envase'];
-            for ($i=0; $i <sizeof($detrec_id_ins_materia) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_materia[$i], "cantidad"=>$detrec_cantidad_materia[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_materia) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_materia[$i], "cantidad"=>$detrec_cantidad_materia[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
             }
         }elseif($request['lineaProduccion'] == 4){
             //CODIGO FRUTOS
@@ -197,16 +197,16 @@ class gbRecetasController extends Controller
 
             $detrec_id_ins_env = $request['descripcion_envase'];
             $detrec_cantidad_env = $request['cantidad_envase'];
-            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
             }
         }elseif($request['lineaProduccion'] == 5){
             //CODIGO DERIVADOS
@@ -214,7 +214,7 @@ class gbRecetasController extends Controller
             $cont=$num['nrocod'];
             $nroCod = $cont + 1;
             $nroCodCadena = 'PRO-DER-'.$nroCod;
-            //END CODIGO DERIVADOS    
+            //END CODIGO DERIVADOS
             $detrec_id_ins_base = $request['descripcion_base'];
             $detrec_cantidad_base = $request['cantidad_base'];
 
@@ -223,20 +223,20 @@ class gbRecetasController extends Controller
 
             $detrec_id_ins_env = $request['descripcion_envase'];
             $detrec_cantidad_env = $request['cantidad_envase'];
-            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) { 
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]); 
+            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
+                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
             }
-        }        
+        }
         //dd($detrecesta_datos);
-        if($request['lineaProduccion'] == 1 or $request['lineaProduccion'] == 4 or $request['lineaProduccion'] == 5){        
+        if($request['lineaProduccion'] == 1 or $request['lineaProduccion'] == 4 or $request['lineaProduccion'] == 5){
             $array_receta = array(
                 'densidad'          => $request['densidad'],
                 'vol_recipiente'    => $request['vol_recipiente'],
@@ -299,7 +299,7 @@ class gbRecetasController extends Controller
         $pdf->SetTitle('EBA');
         $pdf->SetSubject('RECETAS INSUMOS');
         $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '',PDF_FONT_SIZE_DATA)); 
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '',PDF_FONT_SIZE_DATA));
         $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
         // set auto page breaks
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -324,16 +324,16 @@ class gbRecetasController extends Controller
         //  echo $id;
         $receta = Receta::join('insumo.sub_linea as subl','insumo.receta.rece_sublinea_id','=','subl.sublin_id')
                         ->join('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
-                        ->join('insumo.unidad_medida as uni','insumo.receta.rece_uni_id','=','uni.umed_id')->where('rece_id',$id_receta)->first();        
+                        ->join('insumo.unidad_medida as uni','insumo.receta.rece_uni_id','=','uni.umed_id')->where('rece_id',$id_receta)->first();
         //dd($datos_json);
         if ($receta->rece_lineaprod_id == 1) {
             $datos_json = json_decode($receta->rece_datos_json);
-        }        
+        }
         $html = '   <table border="0" cellspacing="0" cellpadding="1">
                                                 <tr>
                         <th rowspan="3" align="center" width="150"><img src="img/logopeqe.png" width="150" height="105"></th>
                              <th rowspan="3" width="375"><h3 align="center"><br>EMPRESA BOLIVIANA DE ALIMENTOS Y DERIVADOS<br>LINEA PRODUCCIÓN: '.$this->nombreLinea($receta->rece_lineaprod_id).'</h3><br><h1 align="center">ORDEN DE PRODUCCIÓN</h1>
-                                </th> 
+                                </th>
                              <th rowspan="3" align="center" width="150">
                              <br><br>
                                 <table border="0.5" bordercolor="#000">
@@ -350,36 +350,36 @@ class gbRecetasController extends Controller
                                         <th align="center">'.$receta->rece_codigo.'</th>
                                     </tr>
                                 </table>
-                             </th>                     
+                             </th>
                         </tr>
                     </table>
                     <br><br><br>
                     <table border="1">
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="135"><strong color="white">Nombre Producto:</strong></th>
-                            <th width="280"> '.$receta->rece_nombre.'</th>                           
-                            <th align="center" bgcolor="#5c6875" width="80"><strong color="white">Sublinea:</strong></th> 
-                            <th width="170"> '.$receta->sublin_nombre.'</th>                       
+                            <th width="280"> '.$receta->rece_nombre.'</th>
+                            <th align="center" bgcolor="#5c6875" width="80"><strong color="white">Sublinea:</strong></th>
+                            <th width="170"> '.$receta->sublin_nombre.'</th>
                         </tr>
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="75"><strong color="white">Sabor:</strong></th>
-                            <th width="280"> '.$receta->sab_nombre.'</th>                           
-                            <th align="center" bgcolor="#5c6875" width="120"><strong color="white">Unidad de medida:</strong></th> 
-                            <th width="190"> '.$receta->umed_nombre.'</th>                       
+                            <th width="280"> '.$receta->sab_nombre.'</th>
+                            <th align="center" bgcolor="#5c6875" width="120"><strong color="white">Unidad de medida:</strong></th>
+                            <th width="190"> '.$receta->umed_nombre.'</th>
                         </tr>
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="85"><strong color="white">Presentación:</strong></th>
-                            <th width="180"> '.$receta->rece_presentacion.'</th>                           
-                            <th align="center" bgcolor="#5c6875" width="120"><strong color="white">Peso Producto total:</strong></th> 
+                            <th width="180"> '.$receta->rece_presentacion.'</th>
+                            <th align="center" bgcolor="#5c6875" width="120"><strong color="white">Peso Producto total:</strong></th>
                             <th width="120"> '.$receta->rece_prod_total.'</th>
-                            <th align="center" bgcolor="#5c6875" width="120"><strong color="white">Peso Producto total:</strong></th> 
-                            <th width="40"> '.$receta->rece_prod_total.'</th>                         
-                        </tr>                           
+                            <th align="center" bgcolor="#5c6875" width="120"><strong color="white">Peso Producto total:</strong></th>
+                            <th width="40"> '.$receta->rece_prod_total.'</th>
+                        </tr>
                     </table>
                     <br>
                     ';
                 if($receta->rece_lineaprod_id==1){
-                    $html = $html.'              
+                    $html = $html.'
                         <br>
                     <table>
                         <tr><th align="center" style="color:black;font-size:11"><strong>CARACTERÍSTICAS ENVASADO</strong></th></tr>
@@ -401,13 +401,13 @@ class gbRecetasController extends Controller
                         </tr>
                     </table>';
                 }
-                if ($receta->rece_lineaprod_id==2 OR $receta->rece_lineaprod_id==3) {                
+                if ($receta->rece_lineaprod_id==2 OR $receta->rece_lineaprod_id==3) {
                     $html = $html.'<br><br>
                     <table>
                         <tr><th align="center" style="color:black;font-size:11"><strong>MATERIA PRIMA</strong></th></tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="30"><strong color="white">N°</strong></th>
                             <th align="center" bgcolor="#5c6875" width="280"><strong color="white">Insumo</strong></th>
@@ -431,13 +431,13 @@ class gbRecetasController extends Controller
                     }
                     $html = $html . '</table>';
                 }
-                if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5) {                
-                    $html = $html.'<br><br>                    
+                if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5) {
+                    $html = $html.'<br><br>
                     <table>
                         <tr><th align="center" style="color:black;font-size:11"><strong>FORMULACIÓN DE LA BASE</strong></th></tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="30"><strong color="white">N°</strong></th>
                             <th align="center" bgcolor="#5c6875" width="280"><strong color="white">Insumo</strong></th>
@@ -472,14 +472,14 @@ class gbRecetasController extends Controller
                     $html = $html . '</table>';
                 }
                 if ($receta->rece_lineaprod_id == 1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5) {
-                    
-                
+
+
                     $html = $html.'<br><br>
                     <table>
                         <tr><th align="center" style="color:black;font-size:11"><strong>SABORIZACIÓN</strong></th></tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="30"><strong color="white">N°</strong></th>
                             <th align="center" bgcolor="#5c6875" width="280"><strong color="white">Insumo</strong></th>
@@ -508,7 +508,7 @@ class gbRecetasController extends Controller
                         <tr><th align="center" style="color:black;font-size:11"><strong>MATERIAL ENVASADO</strong></th></tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="30"><strong color="white">N°</strong></th>
                             <th align="center" bgcolor="#5c6875" width="280"><strong color="white">Insumo</strong></th>
@@ -537,7 +537,7 @@ class gbRecetasController extends Controller
                         <tr><th align="center" style="color:black;font-size:11"><strong>PARAMETRO FISICO QUIMICO</strong></th></tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875"><strong color="white"></strong></th>
                             <th align="center" bgcolor="#5c6875"><strong color="white">Lie</strong></th>
@@ -573,13 +573,13 @@ class gbRecetasController extends Controller
                         //$html = $html . '</table>';
                         $html = $html . '</table>';
                 }
-                        
-                $htmltable = $html;    
+
+                $htmltable = $html;
         $pdf->writeHTML($htmltable, true, 0, true, 0);
 
 
         // reset pointer to the last page
-          
+
         $pdf->lastPage();
 
         // ---------------------------------------------------------

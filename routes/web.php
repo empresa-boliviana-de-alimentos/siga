@@ -411,7 +411,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::resource('InsumoRecetas', 'insumo\insumo_recetas\gbRecetasController');
 	Route::get('RegistroReceta', 'insumo\insumo_recetas\gbRecetasController@nuevaReceta');
 	Route::get('RegistrarReceta', 'insumo\insumo_recetas\gbRecetasController@registrarReceta');
-	Route::get('ImprimirReceta/{id}', 'insumo\insumo_recetas\gbRecetasController@imprimirReceta');
+	Route::get('ImprimirReceta/{id}', 'ReportController@imprimir_receta');
 	//Route::get('trae_uni','insumo\insumo_recetas\gbRecetasController@traeUnidad');
 	Route::get('trae_uni', function () {
 		$ins_id = Input::get('ins_id');

@@ -10,6 +10,11 @@ use siga\Modelo\insumo\insumo_registros\Proveedor;
 use siga\Modelo\insumo\insumo_registros\EvaluacionProveedor;
 use siga\Modelo\admin\Usuario;//NEW
 use DB;
+use siga\Modelo\insumo\insumo_registros\UnidadMedida;
+use siga\Modelo\insumo\insumo_recetas\Receta;
+use siga\Modelo\insumo\insumo_recetas\DetalleReceta;
+use siga\Modelo\insumo\insumo_registros\Sabor;
+use siga\Modelo\insumo\insumo_registros\SubLinea;
 class ReportController extends Controller
 {
     /**
@@ -51,6 +56,34 @@ class ReportController extends Controller
         $evaluaciones = EvaluacionProveedor::join('insumo.proveedor as prov','insumo.evaluacion_proveedor.eval_prov_id','=','prov.prov_id')->get();
 
         $view = \View::make('reportes.proveedores', compact('username','date','title','storage','evaluaciones'));
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+
+    }
+
+    public function imprimir_receta($id_receta)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "RECETA";
+        $date =Carbon::now();
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+            ->where('usr_id', Auth::user()->usr_id)->first();
+        $storage = $planta->nombre_planta;
+        $receta = Receta::join('insumo.sub_linea as subl','insumo.receta.rece_sublinea_id','=','subl.sublin_id')
+                        ->join('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
+                        ->join('insumo.unidad_medida as uni','insumo.receta.rece_uni_id','=','uni.umed_id')->where('rece_id',$id_receta)
+                        ->first();
+        // return $receta;
+        $code = $receta->rece_codigo;
+        $dataos_json = null;
+        if ($receta->rece_lineaprod_id == 1) {
+            $datos_json = json_decode($receta->rece_datos_json);
+        }
+        $view = \View::make('reportes.receta', compact('username','date','title','storage','receta','code','datos_json'));
+
         $html_content = $view->render();
         // return $html_content;
         $pdf = App::make('snappy.pdf.wrapper');
