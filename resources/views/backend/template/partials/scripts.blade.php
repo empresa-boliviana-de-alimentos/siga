@@ -1,6 +1,6 @@
 <script src="{{ mix('/js/app.js') }}"></script>
-{!! Html::script('js/jquery-3.1.0.min.js') !!}
-{!! Html::script('js/bootstrap.min.js') !!}
+{{-- {!! Html::script('js/jquery-3.1.0.min.js') !!}
+{!! Html::script('js/bootstrap.min.js') !!} --}}
 {!! Html::script('js/bootstrapValidator.js') !!}
 {!! Html::script('js/jasny-bootstrap.js') !!}
 {!! Html::script('js/select2.min.js') !!}
