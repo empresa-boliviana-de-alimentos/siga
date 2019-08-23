@@ -5,11 +5,14 @@
     <body>
         @include('backend.template.partials.mainheader')
         @include('backend.template.partials.sidebar')
-        <section id="main-content">            
-            <section class="wrapper">
-                @yield('main-content')
+
+        <div id="app">
+            <section id="main-content">
+                <section class="wrapper">
+                    @yield('main-content')
+                </section>
             </section>
-        </section>
+        </div>
         @section('scripts')
             @include('backend.template.partials.scripts')
         @show

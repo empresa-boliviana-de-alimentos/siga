@@ -30,6 +30,8 @@ Route::get('sesion', [
 	'uses' => 'Auth\AuthController@Login',
 ]);
 
+Route::get('test_print','ReportController@test_print');
+
 Route::group(array('middleware' => 'auth'), function () {
 	Route::get('ReportePdf', 'RerportController@prueba');
 	Route::resource('Acceso', 'admin\gbAccesoController');
