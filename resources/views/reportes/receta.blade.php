@@ -131,11 +131,11 @@
 
 
                 @php
-                    $insumo_insumo = DetalleReceta::join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                    $insumo_insumo = siga\Modelo\insumo\insumo_recetas\DetalleReceta::join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('ins_id_tip_ins',1)
                                                         ->where('detrece_rece_id',$receta->rece_id)->get();
-                    $insumo_matprima = DetalleReceta::join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                    $insumo_matprima = siga\Modelo\insumo\insumo_recetas\DetalleReceta::join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('ins_id_tip_ins',3)
                                                         ->where('detrece_rece_id',$receta->rece_id)->get();
