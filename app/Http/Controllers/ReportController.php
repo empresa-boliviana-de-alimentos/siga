@@ -15,18 +15,11 @@ use siga\Modelo\insumo\insumo_recetas\Receta;
 use siga\Modelo\insumo\insumo_recetas\DetalleReceta;
 use siga\Modelo\insumo\insumo_registros\Sabor;
 use siga\Modelo\insumo\insumo_registros\SubLinea;
+use siga\Modelo\insumo\insumo_registros\Ingreso;
+use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
 class ReportController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
+   
     public function test_print()
     {
         $username = Auth::user()->usr_usuario;
@@ -91,69 +84,38 @@ class ReportController extends Controller
         return $pdf->inline();
 
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function ingreso_materia_prima($id_envio)
     {
-        //
-    }
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA DE INGRESO DE MATERIA PRIMA";
+        $date =Carbon::now();
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $storage = $planta->nombre_planta;
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per=Collect($usr);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $reg = Ingreso::join('acopio.envio_almacen as env','insumo.ingreso.ing_env_acop_id','=','env.enval_id')
+                        ->where('ing_env_acop_id',$id_envio)
+                        ->first();
+        
+        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
+                        ->where('deting_ing_id',$reg->ing_id)
+                        ->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+        $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
+        
+        $view = \View::make('reportes.ingreso_materia_prima', compact('username','date','title','storage','receta','reg','detalle_ingreso','per','planta'));
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
+    
 }

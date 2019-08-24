@@ -412,7 +412,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::get('/ReporteAlmacen/{id}', ['as' => 'reporteAlmacen', 'uses' => 'insumo\insumo_registros\gbIngresoAlmacenController@reporteAlmacen']);
 	Route::get('ReporteUfvExcel', 'insumo\insumo_registros\gbUfvController@reporteUfvExcel');
 	Route::get('/ReportePrima/{id}', ['as' => 'reportePrima', 'uses' => 'insumo\insumo_registros\gbIngresoPrimaController@reportePrima']);
-	Route::get('/ReportePrimaEnval/{id}', ['as' => 'reportePrima', 'uses' => 'insumo\insumo_registros\gbIngresoPrimaController@reportePrimaReporte']);
+	Route::get('/ReportePrimaEnval/{id}', ['as' => 'reportePrima', 'uses' => 'ReportController@ingreso_materia_prima']);
 
 	//RECETAS
 	Route::resource('InsumoRecetas', 'insumo\insumo_recetas\gbRecetasController');
