@@ -341,26 +341,18 @@
     
     </table>
 @endif
-{{-- <br>
 <br>
 <br>
-<br> --}}
-{{-- <table>
-    <tr>
-        <td class="text-right text-xxs">Revisado por firma</td>
-        <td class="text-left text-xxs">  .......................................</td>
-        <td class="text-right text-xxs">Verificado por firma</td>
-        <td class="text-left text-xxs">  .......................................</td>
-    </tr>
-
-</table> --}}
-{{-- <br>
+<br>
+<br>
 <table>
     <tr>
-        <td class="text-right text-xxs">Nombre</td>
-        <td class="text-left text-xxs">  .......................................</td>
-        <td class="text-right text-xxs">Nombre</td>
-        <td class="text-left text-xxs">  .......................................</td>
+        <td class="text-center text-xxs">......................................</td>
     </tr>
-</table> --}}
+    <tr>
+        <td class="text-center text-xxs">Jefe de Produccion</td>
+    </tr>
+
+</table>
+
 @endsection
