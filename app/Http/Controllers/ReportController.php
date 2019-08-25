@@ -18,6 +18,7 @@ use siga\Modelo\insumo\insumo_registros\SubLinea;
 use siga\Modelo\insumo\insumo_registros\Ingreso;
 use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
+use siga\Modelo\insumo\InsumoHistorial;
 class ReportController extends Controller
 {
    
@@ -152,6 +153,89 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();
     }
+
+    public function solicitud_traspaso($id_orp)
+    {
+        
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA DE SOLICITUD POR TRAPASO";
+        $date =Carbon::now();
+       
+
+    
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)
+                    ->first();
+        
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                    ->where('usr_id',Auth::user()->usr_id)
+                    ->first();
+
+        $storage = $planta->nombre_planta;
+        $reg = OrdenProduccion::join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_traspaso','=','planta.id_planta')
+                              ->join('public._bp_planta as pl','insumo.orden_produccion.orprod_planta_traspaso','=','pl.id_planta')
+                              ->join('public._bp_usuarios as usu','insumo.orden_produccion.orprod_usr_id','=','usu.usr_id')
+                              ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+                              ->where('orprod_tiporprod_id',3)->where('orprod_id',$id_orp)
+                              ->first();
+        
+        $code = $reg['orprod_nro_solicitud'];
+        
+        $view = \View::make('reportes.solicitud_traspaso', compact('username','date','title','storage','reg','id_orp','code'));
+
+        $html_content = $view->render();
+        
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+
+    public function kardex_valorado($rep)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "KARDEX VALORADO";
+        $date =Carbon::now();
+
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)
+                        ->first();
+
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id',Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+
+        $insumo = InsumoHistorial::join('insumo.insumo as ins', 'insumo.insumo_historial.inshis_ins_id', '=', 'ins.ins_id')
+                        ->join('insumo.unidad_medida as umed', 'ins.ins_id_uni', '=', 'umed.umed_id')
+                        ->where('inshis_planta_id', '=', $planta->id_planta)
+                        ->where('inshis_ins_id', $rep)
+                        ->orderby('inshis_id', 'ASC')
+                        ->first();
+
+        $tabkarde = InsumoHistorial::leftJoin('insumo.detalle_ingreso','insumo.detalle_ingreso.deting_id','=','insumo.insumo_historial.inshis_deting_id')
+                                    ->leftJoin('insumo.detalle_orden_produccion','insumo.detalle_orden_produccion.detorprod_id','=','insumo.insumo_historial.inshis_detorprod_id')
+                                    ->leftJoin('insumo.ingreso','insumo.ingreso.ing_id','=','insumo.detalle_ingreso.deting_ing_id')
+                                    ->leftJoin('insumo.orden_produccion','insumo.orden_produccion.orprod_id','=','detalle_orden_produccion.detorprod_orprod_id')
+                                    ->where('insumo.insumo_historial.inshis_planta_id', '=', $planta->id_planta)
+                                    ->where('insumo.insumo_historial.inshis_ins_id', $rep)
+                                    ->orderBy('insumo.insumo_historial.inshis_id')
+                                    ->get();
+        // return $tabkarde;
+        $detallesIngresos = DetalleIngreso::where('deting_ins_id',$rep)->get();
+        
+        $code = $insumo->ins_codigo;
+
+        $view = \View::make('reportes.kardex_valorado', compact('username','date','title','storage','insumo','tabkarde','code','detallesIngresos'));
+
+        $html_content = $view->render();
+
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+       
+    }
+    
 
     public function nombreLinea($id){
         if ($id == 1) {

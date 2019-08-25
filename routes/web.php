@@ -529,7 +529,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::resource('solTraspaso', 'insumo\insumo_solicitudes\gbSolTraspasoController');
 	Route::get('CarritoSolTras', 'insumo\insumo_solicitudes\gbSolTraspasoController@carritoSolTras');
 	Route::get('ListarInsumosPlanta/{id}', 'insumo\insumo_solicitudes\gbSolTraspasoController@listarInsumosPlanta');
-	Route::get('BoletaSolTraspaso/{id}', 'insumo\insumo_solicitudes\gbSolTraspasoController@boletaSolTraspaso');
+	Route::get('BoletaSolTraspaso/{id}', 'ReportController@solicitud_traspaso');
 	//SOLICITUDES MAQUILA
 	Route::resource('solMaquila', 'insumo\insumo_solicitudes\gbSolMaquilaController');
 	Route::get('ViewFormMaquila', 'insumo\insumo_solicitudes\gbSolMaquilaController@viewFormMaquila');
@@ -629,7 +629,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	// BUSQUEDA POR RANGO
 	Route::get('RptInvRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}', 'insumo\insumo_reportes\gbInsumoReporteController@ReporteInvRango');
 
-	Route::get('RpKardexValoradoInsumo/{id}', ['as' => 'rptKerdexInsumo', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptKardexValoradoInsumo']);
+	Route::get('RpKardexValoradoInsumo/{id}', ['as' => 'rptKerdexInsumo', 'uses' => 'ReportController@kardex_valorado']);
 	Route::get('RpKardexFisicoInsumo/{id}', 'insumo\insumo_reportes\gbInsumoReporteController@rptKardexFisicoInsumo');
 	Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptMensual']);
 	Route::get('RpCostoAlmacen', ['as' => 'rptCostoAlmacen', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptCostoAlmacen']);

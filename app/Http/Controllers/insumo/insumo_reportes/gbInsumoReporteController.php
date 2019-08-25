@@ -284,6 +284,7 @@ class gbInsumoReporteController extends Controller {
 		$id = Auth::user()->usr_id;
 		$planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
 			->where('usr_id', $id)->first();
+		// return $planta;
 		$insumo = InsumoHistorial::join('insumo.insumo as ins', 'insumo.insumo_historial.inshis_ins_id', '=', 'ins.ins_id')
 			->join('insumo.unidad_medida as umed', 'ins.ins_id_uni', '=', 'umed.umed_id')
 			->where('inshis_planta_id', '=', $planta->id_planta)->where('inshis_ins_id', $rep)->orderby('inshis_id', 'ASC')->first();
@@ -362,8 +363,8 @@ class gbInsumoReporteController extends Controller {
 			if ($ig->inshis_deting_id != null and $ig->inshis_tipo == 'Entrada') {
 				$html = $html .
 				'<td align="center">' . $ig->inshis_cantidad . '</td>
-                                               <td align="center">' . $this->traeCosto($ig->inshis_deting_id) . '</td>
-                                               <td align="center">' . number_format($ig->inshis_cantidad * $this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>';
+				<td align="center">' . $this->traeCosto($ig->inshis_deting_id) . '</td>
+				<td align="center">' . number_format($ig->inshis_cantidad * $this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>';
 			} else {
 				$html = $html .
 					'<td align="center">-</td>
@@ -395,12 +396,11 @@ class gbInsumoReporteController extends Controller {
 				} else {
 					$detalle_ingreso->deting_cantidad = $detalle_ingreso->deting_cantidad - $ig->inshis_cantidad;
 					$det_nro = $detalle_ingreso->deting_cantidad;
-
 				}
 				$html = $html .
 				'<td align="center">' . number_format($det_nro, 2, '.', ',') . '</td>
-                                             <td align="center">' . number_format($this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>
-                                             <td align="center">' . number_format($det_nro * $this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>';
+				<td align="center">' . number_format($this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>
+				<td align="center">' . number_format($det_nro * $this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>';
 
 			}
 
