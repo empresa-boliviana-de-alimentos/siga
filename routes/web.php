@@ -482,7 +482,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::get('getProducto', 'insumo\insumo_solicitudes\gbOrdenProduccionController@getProducto');
 	Route::get('StockActualOP/{id}/{id_planta}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@stock_actualOP');
 	Route::get('OrdenProduccionCreate', 'insumo\insumo_solicitudes\gbOrdenProduccionController@ordenProduccionCreate');
-	Route::get('BoletaOrdenProduccion/{id}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@boletaOrdenProduccion');
+	Route::get('BoletaOrdenProduccion/{id}', 'ReportController@orden_de_produccion');
 	Route::get('RecepcionORP', 'insumo\insumo_solicitudes\gbOrdenProduccionController@menuRecepcionORP');
 	Route::get('CreateRecepcionOrp', 'insumo\insumo_solicitudes\gbOrdenProduccionController@createRecepcionOrp');
 	Route::get('frmRecepORP/{id}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@showFrmRecepORP');

@@ -17,6 +17,7 @@ use siga\Modelo\insumo\insumo_registros\Sabor;
 use siga\Modelo\insumo\insumo_registros\SubLinea;
 use siga\Modelo\insumo\insumo_registros\Ingreso;
 use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
+use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
 class ReportController extends Controller
 {
    
@@ -98,13 +99,10 @@ class ReportController extends Controller
                 ->where('usr_id',Auth::user()->usr_id)->first();
         $per=Collect($usr);
 
+       
         $reg = Ingreso::join('acopio.envio_almacen as env','insumo.ingreso.ing_env_acop_id','=','env.enval_id')
-                        ->where('ing_env_acop_id',$id_envio)
-                        ->first();
-        
-        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
-                        ->where('deting_ing_id',$reg->ing_id)
-                        ->first();
+                      ->where('ing_env_acop_id',$id_envio)->first();
+        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')->where('deting_ing_id',$reg->ing_id)->first();
 
         $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
         
@@ -117,5 +115,89 @@ class ReportController extends Controller
         return $pdf->inline();
 
     }
+
+    public function orden_de_produccion($id_orprod)
+    {
+        
+        $username = Auth::user()->usr_usuario;
+        $title = "ORDEN DE PRODUCCIÓN";
+        $date =Carbon::now();
+       
+
+    
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+
+        $receta = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                ->join('insumo.sub_linea as subl','rece.rece_sublinea_id','=','subl.sublin_id')
+                ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                ->join('insumo.unidad_medida as uni','rece.rece_uni_id','=','uni.umed_id')
+                ->join('insumo.mercado as mer','insumo.orden_produccion.orprod_mercado_id','=','mer.mer_id')
+                ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_id',$id_orprod)->first();        
+        
+        $storage = 'LINEA PRODUCCIÓN '. $this->nombreLinea($receta->rece_lineaprod_id);
+        
+        $datos_json = null;
+        if ($receta->rece_lineaprod_id == 1) {
+            $datos_json = json_decode($receta->rece_datos_json);
+        }
+
+        $code = null;
+        
+        $view = \View::make('reportes.orden_de_produccion', compact('username','date','title','storage','receta','datos_json'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+
+    public function nombreLinea($id){
+        if ($id == 1) {
+            return 'LACTEOS';
+        }elseif($id == 2){
+            return 'ALMENDRA';
+        }elseif($id == 3){
+            return 'MIEL';
+        }elseif($id == 4){
+            return 'FRUTOS';
+        }elseif($id == 5){
+            return 'DERIVADOS';
+        }
+    }
+    // public function ingreso_materia_prima($id_envio)
+    // {
+    //     $username = Auth::user()->usr_usuario;
+    //     $title = "NOTA DE INGRESO DE MATERIA PRIMA";
+    //     $date =Carbon::now();
+    //     $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+    //                     ->where('usr_id', Auth::user()->usr_id)
+    //                     ->first();
+
+    //     $storage = $planta->nombre_planta;
+    //     $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+    //             ->where('usr_id',Auth::user()->usr_id)->first();
+    //     $per=Collect($usr);
+
+    //     $reg = Ingreso::join('acopio.envio_almacen as env','insumo.ingreso.ing_env_acop_id','=','env.enval_id')
+    //                     ->where('ing_env_acop_id',$id_envio)
+    //                     ->first();
+        
+    //     $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
+    //                     ->where('deting_ing_id',$reg->ing_id)
+    //                     ->first();
+
+    //     $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
+        
+    //     $view = \View::make('reportes.ingreso_materia_prima', compact('username','date','title','storage','receta','reg','detalle_ingreso','per','planta'));
+
+    //     $html_content = $view->render();
+    //     // return $html_content;
+    //     $pdf = App::make('snappy.pdf.wrapper');
+    //     $pdf->loadHTML($html_content);
+    //     return $pdf->inline();
+
+    // }
     
 }

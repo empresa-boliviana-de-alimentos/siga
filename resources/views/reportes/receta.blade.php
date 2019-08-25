@@ -90,7 +90,7 @@
                     foreach ($insumo_matprima as $ins) {
                         $detalle_formulacion[] = array("ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detrece_cantidad"=>$ins->detrece_cantidad);
                     }
-                    $nro = 0;
+                    $nro = 1;
                 @endphp
                 @foreach($detalle_formulacion as $detform)
                 <tr class="text-sm">
@@ -146,7 +146,7 @@
                         $detalle_formulacion[] = array("ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detrece_cantidad"=>$ins->detrece_cantidad);
                     }
                     //dd($detalle_formulacion);
-                    $nro = 0;
+                    $nro = 1;
                 @endphp
                 @foreach($detalle_formulacion as $detform)
                 <tr class="text-sm">
@@ -201,7 +201,7 @@
                         $detalle_formulacion[] = array("ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detrece_cantidad"=>$ins->detrece_cantidad);
                     }
                     //dd($detalle_formulacion);
-                    $nro = 0;
+                    $nro = 1;
                 @endphp
                 @foreach($detalle_formulacion as $detform)
                 <tr class="text-sm">
@@ -245,7 +245,7 @@
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('detrece_rece_id',$receta->rece_id)
                                                         ->where('ins_id_tip_ins',4)->get();
-                    $nro = 0;
+                    $nro = 1;
                 @endphp
                 @foreach($detalle_formulacion as $detform)
                 <tr class="text-sm">
@@ -289,7 +289,7 @@
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('detrece_rece_id',$receta->rece_id)
                                                         ->where('ins_id_tip_ins',2)->get();
-                $nro = 0;
+                $nro = 1;
             @endphp
             @foreach($detalle_formulacion as $detform)
             <tr class="text-sm">
