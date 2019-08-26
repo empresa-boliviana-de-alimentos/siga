@@ -6,13 +6,13 @@
         @include('backend.template.partials.mainheader')
         @include('backend.template.partials.sidebar')
 
-        {{-- <div id="app"> --}}
+        <div id="app">
             <section id="main-content">
                 <section class="wrapper">
                     @yield('main-content')
                 </section>
             </section>
-        {{-- </div> --}}
+        </div>
         @section('scripts')
             @include('backend.template.partials.scripts')
         @show

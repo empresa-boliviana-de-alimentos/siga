@@ -8,7 +8,7 @@
       <div class="card card-hero card-primary animated fadeInUp animation-delay-7">
         <div class="card-body">
           <h1 class="color-primary text-center">Iniciar Sesion</h1>
-            <form action="{{ route('login-post') }}" method="post"  class="form-horizontal">
+            <form action="{{ route('login') }}" method="post"  class="form-horizontal">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <fieldset>
               <div class="form-group row">
