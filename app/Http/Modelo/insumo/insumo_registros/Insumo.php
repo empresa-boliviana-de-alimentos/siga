@@ -82,7 +82,7 @@ class Insumo extends Model
                  // ->where('ins_usr_id', $usr)
                   //->where('ins_id_planta', $id)
                   ->get();
-        // dd($insumo);           
+        // dd($insumo);
         return $insumo;
     }
 
@@ -109,5 +109,10 @@ class Insumo extends Model
     {
         $insumo = Insumo::where('ins_id', $id)->update(['ins_estado' => 'B']);
         return $insumo;
+    }
+
+    public function unidad_medida()
+    {
+        return $this->belongsTo('siga\Modelo\insumo\insumo_registros\UnidadMedida','ins_id_uni','umed_id');
     }
 }

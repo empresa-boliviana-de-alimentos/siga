@@ -114,7 +114,7 @@ class gbRecetasController extends Controller
                                 ->where('ins_id_tip_ins',1)->orWhere('ins_id_tip_ins',3)->get();
         $listarMateriaPrima = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
                                     ->where('ins_id_tip_ins',3)->get();
-        $listarEnvase = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+        $listarEnvase = Insumo::with('unidad_medida')->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
                               ->where('ins_id_tip_ins',2)->get();
         $listarSaborizantes = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
                                     ->where('ins_id_tip_ins',4)->get();
