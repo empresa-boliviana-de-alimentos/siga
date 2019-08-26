@@ -248,8 +248,6 @@
                                         </div>
                                     </div>
                                 </div>                                 
-                            </input>
-                        </input>
                     </hr>
                 </div>
             </div>

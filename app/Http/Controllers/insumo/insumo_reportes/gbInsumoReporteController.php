@@ -353,8 +353,8 @@ class gbInsumoReporteController extends Controller {
 		foreach ($tabkarde as $ig) {
 			$nro = $nro + 1;
 			$html = $html . '<tr align="center" BGCOLOR="#f3f0ff">
-                                        <td align="center">' . $nro . '</td>
-                                        <td align="center">' . date('d/m/Y', strtotime($ig->inshis_registrado)) . '</td>';
+							<td align="center">' . $nro . '</td>
+							<td align="center">' . date('d/m/Y', strtotime($ig->inshis_registrado)) . '</td>';
 			if ($ig->inshis_tipo == 'Entrada') {
 				$html = $html . '<td align="center">Ingreso (NI-' . $this->traeNroIngreso($ig->inshis_deting_id) . ')</td>';
 			} else {
@@ -368,25 +368,25 @@ class gbInsumoReporteController extends Controller {
 			} else {
 				$html = $html .
 					'<td align="center">-</td>
-                                           <td align="center">-</td>
-                                           <td align="center">-</td>';
+					<td align="center">-</td>
+					<td align="center">-</td>';
 			}
 			if ($ig->inshis_detorprod_id != null) {
 				$html = $html .
 				'<td align="center">' . $ig->inshis_cantidad . '</td>
-                                               <td align="center">' . $this->traeCosto($ig->inshis_deting_id) . '</td>
-                                               <td align="center">' . number_format($ig->inshis_cantidad * $this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>';
+				<td align="center">' . $this->traeCosto($ig->inshis_deting_id) . '</td>
+				<td align="center">' . number_format($ig->inshis_cantidad * $this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>';
 			} else {
 				$html = $html .
 					'<td align="center">-</td>
-                                             <td align="center">-</td>
-                                             <td align="center">-</td>';
+					<td align="center">-</td>
+					<td align="center">-</td>';
 			}
 			if ($ig->inshis_tipo == 'Entrada') {
 				$html = $html .
 				'<td align="center">' . $ig->inshis_cantidad . '</td>
-                                               <td align="center">' . $this->traeCosto($ig->inshis_deting_id) . '</td>
-                                               <td align="center">' . number_format($ig->inshis_cantidad * $this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>';
+				<td align="center">' . $this->traeCosto($ig->inshis_deting_id) . '</td>
+				<td align="center">' . number_format($ig->inshis_cantidad * $this->traeCosto($ig->inshis_deting_id), 2, '.', ',') . '</td>';
 			} else {
 				$detalle_ingreso = $detallesIngresos->where('deting_id',$ig->inshis_deting_id)->first();
 				$detalle_orp = DB::table('insumo.detalle_orden_produccion')->where('detorprod_id', $ig->inshis_detorprod_id)->first();

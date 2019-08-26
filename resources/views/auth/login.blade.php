@@ -1,73 +1,41 @@
-@extends('layouts.app')
-
-@section('content')
+@extends('frontend.frmapp')
+@section('main-content')
+<div class="ms-hero-page-override ms-hero-img-city ms-hero-bg-dark-light">
+</div>
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="usr_usuario" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="usr_usuario" type="text" class="form-control @error('usr_usuario') is-invalid @enderror" name="usr_usuario" value="{{ old('usr_usuario') }}" required autocomplete="usr_usuario" autofocus>
-
-                                @error('usr_usuario')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
+  <div class="row justify-content-md-center">
+    <div class="col-lg-6">
+      <div class="card card-hero card-primary animated fadeInUp animation-delay-7">
+        <div class="card-body">
+          <h1 class="color-primary text-center">Iniciar Sesion</h1>
+            <form action="{{ route('login') }}" method="post"  class="form-horizontal">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <fieldset>
+              <div class="form-group row">
+                <label for="inputEmail" class="col-md-3 control-label">Usuario</label>
+                <div class="col-md-9">
+                  <input type="text" class="form-control" id="usr_usuario" name="usr_usuario" placeholder="Ingrese su usuario">
                 </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword" class="col-md-3 control-label">Contraseña
+                </label>
+                <div class="col-md-9">
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Ingrese su contraseña">
+                </div>
+              </div>
+            </fieldset>
+            <div class="text-center">
+            <a href="{{url('/')}}" class="btn btn-raised btn-danger"><i class="zmdi zmdi-long-arrow-left no-mr ml-1"></i>atras
+            </a>
+            <button class="btn btn-raised btn-primary">Ingresar
+              <i class="zmdi zmdi-long-arrow-right no-mr ml-1"></i>
+            </button>
             </div>
+          </form>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 @endsection

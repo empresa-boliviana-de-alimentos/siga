@@ -18,7 +18,9 @@ use siga\Modelo\insumo\insumo_registros\SubLinea;
 use siga\Modelo\insumo\insumo_registros\Ingreso;
 use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
+use siga\Modelo\insumo\insumo_solicitud\DetalleOrdenProduccion;
 use siga\Modelo\insumo\InsumoHistorial;
+use siga\Modelo\insumo\Stock;
 class ReportController extends Controller
 {
    
@@ -223,10 +225,16 @@ class ReportController extends Controller
                                     ->get();
         // return $tabkarde;
         $detallesIngresos = DetalleIngreso::where('deting_ins_id',$rep)->get();
-        
+       
+        $stocks = Stock::join('insumo.detalle_ingreso as deting', 'insumo.stock.stock_deting_id', '=', 'deting.deting_id')
+			->where('stock_planta_id', $planta->id_planta)
+			->where('stock_cantidad', '>', 0)
+			->where('stock_ins_id', $rep)
+			->orderby('deting_ing_id')
+			->get();
         $code = $insumo->ins_codigo;
 
-        $view = \View::make('reportes.kardex_valorado', compact('username','date','title','storage','insumo','tabkarde','code','detallesIngresos'));
+        $view = \View::make('reportes.kardex_valorado', compact('username','date','title','storage','insumo','tabkarde','code','detallesIngresos','stocks'));
 
         $html_content = $view->render();
 
@@ -235,7 +243,127 @@ class ReportController extends Controller
         return $pdf->inline();
        
     }
+
+    public function kardex_fisico($rep)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "KARDEX FISICO";
+        $date =Carbon::now();
+
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)
+                        ->first();
+
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id',Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+
+        $insumo = InsumoHistorial::join('insumo.insumo as ins', 'insumo.insumo_historial.inshis_ins_id', '=', 'ins.ins_id')
+                        ->join('insumo.unidad_medida as umed', 'ins.ins_id_uni', '=', 'umed.umed_id')
+                        ->where('inshis_planta_id', '=', $planta->id_planta)
+                        ->where('inshis_ins_id', $rep)
+                        ->orderby('inshis_id', 'ASC')
+                        ->first();
+
+        $tabkarde = InsumoHistorial::leftJoin('insumo.detalle_ingreso','insumo.detalle_ingreso.deting_id','=','insumo.insumo_historial.inshis_deting_id')
+                                    ->leftJoin('insumo.detalle_orden_produccion','insumo.detalle_orden_produccion.detorprod_id','=','insumo.insumo_historial.inshis_detorprod_id')
+                                    ->leftJoin('insumo.ingreso','insumo.ingreso.ing_id','=','insumo.detalle_ingreso.deting_ing_id')
+                                    ->leftJoin('insumo.orden_produccion','insumo.orden_produccion.orprod_id','=','detalle_orden_produccion.detorprod_orprod_id')
+                                    ->where('insumo.insumo_historial.inshis_planta_id', '=', $planta->id_planta)
+                                    ->where('insumo.insumo_historial.inshis_ins_id', $rep)
+                                    ->orderBy('insumo.insumo_historial.inshis_id')
+                                    ->get();
+     
+       
+        $code = $insumo->ins_codigo;
+
+        $view = \View::make('reportes.kardex_fisico', compact('username','date','title','storage','insumo','tabkarde','code'));
+
+        $html_content = $view->render();
+
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+       
+    }
+
+    public function nota_de_salida($id_orp_aprob)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA DE SALIDA ";
+        $date =Carbon::now();
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+            
+        $reg = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
+                                ->join('insumo.mercado as merc','insumo.orden_produccion.orprod_mercado_id','=','merc.mer_id')
+                                ->where('orprod_id','=',$id_orp_aprob)
+                                ->first();
+
+        $detroprod = DetalleOrdenProduccion::join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')
+                                ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+                                ->where('detorprod_orprod_id',$reg->orprod_id)
+                                ->get();
+        
+      
+        $code = $reg['orprod_nro_salida'].'/'.date('Y',strtotime($reg['orprod_registrado']));
+        
+        $view = \View::make('reportes.nota_de_salida', compact('username','date','title','storage','receta','reg','detroprod','usuario','code'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+
+    }
     
+    public function nota_de_ingreso($id_ingreso)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA INGRESO";
+        
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per=Collect($usuario);
+        $reg = Ingreso::join('insumo.tipo_ingreso as tip', 'insumo.ingreso.ing_id_tiping', '=', 'tip.ting_id')
+                        ->where('ing_id',$id_ingreso)
+                        ->first();
+        $fecha = Carbon::parse($reg['ing_fecha_remision']);
+    
+
+        $mesesLiteral = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+        $deta_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
+                                                ->leftjoin('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+                                                ->join('insumo.proveedor as prov','insumo.detalle_ingreso.deting_prov_id','=','prov.prov_id')
+                                                ->where('deting_ing_id',$id_ingreso)->get();
+        
+      
+        $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
+        $date =date('d/m/Y',strtotime($reg['ing_registrado']));
+
+        $view = \View::make('reportes.nota_de_ingreso', compact('username','date','title','storage','reg','deta_ingreso','usuario','code','per'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
 
     public function nombreLinea($id){
         if ($id == 1) {

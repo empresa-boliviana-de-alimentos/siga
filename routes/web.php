@@ -25,21 +25,22 @@ Route::get('/', function () {
 	return view('frontend.index');
 });
 
-Route::get('/home', function () {
-	return view('backend.template.home');
-});
-Route::post('sesion', [
-	'as' => 'login-post',
-	'uses' => 'Auth\AuthController@postLogin',
-]);
-Route::get('sesion', [
-	'as' => 'cerrar',
-	'uses' => 'Auth\AuthController@Login',
-]);
+
+// Route::post('sesion', [
+// 	'as' => 'login-post',
+// 	'uses' => 'Auth\AuthController@postLogin',
+// ]);
+// Route::get('sesion', [
+// 	'as' => 'cerrar',
+// 	'uses' => 'Auth\AuthController@Login',
+// ]);
 
 Route::get('test_print','ReportController@test_print');
 
-Route::group(array('middleware' => 'auth'), function () {
+Route::group(['middleware' => ['auth']], function () {
+	Route::get('/home', function () {
+		return view('backend.template.home');
+	});
 	Route::get('ReportePdf', 'RerportController@prueba');
 	Route::resource('Acceso', 'admin\gbAccesoController');
 	Route::resource('Persona', 'admin\gbPersonaController');
@@ -409,7 +410,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::get('/ReportPreliminar/{id}', ['as' => 'reportePreliminar', 'uses' => 'insumo\insumo_registros\gbIngresoAlmacenController@reportePreliminar']);
 	Route::post('Preliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@storePreliminar');
 	Route::delete('DeletePreliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@borrarPreliminar');
-	Route::get('/ReporteAlmacen/{id}', ['as' => 'reporteAlmacen', 'uses' => 'insumo\insumo_registros\gbIngresoAlmacenController@reporteAlmacen']);
+	Route::get('/ReporteAlmacen/{id}', ['as' => 'reporteAlmacen', 'uses' => 'ReportController@nota_de_ingreso']);
 	Route::get('ReporteUfvExcel', 'insumo\insumo_registros\gbUfvController@reporteUfvExcel');
 	Route::get('/ReportePrima/{id}', ['as' => 'reportePrima', 'uses' => 'insumo\insumo_registros\gbIngresoPrimaController@reportePrima']);
 	Route::get('/ReportePrimaEnval/{id}', ['as' => 'reportePrima', 'uses' => 'ReportController@ingreso_materia_prima']);
@@ -538,7 +539,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	//SOLICITUDES RECIBIDAS DE ORP
 	Route::get('FormMostrarReceta/{id}', 'insumo\insumo_solicitudes\gbSolRecibidasController@formMostrarReceta');
 	Route::get('AprobacionReceta', 'insumo\insumo_solicitudes\gbSolRecibidasController@aprobacionReceta');
-	Route::get('BoletaAprovReceta/{id}', 'insumo\insumo_solicitudes\gbSolRecibidasController@boletaAprovReceta');
+	Route::get('BoletaAprovReceta/{id}', 'ReportController@nota_de_salida');
 	Route::resource('solRecibidas', 'insumo\insumo_solicitudes\gbSolRecibidasController');
 	Route::get('FormMostrarSolAdicional/{id}', 'insumo\insumo_solicitudes\gbSolRecibidasController@formMostrarSolAdicional');
 	Route::get('AprobacionSolAdicional', 'insumo\insumo_solicitudes\gbSolRecibidasController@aprobacionSolAdicional');
@@ -630,7 +631,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::get('RptInvRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}', 'insumo\insumo_reportes\gbInsumoReporteController@ReporteInvRango');
 
 	Route::get('RpKardexValoradoInsumo/{id}', ['as' => 'rptKerdexInsumo', 'uses' => 'ReportController@kardex_valorado']);
-	Route::get('RpKardexFisicoInsumo/{id}', 'insumo\insumo_reportes\gbInsumoReporteController@rptKardexFisicoInsumo');
+	Route::get('RpKardexFisicoInsumo/{id}', 'ReportController@kardex_fisico');
 	Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptMensual']);
 	Route::get('RpCostoAlmacen', ['as' => 'rptCostoAlmacen', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptCostoAlmacen']);
 	Route::get('RptInventarioPlanta', 'insumo\insumo_registros\gbIngresoAlmacenController@rptInventarioPlanta');

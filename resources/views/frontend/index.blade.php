@@ -30,9 +30,9 @@
                         </ul>
                         <div class="ms-hero-material-buttons text-right">
                           <div class="ms-hero-material-buttons text-right">
-                            <a href="{{url('/sesion')}}" class="btn btn-warning btn-raised animated fadeInLeft animation-delay-24 mr-2">
+                            <a href="{{url('login')}}" class="btn btn-warning btn-raised animated fadeInLeft animation-delay-24 mr-2">
                               <i class="zmdi zmdi-settings"></i>INCIAR SESION</a>
-                            <a href="{{url('/sesion')}}" class="btn btn-success btn-raised animated fadeInRight animation-delay-24">
+                            <a href="{{url('login')}}" class="btn btn-success btn-raised animated fadeInRight animation-delay-24">
                               <i class="zmdi zmdi-download"></i>PRODUCTOS</a>
                           </div>
                         </div>
@@ -61,9 +61,9 @@
                         </ul>
                         <div class="ms-hero-material-buttons text-right">
                           <div class="ms-hero-material-buttons text-right">
-                            <a href="{{url('/sesion')}}" class="btn btn-warning btn-raised animated fadeInLeft animation-delay-24 mr-2">
+                            <a href="{{url('login')}}" class="btn btn-warning btn-raised animated fadeInLeft animation-delay-24 mr-2">
                               <i class="zmdi zmdi-settings"></i>INICIAR SESION</a>
-                            <a href="{{url('/session')}}" class="btn btn-success btn-raised animated fadeInRight animation-delay-24">
+                            <a href="{{url('login')}}" class="btn btn-success btn-raised animated fadeInRight animation-delay-24">
                               <i class="zmdi zmdi-download"></i>PRODUCTOS</a>
                           </div>
                         </div>
@@ -91,9 +91,9 @@
                           </li>
                         </ul>
                         <div class="ms-hero-material-buttons text-right">
-                          <a href="{{url('/sesion')}}" class="btn btn-warning btn-raised animated fadeInLeft animation-delay-24 mr-2">
+                          <a href="{{url('login')}}" class="btn btn-warning btn-raised animated fadeInLeft animation-delay-24 mr-2">
                             <i class="zmdi zmdi-settings"></i>INICIAR SESION</a>
-                          <a href="{{url('/session')}}" class="btn btn-success btn-raised animated fadeInRight animation-delay-24">
+                          <a href="{{url('login')}}" class="btn btn-success btn-raised animated fadeInRight animation-delay-24">
                             <i class="zmdi zmdi-download"></i>PRODUCOS</a>
                         </div>
                       </div>

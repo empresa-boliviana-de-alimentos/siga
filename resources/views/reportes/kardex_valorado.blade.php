@@ -108,16 +108,7 @@
                     <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ number_format($det_nro, 2, '.', ',')}}</td>
                     <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $ig->deting_costo }}</td>
                     <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ number_format($det_nro * $ig->deting_costo, 2, '.', ',') }}</td>
-                    {{-- @if($item->quantity_desc >= $item->article_request_item->quantity_apro )
-                        <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ 0}}</td>
-                        <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $item->article_income_item->cost }}</td>
-                        <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ 0* $item->article_income_item->cost }}</td>
-                    @else
-
-                        <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $item->article_request_item->quantity_apro-= $item->quantity_desc }}</td>
-                        <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $item->article_income_item->cost }}</td>
-                        <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $item->article_request_item->quantity_apro * $item->article_income_item->cost }}</td>
-                    @endif --}}
+                 
                 @endif
 
             </tr>
@@ -141,7 +132,7 @@
         @endforeach --}}
     </tbody>
 </table>
-{{-- <br>
+<br>
 <table class="table-info w-100">
     <thead class="bg-grey-darker">
      
@@ -178,25 +169,25 @@
         @foreach ($stocks as $index => $stock)
         <tr class="text-sm">
             <td class="text-center text-xxs uppercase font-bold px-5 py-3" >{{ $count++ }}</td>
-            <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{Carbon\Carbon::parse($stock->updated_at, 'UTC')->format('d-m-Y')}}</td>
-            <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $stock->quantity }}</td>
-            <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $stock->cost }}</td>
-            <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $stock->quantity * $stock->cost}}</td>
+            <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ date('d/m/Y', strtotime($stock->stock_registrado)) }}</td>
+            <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ number_format($stock->stock_cantidad, 2, '.', '.') }}</td>
+            <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ number_format($stock->stock_costo, 2, '.', '.') }}</td>
+            <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ number_format($stock->stock_cantidad * $stock->stock_costo, 2, '.', '.') }}</td>
             @php
-              $total_quantity += $stock->quantity;
-              $total_cost += $stock->cost;
-              $total_amount +=  $stock->quantity * $stock->cost;
+                $total_quantity += $stock->stock_cantidad;
+                $total_cost += $stock->stock_costo;
+                $total_amount += $stock->stock_cantidad * $stock->stock_costo;
             @endphp
         </tr>
         @endforeach
         <tr class="text-sm">
             <td colspan="2" class="text-center text-xxs uppercase font-bold px-5 py-3 bg-grey-darker text-white" >TOTAL:</td>
-            <td class="text-center text-xxs uppercase font-bold px-5 py-3" >{{ $total_quantity }}</td>
+            <td class="text-center text-xxs uppercase font-bold px-5 py-3" >{{ number_format($total_quantity, 2, '.', ',') }}</td>
             <td class="text-center text-xxs uppercase font-bold px-5 py-3" >-</td>
-            <td class="text-center text-xxs uppercase font-bold px-5 py-3" >{{ $total_amount }}</td>
+            <td class="text-center text-xxs uppercase font-bold px-5 py-3" >{{ number_format($total_amount, 2, '.', ',') }}</td>
         </tr>
     </tbody>
-</table> --}}
+</table>
 
 
 <br>
@@ -206,8 +197,8 @@
 <br>
 <table>
     <tr>
-        <td class="text-center text-xxs">Solicitado por firma: ............................................</td>
-        <td class="text-center text-xxs">Autorizado por firma: ............................................</td>
+        <td class="text-center text-xxs">Revisado por firma: ............................................</td>
+        <td class="text-center text-xxs">Verificado por firma: ............................................</td>
 	</tr>
 	{{-- <tr>
 		<td>&nbsp;</td>
