@@ -33,7 +33,6 @@ class ProveedorSeeder extends Seeder
             ['prov_nom'=>'COMERCIAL "LIMPITO"','prov_dir'=>'CALLE LADISLAO CABRERA N° 518','prov_tel'=>'5258978','prov_nom_res'=>'LOURDES','prov_ap_res'=>'GONSALES','prov_am_res'=>'GONSALES','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
             ['prov_nom'=>'COMERCIAL "SAROM"','prov_dir'=>'CALLE 25 DE MAYO N°608','prov_tel'=>'4501410','prov_nom_res'=>'CARMINIA DODAMIN','prov_ap_res'=>'VARGAS','prov_am_res'=>'ARNEZ','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
             ['prov_nom'=>'COMERCIAL AyL','prov_dir'=>'CALLE HONDURAS ESQ. REPUBLICA','prov_tel'=>'65411017','prov_nom_res'=>'LAURA','prov_ap_res'=>'GONZALES','prov_am_res'=>'HERRERA','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
-            ['prov_nom'=>'','prov_dir'=>'','prov_tel'=>'','prov_nom_res'=>'','prov_ap_res'=>'','prov_am_res'=>'','prov_tel_res'=>'','prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
             ['prov_nom'=>'COMERCIAL BRIANITA','prov_dir'=>'AV. REPUBLICA Nº 679','prov_tel'=>'4550808','prov_nom_res'=>'JOS LUIS','prov_ap_res'=>'PACO','prov_am_res'=>'HUANCA','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
             ['prov_nom'=>'COMERCIAL CRISTIAN GABRIEL','prov_dir'=>'CALLE ANGOSTURA EDIF. CENTRO COMERCIAL','prov_tel'=>'70307377','prov_nom_res'=>'ANTONIO','prov_ap_res'=>'URQUIDI','prov_am_res'=>'URQUIDI','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
             ['prov_nom'=>'COMERCIAL E&M','prov_dir'=>'CALLE BALLIVIAN S/N','prov_tel'=>'66 45113','prov_nom_res'=>'EDUARDO','prov_ap_res'=>'MONTOYA','prov_am_res'=>'ROLDAN','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
@@ -68,7 +67,6 @@ class ProveedorSeeder extends Seeder
             ['prov_nom'=>'FIERRERO','prov_dir'=>'AV. OQUENDO N°863','prov_tel'=>'4029845','prov_nom_res'=>'NESTOR JESUS','prov_ap_res'=>'VERGARA','prov_am_res'=>'COCA','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
             ['prov_nom'=>'FRENZENBOL SRL','prov_dir'=>'AV. DORBIGNI','prov_tel'=>'4430575','prov_nom_res'=>'SUMINISTROS INDUSTRIALES','prov_ap_res'=>'SUMINISTROS INDUSTRIALES','prov_am_res'=>'SUMINISTROS INDUSTRIALES','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
             ['prov_nom'=>'GONZALO VIDAURRE PANIAGUA','prov_dir'=>'AV. PANAMERICANA Nº 1240 BARRIO EL CARMEN','prov_tel'=>'66-76136','prov_nom_res'=>'GONZALO','prov_ap_res'=>'VIDAURRE','prov_am_res'=>'PANIAGUA','prov_tel_res'=>null,'prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
-            ['prov_nom'=>'','prov_dir'=>'','prov_tel'=>'','prov_nom_res'=>'','prov_ap_res'=>'','prov_am_res'=>'','prov_tel_res'=>'','prov_obs'=>null,'prov_usr_id'=>1,'prov_id_planta'=>1],
         ];
 
 

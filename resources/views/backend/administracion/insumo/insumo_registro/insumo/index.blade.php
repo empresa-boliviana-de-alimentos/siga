@@ -161,6 +161,53 @@
         function MostrarInsumo(btn){
             var route = "/Insumo/"+btn.value+"/edit";
             $.get(route, function(res){
+                console.log(res);
+                $("#descripcion1").val(res.ins_desc);
+                $("#ins_id_tip_ins1").val(res.ins_id_tip_ins);
+                $("#ins_id_part1").val(res.ins_id_part);
+                var id_tipins1 = res.ins_id_tip_ins;
+                if (id_tipins1==1) {
+                    $('#tipo_insumo1').show();
+                    $('#tipo_envase1').hide();
+                    $('#tipo_insumo_map1').hide();
+                    $('#id_tip_env1').val("");
+                    $('#id_linea_prod1').val("");
+                    $('#id_mercado1').val("");
+                    $('#formato1').val("");
+                    $('#id_uni1').val("");
+                    $('#id_municipio1').val("");
+                    $('#id_prod_especifico1').val("");              
+                }else if(id_tipins1==2){      
+                   $('#tipo_envase1').show();
+                   $('#tipo_insumo1').hide();
+                   $('#tipo_insumo_map1').hide();
+                   $('#id_sabor1').val("");
+                   $('#id_color1').val("");
+                   $('#presentacion1').val("");
+                   $('#id_uni1').val("");  
+                }else if(id_tipins1==3){
+                    $('#tipo_insumo1').hide();
+                    $('#tipo_envase1').hide();
+                    $('#tipo_insumo_map1').show();
+                    $('#id_tip_env1').val("");
+                    $('#id_linea_prod1').val("");
+                    $('#id_mercado1').val("");
+                    $('#formato1').val("");
+                    $('#id_uni1').val("");
+                    $('#id_municipio1').val("");
+                    $('#id_prod_especifico1').val("");
+                }else{
+                    $('#tipo_insumo1').show();
+                    $('#tipo_envase1').hide();
+                    $('#tipo_insumo_map1').hide();
+                    $('#id_tip_env1').val("");
+                    $('#id_linea_prod1').val("");
+                    $('#id_mercado1').val("");
+                    $('#formato1').val("");
+                    $('#id_uni1').val("");
+                    $('#id_municipio1').val("");
+                    $('#id_prod_especifico1').val("");
+                }
                 $("#ins_id1").val(res.ins_id);
                 $("#codigo1").val(res.ins_codigo);
                 $("#id_cat1").val(res.ins_id_cat);
