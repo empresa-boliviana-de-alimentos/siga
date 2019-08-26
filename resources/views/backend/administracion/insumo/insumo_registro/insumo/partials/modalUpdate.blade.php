@@ -4,14 +4,14 @@
             <div class="modal-header">
                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Registro Insumo
+                    Modificar Insumo
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="caption">
                         {!! Form::open(['id'=>'proveedor'])!!}
                         <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
-                            <input id="id" name="provid" type="hidden" value="">
+                            <input id="ins_id1" name="provid" type="hidden" value="">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
@@ -31,7 +31,7 @@
                                                 <label>
                                                     Tipo Insumo:
                                                 </label>
-                                                <select class="form-control" id="ins_id_tip_ins1" name="ins_id_tip_ins1" placeholder="" value="" onchange="muestradat()">
+                                                <select class="form-control" id="ins_id_tip_ins1" name="ins_id_tip_ins1" placeholder="" value="" onchange="muestradatEdit()">
                                                     <option value="">Seleccione...</option>
                                                     @foreach($dataIns as $ins)
                                                     <option value="{{$ins->tins_id}}">{{$ins->tins_nombre}}</option>
@@ -257,7 +257,7 @@
                 <button class="btn btn-danger" data-dismiss="modal" type="button">
                     Cerrar
                 </button>
-                {!!link_to('#',$title='Registrar', $attributes=['id'=>'registroIns','class'=>'btn btn-success','style'=>''], $secure=null)!!}
+                {!!link_to('#',$title='Registrar', $attributes=['id'=>'actualizarIns','class'=>'btn btn-success','style'=>''], $secure=null)!!}
                 {!! Form::close() !!}
             </div>
         </div>
@@ -266,7 +266,7 @@
 
 @push('scripts')
 <script>
-function muestradat(){
+function muestradatEdit(){
 
     var id_tipins = document.getElementById('ins_id_tip_ins1').value;
     console.log(id_tipins);

@@ -1,4 +1,17 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -27,25 +40,25 @@
                             <thead class="cf">
                                 <tr>
                                     <th>
-                                        Nro
+                                        #
                                     </th>
                                     <th>
-                                        No. ORP
+                                        NRO. ORP
                                     </th>
                                     <th>
-                                        Fecha
+                                        FECHA
                                     </th>
                                     <th>
-                                        Producto
+                                        PRODUCTO
                                     </th>
                                     <th>
-                                        Cantidad
+                                        CANTIDAD
                                     </th>
                                     <th>
-                                        Destino
+                                        DESTINO
                                     </th>
                                     <th>
-                                        Estado
+                                        ESTADO
                                     </th>
                                 </tr>
                             </thead>
@@ -55,25 +68,25 @@
                             <tfoot>
                                 <tr>
                                     <th>
-                                        Nro
+                                        #
                                     </th>
                                     <th>
-                                        No. ORP
+                                        NRO. ORP
                                     </th>
                                     <th>
-                                        Fecha
+                                        FECHA
                                     </th>
                                     <th>
-                                        Producto
+                                        PRODUCTO
                                     </th>
                                     <th>
-                                        Cantidad
+                                        CANTIDAD
                                     </th>
                                     <th>
-                                        Destino
+                                        DESTINO
                                     </th>
                                     <th>
-                                        Estado
+                                        ESTADO
                                     </th>
                                 </tr>
                             </tfoot>

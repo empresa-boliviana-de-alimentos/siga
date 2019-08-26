@@ -37,14 +37,11 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <?php
-                                        $idrol=Session::get('ID_ROL');
-                                    ?>
-                              
+                          
                                     <div class="col-sm-4 social-buttons">
 
                                             
-                                            @if($idrol==1 or $idrol==19)
+                                            
                                             <a href="{{url('IngresoAlmacen') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -56,9 +53,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            @endif 
-                                            
-                                            @if($idrol==1 or $idrol==19)
+                                           
                                             <a href="{{url('IngresoPrima') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -69,8 +64,7 @@
                                                       <img src="img/botones/ingreso materia prima.png" alt="" width="80">
                                                     </div>
                                                 </div>
-                                            </a>
-                                            @endif                                           
+                                            </a>    
                                             
                                          
                                         

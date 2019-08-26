@@ -165,11 +165,18 @@
                 $("#descripcion1").val(res.ins_desc);
                 $("#ins_id_tip_ins1").val(res.ins_id_tip_ins);
                 $("#ins_id_part1").val(res.ins_id_part);
+                $("#ins_id1").val(res.ins_id);
                 var id_tipins1 = res.ins_id_tip_ins;
                 if (id_tipins1==1) {
                     $('#tipo_insumo1').show();
                     $('#tipo_envase1').hide();
                     $('#tipo_insumo_map1').hide();
+                    // INSERT DATOS
+                    $('#id_sabor1').val(res.ins_id_sabor);
+                    $('#id_color1').val(res.ins_id_color);
+                    $('#presentacion1').val(res.ins_peso_presen);
+                    $('#id_uni_ins1').val(res.ins_id_uni);
+                    // END INSERT DATOS
                     $('#id_tip_env1').val("");
                     $('#id_linea_prod1').val("");
                     $('#id_mercado1').val("");
@@ -181,6 +188,15 @@
                    $('#tipo_envase1').show();
                    $('#tipo_insumo1').hide();
                    $('#tipo_insumo_map1').hide();
+                   // INSERT DATOS
+                    $('#id_tip_env1').val(res.ins_id_tip_env);
+                    $('#id_linea_prod1').val(res.ins_id_linea_prod);
+                    $('#id_mercado1').val(res.ins_id_mercado);
+                    $('#formato1').val(res.ins_formato);
+                    $('#id_uni1').val(res.ins_id_uni);
+                    $('#id_municipio1').val(res.ins_id_municipio);
+                    $('#id_prod_especifico1').val(res.ins_id_prod_especi); 
+                   // END INSERT DATOS
                    $('#id_sabor1').val("");
                    $('#id_color1').val("");
                    $('#presentacion1').val("");
@@ -189,6 +205,9 @@
                     $('#tipo_insumo1').hide();
                     $('#tipo_envase1').hide();
                     $('#tipo_insumo_map1').show();
+                    // INSET DATOS
+                    $('#id_uni_ins_map1').val(res.ins_id_uni);
+                    // END INSETT DATOS
                     $('#id_tip_env1').val("");
                     $('#id_linea_prod1').val("");
                     $('#id_mercado1').val("");
@@ -200,6 +219,12 @@
                     $('#tipo_insumo1').show();
                     $('#tipo_envase1').hide();
                     $('#tipo_insumo_map1').hide();
+                    // INSERT DATOS
+                    $('#id_sabor1').val(res.ins_id_sabor);
+                    $('#id_color1').val(res.ins_id_color);
+                    $('#presentacion1').val(res.ins_peso_presen);
+                    $('#id_uni_ins1').val(res.ins_id_uni);
+                    // END INSERT DATOS
                     $('#id_tip_env1').val("");
                     $('#id_linea_prod1').val("");
                     $('#id_mercado1').val("");
@@ -222,18 +247,36 @@
         var value = $("#ins_id1").val();
         var route="/Insumo/"+value+"";
         var token =$("#token").val();
+        var unidadmededit;
+            if ($('#id_uni1').val()) {
+                //console.log("Existe");
+                unidadmededit = $('#id_uni1').val();
+            }else if($('#id_uni_ins1').val()){
+                //console.log("No existe");
+                unidadmededit = $('#id_uni_ins1').val();
+            }else{
+                unidadmededit = $('#id_uni_ins_map1').val();
+            }
         $.ajax({
             url: route,
             headers: {'X-CSRF-TOKEN': token},
             type: 'PUT',
             dataType: 'json',
             data: {
-                    'ins_codigo':$("#codigo1").val(),
-                    'ins_id_cat':$("#id_cat1").val(),
-                    'ins_id_part':$("#id_part1").val(),
-                    'ins_id_uni':$("#id_uni1").val(),
-                    'ins_desc':$("#descripcion1").val(),
-                    'ins_id_tip_ins':$("#id_tip_ins1").val(),
+                //'codigo_insumo':$("#codigo").val(),
+                'ins_id_part':$("#ins_id_part1").val(),
+                'ins_id_uni':unidadmededit,
+                'ins_desc':$("#descripcion1").val(),
+                'ins_id_tip_ins':$("#ins_id_tip_ins1").val(),
+                'ins_id_tip_env':$("#id_tip_env1").val(),
+                'ins_id_linea_prod':$('#id_linea_prod1').val(),
+                'ins_id_mercado':$('#id_mercado1').val(),
+                'ins_formato':$('#formato1').val(),
+                'ins_id_municipio':$('#id_municipio1').val(),
+                'ins_id_prod_especi':$('#id_prod_especifico1').val(),
+                'ins_id_sabor':$('#id_sabor1').val(),
+                'ins_id_color':$('#id_color1').val(),
+                'ins_peso_presen':$('#presentacion1').val(), 
                   },
                         success: function(data){
                 $("#myUpdateIns").modal('toggle');

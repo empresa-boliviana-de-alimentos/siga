@@ -58,19 +58,13 @@ class gbIngresoPrimaController extends Controller
          ->addColumn('nombre', function ($nombre) {
             return $nombre->prs_nombres . ' ' . $nombre->prs_paterno. ' ' . $nombre->prs_materno;
         })
-         // -> addColumn('sol_rec_estado', function ($solReceta) {
-         //        if($solReceta->sol_estado=='A')
-         //        { 
-         //            return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>'; 
-         //        }elseif($solReceta->aprsol_estado == 'A')
-         //        {
-         //            return '<h4 class="text"><span class="label label-success">APROBADO</span></h4>';
-         //        }elseif($solReceta->aprsol_estado=='B')
-         //        { 
-         //            return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>'; 
-         //        }
-                            
-         //     }) 
+         ->addColumn('cantidad_recep', function ($cantidad_recep) {
+            if ($cantidad_recep->ing_id) {
+                return $this->traeCantidadRecep($cantidad_recep->ing_id);
+            }else{
+                return '-';
+            }
+        })         
             ->editColumn('id', 'ID: {{$enval_id}}')
             ->make(true);
     }
@@ -80,6 +74,11 @@ class gbIngresoPrimaController extends Controller
                     ->where('deting_ing_id',$id_ing)->first();
 
         return $det->ins_codigo;
+    }
+    function traeCantidadRecep($id_recep)
+    {
+        $deting_mat = DetalleIngreso::where('deting_ing_id',$id_recep)->first();
+        return $deting_mat->deting_cantidad;
     }
      public function store(Request $request)
     {

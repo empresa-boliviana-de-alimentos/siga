@@ -1,4 +1,17 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 <style type="text/css" media="screen">
   .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
@@ -68,30 +81,38 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     <thead class="cf">
                                                 <tr>
                                                     <th>
-                                                        N°
+                                                        #
                                                     </th>
                                                     <th>
-                                                        Opc.
+                                                        NRO. ORP
                                                     </th>
                                                     <th>
-                                                        N° ORP
+                                                        FECHA SOLICITUD
                                                     </th>
                                                     <th>
-                                                        N° SALIDA
+                                                        NRO SALIDA
                                                     </th>
                                                     <th>
-                                                        Fecha
+                                                        FECHA ENTREGA
                                                     </th>
                                                     <th>
-                                                        Receta
+                                                        PRODUCTO PRODUCIR
                                                     </th>
                                                     <th>
-                                                        Solicitante
+                                                        CANTIDAD PRODUCIR
                                                     </th>
                                                     <th>
-                                                        Estado
+                                                        SOLICITANTE
                                                     </th>
-
+                                                    <th>
+                                                        EXISTENCIA INSUMOS ADI.
+                                                    </th>
+                                                    <th>
+                                                        ESTADO
+                                                    </th>
+                                                    <th>
+                                                        OPCIONES
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -100,30 +121,38 @@ table.dataTable tbody th, table.dataTable tbody td {
                                             <tfoot>
                                                 <tr>
                                                     <th>
-                                                        N°
+                                                        #
                                                     </th>
                                                     <th>
-                                                        Opc.
+                                                        NRO. ORP
                                                     </th>
                                                     <th>
-                                                        N° ORP
+                                                        FECHA SOLICITUD
                                                     </th>
                                                     <th>
-                                                        N° SALIDA
+                                                        NRO SALIDA
                                                     </th>
                                                     <th>
-                                                        Fecha
+                                                        FECHA ENTREGA
                                                     </th>
                                                     <th>
-                                                        Receta
+                                                        PRODUCTO PRODUCIR
                                                     </th>
                                                     <th>
-                                                        Solicitante
+                                                        CANTIDAD PRODUCIR
                                                     </th>
                                                     <th>
-                                                        Estado
+                                                        SOLICITANTE
                                                     </th>
-
+                                                    <th>
+                                                        EXISTENCIA INSUMOS ADI.
+                                                    </th>
+                                                    <th>
+                                                        ESTADO
+                                                    </th>
+                                                    <th>
+                                                        OPCIONES
+                                                    </th>
                                                 </tr>
                                             </tfoot>
                                 </table>
@@ -143,30 +172,35 @@ table.dataTable tbody th, table.dataTable tbody td {
                                         <thead class="cf">
                                                 <tr>
                                                     <th>
-                                                        N°
+                                                        #
                                                     </th>
                                                     <th>
-                                                        Opc.
+                                                        NRO. ORP
                                                     </th>
                                                     <th>
-                                                        N° ORP
+                                                        FECHA SOLICITUD
                                                     </th>
                                                     <th>
-                                                        N° SALIDA
+                                                        NRO. SALIDA
                                                     </th>
                                                     <th>
-                                                        Fecha
+                                                        FECHA ENTREGA
                                                     </th>
                                                     <th>
-                                                        Receta
+                                                        PRODUCTO PRODUCIR
                                                     </th>
                                                     <th>
-                                                        Solicitante
+                                                        CANTIDAD
                                                     </th>
                                                     <th>
-                                                        Estado
+                                                        SOLICITANTE
                                                     </th>
-
+                                                    <th>
+                                                        ESTADO
+                                                    </th>
+                                                    <th>
+                                                        OPCIONES
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -175,30 +209,35 @@ table.dataTable tbody th, table.dataTable tbody td {
                                             <tfoot>
                                                 <tr>
                                                     <th>
-                                                        N°
+                                                        #
                                                     </th>
                                                     <th>
-                                                        Opc.
+                                                        NRO. ORP
                                                     </th>
                                                     <th>
-                                                        N° ORP
+                                                        FECHA SOLICITUD
                                                     </th>
                                                     <th>
-                                                        N° SALIDA
+                                                        NRO. SALIDA
                                                     </th>
                                                     <th>
-                                                        Fecha
+                                                        FECHA ENTREGA
                                                     </th>
                                                     <th>
-                                                        Receta
+                                                        PRODUCTO PRODUCIR
                                                     </th>
                                                     <th>
-                                                        Solicitante
+                                                        CANTIDAD
                                                     </th>
                                                     <th>
-                                                        Estado
+                                                        SOLICITANTE
                                                     </th>
-
+                                                    <th>
+                                                        ESTADO
+                                                    </th>
+                                                    <th>
+                                                        OPCIONES
+                                                    </th>
                                                 </tr>
                                             </tfoot>
                                     </table>
@@ -221,30 +260,30 @@ table.dataTable tbody th, table.dataTable tbody td {
                                         <thead class="cf">
                                                 <tr>
                                                     <th>
-                                                        N°
+                                                        #
+                                                    </th>
+                                                    
+                                                    <th>
+                                                        NRO. ORP
                                                     </th>
                                                     <th>
-                                                        Opc.
+                                                        NRO. SALIDA
                                                     </th>
                                                     <th>
-                                                        N° ORP
+                                                        FECHA
                                                     </th>
                                                     <th>
-                                                        N° Salida
+                                                        ORIGEN
                                                     </th>
                                                     <th>
-                                                        Fecha
+                                                        SOLICITANTE
                                                     </th>
                                                     <th>
-                                                        Origen
+                                                        ESTADO
                                                     </th>
                                                     <th>
-                                                        Solicitante
+                                                        OPCIONES
                                                     </th>
-                                                    <th>
-                                                        Estado
-                                                    </th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -252,29 +291,30 @@ table.dataTable tbody th, table.dataTable tbody td {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                   <th>
+                                                        #
+                                                    </th>
+                                                    
                                                     <th>
-                                                        N°
+                                                        NRO. ORP
                                                     </th>
                                                     <th>
-                                                        Opc.
+                                                        NRO. SALIDA
                                                     </th>
                                                     <th>
-                                                        N° ORP
+                                                        FECHA
                                                     </th>
                                                     <th>
-                                                        N° Salida
+                                                        ORIGEN
                                                     </th>
                                                     <th>
-                                                        Fecha
+                                                        SOLICITANTE
                                                     </th>
                                                     <th>
-                                                        Origen
+                                                        ESTADO
                                                     </th>
                                                     <th>
-                                                        Solicitante
-                                                    </th>
-                                                    <th>
-                                                        Estado
+                                                        OPCIONES
                                                     </th>
 
                                                 </tr>
@@ -299,30 +339,30 @@ table.dataTable tbody th, table.dataTable tbody td {
                                         <thead class="cf">
                                                 <tr>
                                                     <th>
-                                                        N°
+                                                        #
+                                                    </th>
+                                                    
+                                                    <th>
+                                                        NRO. ORP
                                                     </th>
                                                     <th>
-                                                        Opc.
+                                                        NRO SALIDA
                                                     </th>
                                                     <th>
-                                                        N° ORP
+                                                        FECHA
                                                     </th>
                                                     <th>
-                                                        N° Salida
+                                                        DESTINO
                                                     </th>
                                                     <th>
-                                                        Fecha
+                                                        SOLICITANTE
                                                     </th>
                                                     <th>
-                                                        Destino
+                                                        ESTADO
                                                     </th>
                                                     <th>
-                                                        Solicitante
+                                                        OPCIONES
                                                     </th>
-                                                    <th>
-                                                        Estado
-                                                    </th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -330,29 +370,30 @@ table.dataTable tbody th, table.dataTable tbody td {
                                             </tbody>
                                             <tfoot>
                                                 <tr>
+                                                     <th>
+                                                        #
+                                                    </th>
+                                                    
                                                     <th>
-                                                        N°
+                                                        NRO. ORP
                                                     </th>
                                                     <th>
-                                                        Opc.
+                                                        NRO SALIDA
                                                     </th>
                                                     <th>
-                                                        N° ORP
+                                                        FECHA
                                                     </th>
                                                     <th>
-                                                        N° Salida
+                                                        DESTINO
                                                     </th>
                                                     <th>
-                                                        Fecha
+                                                        SOLICITANTE
                                                     </th>
                                                     <th>
-                                                        Destino
+                                                        ESTADO
                                                     </th>
                                                     <th>
-                                                        Solicitante
-                                                    </th>
-                                                    <th>
-                                                        Estado
+                                                        OPCIONES
                                                     </th>
 
                                                 </tr>
@@ -384,14 +425,17 @@ table.dataTable tbody th, table.dataTable tbody td {
             "serverSide": true,
             "ajax": "/solRecibidas/create/",
             "columns":[
-                {data: 'orprod_id',orderable: false, searchable: false},
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'orprod_id',orderable: false, searchable: false},                
                 {data: 'orprod_nro_orden'},
-                {data: 'orprod_nro_salida'},
                 {data: 'orprod_registrado'},
-                {data: 'rece_nombre'},
+                {data: 'orprod_nro_salida'},
+                {data: 'orprod_modificado'},                              
+                {data: 'nombreReceta'},
+                {data: 'orprod_cantidad'}, 
                 {data: 'nombresCompletoRe'},
+                {data: 'insumoAdi'},
                 {data: 'estado_orprod'},
+                {data: 'acciones',orderable: false, searchable: false},
                 // {data: 'solrec_id'},
         ],
         "columnDefs": [ {
@@ -417,14 +461,16 @@ table.dataTable tbody th, table.dataTable tbody td {
             "serverSide": true,
             "ajax": "listAdicional",
             "columns":[
-                {data: 'orprod_id',orderable: false, searchable: false},
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'orprod_id',orderable: false, searchable: false},                
                 {data: 'orprod_nro_orden'},
-                {data: 'orprod_nro_salida'},
                 {data: 'orprod_registrado'},
-                {data: 'rece_nombre'},
+                {data: 'orprod_nro_salida'},
+                {data: 'orprod_modificado'},
+                {data: 'nombresReceta'},
+                {data: 'orprod_cantidad'},
                 {data: 'nombresCompletoAdi'},
                 {data: 'sol_ins_estado'},
+                {data: 'acciones',orderable: false, searchable: false},
                 // {data: 'soladi_id'},
         ],
         "columnDefs": [ {
@@ -450,14 +496,14 @@ table.dataTable tbody th, table.dataTable tbody td {
             "serverSide": true,
             "ajax": "listTraspaso",
             "columns":[
-                {data: 'orprod_id',orderable: false, searchable: false},
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'orprod_id',orderable: false, searchable: false},                
                 {data: 'orprod_nro_orden'},
                 {data: 'orprod_nro_salida'},
                 {data: 'orprod_registrado'},
                 {data: 'nombre_planta'},
                 {data: 'nombresCompletoTras'},
                 {data: 'sol_tras_estado'},
+                {data: 'acciones',orderable: false, searchable: false},
                 // {data: 'solmaq_id'},
         ],
         "columnDefs": [ {
@@ -483,14 +529,14 @@ table.dataTable tbody th, table.dataTable tbody td {
             "serverSide": true,
             "ajax": "listMaquila",
             "columns":[
-                {data: 'orprod_id',orderable: false, searchable: false},
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'orprod_id',orderable: false, searchable: false},                
                 {data: 'orprod_nro_orden'},
                 {data: 'orprod_nro_salida'},
                 {data: 'orprod_registrado'},
                 {data: 'maquila_nombre'},
                 {data: 'nombresCompletoMa'},
                 {data: 'sol_maq_estado'},
+                {data: 'acciones',orderable: false, searchable: false},
                 // {data: 'solmaq_id'},
         ],
         "columnDefs": [ {

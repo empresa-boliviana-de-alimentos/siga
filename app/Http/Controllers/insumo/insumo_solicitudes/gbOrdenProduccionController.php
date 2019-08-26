@@ -32,6 +32,7 @@ class gbOrdenProduccionController extends Controller
                                             ->leftjoin('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
                                             //->where('orprod_planta_id',$planta->id_planta)
                                             ->orderBy('orprod_id','DESC')
+                                            ->where('orprod_tiporprod_id',1)
                                             ->get();
 
         return Datatables::of($orden_produccion)->addColumn('acciones', function ($orden_produccion) {
@@ -58,7 +59,7 @@ class gbOrdenProduccionController extends Controller
             }elseif($estadoAprobacion->orprod_estado_orp == 'C') {
                 return $this->traeUser($estadoAprobacion->orprod_usr_vodos);
             }elseif($estadoAprobacion->orprod_estado_orp == 'D') {
-            return $this->traeUser($estadoAprobacion->orprod_usr_aprob);
+                return $this->traeUser($estadoAprobacion->orprod_usr_aprob);
             }
         })
             ->editColumn('id', 'ID: {{$orprod_id}}')            
@@ -71,6 +72,7 @@ class gbOrdenProduccionController extends Controller
         $user_datos = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                              ->where('usr_id',$id_user)
                              ->first();
+        //dd($id_user);
         return $user_datos->prs_nombres.' '.$user_datos->prs_paterno.' '.$user_datos->prs_materno;
     }
     public function viewRegistroProd()
@@ -90,7 +92,7 @@ class gbOrdenProduccionController extends Controller
         				->where('rece_estado','A')->where('rece_nombre','LIKE','%'.$term.'%')->take(35)->get();
         $recetas = [];
         foreach ($receta as $rec) {
-            $recetas[] = ['id' => $rec->rece_id, 'text' => $rec->rece_nombre.' '.$rec->sublin_nombre.' '.$rec->sab_nombre.' '.$rec->umed_nombre];
+            $recetas[] = ['id' => $rec->rece_id, 'text' => $rec->rece_nombre.' '.$rec->sab_nombre.' '.$rec->rece_presentacion];
         }
         return \Response::json($recetas);
     }
@@ -428,6 +430,7 @@ class gbOrdenProduccionController extends Controller
                                             ->leftjoin('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
                                             ->where('orprod_planta_id',$planta->id_planta)
                                             ->orderBy('orprod_id','DESC')
+                                            ->where('orprod_tiporprod_id',1)
                                             ->get();
         return Datatables::of($orden_produccion)->addColumn('nombreReceta', function ($nombreReceta) {
                 return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
@@ -513,6 +516,7 @@ class gbOrdenProduccionController extends Controller
                                             ->leftjoin('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
                                             ->where('orprod_planta_id',$planta->id_planta)
                                             ->where('orprod_usr_vo','<>',null)
+                                            ->where('orprod_tiporprod_id',1)
                                             ->orderBy('orprod_id','DESC')
                                             ->get();
         return Datatables::of($orden_produccion)->addColumn('nombreReceta', function ($nombreReceta) {
