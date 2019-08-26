@@ -19,6 +19,7 @@ use siga\Modelo\insumo\insumo_registros\Ingreso;
 use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
 use siga\Modelo\insumo\InsumoHistorial;
+use siga\Modelo\insumo\Stock;
 class ReportController extends Controller
 {
    
@@ -223,10 +224,16 @@ class ReportController extends Controller
                                     ->get();
         // return $tabkarde;
         $detallesIngresos = DetalleIngreso::where('deting_ins_id',$rep)->get();
-        
+       
+        $stocks = Stock::join('insumo.detalle_ingreso as deting', 'insumo.stock.stock_deting_id', '=', 'deting.deting_id')
+			->where('stock_planta_id', $planta->id_planta)
+			->where('stock_cantidad', '>', 0)
+			->where('stock_ins_id', $rep)
+			->orderby('deting_ing_id')
+			->get();
         $code = $insumo->ins_codigo;
 
-        $view = \View::make('reportes.kardex_valorado', compact('username','date','title','storage','insumo','tabkarde','code','detallesIngresos'));
+        $view = \View::make('reportes.kardex_valorado', compact('username','date','title','storage','insumo','tabkarde','code','detallesIngresos','stocks'));
 
         $html_content = $view->render();
 
