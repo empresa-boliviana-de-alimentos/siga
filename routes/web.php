@@ -538,7 +538,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	//SOLICITUDES RECIBIDAS DE ORP
 	Route::get('FormMostrarReceta/{id}', 'insumo\insumo_solicitudes\gbSolRecibidasController@formMostrarReceta');
 	Route::get('AprobacionReceta', 'insumo\insumo_solicitudes\gbSolRecibidasController@aprobacionReceta');
-	Route::get('BoletaAprovReceta/{id}', 'insumo\insumo_solicitudes\gbSolRecibidasController@boletaAprovReceta');
+	Route::get('BoletaAprovReceta/{id}', 'ReportController@nota_de_salida');
 	Route::resource('solRecibidas', 'insumo\insumo_solicitudes\gbSolRecibidasController');
 	Route::get('FormMostrarSolAdicional/{id}', 'insumo\insumo_solicitudes\gbSolRecibidasController@formMostrarSolAdicional');
 	Route::get('AprobacionSolAdicional', 'insumo\insumo_solicitudes\gbSolRecibidasController@aprobacionSolAdicional');

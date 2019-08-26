@@ -18,6 +18,7 @@ use siga\Modelo\insumo\insumo_registros\SubLinea;
 use siga\Modelo\insumo\insumo_registros\Ingreso;
 use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
+use siga\Modelo\insumo\insumo_solicitud\DetalleOrdenProduccion;
 use siga\Modelo\insumo\InsumoHistorial;
 use siga\Modelo\insumo\Stock;
 class ReportController extends Controller
@@ -286,6 +287,43 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();
        
+    }
+
+    public function nota_de_salida($id_orp_aprob)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA DE SALIDA ";
+        $date =Carbon::now();
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+            
+        $reg = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
+                                ->join('insumo.mercado as merc','insumo.orden_produccion.orprod_mercado_id','=','merc.mer_id')
+                                ->where('orprod_id','=',$id_orp_aprob)
+                                ->first();
+
+        $detroprod = DetalleOrdenProduccion::join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')
+                                ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+                                ->where('detorprod_orprod_id',$reg->orprod_id)
+                                ->get();
+        
+      
+        $code = $reg['orprod_nro_salida'].'/'.date('Y',strtotime($reg['orprod_registrado']));
+        
+        $view = \View::make('reportes.nota_de_salida', compact('username','date','title','storage','receta','reg','detroprod','usuario','code'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+
     }
     
 
