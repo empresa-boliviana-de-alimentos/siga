@@ -60,7 +60,11 @@ class gbRecetasController extends Controller
                 return 'DERIVADOS';
             }
         })->addColumn('nombreReceta', function ($nombreReceta) {
-            return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
+            if ($nombreReceta->sab_id == 1) {
+                return $nombreReceta->rece_nombre.' '.$nombreReceta->rece_presentacion;
+            }else{
+                return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
+            }
         })
             ->editColumn('id', 'ID: {{$rece_id}}')
             ->make(true);
