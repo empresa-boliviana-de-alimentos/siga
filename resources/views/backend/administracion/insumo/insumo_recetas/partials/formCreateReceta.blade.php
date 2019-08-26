@@ -218,7 +218,7 @@ tbody td {
                                                 <td id="tdformmatprim"><select name="descripcion_materia[]" class="form-control">
                                                         <!--<option value="">Seleccione</option>-->
                                                         @foreach($listarMateriaPrima as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}}</option>
+                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presentacion}}</option>
                                                         @endforeach
                                                     </select>
                                                 <td>
