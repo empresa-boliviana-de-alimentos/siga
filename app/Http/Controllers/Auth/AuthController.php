@@ -52,7 +52,7 @@ public function showLoginForm() {
 
 	public function close() {
 		Auth::logout();
-		return view('frontend.index');
+		return redirect('/');
 	}
 
 	public function Login() {

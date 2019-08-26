@@ -26,14 +26,14 @@ Route::get('/', function () {
 });
 
 
-Route::post('sesion', [
-	'as' => 'login-post',
-	'uses' => 'Auth\AuthController@postLogin',
-]);
-Route::get('sesion', [
-	'as' => 'cerrar',
-	'uses' => 'Auth\AuthController@Login',
-]);
+// Route::post('sesion', [
+// 	'as' => 'login-post',
+// 	'uses' => 'Auth\AuthController@postLogin',
+// ]);
+// Route::get('sesion', [
+// 	'as' => 'cerrar',
+// 	'uses' => 'Auth\AuthController@Login',
+// ]);
 
 Route::get('test_print','ReportController@test_print');
 
