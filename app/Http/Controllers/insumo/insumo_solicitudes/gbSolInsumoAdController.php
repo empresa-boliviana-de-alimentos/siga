@@ -29,7 +29,7 @@ class gbSolInsumoAdController extends Controller
         $solAdicional = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                         ->where('orprod_nro_salida','<>',null)->orderBy('orprod_id','desc')->get();
         //dd($solAdicional);
-    	return view('backend.administracion.insumo.insumo_solicitud.solicitud_insumo.index', compact('solAdicional','mercado'));
+    	return view('backend.administracion.insumo.insumo_solicitud.solicitud_insumo.index', compact('solAdicional'));
     }
 
     public function create()

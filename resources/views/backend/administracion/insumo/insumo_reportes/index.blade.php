@@ -15,9 +15,7 @@
                             <div class="panel-body" style="background: #e7e9ea;">
                                 <div class="row">
                                     <!--start-->
-                                    <?php
-                                         $idrol=Session::get('ID_ROL');
-                                    ?>
+                                    
                                     <div class="col-sm-4 social-buttons">
                                         
                                             <!--<a href="{{ url('ListKardex') }}">
@@ -44,7 +42,7 @@
                                                 </div>
                                             </a>-->
                                             
-                                          {{--   @if($idrol==1 or $idrol==3 or $idrol==9) --}}
+                                          
                                             <a href="{{ url('RpMensual') }}" target="_blank">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -119,7 +117,7 @@
                                             
                                              
                                             
-                                           {{--  @endif  --}}    
+                                            
                                     </div>
                                     <div class="col-sm-8">
                                       <div class="row">

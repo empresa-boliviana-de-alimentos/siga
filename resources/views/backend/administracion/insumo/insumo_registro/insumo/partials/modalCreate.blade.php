@@ -46,7 +46,7 @@
                                                 <label>
                                                     Partida:
                                                 </label>
-                                                <select class="form-control" id="id_part" name="id_part" placeholder="" value="">
+                                                <select class="form-control id_part_select" style="width: 100%" id="id_part" name="id_part" placeholder="" value="">
                                                     <option value="">Seleccione...</option>
                                                     @foreach($dataPart as $part)
                                                     <option value="{{$part->part_id}}">{{$part->part_nombre}}</option>
@@ -138,7 +138,7 @@
                                                     <label>
                                                        Unidad Medida:
                                                     </label>
-                                                    <select class="form-control" id="id_uni" name="id_uni" value="">
+                                                    <select class="form-control id_uni_select" id="id_uni" style="width: 100%" name="id_uni" value="">
                                                         <option value="">Seleccione unidad medida</option>
                                                         @foreach($dataUni as $uni)
                                                         <option value="{{$uni->umed_id}}">{{$uni->umed_nombre}}</option>
@@ -175,7 +175,7 @@
                                                     <label>
                                                         Sabor:
                                                     </label>
-                                                    <select class="form-control" id="id_sabor" name="id_sabor" placeholder="" value="">
+                                                    <select class="form-control id_sabor_select" style="width: 100%" id="id_sabor" name="id_sabor" placeholder="" value="">
                                                         <option value="">Seleccione sabor</option>
                                                         @foreach($dataSabor as $sabor)
                                                         <option value="{{$sabor->sab_id}}">{{$sabor->sab_nombre}}</option>
@@ -215,7 +215,7 @@
                                                     <label>
                                                        Unidad Medida:
                                                     </label>
-                                                    <select class="form-control" id="id_uni_ins" name="id_uni_ins" value="">
+                                                    <select class="form-control id_uni_ins_select" id="id_uni_ins" style="width: 100%" name="id_uni_ins" value="">
                                                         <option value="">Seleccione unidad medida</option>
                                                         @foreach($dataUni as $uni)
                                                         <option value="{{$uni->umed_id}}">{{$uni->umed_nombre}}</option>
@@ -264,6 +264,31 @@
 
 @push('scripts')
 <script>
+$('.id_part_select').select2({
+    dropdownParent: $('#myCreateIns'),
+    placeholder: "Selecciona",
+    proveedor: true,
+    language: "es",
+});
+$('.id_sabor_select').select2({
+    dropdownParent: $('#myCreateIns'),
+    placeholder: "Selecciona",
+    proveedor: true,
+    language: "es",    
+});
+$('.id_uni_ins_select').select2({
+    dropdownParent: $('#myCreateIns'),
+    placeholder: "Selecciona",
+    proveedor: true,
+    language: "es",    
+});
+
+$('.id_uni_select').select2({
+    dropdownParent: $('#myCreateIns'),
+    placeholder: "Selecciona",
+    proveedor: true,
+    language: "es",    
+});
 function muestradat(){
 
     var id_tipins = document.getElementById('id_tip_ins').value;

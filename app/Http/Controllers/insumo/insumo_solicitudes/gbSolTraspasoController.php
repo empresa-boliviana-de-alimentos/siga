@@ -27,7 +27,7 @@ class gbSolTraspasoController extends Controller
                         ->where('usr_id',Auth::user()->usr_id)->first();
     	$plantas = DB::table('public._bp_planta')->where('id_linea_trabajo','=',$linea->id_linea_trabajo)->get();
     	// dd($plantas);
-    	return view('backend.administracion.insumo.insumo_solicitud.solicitud_traspaso.index', compact('solMaquila','insumos','plantas'));
+    	return view('backend.administracion.insumo.insumo_solicitud.solicitud_traspaso.index', compact('plantas'));
     }
 
     public function create()
@@ -46,13 +46,13 @@ class gbSolTraspasoController extends Controller
         })
             ->editColumn('id', 'ID: {{$orprod_id}}')
             -> addColumn('sol_estado', function ($solTraspaso) {
-                if($solTraspaso->orprod_estado_orp=='A')
+                if($solTraspaso->orprod_estado_orp=='C')
                 {
                     return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>'; 
-                }elseif($solTraspaso->orprod_estado_orp == 'A')
+                }elseif($solTraspaso->orprod_estado_orp == 'D')
                 {
                     return '<h4 class="text"><span class="label label-success">APROBADO</span></h4>';
-                }elseif($solTraspaso->orprod_estado_orp == 'B')
+                }elseif($solTraspaso->orprod_estado_orp == 'E')
                 { 
                     return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>'; 
                 }

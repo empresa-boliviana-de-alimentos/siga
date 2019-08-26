@@ -43,35 +43,29 @@
                             </div> -->
                             <div class="panel-body">
                                 <div class="row">
-                                    <?php
-                                        $idrol=Session::get('ID_ROL');
-                                    ?>
-                                    <!--start-->                                    
+                                                                  
                                     <div class="col-sm-4 social-buttons">
-                                        @if($idrol == 1000)                              
-                                              <li class="dropdown small-box bg-blue-gradient ">
+                                                                   
+                                              <!-- <li class="dropdown small-box bg-blue-gradient ">
                                                   <div class="inner">
                                                       <h4>CAMBIO DE PLANTA</h4>
                                                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: white;"> SELECCIONE UNA PLANTA<span class="caret"></span>
                                                       </a>
                                                       <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                         <li>
-                                                            <!-- <span class="item">
-                                                              <span class="item-left"> -->
+                                                           
                                                                    @foreach ($menuPlantasInsumos->menuPlantasInsumos() as $menuPl)
                                                                       <li style="border-bottom: solid 1px #000;"><a href="/CambioPlantasAdministrador/{{$menuPl->id_planta}}/2" class="cambioPlantasLacteos"><img src="/img/icono_plantas.png" width="25" height="25" alt="">&nbsp;&nbsp;<span style="color: white">{{ $menuPl->nombre_planta }}</span></a></li>
                                                                    @endforeach                                                 
-                                                              <!-- </span>
-                                                          </span> -->
+                                                              
                                                         </li>
                                                       </ul>
                                                   </div>
                                                   <div class="icon efectoicon">
                                                       <img src="img/botones/almacenes_cambio_lacteos.png" alt="" width="80">
                                                   </div>
-                                              </li>
-                                          @endif
-                                          @if($idrol == 1)   
+                                              </li> -->
+                                         
                                               <li class="dropdown small-box bg-blue-gradient">
                                                 <div class="inner">
                                                   <h4>CAMBIO DE PLANTA</h4>
@@ -127,8 +121,7 @@
                                                 </div>
                                               
                                               </li>                                
-                                          @endif
-                                         @if($idrol==1 or $idrol==20)
+                                       
                                             <a href="{{ url('ProveedorInsumo') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -140,24 +133,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        @endif                                    
-                                         
-                                            
-                                         <!-- @if($idrol==1 or $idrol==20)
-                                            <a href="{{url('ServicioInsumo')}}">
-                                                <div class="small-box bg-blue-gradient efectoboton">
-                                                    <div class="inner">
-                                                      <h4>SERVICIOS</h4>
-                                                      <p>REGISTRO DE SERVICIOS</p>
-                                                    </div>
-                                                    <div class="icon efectoicon">
-                                                      <img src="img/botones/servicios.png" alt="" width="80">
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        @endif --> 
-                                        
-                                         @if($idrol==1 or $idrol==20)
+                                       
                                             <a href="{{url('Insumo') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -169,36 +145,9 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                        @endif 
+                                        
                                             
-                                            @if($idrol==1 or $idrol==19)
-                                            <!--<a href="{{url('IngresoAlmacen') }}">
-                                                <div class="small-box bg-blue-gradient efectoboton">
-                                                    <div class="inner">
-                                                      <h4>INGRESO ALMACEN</h4>
-                                                      <p>INGRESO INSUMOS ALMACEN</p>
-                                                    </div>
-                                                    <div class="icon efectoicon">
-                                                      <img src="img/botones/ingreso almacen.png" alt="" width="80">
-                                                    </div>
-                                                </div>
-                                            </a>-->
-                                            @endif 
                                             
-                                            @if($idrol==1 or $idrol==19)
-                                            <!--<a href="{{url('IngresoPrima') }}">
-                                                <div class="small-box bg-blue-gradient efectoboton">
-                                                    <div class="inner">
-                                                      <h4>INGRESO MATERIA PRIMA</h4>
-                                                      <p>INGRESO ALMACEN</p>
-                                                    </div>
-                                                    <div class="icon efectoicon">
-                                                      <img src="img/botones/ingreso materia prima.png" alt="" width="80">
-                                                    </div>
-                                                </div>
-                                            </a>-->
-                                            @endif 
-                                            @if($idrol==1 or $idrol==20)
                                             <a href="{{ url('UfvInsumo') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -210,8 +159,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            @endif
-                                            @if($idrol==1 or $idrol==20)
+                                           
                                             <a href="{{url('DatosInsumo') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -223,21 +171,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            @endif  
-                                            
-                                         <!-- @if($idrol==1 or $idrol==20)
-                                            <a href="{{url('DatosInsumo') }}">
-                                                <div class="small-box bg-blue-gradient efectoboton">
-                                                    <div class="inner">
-                                                      <h4>DATOS</h4>
-                                                      <p>REGISTRO DE DATOS</p>
-                                                    </div>
-                                                    <div class="icon efectoicon">
-                                                      <img src="img/botones/datos.png" alt="" width="80">
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        @endif  -->
+                                           
                                         
                                     </div>
                                     <div class="col-sm-8">
@@ -249,34 +183,10 @@
                                       <br><br>                                       
                                       <div class="row">
                                         <div class="col-sm-6">
-                                          @if($idrol==1 or $idrol==20)
-                                            <!--<a href="{{url('ServicioInsumo')}}">
-                                                <div class="small-box bg-blue-gradient efectoboton">
-                                                    <div class="inner">
-                                                      <h4>SERVICIOS</h4>
-                                                      <p>REGISTRO DE SERVICIOS</p>
-                                                    </div>
-                                                    <div class="icon efectoicon">
-                                                      <img src="img/botones/servicios.png" alt="" width="80">
-                                                    </div>
-                                                </div>
-                                            </a>-->
-                                        @endif 
+                                         
                                         </div>
                                         <div class="col-sm-6">
-                                          @if($idrol==1 or $idrol==20)
-                                            <!--<a href="{{url('DatosInsumo') }}">
-                                                <div class="small-box bg-blue-gradient efectoboton">
-                                                    <div class="inner">
-                                                      <h4>DATOS</h4>
-                                                      <p>REGISTRO DE DATOS</p>
-                                                    </div>
-                                                    <div class="icon efectoicon">
-                                                      <img src="img/botones/datos.png" alt="" width="80">
-                                                    </div>
-                                                </div>
-                                            </a>-->
-                                        @endif 
+                                          
                                         </div>
                                       </div>
                                     </div>

@@ -1,4 +1,17 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_traspaso.partials.modalCreateSolTras')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_traspaso.partials.modalBoletaSolMaq')
@@ -40,25 +53,25 @@
                             <thead class="cf">
                                 <tr>
                                     <th>
-                                        Nro
+                                        #
                                     </th>
                                     <th>
-                                        Opciones
+                                        NRO SOLICITUD
                                     </th>
                                     <th>
-                                        Fecha
+                                        FECHA SOLICITUD
                                     </th>
                                     <th>
-                                        Nro Solicitud
+                                        SOLICITANTE
                                     </th>
                                     <th>
-                                        Solicitante
+                                        PLANTA A SOLICITAR
                                     </th>
                                     <th>
-                                        Planta
+                                        ESTADO
                                     </th>
                                     <th>
-                                        Estado
+                                        OPCIONES
                                     </th>
                                 </tr>
                             </thead>
@@ -68,25 +81,25 @@
                             <tfoot>
                                 <tr>
                                     <th>
-                                        Nro
+                                        #
                                     </th>
                                     <th>
-                                        Opciones
+                                        NRO SOLICITUD
                                     </th>
                                     <th>
-                                        Fecha
+                                        FECHA SOLICITUD
                                     </th>
                                     <th>
-                                        Nro Solicitud
+                                        SOLICITANTE
                                     </th>
                                     <th>
-                                        Solicitante
+                                        PLANTA A SOLICITAR
                                     </th>
                                     <th>
-                                        Planta
+                                        ESTADO
                                     </th>
                                     <th>
-                                        Estado
+                                        OPCIONES
                                     </th>
                                 </tr>
                             </tfoot>
@@ -112,12 +125,12 @@
             "ajax": "/solTraspaso/create/",
             "columns":[
                 {data: 'orprod_id'},
-                {data: 'acciones',orderable: false, searchable: false},
-                {data: 'orprod_registrado'},
-                {data: 'orprod_nro_solicitud'},
+                {data: 'orprod_nro_solicitud'},                
+                {data: 'orprod_registrado'},                
                 {data: 'nombreSolicitante'},
                 {data: 'nombre_planta'},
-                {data: 'orprod_estado'},
+                {data: 'sol_estado'},
+                {data: 'acciones',orderable: false, searchable: false},
         ],
 
         "language": {

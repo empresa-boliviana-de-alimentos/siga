@@ -26,13 +26,11 @@
                             </div>
                             <div class="panel-body">
                                 <div class="row">
-                                    <?php
-                                        $idrol=Session::get('ID_ROL');
-                                    ?>
+                                    
                                     <!--start-->
                                     <div class="col-sm-4 social-buttons">
                                 
-                                         @if($idrol==1 or $idrol==18)
+                                         
                                             <a href="{{ url('DevolucionInsumo') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -44,8 +42,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                         @endif
-                                          @if($idrol==1 or $idrol==19)
+                                       
                                             <a href="{{ url('DevolucionDefectuoso') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -57,8 +54,7 @@
                                                     </div>
                                                 </div>
                                             </a> 
-                                         @endif    
-                                         @if($idrol==1 or $idrol==19)
+                                         
                                             <a href="{{ url('DevolucionRecibida') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
@@ -70,7 +66,7 @@
                                                     </div>
                                                 </div>
                                             </a> 
-                                         @endif 
+                                        
                                     </div>
                                     <div class="col-sm-8">
                                         <img src="{{ asset('img/devoluciones.jpg') }}" width="100%" height="100%" alt="Imagen Registro de Insumos" class="img-responsive">

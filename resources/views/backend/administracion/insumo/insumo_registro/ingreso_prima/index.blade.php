@@ -48,6 +48,9 @@
                         CANTIDAD ENVIO
                     </th>
                     <th>
+                        CANTIDAD RECEPCIONADA
+                    </th>
+                    <th>
                         ESTADO
                     </th>
                     <th>
@@ -71,6 +74,7 @@
                 {data: 'nombre'},
                 {data: 'enval_registrado'},
                 {data: 'enval_cant_total'},
+                {data: 'cantidad_recep'},
                 {data: 'enval_estado'},
                 {data: 'acciones',orderable: false, searchable: false},
         ],

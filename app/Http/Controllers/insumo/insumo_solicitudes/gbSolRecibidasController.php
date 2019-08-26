@@ -43,6 +43,7 @@ class gbSolRecibidasController extends Controller
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
     	$solReceta = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                    ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                                     ->join('public._bp_usuarios as usr','insumo.orden_produccion.orprod_usr_id','=','usr.usr_id')
                                     ->join('public._bp_personas as per','usr.usr_prs_id','=','per.prs_id')
                                     ->where('orprod_estado_orp','<>','A')
@@ -75,6 +76,14 @@ class gbSolRecibidasController extends Controller
         
             -> addColumn('nombresCompletoRe', function ($solReceta) {
             return $solReceta->prs_nombres . ' ' . $solReceta->prs_paterno . ' ' . $solReceta->prs_materno;
+        })-> addColumn('nombreReceta', function ($nombreReceta) {
+            return $nombreReceta->rece_nombre . ' ' . $nombreReceta->sab_nombre . ' ' . $nombreReceta->rece_presentacion;
+        })-> addColumn('insumoAdi', function ($insumoAdi) {
+            if ($insumoAdi->orprod_tiporprod_id == 2) {
+                return 'SI';
+            }else{
+                return 'NO';
+            }
         })
             ->make(true);
     }
@@ -137,6 +146,7 @@ class gbSolRecibidasController extends Controller
         $orden_produccion_aprob->orprod_usr_aprob = Auth::user()->usr_id;
         $orden_produccion_aprob->orprod_obs_aprob = $request['obs_usr_aprob'];
         $orden_produccion_aprob->orprod_estado_orp = 'D';
+        $orden_produccion_aprob->orprod_modificado = Carbon::now();
         $orden_produccion_aprob->save();
         return redirect('solRecibidas')->with('success','Registro creado satisfactoriamente');
     }
@@ -350,6 +360,7 @@ class gbSolRecibidasController extends Controller
         $orden_produccion_aprob->orprod_usr_aprob = Auth::user()->usr_id;
         $orden_produccion_aprob->orprod_obs_aprob = $request['obs_usr_aprob'];
         $orden_produccion_aprob->orprod_estado_orp = 'D';
+        $orden_produccion_aprob->orprod_modificado = Carbon::now();
         $orden_produccion_aprob->save();
         return redirect('solRecibidas')->with('success','Registro creado satisfactoriamente');
     }
@@ -407,6 +418,7 @@ class gbSolRecibidasController extends Controller
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
         $solAdicinal = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                    ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                                     ->join('public._bp_usuarios as usr','insumo.orden_produccion.orprod_usr_id','=','usr.usr_id')
                                     ->join('public._bp_personas as per','usr.usr_prs_id','=','per.prs_id')
                                     ->where('orprod_tiporprod_id',2)
@@ -435,7 +447,9 @@ class gbSolRecibidasController extends Controller
              }) 
             -> addColumn('nombresCompletoAdi', function ($solAdicinal) {
                 return $solAdicinal->prs_nombres . ' ' . $solAdicinal->prs_paterno . ' ' . $solAdicinal->prs_materno;
-        })  
+        })  -> addColumn('nombresReceta', function ($nombresReceta) {
+                return $nombresReceta->rece_nombre . ' ' . $nombresReceta->sab_nombre . ' ' . $nombresReceta->rece_presentacion;
+        }) 
             ->make(true);
     }
     public function formMostrarSolAdicional($id_ordenOrp)

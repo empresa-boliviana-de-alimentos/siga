@@ -109,8 +109,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-categoria" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>                                
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                                 <!--<th>Partida</th>-->
                             </tr>
                         </thead>
@@ -141,9 +142,10 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-unidadmedida" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>                                
                                 <th>NOMBRE</th>
                                 <th>SIGLA</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -173,9 +175,10 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-partida" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>CODIGO PARTIDA</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -205,8 +208,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoingreso" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -236,8 +240,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoinsumo" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th> 
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -267,8 +272,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-tipoenvase" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -298,8 +304,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-mercado" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -329,8 +336,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-color" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -360,8 +368,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-sabor" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -391,8 +400,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-linprod" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -422,9 +432,10 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-sublinea" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
                                 <th>LINEA PRODUCCIÓN</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -454,8 +465,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-prodesp" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -485,8 +497,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-municipio" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -516,8 +529,9 @@
                     <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-maquila" style="width:100%">
                         <thead class="cf">
                             <tr>
-                                <th>OPCIONES</th>
+                                <th>#</th>
                                 <th>NOMBRE</th>
+                                <th>OPCIONES</th>
                             </tr>
                         </thead>
                     </table>
@@ -569,15 +583,16 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
         
-        $('#lts-categoria').DataTable( {
+        var tableCategoria = $('#lts-categoria').DataTable( {
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/DatosInsumo/create/",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'cat_id'},
                 {data: 'cat_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
                 //{data: 'part_nombre'},
             ],
             "language": {
@@ -585,6 +600,11 @@ function Lista(){
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+        tableCategoria.on( 'order.dt search.dt', function () {
+        tableCategoria.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==3){
         $('#listunidadmedida').show();
         $('#listpartida').hide();
@@ -601,16 +621,17 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-unidadmedida').DataTable( {
+        var tableUmed = $('#lts-unidadmedida').DataTable( {
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listUnidadMedida",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'umed_id'},
                 {data: 'umed_nombre'},
                 {data: 'umed_sigla'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],
             
             "language": {
@@ -618,6 +639,11 @@ function Lista(){
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+        tableUmed.on( 'order.dt search.dt', function () {
+            tableUmed.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).draw();
     }if(cmblist==4){
         $('#listingreso').show();
         $('#listunidadmedida').hide();
@@ -634,21 +660,27 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-tipoingreso').DataTable( {
+    var tableTipIngreso = $('#lts-tipoingreso').DataTable( {
         "destroy": true,
         "responsive": true,
         "processing": true,
         "serverSide": true,
         "ajax": "/listTipoIngreso",
         "columns":[
-            {data: 'acciones',orderable: false, searchable: false},
+            {data: 'ting_id'},
             {data: 'ting_nombre'},
+            {data: 'acciones',orderable: false, searchable: false},
         ],
         "language": {
              "url": "/lenguaje"
         },
          "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
     });
+    tableTipIngreso.on( 'order.dt search.dt', function () {
+        tableTipIngreso.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==5){
         $('#listipoinsumo').show();
         $('#listingreso').hide();
@@ -665,15 +697,16 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-tipoinsumo').DataTable( {
+    var tableTipInsumo = $('#lts-tipoinsumo').DataTable( {
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listTipoInsumo",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'tins_id'},
                 {data: 'tins_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],
             
             "language": {
@@ -681,6 +714,11 @@ function Lista(){
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableTipInsumo.on( 'order.dt search.dt', function () {
+        tableTipInsumo.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==6){
         $('#listipoenvase').show();
         $('#listipoinsumo').hide();
@@ -697,21 +735,27 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-tipoenvase').DataTable({
+    var tableTipEnvase = $('#lts-tipoenvase').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listTipoEnvase",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'tenv_id'},
                 {data: 'tenv_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],       
             "language": {
                  "url": "/lenguaje"
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableTipEnvase.on( 'order.dt search.dt', function () {
+        tableTipEnvase.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==7){
         $('#listmercado').show();
         $('#listipoenvase').hide();
@@ -728,21 +772,27 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-mercado').DataTable({
+    tableMercado = $('#lts-mercado').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listMercado",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'mer_id'},
                 {data: 'mer_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],        
             "language": {
                  "url": "/lenguaje"
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableMercado.on( 'order.dt search.dt', function () {
+        tableMercado.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==8){
         $('#listcolor').show();
         $('#listmercado').hide();
@@ -759,21 +809,27 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-color').DataTable({
+    var tableColor = $('#lts-color').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listColor",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'col_id'},
                 {data: 'col_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],        
             "language": {
                  "url": "/lenguaje"
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableColor.on( 'order.dt search.dt', function () {
+        tableColor.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==9){
         $('#listsabor').show();
         $('#listcolor').hide();
@@ -790,21 +846,27 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-sabor').DataTable({
+    var tableSabor = $('#lts-sabor').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listSabor",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'sab_id'},
                 {data: 'sab_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],        
             "language": {
                  "url": "/lenguaje"
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableSabor.on( 'order.dt search.dt', function () {
+        tableSabor.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==10){
         $('#listlinprod').show();
         $('#listsabor').hide();
@@ -821,21 +883,27 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-linprod').DataTable({
+    var tableLinProd = $('#lts-linprod').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listLineaProd",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'linea_prod_id'},
                 {data: 'linea_prod_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],        
             "language": {
                  "url": "/lenguaje"
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableLinProd.on( 'order.dt search.dt', function () {
+        tableLinProd.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==11){
         $('#listsublinea').show();
         $('#listprodesp').hide();
@@ -852,22 +920,28 @@ function Lista(){
         $('#listmunicipio').hide();
         $('#listmaquila').hide();
 
-        $('#lts-sublinea').DataTable({
+    var tableSubLinea = $('#lts-sublinea').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listSubLinea",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'sublin_id'},
                 {data: 'sublin_nombre'},
                 {data: 'produccion'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],        
             "language": {
                  "url": "/lenguaje"
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableSubLinea.on( 'order.dt search.dt', function () {
+        tableSubLinea.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==12){
         $('#listmunicipio').hide();
         $('#listprodesp').show();
@@ -884,21 +958,27 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-prodesp').DataTable({
+    var tableProDesp = $('#lts-prodesp').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listProdEspe",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'prod_esp_id'},
                 {data: 'prod_esp_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],        
             "language": {
                  "url": "/lenguaje"
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableProDesp.on( 'order.dt search.dt', function () {
+        tableProDesp.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==13){
         $('#listmunicipio').show();
         $('#listprodesp').hide();
@@ -915,21 +995,27 @@ function Lista(){
         $('#listsublinea').hide();
         $('#listmaquila').hide();
 
-        $('#lts-municipio').DataTable({
+    var tableMunicipio = $('#lts-municipio').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listMunicipio",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'muni_id'},
                 {data: 'muni_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],        
             "language": {
                  "url": "/lenguaje"
             },
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
+    tableMunicipio.on( 'order.dt search.dt', function () {
+        tableMunicipio.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
     }if(cmblist==14){
         $('#listmaquila').show();
         $('#listmunicipio').hide();
@@ -946,15 +1032,16 @@ function Lista(){
         $('#listcategoria').hide();
         $('#listsublinea').hide();
 
-        $('#lts-maquila').DataTable({
+    var tableMaquila = $('#lts-maquila').DataTable({
             "destroy": true,
             "responsive": true,
             "processing": true,
             "serverSide": true,
             "ajax": "/listPlantaMaquila",
             "columns":[
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'maquila_id'},
                 {data: 'maquila_nombre'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],        
             "language": {
                  "url": "/lenguaje"
@@ -962,6 +1049,11 @@ function Lista(){
              "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         });
     }
+    tableMaquila.on( 'order.dt search.dt', function () {
+        tableMaquila.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
 }
 
 function ListaPartida(){
@@ -973,22 +1065,28 @@ function ListaPartida(){
     $('#listipoenvase').hide();
     $('#listmercado').hide();
 
-    $('#lts-partida').DataTable( {
+    var tablePartida = $('#lts-partida').DataTable( {
         "destroy": true,
         "responsive": true,
         "processing": true,
         "serverSide": true,
         "ajax": "/listPartida",
         "columns":[
-            {data: 'acciones',orderable: false, searchable: false},
+            {data: 'part_id'},
             {data: 'part_codigo'},
             {data: 'part_nombre'},
+            {data: 'acciones',orderable: false, searchable: false},
         ],
         "language": {
              "url": "/lenguaje"
         },
          "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
     });
+    tablePartida.on( 'order.dt search.dt', function () {
+        tablePartida.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
 }
 
 function Limpiar(){
@@ -1315,7 +1413,7 @@ $("#registroMunicipio").click(function(){
         },
         success: function(data){
             $("#myCreateMunicipio").modal('toggle');Limpiar();
-            swal("Producto Especifico!", "registro correcto","success");
+            swal("Municipio!", "registro correcto","success");
             $('#lts-municipio').DataTable().ajax.reload();             
         },
         error: function(result){
