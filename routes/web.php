@@ -38,9 +38,7 @@ Route::get('/', function () {
 Route::get('test_print','ReportController@test_print');
 
 Route::group(['middleware' => ['auth']], function () {
-	Route::get('/home', function () {
-		return view('backend.template.home');
-	});
+    Route::get('/home','HomeController@index');
 	Route::get('ReportePdf', 'RerportController@prueba');
 	Route::resource('Acceso', 'admin\gbAccesoController');
 	Route::resource('Persona', 'admin\gbPersonaController');
