@@ -5,8 +5,10 @@
  */
 
 require('./bootstrap');
+import Multiselect from 'vue-multiselect';
 
 window.Vue = require('vue');
+Vue.component('multiselect', Multiselect)
 
 /**
  * The following block of code may be used to automatically register your
