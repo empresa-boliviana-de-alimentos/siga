@@ -11,6 +11,7 @@ use siga\Modelo\insumo\insumo_solicitud\DetalleOrdenProduccion;
 use siga\Modelo\insumo\Stock;
 use siga\Modelo\admin\Usuario;
 use Yajra\Datatables\Datatables;
+use Carbon\Carbon;
 use Auth;
 use DB;
 use PDF;
@@ -126,6 +127,7 @@ class gbOrdenProduccionController extends Controller
             'orprod_nro_orden'  => $nop,
             //'orprod_nro_salida' => 1,
             'orprod_tiempo_prod' => $request['tiempo_producir'],
+            'orprod_cant_esp' => $request['cantidad_esperada'],
             'orprod_cantidad'   => $cantidad_orden,
             'orprod_mercado_id'    => $mercado_id,
             'orprod_planta_id'  => $planta_producion,

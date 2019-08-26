@@ -188,10 +188,16 @@ tbody td {
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
-                                        U. Medida de Presentación
+                                        Formato de Presentación
                                     </label>
                                     <span class="block input-icon input-icon-right">
-                                        {!! Form::text('unidad_presentacion', null, array('placeholder' => 'U. medida presentación','class' => 'form-control','id'=>'unidad_presentacion')) !!}                                       </span>
+                                        <select class="form-control select_upresentacion" id="unidad_presentacion" name="unidad_presentacion">
+                                            <option value="0">Seleccione</option>
+                                            @foreach($listarUnidades as $uni)
+                                                <option value="{{$uni->umed_id}}">{{$uni->umed_nombre}}</option>
+                                            @endforeach
+                                        </select>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -218,7 +224,7 @@ tbody td {
                                                 <td id="tdformmatprim"><select name="descripcion_materia[]" class="form-control">
                                                         <!--<option value="">Seleccione</option>-->
                                                         @foreach($listarMateriaPrima as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}}</option>
+                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presentacion}}</option>
                                                         @endforeach
                                                     </select>
                                                 <td>
@@ -649,7 +655,7 @@ $(".select_sabor").select2();
 $(".select_sublinea").select2();
 
 $(".select_umed").select2();
-
+$(".select_upresentacion").select2();
 $(function(){
     $('#lineaProduccion').change(function(){
         if($(this).val()==1){

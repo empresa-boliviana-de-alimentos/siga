@@ -79,7 +79,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -91,19 +91,31 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        Cantidad a Esperada:
+                                    </label>
+                                    <span class="block input-icon input-icon-right">
+                                        {!! Form::text('cantidad_esperada', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'cantidad_esperada')) !!}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
                                         Tiempo a Producir:
                                     </label>
                                     <span class="block input-icon input-icon-right">
-                                        {!! Form::text('tiempo_producir', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'tiempo_producir')) !!}
+                                        {!! Form::number('tiempo_producir', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'tiempo_producir')) !!}
                                     </span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label style="color:white">

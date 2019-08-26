@@ -58,7 +58,7 @@
                                   <td class="id_insumo" style="display: none">{{$in->ins_id}}</td>
                                   <td class="nro">{{$nro}}</td>
                                   <td class="codigo_insumo">{{$in->ins_codigo}}</td>
-                                  <td class="descrip_insumo" style="width: 128px;">{{$in->ins_desc}} {{$in->sab_nombre}} {{$in->ins_peso_presen}}</td>
+                                  <td class="descrip_insumo" style="width: 128px;">@if($in->sab_id == 1){{$in->ins_desc}} {{$in->ins_peso_presen}} @else {{$in->ins_desc}} {{$in->sab_nombre}} {{$in->ins_peso_presen}} @endif</td>
                                   <td class="unidad">{{$in->umed_nombre}}</td>
                                   <td class="cantidad_insumo"><input type="text" id="cant" name="row-1-age" size="6" value="0" placeholder="0"></td>
                                   <td class="costo_insumo"><input type="text" id="costo" name="row-1-age" value="0.00" size="3" value="" placeholder="0.00"></td>
