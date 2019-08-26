@@ -1,4 +1,14 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+  .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
+    padding: 1px;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 8px 10px;
+    color: dimgrey;
+    font-size: 8px;
+}
+</style>
 @section('main-content')
 <?php 
     function stock_actualOP($id_insumo)
@@ -24,6 +34,7 @@
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="id_orp" id="nro_acopio" value="{{ $sol_orden_produccion->orprod_id}}">
+                <div class="col-md-4">
                     <div class="row"> 
                         <div class="col-md-12">
                             <div class="form-group">
@@ -77,14 +88,23 @@
                         </div> 
                                                              
                     </div>
+                </div>
                 @if($receta->rece_lineaprod_id == 2 OR $receta->rece_lineaprod_id == 3)
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>MATERIA PRIMA</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="col-md-12">                            
                             
-                                    <div class="form-group">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">MATERIA PRIMA</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <?php 
+                                        $detalle_map = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                                                                        ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+                                                                        ->where('ins_id_tip_ins',3)
+                                                                        ->where('detrece_rece_id',$receta->rece_id)->get();
+                                   
+                                        $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
+                                        ?>
                                         <table  class="table table-hover small-text" id="TableRecetasMatPrim">
                                             <thead>
                                                 <tr>
@@ -92,30 +112,28 @@
                                                     <th>Insumo</th>
                                                     <th>Unidad Medida</th>
                                                     <th>Cant. Base</th>
-                                                    <th>Cantidad</th>
-                                                    
+                                                    <th>Cantidad</th>                                                    
                                                     <th>Stock Actual</th>                               
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($detalle_sol_orp as $dorp)
+                                                @foreach($detalle_map as $dorp)
                                                 <tr>
-                                                    <td>{{$dorp->detorprod_id}}</td>
-                                                    <td>{{$dorp->detorprod_id}}</td>
-                                                    <td>{{$dorp->detorprod_id}}</td>
-                                                    <td>{{$dorp->detorprod_id}}</td>
-                                                    <td>{{$dorp->detorprod_id}}</td>
-                                                    <td>{{$dorp->detorprod_id}}</td>
+                                                    <td>{{$dorp->ins_codigo}}</td>
+                                                    <td>{{$dorp->ins_desc}}</td>
+                                                    <td>{{$dorp->umed_nombre}}</td>
+                                                    <td>{{$dorp->detrece_cantidad}}</td>
+                                                    <td>{{$dorp->detrece_cantidad*$calculos}}</td>
+                                                    <td>{{stock_actualOP($dorp->ins_id)}}</td> 
+                                                    
                                                 </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
-
-
                                     </div>
-                        </div>
-                    </div>
-                @endif
+                                
+                            </div>
+                        </div>                @endif
                 
                 @if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
                     <div class="text">
