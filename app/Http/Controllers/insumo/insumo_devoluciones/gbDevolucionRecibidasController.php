@@ -32,7 +32,12 @@ class gbDevolucionRecibidasController extends Controller
 
     public function create()
     {
-        $devolucion = Devolucion::where('devo_tipodevo_id',1)->get();
+        $devolucion = Devolucion::join('insumo.orden_produccion as orp','insumo.devolucion.devo_nro_orden','=','orp.orprod_id')
+                                ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+                                ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                ->join('public._bp_usuarios as usr','insumo.devolucion.devo_usr_id','=','usr_id')
+                                ->join('public._bp_personas as per','usr.usr_prs_id','=','prs_id')
+                                ->where('devo_tipodevo_id',1)->get();
         return Datatables::of($devolucion)->addColumn('acciones', function ($devolucion) {
           if ($devolucion->devo_estado_dev == 'A') {
             return '<a href="FormMostrarDevoSobrante/' . $devolucion->devo_id . '" class="btn btn-success">Ver</a>';
@@ -50,12 +55,23 @@ class gbDevolucionRecibidasController extends Controller
               return 'RECAHZADO';
             }
         })
+        ->addColumn('nombreReceta', function ($nombreReceta) {
+            return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
+        })
+        ->addColumn('nombreSol', function ($nombreSol) {
+            return $nombreSol->prs_nombres.' '.$nombreSol->prs_materno.' '.$nombreSol->psr_materno;
+        })
             ->editColumn('id', 'ID: {{$devo_id}}')
             ->make(true);
     }
     public function listarDevoDefectuosoCreate()
     {
-        $devolucion_defec = Devolucion::where('devo_tipodevo_id',2)->get();
+        $devolucion_defec = Devolucion::join('insumo.orden_produccion as orp','insumo.devolucion.devo_nro_orden','=','orp.orprod_id')
+                                ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+                                ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                ->join('public._bp_usuarios as usr','insumo.devolucion.devo_usr_id','=','usr_id')
+                                ->join('public._bp_personas as per','usr.usr_prs_id','=','prs_id')
+                                ->where('devo_tipodevo_id',2)->get();
         return Datatables::of($devolucion_defec)->addColumn('acciones', function ($devolucion_defec) {
           if ($devolucion_defec->devo_estado_dev == 'A') {
             return '<a href="FormMostrarDevoDefectuoso/' . $devolucion_defec->devo_id . '" class="btn btn-success">Ver</a>';
@@ -71,6 +87,11 @@ class gbDevolucionRecibidasController extends Controller
             }elseif($devolucion_defec->devo_estado_dev == 'C'){
               return 'RECAHZADO';
             }
+        })->addColumn('nombreReceta', function ($nombreReceta) {
+            return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
+        })
+        ->addColumn('nombreSol', function ($nombreSol) {
+            return $nombreSol->prs_nombres.' '.$nombreSol->prs_materno.' '.$nombreSol->psr_materno;
         })
             ->editColumn('id', 'ID: {{$devo_id}}')
             ->make(true);
@@ -95,14 +116,19 @@ class gbDevolucionRecibidasController extends Controller
           $ins_datos[] = array("id_insumo"=>$ins_id[$i], "cantidad"=>$cantidad_ins[$i], "costo"=>$costo_ins[$i]);
         }                 
       }
+      $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                 ->where('usr_id',Auth::user()->usr_id)->first();
+
+      $numsal = Devolucion::join('public._bp_planta as plant', 'insumo.devolucion.devo_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(devo_nro_salida) as nro_op'))->where('plant.id_planta', $planta->id_planta)->first();
+      $contsal=$numsal['nro_op'];
+      $nopsal = $contsal + 1;
       $devolucion_sobrante = Devolucion::find($request['id_devo']);
+      $devolucion_sobrante->devo_nro_salida = $nopsal;
       $devolucion_sobrante->devo_usr_aprob = Auth::user()->usr_id;
       $devolucion_sobrante->devo_obs_aprob = $request['obs_usr_aprob'];
       $devolucion_sobrante->devo_estado_dev = 'B';
       $devolucion_sobrante->save();
       //REVISAR A DETALLE
-      $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
-                 ->where('usr_id',Auth::user()->usr_id)->first();
       $num = Ingreso::join('public._bp_planta as plant', 'insumo.ingreso.ing_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(ing_enumeracion) as nroing'))->where('plant.id_planta', $planta->id_planta)->first();
       $cont=$num['nroing'];
       $nid = $cont + 1;
@@ -154,7 +180,13 @@ class gbDevolucionRecibidasController extends Controller
     public function aprobacionDevolcuionDefectuoso(Request $request)
     {
       //dd("ACEPTAR DEVOLUCION DEFECTUOSO");
+      $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                 ->where('usr_id',Auth::user()->usr_id)->first();
+      $numsal = Devolucion::join('public._bp_planta as plant', 'insumo.devolucion.devo_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(devo_nro_salida) as nro_op'))->where('plant.id_planta', $planta->id_planta)->first();
+      $contsal=$numsal['nro_op'];
+      $nopsal = $contsal + 1;
       $devolucion_sobrante = Devolucion::find($request['id_devo']);
+      $devolucion_sobrante->devo_nro_salida = $nopsal;
       $devolucion_sobrante->devo_usr_aprob = Auth::user()->usr_id;
       $devolucion_sobrante->devo_obs_aprob = $request['obs_usr_aprob'];
       $devolucion_sobrante->devo_estado_dev = 'B';

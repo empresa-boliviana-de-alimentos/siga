@@ -1,28 +1,37 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_devolucion.devolucion_insumos.partials.modalCreate')
-<div class="row">
-    <div class="col-md-12">
-        <div class="box box-default box-solid">
-            <div class="box-header with-border">
-            <div class="col-md-12">
-                <div class="col-md-1">
-                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('DevolucionRegistrosMenu') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
-                </div>
-                <div class="col-md-8">
-                     <h4><label for="box-title">DEVOLUCIÓN INSUMO SOBRANTE</label></h4>
-                </div>
-                <div class="col-md-3">
-                    <a href="{{url('RegistroDevolucionSobrante')}}" class="btn btn-default" style="background: #616A6B;">  
-                        <h6 style="color: white;"><i class="fa fa-plus">
-                    </i>&nbsp;REALIZAR NUEVA DEVOLUCION</h6>
-                    </a>
-                </div>
-            </div>
-            </div>
+<div class="panel panel-primary">
+
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-md-2">
+            <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('DevolucionRegistrosMenu') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
+        </div>
+        <div class="col-md-7 text-center">
+            <p class="panel-title">DEVOLUCIÓN INSUMO SOBRANTE</p>
+        </div>
+        <div class="col-md-3 text-right">
+            <a href="{{url('RegistroDevolucionSobrante')}}" class="btn btn-default btn-xs" style="background: #616A6B;">
+                <h6 style="color: white;"><i class="fa fa-plus">
+                </i>&nbsp;REALIZAR NUEVA DEVOLUCION</h6>
+            </a>
         </div>
     </div>
-</div>
+    </div>
 <br>
 
 <div class="row">        
@@ -38,22 +47,29 @@
                                         #
                                     </th>
                                     <th>
-                                        N° ORP
+                                        NRO. ORP
                                     </th>
                                     <th>
-                                        Feha
-                                    </th>
-                                    
-                                    <th>
-                                        Producto
+                                        FECHA SOLICITUD
                                     </th>
                                     <th>
-                                        Cantidad
+                                        NRO. SALIDA
                                     </th>
                                     <th>
-                                        Estado
+                                        FECHA DEVOLUCION
+                                    </th>                                    
+                                    <th>
+                                        PRODUCTO PRODUCIR
                                     </th>
-
+                                    <th>
+                                        CANTIDAD PRODUCIR
+                                    </th>
+                                    <th>
+                                        SOLICITANTE
+                                    </th>
+                                    <th>
+                                        OPCIONES
+                                    </th>
                                 </tr>
                             </thead>
                     </table>
@@ -71,11 +87,14 @@ $(document).ready(function() {
             "ajax": "/DevolucionInsumo/create/",
             "columns":[
                 {data: 'devo_id'},
-                {data: 'devo_nro_dev'},
+                {data: 'devo_nro_orden'},
                 {data: 'devo_registrado'},
+                {data: 'devo_nro_salida'},
+                {data: 'devo_modificado'},
+                {data: 'nombreReceta'},
+                {data: 'orprod_cantidad'},
                 //{data: 'devo_registrado'},
-                {data: 'rece_nombre'},
-                {data: 'devo_estado'},
+                {data: 'nombreSol'},
                 {data: 'acciones'},
             ],
         

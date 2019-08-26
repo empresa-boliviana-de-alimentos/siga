@@ -33,6 +33,7 @@ class OrdenProduccion extends Model
         'orprod_modificado',
         'orprod_estado_orp',
         'orprod_estado',
+        'orprod_tiempo_prod',
     ];
 
     protected $primaryKey = 'orprod_id';

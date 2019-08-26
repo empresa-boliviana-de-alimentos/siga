@@ -27,11 +27,21 @@ class gbDevolucionDefectuosoController extends Controller
     {
     	$planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $soldev = Devolucion::join('insumo.orden_produccion as orp','insumo.devolucion.devo_nro_orden','=','orp.orprod_id')
-                            ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')->where('devo_planta_id','=',$planta->id_planta)
+                            ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+                            ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_usuarios as usr','insumo.devolucion.devo_usr_id','=','usr_id')
+                            ->join('public._bp_personas as per','usr.usr_prs_id','=','prs_id')
+                            ->where('devo_planta_id','=',$planta->id_planta)
                             ->where('devo_tipodevo_id',2)
             				->get();
         return Datatables::of($soldev)->addColumn('acciones', function ($soldev) {
             return '<a href="BoletaDevolucion/' . $soldev->devo_id . '" class="btn btn-primary"><span class="fa fa-file-pdf-o"></span> VER</a>';
+        })
+        ->addColumn('nombreReceta', function ($nombreReceta) {
+            return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
+        })
+        ->addColumn('nombreSol', function ($nombreSol) {
+            return $nombreSol->prs_nombres.' '.$nombreSol->prs_materno.' '.$nombreSol->psr_materno;
         })
             ->editColumn('id', 'ID: {{$devo_id}}')
             ->make(true);

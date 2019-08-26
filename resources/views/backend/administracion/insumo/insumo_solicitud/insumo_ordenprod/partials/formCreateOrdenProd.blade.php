@@ -79,7 +79,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -87,6 +87,18 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     </label>
                                     <span class="block input-icon input-icon-right">
                                     	{!! Form::text('cantidad_producir', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'cantidad_producir')) !!}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        Tiempo a Producir:
+                                    </label>
+                                    <span class="block input-icon input-icon-right">
+                                        {!! Form::text('tiempo_producir', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'tiempo_producir')) !!}
                                     </span>
                                 </div>
                             </div>
@@ -242,6 +254,28 @@ table.dataTable tbody th, table.dataTable tbody td {
 @endsection
 @push('scripts')
 <script>
+$(document).ready(function() {
+    verficaStock();
+});
+function verficaStock()
+{
+    var arrayJS=<?php echo json_encode($datos_stock);?>;
+    for (var i = arrayJS.length - 1; i >= 0; i--) {
+        var cantidadStock = parseInt(arrayJS[i].cantidadStock);
+        var cantidadSol = parseInt(arrayJS[i].cantidadSol);
+        console.log(cantidadSol);
+        if (cantidadStock>=cantidadSol) {
+            //console.log(arrayJS[i].cantidadStock);
+        }else{
+            console.log("No hay stock");
+            swal("STOCK BAJO","En uno o mas de los insumos no existe la cantidad de stock disponible, por lo cual no podra aprobar esta solicitud","warning");
+            $('input[type="submit"]').attr('disabled','disabled');
+        }
+    }
+    
+    
+}
+
 // BUSQUEDAS ASINCRONAS
 $('#receta_id').select2({
     placeholder: "Seleccione Producto",

@@ -37,6 +37,7 @@ class CreateOrdenProduccionTable extends Migration
             $table->text('orprod_obs_vo')->nullable();
             $table->text('orprod_obs_vodos')->nullable();
             $table->text('orprod_obs_aprob')->nullable();
+            $table->string('orprod_tiempo_prod')->nullable();
             $table->timestamp('orprod_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('orprod_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->char('orprod_estado_orp',1)->default('A');
