@@ -13,7 +13,6 @@
                 </section>
             </section>
         </div>
-        @section('scripts')
             @include('backend.template.partials.scripts')
         @show
     </body>

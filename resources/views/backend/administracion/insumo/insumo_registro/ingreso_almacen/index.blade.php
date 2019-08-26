@@ -97,7 +97,7 @@
                                     <th>CANTIDAD</th>
                                     <th>COSTO/U</th>
                                     <th>PROVEEDOR</th>
-                                    <th>FECHA VENCIMIENTO</th>                                    
+                                    <th>FECHA VENCIMIENTO</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -144,6 +144,7 @@
 
 $(document).ready(function() {
     MostrarCarrito();
+    console.log('iniciando ');
     var table = $('#lts-ingreso').DataTable({
          scrollCollapse: true,
          scrollX: true,
@@ -209,7 +210,7 @@ $(".insumo-get").click(function() {
                 if (cantidad_insumo_all != 0) {
                     datos_carrito.push({"id_insumo":id_insumo,"descrip_insumo":descrip_insumo,"codigo_insumo":codigo_insumo,"cantidad_insum":cantidad_insumo_all,"costo_insumo":costo_insumo,"proveedor_insumo":proveedor_insumo,"fechaven_insumo":fechaven_insumo});
                 }
-                
+
 
              });
              console.log(datos_carrito);
@@ -275,7 +276,7 @@ $(".insumo-get").click(function() {
                 {data: 'carr_cantidad'},
                 {data: 'carr_costo'},
                 {data: 'subtotal'},
-                {data: 'acciones', orderable: false, searchable: false}                
+                {data: 'acciones', orderable: false, searchable: false}
         ],
         "order": [[ 3, "asc" ]],
         "language": {

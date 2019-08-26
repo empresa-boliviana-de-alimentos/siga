@@ -24,4 +24,9 @@ class Stock extends Model
     protected $primaryKey = 'stock_id';
 
     public $timestamps = false;
+
+    public function insumo()
+    {
+        return $this->belongsTo('siga\Modelo\insumo\insumo_registros\Insumo','stock_ins_id','ins_id');
+    }
 }

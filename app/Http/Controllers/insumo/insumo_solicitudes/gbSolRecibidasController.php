@@ -33,7 +33,7 @@ use TCPDF;
 class gbSolRecibidasController extends Controller
 {
      public function index()
-    {	
+    {
     	$solReceta = OrdenProduccion::where('orprod_estado_orp','C')->get();
     	return view('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.index');
     }
@@ -41,7 +41,7 @@ class gbSolRecibidasController extends Controller
     public function create()
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
-                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
     	$solReceta = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                     ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                                     ->join('public._bp_usuarios as usr','insumo.orden_produccion.orprod_usr_id','=','usr.usr_id')
@@ -62,18 +62,18 @@ class gbSolRecibidasController extends Controller
             ->editColumn('id', 'ID: {{$orprod_id}}')
             -> addColumn('estado_orprod', function ($solReceta) {
                 if($solReceta->orprod_estado_orp =='C')
-                { 
-                    return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>'; 
+                {
+                    return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>';
                 }elseif($solReceta->orprod_estado_orp == 'D')
                 {
                     return '<h4 class="text"><span class="label label-success">APROBADO</span></h4>';
                 }elseif($solReceta->orprod_estado_orp=='E')
-                { 
-                    return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>'; 
+                {
+                    return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>';
                 }
-                            
-             }) 
-        
+
+             })
+
             -> addColumn('nombresCompletoRe', function ($solReceta) {
             return $solReceta->prs_nombres . ' ' . $solReceta->prs_paterno . ' ' . $solReceta->prs_materno;
         })-> addColumn('nombreReceta', function ($nombreReceta) {
@@ -95,11 +95,52 @@ class gbSolRecibidasController extends Controller
                         ->join('insumo.unidad_medida as umed','insumo.receta.rece_uni_id','=','umed.umed_id')
                         ->where('rece_id',$sol_orden_produccion->orprod_rece_id)->first();
         $detalle_sol_orp = DetalleOrdenProduccion::where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
+
+        $stocks = Stock::with('insumo')->where('stock_planta_id',Auth::user()->usr_planta_id)
+                        ->select('stock_ins_id',DB::raw('sum(stock.stock_cantidad) as cantidad'))
+                        ->groupBy('stock.stock_ins_id')
+                        ->get();
+        $detalle_formulacion_map = null;
+        if($receta->rece_lineaprod_id == 2 OR $receta->rece_lineaprod_id == 3){
+
+            $detalle_formulacion_map = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                            ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+                            ->where('ins_id_tip_ins',3)
+                            ->where('detrece_rece_id',$receta->rece_id)
+                            ->get();
+
+            // $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
+        }
+
+        if($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
+        {
+            $insumo_insumo = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+            ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+            ->where('ins_id_tip_ins',1)
+            ->where('detrece_rece_id',$receta->rece_id)->get();
+            $insumo_matprima = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                                        ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+                                        ->where('ins_id_tip_ins',3)
+                                        ->where('detrece_rece_id',$receta->rece_id)->get();
+            foreach ($insumo_insumo as $ins) {
+            $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detrece_cantidad"=>$ins->detrece_cantidad);
+            }
+            foreach ($insumo_matprima as $ins) {
+            $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detrece_cantidad"=>$ins->detrece_cantidad);
+            }
+            // $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
+        }
+
+        // return $detalle_formulacion_map;
+
+
+        // return $stocks;
+        // return $detalle_sol_orp;
         return view('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.formMostrarReceta',compact('sol_orden_produccion','receta','detalle_sol_orp'));
     }
     public function aprobacionReceta(Request $request)
     {
-        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();    
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_planta=$planta->id_planta;
         $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_salida) as nrosal'))->where('plant.id_planta', $id_planta)->first();
         $cont=$num['nrosal'];
@@ -138,7 +179,7 @@ class gbSolRecibidasController extends Controller
                     ]);
                     //END INSUMOS HISTORY
                 }
-                
+
             }
         }
         //END SOCK
@@ -197,15 +238,15 @@ class gbSolRecibidasController extends Controller
                                     ->join('insumo.mercado as merc','insumo.orden_produccion.orprod_mercado_id','=','merc.mer_id')
                                     ->where('orprod_id','=',$id_orp_aprob)->first();
         //$data = $reg['sol_data'];
-    
+
         //$array = json_decode($data);
-    
-        $html = '<br><br> 
+
+        $html = '<br><br>
                     <table border="0" cellspacing="0" cellpadding="1" class="bottomBorder">
                         <tr>
                             <th rowspan="3" align="center" width="150"><img src="img/logopeqe.png" width="150" height="105"></th>
                             <th rowspan="3" width="375"><h3 align="center"><br>EMPRESA BOLIVIANA DE ALIMENTOS Y DERIVADOS<br>ALMACEN - ' . $planta['nombre_planta']. '</h3><br><h2 align="center">NOTA DE SALIDA O APROBACIÓN SOLICITUD</h2>
-                            </th> 
+                            </th>
                             <th rowspan="3" align="center" width="150">
                             <br><br>
                                 <table border="0.5" bordercolor="#000">
@@ -231,7 +272,7 @@ class gbSolRecibidasController extends Controller
                                 <th align="center" width="70" bgcolor="#5c6875"><strong color="white">Solicitante:</strong></th>
                                 <th width="185"> '.$usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno.'</th>
                                 <th align="center" width="85" bgcolor="#5c6875"><strong color="white">Dependencia:</strong></th>
-                                <th width="165"> '.$reg['nombre_planta'].'</th>                                
+                                <th width="165"> '.$reg['nombre_planta'].'</th>
                                 <th align="center" width="95" bgcolor="#5c6875"><strong color="white">Fecha Solicitud:</strong></th>
                                 <th width="65"> '.date('d/m/Y',strtotime($reg['orprod_registrado'])).'</th>
                             </tr>
@@ -239,15 +280,15 @@ class gbSolRecibidasController extends Controller
                                 <th align="center" width="130" bgcolor="#5c6875"><strong color="white">No. Orden Produccion:</strong></th>
                                 <th width="80"> '.$reg['orprod_nro_orden'].'</th>
                                 <th align="center" width="100" bgcolor="#5c6875"><strong color="white">Mercado:</strong></th>
-                                <th width="195"> '.$reg['mer_nombre'].'</th>                                
+                                <th width="195"> '.$reg['mer_nombre'].'</th>
                                 <th align="center" width="95" bgcolor="#5c6875"><strong color="white">Fecha Entrega:</strong></th>
                                 <th width="65"> '.date('d/m/Y',strtotime($reg['orprod_modificado'])).'</th>
                             </tr>
                         </table>
-                        
+
                     <br><br><br>
 
-                    <table border="1" cellspacing="0" style="font-size:8px;">                     
+                    <table border="1" cellspacing="0" style="font-size:8px;">
                         <tr>
                             <th align="center" bgcolor="#5c6875" width="50"><strong color="white">Nro</strong></th>
                             <th align="center" bgcolor="#5c6875" width="120"><strong color="white">Unidad</strong></th>
@@ -260,15 +301,15 @@ class gbSolRecibidasController extends Controller
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('detorprod_orprod_id',$reg->orprod_id)->get();
                     foreach ($detroprod as $d) {
-                        $nro = $nro+1; 
-                        
+                        $nro = $nro+1;
+
                             $html = $html . '<tr align="center" BGCOLOR="#f3f0ff">
                                     <td align="center">'.$nro.'</td>
                                     <td align="center">'.$d->umed_nombre.'</td>
                                     <td align="center">'.$d->ins_desc.'</td>
                                     <td align="center">'.$d->detorprod_cantidad.'</td>
                                     <td align="center">'.$reg['mer_nombre'].'</td>
-                                  </tr>';  
+                                  </tr>';
                      }
                      $html = $html . '<tr BGCOLOR="#f3f0ff">
                                         <td align="center" colspan="3" bgcolor="#5c6875"><strong color="white">TOTAL TIPOS DE INSUMOS SOLICITADOS</strong></td>
@@ -281,26 +322,26 @@ class gbSolRecibidasController extends Controller
                                 <table>
                             <tr>
                                 <td align="center">.................................................</td>
-                                
+
                                 <td align="center">.................................................</td>
 
                                 <td align="center">.................................................</td>
-                                
+
                                 <td align="center">.................................................</td>
 
                             </tr>
                             <tr>
                                 <td align="center">Solicitante</td>
-                                
+
                                 <td align="center">Responsable de Almacen</td>
 
                                 <td align="center">Responsable Administrativo</td>
-                                
+
                                 <td align="center">Jefe de Planta</td>
-                            </tr>                           
-                            
+                            </tr>
+
                             </table>
-                            ';   
+                            ';
 
                     $htmltable = $html;
         $pdf->writeHTML($htmltable, true, 0, true, 0);
@@ -313,7 +354,7 @@ class gbSolRecibidasController extends Controller
     public function aprobacionSolAdicional(Request $request)
     {
         //dd($request['id_orp']);
-        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();    
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_planta=$planta->id_planta;
         $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_salida) as nrosal'))->where('plant.id_planta', $id_planta)->first();
         $cont=$num['nrosal'];
@@ -352,7 +393,7 @@ class gbSolRecibidasController extends Controller
                     ]);
                     //END INSUMOS HISTORY
                 }
-                
+
             }
         }
         //END SOCK
@@ -368,7 +409,7 @@ class gbSolRecibidasController extends Controller
     public function listMaquila()
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
-                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $solMaquila = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                     ->join('public._bp_usuarios as usr','insumo.orden_produccion.orprod_usr_id','=','usr.usr_id')
                                     ->join('public._bp_personas as per','usr.usr_prs_id','=','per.prs_id')
@@ -386,20 +427,20 @@ class gbSolRecibidasController extends Controller
             ->editColumn('id', 'ID: {{$orprod_id}}')
             -> addColumn('sol_maq_estado', function ($solMaquila) {
                 if($solMaquila->orprod_estado_orp =='C')
-                { 
-                    return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>'; 
+                {
+                    return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>';
                 }elseif($solMaquila->orprod_estado_orp == 'D')
                 {
                     return '<h4 class="text"><span class="label label-success">APROBADO</span></h4>';
                 }elseif($solMaquila->orprod_estado_orp=='E')
-                { 
-                    return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>'; 
+                {
+                    return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>';
                 }
-                            
-             }) 
+
+             })
             -> addColumn('nombresCompletoMa', function ($solMaquila) {
                 return $solMaquila->prs_nombres . ' ' . $solMaquila->prs_paterno . ' ' . $solMaquila->prs_materno;
-        })  
+        })
             ->make(true);
     }
     public function FormMostrarMaquila($id_ordenOrp)
@@ -416,7 +457,7 @@ class gbSolRecibidasController extends Controller
      public function listAdicional()
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
-                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $solAdicinal = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                     ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                                     ->join('public._bp_usuarios as usr','insumo.orden_produccion.orprod_usr_id','=','usr.usr_id')
@@ -434,22 +475,22 @@ class gbSolRecibidasController extends Controller
             ->editColumn('id', 'ID: {{$orprod_id}}')
             -> addColumn('sol_ins_estado', function ($solAdicinal) {
                 if($solAdicinal->orprod_estado_orp =='C')
-                { 
-                    return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>'; 
+                {
+                    return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>';
                 }elseif($solAdicinal->orprod_estado_orp == 'D')
                 {
                     return '<h4 class="text"><span class="label label-success">APROBADO</span></h4>';
                 }elseif($solAdicinal->orprod_estado_orp=='E')
-                { 
-                    return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>'; 
+                {
+                    return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>';
                 }
-                            
-             }) 
+
+             })
             -> addColumn('nombresCompletoAdi', function ($solAdicinal) {
                 return $solAdicinal->prs_nombres . ' ' . $solAdicinal->prs_paterno . ' ' . $solAdicinal->prs_materno;
         })  -> addColumn('nombresReceta', function ($nombresReceta) {
                 return $nombresReceta->rece_nombre . ' ' . $nombresReceta->sab_nombre . ' ' . $nombresReceta->rece_presentacion;
-        }) 
+        })
             ->make(true);
     }
     public function formMostrarSolAdicional($id_ordenOrp)
@@ -466,7 +507,7 @@ class gbSolRecibidasController extends Controller
     public function listTraspaso()
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
-                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $solTraspaso = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                     ->join('public._bp_usuarios as usr','insumo.orden_produccion.orprod_usr_id','=','usr.usr_id')
                                     ->join('public._bp_personas as per','usr.usr_prs_id','=','per.prs_id')
@@ -484,31 +525,31 @@ class gbSolRecibidasController extends Controller
             ->editColumn('id', 'ID: {{$orprod_id}}')
             -> addColumn('sol_tras_estado', function ($solTraspaso) {
                 if($solTraspaso->orprod_estado_orp =='C')
-                { 
-                    return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>'; 
+                {
+                    return '<h4 class="text"><span class="label label-warning">PENDIENTE</span></h4>';
                 }elseif($solTraspaso->orprod_estado_orp == 'D')
                 {
                     return '<h4 class="text"><span class="label label-success">APROBADO</span></h4>';
                 }elseif($solTraspaso->orprod_estado_orp=='E')
-                { 
-                    return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>'; 
+                {
+                    return '<h4 class="text"><span class="label label-danger">RECHAZADO</span></h4>';
                 }
-                            
-             }) 
+
+             })
             -> addColumn('nombresCompletoTras', function ($solMaquila) {
                 return $solMaquila->prs_nombres . ' ' . $solMaquila->prs_paterno . ' ' . $solMaquila->prs_materno;
-        })  
+        })
             ->make(true);
     }
     public function formMostrarTraspaso($id_tras)
     {
-        $sol_orden_produccion = OrdenProduccion::where('orprod_id',$id_tras)->first();        
+        $sol_orden_produccion = OrdenProduccion::where('orprod_id',$id_tras)->first();
         $detalle_sol_orp = DetalleOrdenProduccion::join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')->join('insumo.unidad_medida as umed','ins.ins_id_uni','=','umed.umed_id')->where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
         return view('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.formMostrarTraspaso',compact('sol_orden_produccion','detalle_sol_orp'));
     }
     public function aprobacionMaquila(Request $request)
     {
-        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();    
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_planta=$planta->id_planta;
         $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_salida) as nrosal'))->where('plant.id_planta', $id_planta)->first();
         $cont=$num['nrosal'];
@@ -547,7 +588,7 @@ class gbSolRecibidasController extends Controller
                     ]);
                     //END INSUMOS HISTORY
                 }
-                
+
             }
         }
         //END SOCK
@@ -565,13 +606,13 @@ class gbSolRecibidasController extends Controller
         $cantidad_ins = $request['cantidad_tras'];
         $costo_ins = $request['costo_tras'];
         //dd(sizeof($ins_id));
-        for ($i=0; $i <sizeof($ins_id) ; $i++) { 
+        for ($i=0; $i <sizeof($ins_id) ; $i++) {
             if ($costo_ins[$i] != null) {
                 $ins_datos[] = array("id_insumo"=>$ins_id[$i], "cantidad"=>$cantidad_ins[$i], "costo"=>$costo_ins[$i]);
-            }                 
+            }
         }
         //END ARRAY ITEMS TRASPASO
-        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();    
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_planta=$planta->id_planta;
         $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_salida) as nrosal'))->where('plant.id_planta', $id_planta)->first();
         $cont=$num['nrosal'];
@@ -610,8 +651,8 @@ class gbSolRecibidasController extends Controller
                     ]);
                     //END INSUMOS HISTORY
                 }
-                
-            }            
+
+            }
         }
         //INGRESO PLANTA SOLICITANTE
         $num = Ingreso::join('public._bp_planta as plant', 'insumo.ingreso.ing_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(ing_enumeracion) as nroing'))->where('plant.id_planta', $orden_produccion_aprob->orprod_planta_id)->first();
@@ -697,7 +738,7 @@ class gbSolRecibidasController extends Controller
         return response()->json($sol_traspaso);
     }
     //END MOSTRAR SOLICITUDES POR TRASPASOMAQUILA
-    
+
     // APROVACIONES
     // APROVACION DE RECETA
     public function aprovSolreceta(Request $request)
@@ -737,26 +778,26 @@ class gbSolRecibidasController extends Controller
         $solReceta = Solicitud::where('sol_id','=',$request['aprsol_solreceta_id'])->where('sol_id_tipo','=',1)->first();
         $solReceta->sol_estado = 'B';
         $solReceta->save();
-        
+
         // dd($planta->id_planta);
         $ins_aprovRec =json_decode($request['aprsol_data']);
         // dd($ins_aprovRec);
         foreach ($ins_aprovRec as $insumo) {
-            $stock = Stock_Almacen::where('stockal_ins_id','=',$insumo->id_insumo)->where('stockal_planta_id','=',$planta->id_planta)->first();          
+            $stock = Stock_Almacen::where('stockal_ins_id','=',$insumo->id_insumo)->where('stockal_planta_id','=',$planta->id_planta)->first();
                 $cant_ingreso = $insumo->cantidad + $insumo->rango_adicional;
                 $stock_cantidad_ingreso = $stock->stockal_cantidad - $cant_ingreso;
                 $stock->stockal_cantidad = $stock_cantidad_ingreso;
                 $stock->stockal_usr_id = Auth::user()->usr_id;
                 $stock->save();
-            
+
             // $insumo_precio = DetalleIngresoData::where('detcar_id_ins','=',$insumo->id_insumo)
             //                                    ->where('detcar_id_planta','=',$planta->id_planta)
             //                                    ->orderby('detcar_id', 'ASC')->where('detcar_cantidad','>=',$insumo->cantidad)->first();
             // if ($insumo->cantidad > $insumo_precio->detcar_cantidad) {
-                
+
             // }
             $aux_cant = $insumo->cantidad;
-            $cont = $aux_cant; 
+            $cont = $aux_cant;
             while($cont > 0)
             {
                 $insumo_precio = DetalleIngresoData::where('detcar_id_ins','=',$insumo->id_insumo)
@@ -820,15 +861,15 @@ class gbSolRecibidasController extends Controller
                 $insuDet->detcar_cant_actual = $aux_cant1;
                 $insuDet->save();
 
-                
-                
+
+
                 $cont = $cant_hist;
                 // var_dump($cont);
             }
-            
+
         }
         // dd($array);
-    
+
         return response()->json($aprobacion);
     }
     // APORVACION DE INSUMO ADICIONAL
@@ -844,7 +885,7 @@ class gbSolRecibidasController extends Controller
             'aprsol_solicitud'      => $request['aprsol_soladi_id'],
             'aprsol_data'           => $request['aprsol_data'],
             'aprsol_usr_id'         => Auth::user()->usr_id,
- 
+
             'aprsol_estado'         => 'A',
             'aprsol_cod_solicitud'  => $nro_cod_insa,
             'aprsol_id_planta'      => $planta->id_planta,
@@ -867,14 +908,14 @@ class gbSolRecibidasController extends Controller
         }
         $solAdicional = Solicitud::where('sol_id','=',$request['aprsol_soladi_id'])->where('sol_id_tipo','=',2)->first();
         $solAdicional->sol_estado = 'B';
-        $solAdicional->save();        
-        
+        $solAdicional->save();
+
         // dd($planta->id_planta);
         $ins_aprovRec =json_decode($request['aprsol_data']);
 
         foreach ($ins_aprovRec as $insumo) {
             $stock = Stock_Almacen::where('stockal_ins_id','=',$insumo->id_insumo)->where('stockal_planta_id','=',$planta->id_planta)->first();
-            // dd($insumo->cantidad_adicional);                
+            // dd($insumo->cantidad_adicional);
                 $stock_cantidad_ingreso = $stock->stockal_cantidad - $insumo->solicitud_adicional;
                 $stock->stockal_cantidad = $stock_cantidad_ingreso;
                 $stock->stockal_usr_id = Auth::user()->usr_id;
@@ -882,7 +923,7 @@ class gbSolRecibidasController extends Controller
 
                 // STOCK HISTORIAL
                 $aux_cant = $insumo->solicitud_adicional;
-                $cont = $aux_cant; 
+                $cont = $aux_cant;
                 while($cont > 0)
                 {
                     $insumo_precio = DetalleIngresoData::where('detcar_id_ins','=',$insumo->id_insumo)
@@ -946,8 +987,8 @@ class gbSolRecibidasController extends Controller
                 $insuDet->detcar_cant_actual = $aux_cant1;
                 $insuDet->save();
 
-                
-                
+
+
                 $cont = $cant_hist;
                 // var_dump($cont);
             }
@@ -957,7 +998,7 @@ class gbSolRecibidasController extends Controller
     }
     // APROVACION POR TRASPASO MAQUILA
     public function aprovSolTraspaso(Request $request)
-    {   
+    {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->where('usr_id','=',Auth::user()->usr_id)->first();
         $cod_nro_tras = Aprobacion_Solicitud::where('aprsol_id_planta','=',$planta->id_planta)->select(DB::raw('MAX(aprsol_cod_solicitud) as codigo_nro_tras'))->first();
@@ -988,18 +1029,18 @@ class gbSolRecibidasController extends Controller
                 'detaprob_registrado'   => $fech,
             ]);
         }
-        
+
         $solMaquila = Solicitud::where('sol_id','=',$request['aprsol_solmaq_id'])->where('sol_id_tipo','=',3)->first();
         $solMaquila->sol_estado = 'B';
         $solMaquila->save();
-        
-        
+
+
         // dd($planta->id_planta);
         $ins_aprovRec =json_decode($request['aprsol_data']);
 
         foreach ($ins_aprovRec as $insumo) {
             $stock = Stock_Almacen::where('stockal_ins_id','=',$insumo->id_insumo)->where('stockal_planta_id','=',$planta->id_planta)->first();
-            // dd($insumo->cantidad_adicional);                
+            // dd($insumo->cantidad_adicional);
                 $stock_cantidad_ingreso = $stock->stockal_cantidad - $insumo->cantidad;
                 $stock->stockal_cantidad = $stock_cantidad_ingreso;
                 $stock->stockal_usr_id = Auth::user()->usr_id;
@@ -1007,7 +1048,7 @@ class gbSolRecibidasController extends Controller
 
                 // STOCK HISTORIAL
                 $aux_cant = $insumo->cantidad;
-                $cont = $aux_cant; 
+                $cont = $aux_cant;
                 while($cont > 0)
                 {
                     $insumo_precio = DetalleIngresoData::where('detcar_id_ins','=',$insumo->id_insumo)
@@ -1071,8 +1112,8 @@ class gbSolRecibidasController extends Controller
                 $insuDet->detcar_cant_actual = $aux_cant1;
                 $insuDet->save();
 
-                
-                
+
+
                 $cont = $cant_hist;
                 // var_dump($cont);
             }
@@ -1081,7 +1122,7 @@ class gbSolRecibidasController extends Controller
         return response()->json($aprobacionMaquila);
     }
     // END APROVACIONES
-     
+
     // BOLETAS
     // BOLETA DE APROBACION DE RECETA
      public function aprovBoletaSolRec($id)
@@ -1127,9 +1168,9 @@ class gbSolRecibidasController extends Controller
                                     ->join('insumo.mercado as merc','solreceta.sol_id_merc','=','merc.merc_id')
                                     ->where('aprsol_id','=',$id)->where('aprsol_tipo_solicitud','=',1)->first();
         $data = $reg['sol_data'];
-    
+
         $array = json_decode($data);
-    
+
         $html = '   <table border="1" cellspacing="0" cellpadding="1">
                         <tr>
                              <th align="center" width="150"><img src="/img/logopeqe.png" width="160" height="65"></th>
@@ -1145,18 +1186,18 @@ class gbSolRecibidasController extends Controller
                         <br><br>
                         <label><strong>No. Solicitud:</strong> '.$reg['sol_codnum'].'</label>
                         <br><br>
-                        
+
                         <label><strong>Fecha Solictud:</strong> '.$reg['sol_registrado'].'</label>
                         <br><br>
-                        
+
                         <label><strong>Fecha Entrega:</strong> '.$reg['aprsol_registrado'].'</label>
                         <br><br>
-                        
+
                         <h3 align="center">'.$reg['rec_nombre'].'</h3>
                     <br><br><br>
 
                     <table border="1" cellspacing="0">
-                     
+
                         <tr>
                             <th align="center" bgcolor="#3498DB" width="50"><strong>Nro</strong></th>
                             <th align="center" bgcolor="#3498DB" width="120"><strong>Unidad</strong></th>
@@ -1168,17 +1209,17 @@ class gbSolRecibidasController extends Controller
                         // $tot1=0;
                     //    echo $data;
                     foreach ($array as $d) {
-                        $nro = $nro+1; 
-                        
+                        $nro = $nro+1;
+
                             $html = $html . '<tr align="center" BGCOLOR="#f3f0ff">
                                     <td align="center">'.$nro.'</td>
                                     <td align="center">'.$d->unidad.'</td>
                                     <td align="center">'.$d->descripcion_insumo.'</td>
                                     <td align="center">'.$d->cantidad.'</td>
                                     <td align="center">'.$reg['merc_nombre'].'</td>
-                                  </tr>';  
-                        
-                       // echo $tot1;    
+                                  </tr>';
+
+                       // echo $tot1;
 
                      }
                      $html = $html . '<tr><td align="center" colspan="3"><strong>TOTAL TIPOS DE INSUMOS SOLICITADOS</strong></td><td align="center"><strong>'.$nro.'</strong></td></tr></table><br><br><br><br><br><br>';
@@ -1187,38 +1228,38 @@ class gbSolRecibidasController extends Controller
                                 <table>
                             <tr>
                                 <td align="center">________________________</td>
-                                
+
                                 <td align="center">________________________</td>
 
                                 <td align="center">________________________</td>
-                                
+
                                 <td align="center">________________________</td>
 
                             </tr>
                             <tr>
                                 <td align="center">Solicitante</td>
-                                
+
                                 <td align="center">Responsable de Almacen</td>
 
                                 <td align="center">Responsable Administrativo</td>
-                                
+
                                 <td align="center">Jefe de Planta</td>
                             </tr>
                             <tr>
                                 <td align="center">'.$usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno.'</td>
-                                
+
                             </tr>
-                            
-                            
+
+
                             </table>
-                            ';   
+                            ';
 
                     $htmltable = $html;
         $pdf->writeHTML($htmltable, true, 0, true, 0);
 
 
         // reset pointer to the last page
-          
+
         $pdf->lastPage();
 
         // ---------------------------------------------------------
@@ -1265,7 +1306,7 @@ class gbSolRecibidasController extends Controller
         $id_user =  Auth::user()->usr_id;
         $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
                  ->where('usr_id',$id_user)->first();
-        
+
         $reg = Aprobacion_Solicitud::join('insumo.solicitud as soladici','insumo.aprobacion_solicitud.aprsol_solicitud','=','soladici.sol_id')
                                     ->join('insumo.receta as rec','soladici.sol_id_rec','=','rec.rec_id')
                                     ->join('insumo.mercado as merc','soladici.sol_id_merc','=','merc.merc_id')
@@ -1273,7 +1314,7 @@ class gbSolRecibidasController extends Controller
         $data = $reg['sol_data'];
         // dd($data);
         $array = json_decode($data);
-    
+
         $html = '   <table border="1" cellspacing="0" cellpadding="1">
                         <tr>
                              <th align="center" width="150"><img src="/img/logopeqe.png" width="160" height="65"></th>
@@ -1295,18 +1336,18 @@ class gbSolRecibidasController extends Controller
                         <br><br>
                         <label><strong>Fecha Entrega:</strong> '.$reg['aprsol_registrado'].'</label>
                         <br><br>
-                        
+
                         <h3 align="center">'.$reg['rec_nombre'].'</h3>
                     <br><br><br>
 
                     <table border="1" cellspacing="0">
-                     
+
                         <tr>
                             <th align="center" bgcolor="#3498DB" width="50"><strong>Nro</strong></th>
                             <th align="center" bgcolor="#3498DB" width="160"><strong>Insumo</strong></th>
                             <th align="center" bgcolor="#3498DB" width="120"><strong>Unidad</strong></th>
                             <th align="center" bgcolor="#3498DB" width="70"><strong>Cantidad</strong></th>
-                            
+
                             <th align="center" bgcolor="#3498DB" width="100"><strong>Cant. adicional</strong></th>
                             <th align="center" bgcolor="#3498DB" width="160"><strong>Observacion</strong></th>
                         </tr> ';
@@ -1314,19 +1355,19 @@ class gbSolRecibidasController extends Controller
                         // $tot1=0;
                     //    echo $data;
                     foreach ($array as $d) {
-                        $nro = $nro+1; 
-                        
+                        $nro = $nro+1;
+
                             $html = $html . '<tr align="center" BGCOLOR="#f3f0ff">
                                     <td align="center">'.$nro.'</td>
                                     <td align="center">'.$d->descripcion_insumo.'</td>
                                     <td align="center">'.$d->unidad.'</td>
                                     <td align="center">'.$d->cantidad.'</td>
-                                    
+
                                     <td align="center">'.$d->solicitud_adicional.'</td>
                                     <td align="center">'.$d->observaciones.'</td>
-                                  </tr>';  
-                        
-                       // echo $tot1;    
+                                  </tr>';
+
+                       // echo $tot1;
 
                      }
                      $html = $html . '</table><br><br>
@@ -1341,38 +1382,38 @@ class gbSolRecibidasController extends Controller
                                 <table>
                             <tr>
                                 <td align="center">________________________</td>
-                                
+
                                 <td align="center">________________________</td>
 
                                 <td align="center">________________________</td>
-                                
+
                                 <td align="center">________________________</td>
 
                             </tr>
                             <tr>
                                 <td align="center">Solicitante</td>
-                                
+
                                 <td align="center">Responsable de Almacen</td>
 
                                 <td align="center">Responsable Administrativo</td>
-                                
+
                                 <td align="center">Jefe de Planta</td>
                             </tr>
                             <tr>
                                 <td align="center">'.$usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno.'</td>
-                                
+
                             </tr>
-                            
-                            
+
+
                             </table>
-                            ';   
+                            ';
 
                     $htmltable = $html;
         $pdf->writeHTML($htmltable, true, 0, true, 0);
 
 
         // reset pointer to the last page
-          
+
         $pdf->lastPage();
 
         // ---------------------------------------------------------
@@ -1420,7 +1461,7 @@ class gbSolRecibidasController extends Controller
         $id_user =  Auth::user()->usr_id;
         $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
                  ->where('usr_id',$id_user)->first();
-        
+
         $reg = Aprobacion_Solicitud::join('insumo.solicitud as solmaq','insumo.aprobacion_solicitud.aprsol_solicitud','=','solmaq.sol_id')
                     ->join('public._bp_planta as planta','solmaq.sol_id_origen','=','planta.id_planta')
                     ->join('public._bp_planta as plant','solmaq.sol_id_destino','=','plant.id_planta')
@@ -1430,7 +1471,7 @@ class gbSolRecibidasController extends Controller
                     ->select('solmaq.sol_id','solmaq.sol_um','solmaq.sol_obs','solmaq.sol_cantidad','solmaq.sol_registrado','ins.ins_desc','planta.nombre_planta as planta_origen','plant.nombre_planta as planta_destino','persona.prs_nombres','persona.prs_paterno','persona.prs_materno', 'solmaq.sol_codnum','aprsol_cod_solicitud','aprsol_gestion','insumo.aprobacion_solicitud.aprsol_id', 'insumo.aprobacion_solicitud.aprsol_registrado')
                     ->where('aprsol_id','=',$id)->where('aprsol_tipo_solicitud','=',3)
             ->first();
-        
+
          // dd($reg);
         $html = '   <table border="1" cellspacing="0" cellpadding="1">
                         <tr>
@@ -1441,7 +1482,7 @@ class gbSolRecibidasController extends Controller
                     </table>
                     <br><br><br>
                         <label><strong>Solicitante:</strong> '.$usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno.'</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        
+
                         <br><br>
                         <label><strong>Dependencia:</strong> '.$reg['planta_origen'].'</label>
                         <br><br>
@@ -1451,12 +1492,12 @@ class gbSolRecibidasController extends Controller
                         <br><br>
                         <label><strong>Fecha Entrega:</strong> '.$reg['aprsol_registrado'].'</label>
                         <br><br>
-                        
+
                         <h3 align="center">'.$reg['rec_nombre'].'</h3>
                     <br><br><br>
 
                     <table border="1" cellspacing="0">
-                     
+
                         <tr>
                             <th align="center" bgcolor="#3498DB" width="50"><strong>Nro</strong></th>
                             <th align="center" bgcolor="#3498DB" width="160"><strong>INSUMO</strong></th>
@@ -1465,9 +1506,9 @@ class gbSolRecibidasController extends Controller
                             <th align="center" bgcolor="#3498DB" width="158"><strong>origen</strong></th>
                             <th align="center" bgcolor="#3498DB" width="158"><strong>Detino</strong></th>
                         </tr> ';
-                     
+
                         // $tot1=0;
-                   
+
                             $html = $html . '<tr align="center" BGCOLOR="#f3f0ff">
                                     <td align="center">1</td>
                                     <td align="center">'.$reg['ins_desc'].'</td>
@@ -1475,9 +1516,9 @@ class gbSolRecibidasController extends Controller
                                     <td align="center">'.$reg['sol_cantidad'].'</td>
                                     <td align="center">'.$reg['planta_origen'].'</td>
                                     <td align="center">'.$reg['planta_destino'].'</td>
-                                  </tr>';  
-                        
-                       // echo $tot1;   
+                                  </tr>';
+
+                       // echo $tot1;
                      $html = $html . '</table>
 
                      <br><br>
@@ -1492,38 +1533,38 @@ class gbSolRecibidasController extends Controller
                                 <table>
                             <tr>
                                 <td align="center">________________________</td>
-                                
+
                                 <td align="center">________________________</td>
 
                                 <td align="center">________________________</td>
-                                
+
                                 <td align="center">________________________</td>
 
                             </tr>
                             <tr>
                                 <td align="center">Solicitante</td>
-                                
+
                                 <td align="center">Responsable de Almacen</td>
 
                                 <td align="center">Responsable Administrativo</td>
-                                
+
                                 <td align="center">Jefe de Planta</td>
                             </tr>
                             <tr>
                                 <td align="center">'.$usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno.'</td>
-                                
+
                             </tr>
-                            
-                            
+
+
                             </table>
-                            ';   
+                            ';
 
                     $htmltable = $html;
         $pdf->writeHTML($htmltable, true, 0, true, 0);
 
 
         // reset pointer to the last page
-          
+
         $pdf->lastPage();
 
         // ---------------------------------------------------------
@@ -1554,7 +1595,7 @@ class gbSolRecibidasController extends Controller
         $solReceta = Solicitud::where('sol_id','=',$request['aprsol_solreceta_id'])->where('sol_id_tipo','=',1)->first();
         $solReceta->sol_estado = 'B';
         $solReceta->save();
-    
+
         // return response()->json($rechazo);
         return response()->json("SOLICITUD RECHAZADA");
     }
@@ -1579,7 +1620,7 @@ class gbSolRecibidasController extends Controller
         $solAdicional = Solicitud::where('sol_id','=',$request['aprsol_soladi_id'])->where('sol_id_tipo','=',2)->first();
         $solAdicional->sol_estado = 'B';
         $solAdicional->save();
-    
+
         return response()->json("SOLICITUD RECHAZADA");
     }
     // RECHAZO SOLICITUD TRAPASO MAQUILA
@@ -1603,7 +1644,7 @@ class gbSolRecibidasController extends Controller
         $solMaquila = Solicitud::where('sol_id','=',$request['aprsol_solmaq_id'])->where('sol_id_tipo','=',3)->first();
         $solMaquila->sol_estado = 'B';
         $solMaquila->save();
-    
+
         return response()->json("SOLICITUD RECHAZADA");
     }
 
@@ -1661,7 +1702,7 @@ class gbSolRecibidasController extends Controller
                         <label>GENERADO POR: '. $per['prs_nombres'].' '.$per['prs_paterno'].' '.$per['prs_materno'].'</label>
                         <br><br>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr>
                             <th align="center" bgcolor="#3498DB" width="60"><strong>No.</strong></th>
                             <th align="center" bgcolor="#3498DB" width="60"><strong>No. SALIDA</strong></th>
@@ -1669,36 +1710,36 @@ class gbSolRecibidasController extends Controller
                             <th align="center" bgcolor="#3498DB" width="350"><strong>ARTICULO</strong></th>
                             <th align="center" bgcolor="#3498DB" width="180"><strong>CANTIDAD</strong></th>
                             <th align="center" bgcolor="#3498DB" width="200"><strong>FECHA SALIDA.</strong></th>
-                            
+
                         </tr>';
                         $nro=0;
-                    foreach ($reg as $key => $r) {                                              
+                    foreach ($reg as $key => $r) {
                         $data = $r->aprsol_data;
                         $array = json_decode($data);
-                        foreach ($array as $dat) { 
+                        foreach ($array as $dat) {
                             $nro = $nro+1;
                             $cantidad = (float)$dat->cantidad;
                             $rango = (float)$dat->rango_adicional;
                             $solAdi = (float)$dat->solicitud_adicional;
-                            $cantidadTotal = $cantidad+$rango+$solAdi;  
+                            $cantidadTotal = $cantidad+$rango+$solAdi;
                             $html = $html . '<tr align="center" BGCOLOR="#f3f0ff">
                                 <td align="center">'.$nro.'</td>
                                 <td align="center">'.$r->aprsol_cod_solicitud.'</td>
                                 <td align="center">'.$dat->codigo_insumo.'</td>
                                 <td align="center">'.$dat->descripcion_insumo.'</td>
                                 <td align="center">'.number_format($cantidadTotal,2,'.',',').'</td>
-                                <td align="center">'.$r->aprsol_registrado.'</td></tr>';                    
+                                <td align="center">'.$r->aprsol_registrado.'</td></tr>';
                         }
                      }
 
-                       
+
 
                     $htmltable = $html . '</table>';
         $pdf->writeHTML($htmltable, true, 0, true, 0);
 
 
         // reset pointer to the last page
-          
+
         $pdf->lastPage();
 
         // ---------------------------------------------------------
@@ -1762,7 +1803,7 @@ class gbSolRecibidasController extends Controller
                         <label><strong>GENERADO POR:</strong> '. $per['prs_nombres'].' '.$per['prs_paterno'].' '.$per['prs_materno'].'</label>
                         <br><br>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr>
                             <th align="center" bgcolor="#3498DB" width="60"><strong>No.</strong></th>
                             <th align="center" bgcolor="#3498DB" width="60"><strong>No. SALIDA</strong></th>
@@ -1771,20 +1812,20 @@ class gbSolRecibidasController extends Controller
                             <th align="center" bgcolor="#3498DB" width="200"><strong>ARTICULO</strong></th>
                             <th align="center" bgcolor="#3498DB" width="180"><strong>CANTIDAD</strong></th>
                             <th align="center" bgcolor="#3498DB" width="150"><strong>FECHA SALIDA.</strong></th>
-                            
+
                         </tr>';
                         $nro=0;
                         $total_cantidad_sal = 0;
-                    foreach ($reg as $key => $r) {                                              
+                    foreach ($reg as $key => $r) {
                         $data = $r->aprsol_data;
                         $array = json_decode($data);
-                        foreach ($array as $dat) { 
+                        foreach ($array as $dat) {
                             $nro = $nro+1;
                             $cantidad = (float)$dat->cantidad;
                             $rango = (float)$dat->rango_adicional;
                             //$solAdi = (float)$dat->solicitud_adicional;
                             $solAdi = 0;
-                            $cantidadTotal = $cantidad+$rango+$solAdi;  
+                            $cantidadTotal = $cantidad+$rango+$solAdi;
 
                             $total_cantidad_sal = $total_cantidad_sal+$cantidadTotal;
                             $html = $html . '<tr align="center" BGCOLOR="#f3f0ff">
@@ -1794,20 +1835,20 @@ class gbSolRecibidasController extends Controller
                                 <td align="center">'.$dat->codigo_insumo.'</td>
                                 <td align="center">'.$dat->descripcion_insumo.'</td>
                                 <td align="center">'.number_format($cantidadTotal,2,'.',',').'</td>
-                                <td align="center">'.date('d-m-Y',strtotime($r->aprsol_registrado)).'</td></tr>';                    
+                                <td align="center">'.date('d-m-Y',strtotime($r->aprsol_registrado)).'</td></tr>';
                         }
                      }
                      $html = $html . '<tr align="center" BGCOLOR="#f3f0ff">
                                 <td align="center" colspan="5"><strong>TOTAL</strong></td>
                                 <td align="center"><strong>'.number_format($total_cantidad_sal,2,'.',',').'</strong></td>
-                                <td align="center"><strong>-</strong></td></tr>';                       
+                                <td align="center"><strong>-</strong></td></tr>';
 
                     $htmltable = $html . '</table>';
         $pdf->writeHTML($htmltable, true, 0, true, 0);
 
 
         // reset pointer to the last page
-          
+
         $pdf->lastPage();
 
         // ---------------------------------------------------------

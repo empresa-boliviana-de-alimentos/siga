@@ -1,21 +1,21 @@
 @extends('backend.template.app')
 @section('main-content')
-<?php 
+<?php
     function stock_actualOP($id_insumo)
     {
         $planta = \DB::table('public._bp_usuarios')->join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                         ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $stock_actual =DB::table('insumo.stock')->select(DB::raw('SUM(stock_cantidad) as stock_cantidad'))->where('stock_planta_id','=',$planta->id_planta)
                                 ->where('stock_ins_id','=',$id_insumo)->first();
-        return $stock_actual->stock_cantidad; 
-    } 
+        return $stock_actual->stock_cantidad;
+    }
  ?>
 <div class="row">
     <div class="col-md-12">
-        <div class="container col-lg-12" style="background: white;">        
+        <div class="container col-lg-12" style="background: white;">
             <?php $now = new DateTime('America/La_Paz'); ?>
             <div class="text-center">
-                <h3 style="color:#2067b4"><strong>ENTREGA PEDIDO RECETA</strong></h3> 
+                <h3 style="color:#2067b4"><strong>ENTREGA PEDIDO RECETA</strong></h3>
             </div>
             <div class="text-center">
             	<h3>Código: ORP-{{$sol_orden_produccion->orprod_nro_orden}}</h3>
@@ -24,17 +24,17 @@
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="id_orp" id="nro_acopio" value="{{ $sol_orden_produccion->orprod_id}}">
-                    <div class="row"> 
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
                                         Producto:
-                                    </label>                                   
-                                    <input type="text" name="" value="{{$receta->rece_nombre}} {{ $receta->sab_nombre}} {{ $receta->rece_presentacion }} {{$receta->umed_nombre}}" class="form-control" readonly="true">        
+                                    </label>
+                                    <input type="text" name="" value="{{$receta->rece_nombre}} {{ $receta->sab_nombre}} {{ $receta->rece_presentacion }} {{$receta->umed_nombre}}" class="form-control" readonly="true">
                                 </div>
                             </div>
-                        </div>                                
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -64,7 +64,7 @@
                                     <textarea type="text" value="" class="form-control" name="" readonly="true">{{$sol_orden_produccion->orprod_obs_usr}}</textarea>
                                 </div>
                             </div>
-                        </div>                   
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -74,7 +74,7 @@
                                     <textarea type="text" value="" class="form-control" name="" readonly="true">{{$sol_orden_produccion->orprod_obs_vo}}</textarea>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -84,20 +84,23 @@
                                     <textarea type="text" value="" class="form-control" name="" readonly="true">{{$sol_orden_produccion->orprod_obs_vodos}}</textarea>
                                 </div>
                             </div>
-                        </div>                                                              
+                        </div>
                     </div>
+
+
                 @if($receta->rece_lineaprod_id == 2 OR $receta->rece_lineaprod_id == 3)
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>MATERIA PRIMA</strong></h4> 
-                    </div> 
+                        <h4 style="color:#2067b4"><strong>MATERIA PRIMA</strong></h4>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
-                            		<?php                                     
+                            		<?php
 	                                    $detalle_formulacion_map = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
 	                                                                        ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
 	                                                                        ->where('ins_id_tip_ins',3)
-	                                                                        ->where('detrece_rece_id',$receta->rece_id)->get();
-	                                    
+                                                                            ->where('detrece_rece_id',$receta->rece_id)
+                                                                            ->get();
+
 	                                    $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
                                     <div class="form-group">
@@ -109,8 +112,8 @@
                                                     <th>Unidad Medida</th>
                                                     <th>Cant. Base</th>
                                                     <th>Cantidad</th>
-                                                    
-                                                    <th>Stock Actual</th>                               
+
+                                                    <th>Stock Actual</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -124,13 +127,13 @@
                                                     @if($dorp->detrece_cantidad*$calculos > stock_actualOP($dorp->ins_id))
                                                     	<td style="background: #E99786">{{stock_actualOP($dorp->ins_id)}}</td>
                                                     @else
-                                                    	<td style="background: #84E53C">{{stock_actualOP($dorp->ins_id)}}</td> 
+                                                    	<td style="background: #84E53C">{{stock_actualOP($dorp->ins_id)}}</td>
                                                     @endif
                                                     @php
                                                     	$datos_stock[] = array('cantidadSol'=>$dorp->detrece_cantidad*$calculos,'cantidadStock'=>stock_actualOP($dorp->ins_id));
                                                     @endphp
                                                 </tr>
-                                                @endforeach 
+                                                @endforeach
                                             </tbody>
                                         </table>
 
@@ -139,15 +142,15 @@
                         </div>
                     </div>
                 @endif
-                
+
                 @if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>FORMULACION DE LA BASE</strong></h4> 
-                    </div> 
+                        <h4 style="color:#2067b4"><strong>FORMULACION DE LA BASE</strong></h4>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
-                                    <?php 
-                                    
+                                    <?php
+
                                     $insumo_insumo = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('ins_id_tip_ins',1)
@@ -172,8 +175,8 @@
                                                     <th>Insumo</th>
                                                     <th>Unidad Medida</th>
                                                     <th>Cant. Base</th>
-                                                    <th>Cantidad</th>                                                    
-                                                    <th>Stock Actual</th>                               
+                                                    <th>Cantidad</th>
+                                                    <th>Stock Actual</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -187,7 +190,7 @@
                                                     @if($dorp['detrece_cantidad']*$calculos > stock_actualOP($dorp['ins_id']))
                                                     	<td style="background: #E99786">{{stock_actualOP($dorp['ins_id'])}}</td>
                                                     @else
-                                                    	<td style="background: #84E53C">{{stock_actualOP($dorp['ins_id'])}}</td> 
+                                                    	<td style="background: #84E53C">{{stock_actualOP($dorp['ins_id'])}}</td>
                                                     @endif
                                                     @php
                                                     	$datos_stock[] = array('cantidadSol'=>$dorp['detrece_cantidad']*$calculos,'cantidadStock'=>stock_actualOP($dorp['ins_id']));
@@ -202,19 +205,19 @@
                         </div>
                     </div>
                 @endif
-                @if ($receta->rece_lineaprod_id == 1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)  
+                @if ($receta->rece_lineaprod_id == 1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>SABORIZACIÓN</strong></h4> 
-                    </div> 
+                        <h4 style="color:#2067b4"><strong>SABORIZACIÓN</strong></h4>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
-                                    <?php 
-                                    
+                                    <?php
+
                                     $detalle_formulacion = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
                                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                                         ->where('ins_id_tip_ins',4)
                                                                         ->where('detrece_rece_id',$receta->rece_id)->get();
-                                   
+
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
                                     <div class="form-group">
@@ -225,8 +228,8 @@
                                                     <th>Insumo</th>
                                                     <th>Unidad Medida</th>
                                                     <th>Cant. Base</th>
-                                                    <th>Cantidad</th>                                                    
-                                                    <th>Stock Actual</th>                               
+                                                    <th>Cantidad</th>
+                                                    <th>Stock Actual</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -240,13 +243,13 @@
                                                     @if($dorp->detrece_cantidad*$calculos > stock_actualOP($dorp->ins_id))
                                                     	<td style="background: #E99786">{{stock_actualOP($dorp->ins_id)}}</td>
                                                     @else
-                                                    	<td style="background: #84E53C">{{stock_actualOP($dorp->ins_id)}}</td> 
+                                                    	<td style="background: #84E53C">{{stock_actualOP($dorp->ins_id)}}</td>
                                                     @endif
                                                     @php
                                                     	$datos_stock[] = array('cantidadSol'=>$dorp->detrece_cantidad*$calculos,'cantidadStock'=>stock_actualOP($dorp->ins_id));
                                                     @endphp
                                                 </tr>
-                                                @endforeach 
+                                                @endforeach
                                             </tbody>
                                         </table>
 
@@ -255,19 +258,19 @@
                         </div>
                     </div>
                 @endif
-                
+
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>MATERIAL DE ENVASADO</strong></h4> 
-                    </div> 
+                        <h4 style="color:#2067b4"><strong>MATERIAL DE ENVASADO</strong></h4>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
-                                    <?php 
-                                    
+                                    <?php
+
                                     $detalle_formulacion = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
                                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                                         ->where('ins_id_tip_ins',2)
                                                                         ->where('detrece_rece_id',$receta->rece_id)->get();
-                                   
+
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
                                     <div class="form-group">
@@ -279,12 +282,12 @@
                                                     <th>Unidad Medida</th>
                                                     <th>Cant. Base</th>
                                                     <th>Cantidad</th>
-                                                    
-                                                    <th>Stock Actual</th>                               
+
+                                                    <th>Stock Actual</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($detalle_formulacion as $dorp)                                       
+                                                @foreach($detalle_formulacion as $dorp)
                                                 <tr>
                                                     <td>{{$dorp->ins_codigo}}</td>
                                                     <td>{{$dorp->ins_desc}}</td>
@@ -296,22 +299,22 @@
                                                     	<td style="background: #E99786">{{stock_actualOP($dorp->ins_id)}}</td>
                                                     @else
                                                     	<td style="background: #84E53C">{{stock_actualOP($dorp->ins_id)}}</td>
-                                                    	<input type="hidden" value="verficaStock($dorp->detrece_cantidad*$calculos,stock_actualOP($dorp->ins_id));" name=""> 
+                                                    	<input type="hidden" value="verficaStock($dorp->detrece_cantidad*$calculos,stock_actualOP($dorp->ins_id));" name="">
                                                     @endif
                                                     @php
                                                     	$datos_stock[] = array('cantidadSol'=>$dorp->detrece_cantidad*$calculos,'cantidadStock'=>stock_actualOP($dorp->ins_id));
                                                     @endphp
-                                                </tr>                                               
-                                                @endforeach 
+                                                </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>
-  
+
 
                                     </div>
                         </div>
                     </div>
                                <div class="row">
-                    
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -321,8 +324,8 @@
                                     <textarea type="text" value="" class="form-control" name="obs_usr_aprob"></textarea>
                                 </div>
                             </div>
-                        </div> 
-                </div>               
+                        </div>
+                </div>
                     <br>
                     <div class="row">
                         <div class="col-lg-12">
@@ -335,9 +338,9 @@
                             </div>
                         </div>
                     </div>
-                
+
             </form>
-            
+
         </div>
     </div>
 </div>
@@ -345,6 +348,7 @@
 @endsection
 @push('scripts')
 <script>
+
 $(document).ready(function() {
     verficaStock();
 });
@@ -363,8 +367,8 @@ function verficaStock()
             $('input[type="submit"]').attr('disabled','disabled');
         }
 	}
-	
-	
+
+
 }
 </script>
 @endpush
