@@ -1,28 +1,34 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#428bca;
+      color: white;
+    }
+    tbody td {
+      background-color: #EEEEEE;
+    }
+</style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_devolucion.devolucion_recibidas.partials.modalCreate')
+<div class="panel panel-primary">
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="box box-default box-solid">
-            <div class="box-header with-border">
-            <div class="col-md-12">
-                <div class="col-md-1">
-                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('DevolucionRegistrosMenu') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
-                </div>
-                <div class="col-md-8">
-                     <h4><label for="box-title">LISTA DE DEVOLUCIONES RECIBIDAS</label></h4>
-                </div>
-                <div class="col-md-2">
-                </div>
-                <div class="col-md-2">
-               {{--  <button class="btn fa fa-plus-square pull-right btn-dark"  data-target="#myCreateProv" data-toggle="modal">&nbsp;Nuevo Registro</button> --}}
-                </div>
-            </div>
-            </div>
+<div class="panel-heading">
+    <div class="row">
+        <div class="col-md-2">
+            <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('DevolucionRegistrosMenu') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
+        </div>
+        <div class="col-md-7 text-center">
+            <p class="panel-title">LISTA DE DEVOLUCIONES RECIBIDAS</p>
+        </div>
+        <div class="col-md-3 text-right">
+            
         </div>
     </div>
-</div>
+    </div>
 <!-- <section class="content"> -->
     <div class="row">
         <div class="col-md-12">
@@ -52,24 +58,29 @@
                     <thead class="cf">
                                 <tr>
                                     <th>
-                                        N°
+                                        #
                                     </th>                                    
                                     <th>
-                                        Opc.
+                                        NRO. ORP
                                     </th>
                                     <th>
-                                        N° Devolucion
+                                        FECHA SOLICITUD
                                     </th>
                                     <th>
-                                        N° ORP
+                                        NRO SALIDA
                                     </th>
                                     <th>
-                                        Fecha
+                                        FECHA DEVOLUCION
                                     </th>
                                     <th>
-                                        Estado
+                                        PRODUCTO PRODUCIR
+                                    </th>
+                                    <th>
+                                        SOLICITANTE
                                     </th>     
-                      
+                                    <th>
+                                        OPCIONES
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,23 +89,29 @@
                             <tfoot>
                                 <tr>
                                     <th>
-                                        N°
+                                        #
                                     </th>                                    
                                     <th>
-                                        Opc.
+                                        NRO. ORP
                                     </th>
                                     <th>
-                                        N° Devolucion
+                                        FECHA SOLICITUD
                                     </th>
                                     <th>
-                                        N° ORP
+                                        NRO SALIDA
                                     </th>
                                     <th>
-                                        Fecha
+                                        FECHA DEVOLUCION
                                     </th>
                                     <th>
-                                        Estado
-                                    </th>                                  
+                                        PRODUCTO PRODUCIR
+                                    </th>
+                                    <th>
+                                        SOLICITANTE
+                                    </th>     
+                                    <th>
+                                        OPCIONES
+                                    </th>                                
                                 </tr>
                             </tfoot>
                 </table>
@@ -114,23 +131,29 @@
                         <thead class="cf">
                                 <tr>
                                     <th>
-                                        N°
+                                        #
                                     </th>                                    
                                     <th>
-                                        Opc.
+                                        NRO. ORP
                                     </th>
                                     <th>
-                                        N° Devolucion
+                                        FECHA SOLICITUD
                                     </th>
                                     <th>
-                                        N° ORP
+                                        NRO SALIDA
                                     </th>
                                     <th>
-                                        Fecha
+                                        FECHA DEVOLUCION
                                     </th>
                                     <th>
-                                        Estado
-                                    </th>                        
+                                        PRODUCTO PRODUCIR
+                                    </th>
+                                    <th>
+                                        SOLICITANTE
+                                    </th>     
+                                    <th>
+                                        OPCIONES
+                                    </th>                      
                                 </tr>
                             </thead>
                             <tbody>
@@ -139,23 +162,29 @@
                             <tfoot>
                                 <tr>
                                     <th>
-                                        N°
+                                        #
                                     </th>                                    
                                     <th>
-                                        Opc.
+                                        NRO. ORP
                                     </th>
                                     <th>
-                                        N° Devolucion
+                                        FECHA SOLICITUD
                                     </th>
                                     <th>
-                                        N° ORP
+                                        NRO SALIDA
                                     </th>
                                     <th>
-                                        Fecha
+                                        FECHA DEVOLUCION
                                     </th>
                                     <th>
-                                        Estado
-                                    </th>                      
+                                        PRODUCTO PRODUCIR
+                                    </th>
+                                    <th>
+                                        SOLICITANTE
+                                    </th>     
+                                    <th>
+                                        OPCIONES
+                                    </th>                   
                                 </tr>
                             </tfoot>
                     </table>
@@ -180,11 +209,13 @@ var t = $('#lts-tabsolSobrante').DataTable( {
             "ajax": "/DevolucionRecibida/create/",
             "columns":[
                 {data: 'devo_id'},
-                {data: 'acciones',orderable: false, searchable: false},
-                {data: 'devo_nro_dev'},
                 {data: 'devo_nro_orden'},
                 {data: 'devo_registrado'},
-                {data: 'estadoDevoSobrante'}
+                {data: 'devo_nro_salida'},
+                {data: 'devo_modificado'},
+                {data: 'nombreReceta'},                
+                {data: 'nombreSol'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],
         "language": {
              "url": "/lenguaje"
@@ -205,12 +236,15 @@ var t2 = $('#lts-tabsolDefectuoso').DataTable( {
             "serverSide": true,
             "ajax": "DevolucionRecibidaDefecCreate",
             "columns":[
+                //{data: 'estadoDevoDefectuoso'}
                 {data: 'devo_id'},
-                {data: 'acciones',orderable: false, searchable: false},
-                {data: 'devo_nro_dev'},
                 {data: 'devo_nro_orden'},
                 {data: 'devo_registrado'},
-                {data: 'estadoDevoDefectuoso'}
+                {data: 'devo_nro_salida'},
+                {data: 'devo_modificado'},
+                {data: 'nombreReceta'},                
+                {data: 'nombreSol'},
+                {data: 'acciones',orderable: false, searchable: false},
             ],
         "language": {
              "url": "/lenguaje"
