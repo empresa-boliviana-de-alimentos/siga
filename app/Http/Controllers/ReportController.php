@@ -242,6 +242,51 @@ class ReportController extends Controller
         return $pdf->inline();
        
     }
+
+    public function kardex_fisico($rep)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "KARDEX FISICO";
+        $date =Carbon::now();
+
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)
+                        ->first();
+
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id',Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+
+        $insumo = InsumoHistorial::join('insumo.insumo as ins', 'insumo.insumo_historial.inshis_ins_id', '=', 'ins.ins_id')
+                        ->join('insumo.unidad_medida as umed', 'ins.ins_id_uni', '=', 'umed.umed_id')
+                        ->where('inshis_planta_id', '=', $planta->id_planta)
+                        ->where('inshis_ins_id', $rep)
+                        ->orderby('inshis_id', 'ASC')
+                        ->first();
+
+        $tabkarde = InsumoHistorial::leftJoin('insumo.detalle_ingreso','insumo.detalle_ingreso.deting_id','=','insumo.insumo_historial.inshis_deting_id')
+                                    ->leftJoin('insumo.detalle_orden_produccion','insumo.detalle_orden_produccion.detorprod_id','=','insumo.insumo_historial.inshis_detorprod_id')
+                                    ->leftJoin('insumo.ingreso','insumo.ingreso.ing_id','=','insumo.detalle_ingreso.deting_ing_id')
+                                    ->leftJoin('insumo.orden_produccion','insumo.orden_produccion.orprod_id','=','detalle_orden_produccion.detorprod_orprod_id')
+                                    ->where('insumo.insumo_historial.inshis_planta_id', '=', $planta->id_planta)
+                                    ->where('insumo.insumo_historial.inshis_ins_id', $rep)
+                                    ->orderBy('insumo.insumo_historial.inshis_id')
+                                    ->get();
+     
+       
+        $code = $insumo->ins_codigo;
+
+        $view = \View::make('reportes.kardex_fisico', compact('username','date','title','storage','insumo','tabkarde','code'));
+
+        $html_content = $view->render();
+
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+       
+    }
     
 
     public function nombreLinea($id){
