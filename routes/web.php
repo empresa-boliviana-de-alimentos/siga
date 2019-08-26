@@ -409,7 +409,7 @@ Route::group(array('middleware' => 'auth'), function () {
 	Route::get('/ReportPreliminar/{id}', ['as' => 'reportePreliminar', 'uses' => 'insumo\insumo_registros\gbIngresoAlmacenController@reportePreliminar']);
 	Route::post('Preliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@storePreliminar');
 	Route::delete('DeletePreliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@borrarPreliminar');
-	Route::get('/ReporteAlmacen/{id}', ['as' => 'reporteAlmacen', 'uses' => 'insumo\insumo_registros\gbIngresoAlmacenController@reporteAlmacen']);
+	Route::get('/ReporteAlmacen/{id}', ['as' => 'reporteAlmacen', 'uses' => 'ReportController@nota_de_ingreso']);
 	Route::get('ReporteUfvExcel', 'insumo\insumo_registros\gbUfvController@reporteUfvExcel');
 	Route::get('/ReportePrima/{id}', ['as' => 'reportePrima', 'uses' => 'insumo\insumo_registros\gbIngresoPrimaController@reportePrima']);
 	Route::get('/ReportePrimaEnval/{id}', ['as' => 'reportePrima', 'uses' => 'ReportController@ingreso_materia_prima']);

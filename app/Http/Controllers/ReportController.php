@@ -326,6 +326,44 @@ class ReportController extends Controller
 
     }
     
+    public function nota_de_ingreso($id_ingreso)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA INGRESO";
+        
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per=Collect($usuario);
+        $reg = Ingreso::join('insumo.tipo_ingreso as tip', 'insumo.ingreso.ing_id_tiping', '=', 'tip.ting_id')
+                        ->where('ing_id',$id_ingreso)
+                        ->first();
+        $fecha = Carbon::parse($reg['ing_fecha_remision']);
+    
+
+        $mesesLiteral = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+        $deta_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
+                                                ->leftjoin('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+                                                ->join('insumo.proveedor as prov','insumo.detalle_ingreso.deting_prov_id','=','prov.prov_id')
+                                                ->where('deting_ing_id',$id_ingreso)->get();
+        
+      
+        $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
+        $date =date('d/m/Y',strtotime($reg['ing_registrado']));
+
+        $view = \View::make('reportes.nota_de_ingreso', compact('username','date','title','storage','reg','deta_ingreso','usuario','code','per'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
 
     public function nombreLinea($id){
         if ($id == 1) {

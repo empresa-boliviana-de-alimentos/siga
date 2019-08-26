@@ -16,7 +16,7 @@
         <td colspan="3" class="text-xs uppercase">{{$reg['orprod_nro_orden']}}</td>
         <td  class="text-center bg-grey-darker text-xs text-white">Mercado:</td>
         <td colspan="3" class="text-xs uppercase">{{$reg['mer_nombre']}}</td>
-        <td  class="text-center bg-grey-darker text-xs text-white">Fecha Entrega::</td>
+        <td  class="text-center bg-grey-darker text-xs text-white">Fecha Entrega:</td>
         <td colspan="3" class="text-xs uppercase">{{date('d/m/Y',strtotime($reg['orprod_modificado']))}}</td>
     </tr>
 
