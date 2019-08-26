@@ -79,7 +79,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -87,6 +87,18 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     </label>
                                     <span class="block input-icon input-icon-right">
                                     	{!! Form::text('cantidad_producir', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'cantidad_producir')) !!}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        Tiempo a Producir:
+                                    </label>
+                                    <span class="block input-icon input-icon-right">
+                                        {!! Form::text('tiempo_producir', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'tiempo_producir')) !!}
                                     </span>
                                 </div>
                             </div>
@@ -357,6 +369,8 @@ $('#receta_id').on('change', function(e){
 
     });
 });
+
+
 $( "#botonCalculos" ).click(function() {
     if ($('#cantidad_producir').val()>0) {
         var cantidadPed = $('#cantidad_producir').val()/$('#rendimiento_base').val();
@@ -373,6 +387,7 @@ $( "#botonCalculos" ).click(function() {
       	$( "#TableRecetasSab tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
       	$( "#TableRecetasEnv tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
       	$.get('getDataDetRecetaInsPrima?rece_id='+data.rece_id, function(data_det){
+
 	      	for (i = 0; i < data_det.length; i++){
 	      		function getstockActual(id,id_planta)
                 {
@@ -383,7 +398,10 @@ $( "#botonCalculos" ).click(function() {
                         async:false,
                         success: function(data_stock)
                         {
-                        	//console.log(data_stock);
+                        	/*console.log(data_stock);
+                            if (data_stock.stock_cantidad >! 0) {}
+                            swal("STOCK BAJO","En uno o mas de los insumos no existe la cantidad de stock disponible, por lo cual no podra aprobar esta solicitud","warning");
+                            $('input[type="submit"]').attr('disabled','disabled');*/
                             return data;
                         }
                     }).responseText);
@@ -398,6 +416,7 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
 	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
+                verficaStock(getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val()),data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val());
 	        }
     	});
       	$("#OcultarSaborizacion").show();
@@ -427,6 +446,7 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
 	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
+                verficaStock(getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val()),data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val());
 	        }
     	});
       	$("#OcultarMatEnv").show();
@@ -456,6 +476,7 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
 	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
+                verficaStock(getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val()),data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val());
 	        }
     	});
       }else if(linea_tipo == 2 || linea_tipo == 3){
@@ -490,6 +511,7 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
 	                '<td align="center" style="dislay: none; background: red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
+                verficaStock(getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val()),data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val());
 	        }
     	});
       	$("#OcultarformulacionBase").hide();
@@ -521,6 +543,7 @@ $( "#botonCalculos" ).click(function() {
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detrece_cantidad+ '"></input></td>'+
 	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ (data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val()).toFixed(2)+ '"></input></td>'+
 	                '<td align="center" style="dislay: none; background:red;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val())+'" style="background: #ffb4da;"></input></td></tr>');
+                verficaStock(getstockActual(data_det[i].ins_id,$("#planta_produccion_id").val()),data_det[i].detrece_cantidad*$('#cantidad_producir').val()/$('#rendimiento_base').val());
 	        }
     	});
 
@@ -534,5 +557,19 @@ $( "#botonCalculos" ).click(function() {
     }
 
 });
+
+
+function verficaStock(cantidadStock, cantidadSol)
+{
+    console.log("cant. Sol: "+cantidadSol+", cant.stock: "+cantidadStock);
+    if (cantidadStock>=cantidadSol) {
+        //$('input[type="submit"]').removeAttr('disabled');
+    }else{
+        console.log("No hay stock");
+        swal("STOCK BAJO","En uno o mas de los insumos no existe la cantidad de stock disponible, por lo cual no podra aprobar esta solicitud","warning");
+        $('input[type="submit"]').attr('disabled','disabled');
+    }    
+    
+}
 </script>
 @endpush

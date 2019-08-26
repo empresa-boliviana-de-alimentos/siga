@@ -125,6 +125,7 @@ class gbOrdenProduccionController extends Controller
             'orprod_codigo'     => '0001',
             'orprod_nro_orden'  => $nop,
             //'orprod_nro_salida' => 1,
+            'orprod_tiempo_prod' => $request['tiempo_producir'],
             'orprod_cantidad'   => $cantidad_orden,
             'orprod_mercado_id'    => $mercado_id,
             'orprod_planta_id'  => $planta_producion,
