@@ -25,9 +25,7 @@ Route::get('/', function () {
 	return view('frontend.index');
 });
 
-Route::get('/home', function () {
-	return view('backend.template.home');
-});
+
 Route::post('sesion', [
 	'as' => 'login-post',
 	'uses' => 'Auth\AuthController@postLogin',
@@ -39,7 +37,10 @@ Route::get('sesion', [
 
 Route::get('test_print','ReportController@test_print');
 
-Route::group(array('middleware' => 'auth'), function () {
+Route::group(['middleware' => ['auth']], function () {
+	Route::get('/home', function () {
+		return view('backend.template.home');
+	});
 	Route::get('ReportePdf', 'RerportController@prueba');
 	Route::resource('Acceso', 'admin\gbAccesoController');
 	Route::resource('Persona', 'admin\gbPersonaController');
