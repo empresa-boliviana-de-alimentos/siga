@@ -22,5 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LineaProduccion::class);
         $this->call(TipoOrdenProduccion::class);
         $this->call(TipoDevolucion::class);
+        $this->call(ColorSeeder::class);
+        $this->call(SublineaSeeder::class);
     }
 }
