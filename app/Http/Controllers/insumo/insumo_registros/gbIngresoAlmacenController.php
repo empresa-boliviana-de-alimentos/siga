@@ -923,8 +923,10 @@ class gbIngresoAlmacenController extends Controller
     }
     public function mostrarIngresoTraspaso($id)
     {
-        $ingreso = Ingreso::where('')->first();
-        return view('backend.administracion.insumo.insumo_registro.ingreso_traspaso.partials.formIngresoTraspaso');
+        $ingreso = Ingreso::where('ing_id',$id)->first();
+        $detalle_ingreso = DetalleIngreso::where('deting_ing_id',$ingreso->ing_id)->get();
+        //dd($ingreso);
+        return view('backend.administracion.insumo.insumo_registro.ingreso_traspaso.partials.formIngresoTraspaso',compact('ingreso','detalle_ingreso'));
     }
 
 
