@@ -103,7 +103,7 @@
         </tbody>
     </table>
 @endif
-
+{{--
 @if($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
     <table>
         <tr>
@@ -158,7 +158,7 @@
                 @endforeach
         </tbody>
     </table>
-@endif
+@endif --}}
 @if($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
     <table>
         <tr>
