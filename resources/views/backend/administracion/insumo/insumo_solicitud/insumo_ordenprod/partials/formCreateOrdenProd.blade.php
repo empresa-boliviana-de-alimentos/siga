@@ -24,7 +24,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="nro_acopio" id="nro_acopio" value="">
                     <div class="col-md-4">
-                    <div class="row">
+                    <pedido-orp :plantas="{{$plantas}}" :mercados="{{$mercados}}"></pedido-orp>
+                    <!--<div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-sm-12">
@@ -129,7 +130,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                             </div>
                         </div>
                     </div>
-                    </div>
+                    </div>-->
                 <div id="OcultarMateriaPrima" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
@@ -137,7 +138,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 <h3 class="panel-title">MATERIA PRIMA</h3>
                             </div>
                             <div class="panel-body">
-                                <table  class="table table-hover table-condensed small-text" id="TableRecetasMatPrim">
+                                <insumo-orp></insumo-orp>
+                                <!--<table  class="table table-hover table-condensed small-text" id="TableRecetasMatPrim">
                                     <thead>
                                         <tr>
                                             <th>Cod Insumo</th>
@@ -152,7 +154,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     <tbody>
 
                                     </tbody>
-                                </table>
+                                </table>-->
                             </div>
                         </div>
                     </div>
@@ -165,7 +167,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 <h3 class="panel-title">FORMULACION DE LA BASE</h3>
                             </div>
                             <div class="panel-body">
-                                <table  class="table table-hover table-condensed small-text" id="TableRecetasBase">
+                                <insumo-orp></insumo-orp>
+                                <!--<table  class="table table-hover table-condensed small-text" id="TableRecetasBase">
                                     <thead>
                                         <tr>
                                             <th>Cod Insumo</th>
@@ -179,7 +182,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     </thead>
                                     <tbody>
                                     </tbody>
-                                </table>
+                                </table>-->
                             </div>
                         </div>
                     </div>
@@ -289,10 +292,11 @@ $('#receta_id').select2({
     },
     language: "es",
 });
-
+var rece_id;
 var itemAux=[];
 $('#receta_id').on('change', function(e){
     var receta_id = e.target.value;
+    rece_id = e.target.value;
     $("#id_recetaAux").val(receta_id);
     $.get('getDataReceta?rece_id='+receta_id, function(data){
       //console.log(data);
