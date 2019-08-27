@@ -386,7 +386,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -415,7 +415,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -444,7 +444,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -478,7 +478,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -509,7 +509,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
