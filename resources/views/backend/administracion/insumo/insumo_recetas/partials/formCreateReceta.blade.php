@@ -312,41 +312,7 @@ tbody td {
                         <h4 style="color:#2067b4"><strong>FORMULACION DE LA BASE</strong></h4>
                     </div>
                     <material-envasado :lista="{{$listarInsumo}}" nombre="bases" ></material-envasado>
-                    {{-- <div class="row">
-                        <div class="col-md-12">
-                                <div class="text-right">
-                                    <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person" class="btn btn-xs btn-primary"><i class="fa fa-plus"> Añadir</i>
-                                    </a>
-                                </div>
-                                    <div class="form-group">
-                                        <table  class="table table-hover table-bordered small-text" id="tb">
-                                            <thead>
-                                            <tr class="tr-header">
-                                                <th>Descripcion</th>
-                                                <th>Unidad</th>
-                                                <th>Cantidad</th>
-                                                <th>Opcion</th>
-                                            </thead>
-                                                <!-- <th>Rango Adicional</th>                                             -->
-                                            <tr class="items_columsReceta2">
-                                                <td id="tdformbase"><select name="descripcion_base[]" id="form_base" class="descripcion_base form-control">
-                                                        <!--<option value="">Seleccione</option>-->
-                                                        @foreach($listarInsumo as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presen}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                <td id="tdformbaseuni">
-                                                    <input type="" name="" class="form-control" readonly>
-                                                </td>
-                                                <td><input type="text" name="cantidad_base[]" class="form-control"></td>
-                                                <td><div class="text-center"><a href='javascript:void(0);'  class='remove btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div></td>
-                                                <!-- <td><input type="text" name="rango[]" class="form-control"></td> -->
-                                            </tr>
-                                        </table>
 
-                                    </div>
-                        </div>
-                    </div> --}}
                 </div>
                 </div>
 
@@ -356,41 +322,7 @@ tbody td {
                         <h4 style="color:#2067b4"><strong>SABORIZACIÓN</strong></h4>
                     </div>
                     <material-envasado :lista="{{$listarSaborizantes}}" nombre="saborizantes" ></material-envasado>
-                    {{-- <div class="row">
-                        <div class="col-md-12">
-                            <div class="text-right">
-                                    <a href="javascript:void(0);" style="font-size:18px;" id="addMoreSabor" title="Add More Person" class="btn btn-xs btn-primary"><i class="fa fa-plus"> Añadir</i>
-                                    </a>
-                                    </div>
-                                    <div class="form-group">
-                                        <table  class="table table-hover table-bordered small-text" id="tbSabor">
-                                            <thead>
-                                            <tr class="tr-header">
-                                                <th>Descripcion</th>
-                                                <th>Unidad</th>
-                                                <th>Cantidad</th>
-                                                <th>Opcion</th>
-                                            </tr>
-                                            </thead>
-                                                <!-- <th>Rango Adicional</th>                                             -->
-                                            <tr class="items_columsReceta2">
-                                                <td id="tdformsab"><select name="descripcion_saborizacion[]" id="form_saborizacion" class="form-control">
-                                                        <!--<option value="">Seleccione</option>-->
-                                                        @foreach($listarSaborizantes as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presen}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                <td>
-                                                    <input type="" name="" class="form-control" readonly>
-                                                </td>
-                                                <td><input type="text" name="cantidad_saborizacion[]" class="form-control"></td>
-                                                <td><div class="text-center"><a href='javascript:void(0);'  class='removeSabor btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div></td>
-                                            </tr>
-                                        </table>
 
-                                    </div>
-                        </div>
-                    </div> --}}
                 </div>
                 </div>
 
@@ -400,41 +332,7 @@ tbody td {
                         <h4 style="color:#2067b4"><strong>MATERIAL DE ENVASADO</strong></h4>
                     </div>
                     <material-envasado :lista="{{$listarEnvase}}" nombre="envasados"></material-envasado>
-                    {{-- <div class="row">
-                        <div class="col-md-12">
-                            <div class="text-right">
-                                    <a href="javascript:void(0);" style="font-size:18px;" id="addMoreEnvase" title="Add More Person"class="btn btn-xs btn-primary"><i class="fa fa-plus"> Añadir</i>
-                                    </a>
-                                    </div>
-                                    <div class="form-group">
-                                        <table  class="table table-hover table-bordered small-text" id="tbEnvase">
-                                            <thead>
-                                            <tr class="tr-header">
-                                                <th>Descripcion</th>
-                                                <th>Unidad</th>
-                                                <th>Cantidad</th>
-                                                <th>Opcion</th>
-                                            </tr>
-                                            </thead>
-                                            <tr class="items_columsReceta2">
-                                                <td id="tdformenv">
-                                                    <select name="descripcion_envase[]" id="form_envasado" class="form-control">
 
-                                                        @foreach($listarEnvase as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presen}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                <td>
-                                                    <input type="" name="" class="form-control" readonly>
-                                                </td>
-                                                <td><input type="text" name="cantidad_envase[]" class="form-control"></td>
-                                                <td><div class="text-center"><a href='javascript:void(0);'  class='removeEnvase btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div></td>
-                                            </tr>
-                                        </table>
-
-                                    </div>
-                        </div>
-                    </div> --}}
                 </div>
                 </div>
 
