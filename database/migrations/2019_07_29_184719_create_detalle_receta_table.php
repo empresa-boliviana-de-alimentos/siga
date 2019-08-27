@@ -22,7 +22,7 @@ class CreateDetalleRecetaTable extends Migration
             $table->decimal('detrece_cantidad',18,2);
             $table->timestamp('detrece_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('detrece_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('detrece_estado')->default('A');
+            $table->char('detrece_estado',1)->default('A');
         });
     }
 

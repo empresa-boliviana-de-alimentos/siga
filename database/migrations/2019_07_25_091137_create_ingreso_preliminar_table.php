@@ -26,7 +26,7 @@ class CreateIngresoPreliminarTable extends Migration
             $table->integer('ingpre_planta_id');
             $table->timestamp('ingpre_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('ingpre_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('ingpre_estado')->default('A');
+            $table->char('ingpre_estado',1)->default('A');
 
         });
     }

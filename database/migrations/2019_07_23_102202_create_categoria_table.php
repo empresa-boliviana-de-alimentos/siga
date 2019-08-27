@@ -21,7 +21,7 @@ class CreateCategoriaTable extends Migration
             $table->integer('cat_usr_id');
             $table->timestamp('cat_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('cat_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('cat_estado')->default('A');
+            $table->char('cat_estado',1)->default('A');
         });
     }
 

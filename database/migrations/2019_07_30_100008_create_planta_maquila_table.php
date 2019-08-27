@@ -19,7 +19,7 @@ class CreatePlantaMaquilaTable extends Migration
             $table->integer('maquila_usr_id');
             $table->timestamp('maquila_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('maquila_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('maquila_estado')->default('A');
+            $table->char('maquila_estado',1)->default('A');
         });
     }
 

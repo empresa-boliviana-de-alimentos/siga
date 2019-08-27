@@ -19,7 +19,7 @@ class CreateTipoEnvaseTable extends Migration
             $table->integer('tenv_usr_id');
             $table->timestamp('tenv_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('tenv_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('tenv_estado')->default('A');
+            $table->char('tenv_estado',1)->default('A');
         });
     }
 

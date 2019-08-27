@@ -24,6 +24,7 @@ class Ingreso extends Model
         'ing_estado',
         'ing_env_acop_id',
         'ing_obs',
+        'ing_planta_traspaso',
     ];
     protected $primaryKey = 'ing_id';
 

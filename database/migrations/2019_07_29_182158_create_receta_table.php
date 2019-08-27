@@ -35,7 +35,7 @@ class CreateRecetaTable extends Migration
             $table->text('rece_obs')->nullable();
             $table->timestamp('rece_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('rece_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('rece_estado')->default('A');
+            $table->char('rece_estado',1)->default('A');
             
         });
     }

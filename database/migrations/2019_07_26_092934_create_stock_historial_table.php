@@ -23,7 +23,7 @@ class CreateStockHistorialTable extends Migration
             $table->decimal('his_stock_cant_salida',18,2);
             $table->integer('his_stock_usr_id');
             $table->timestamp('his_stock_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('his_stock_estado')->default('A');        
+            $table->char('his_stock_estado',1)->default('A');        
         });
     }
 

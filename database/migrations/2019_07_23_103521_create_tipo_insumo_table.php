@@ -19,7 +19,7 @@ class CreateTipoInsumoTable extends Migration
             $table->integer('tins_usr_id');
             $table->timestamp('tins_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('tins_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('tins_estado')->default('A');
+            $table->char('tins_estado',1)->default('A');
         });
     }
 

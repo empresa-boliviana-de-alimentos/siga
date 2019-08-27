@@ -22,7 +22,7 @@ class CreateDetalleDevolucionTable extends Migration
             $table->decimal('detdevo_cantidad',18,2);
             $table->timestamp('detdevo_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('detdevo_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('detdevo_estado')->default('A');
+            $table->char('detdevo_estado',1)->default('A');
         });
     }
 

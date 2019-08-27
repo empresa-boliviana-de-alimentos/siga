@@ -66,7 +66,17 @@
                                                 </div>
                                             </a>    
                                             
-                                         
+                                            <a href="{{url('IngresoTraspaso') }}">
+                                                <div class="small-box bg-blue-gradient efectoboton">
+                                                    <div class="inner">
+                                                      <h4>INGRESO INSUMO</h4>
+                                                      <p>POR TRASPASOS</p>
+                                                    </div>
+                                                    <div class="icon efectoicon">
+                                                      <img src="img/botones/ingreso materia prima.png" alt="" width="80">
+                                                    </div>
+                                                </div>
+                                            </a>    
                                         
                                     </div>
                                     <div class="col-sm-8">

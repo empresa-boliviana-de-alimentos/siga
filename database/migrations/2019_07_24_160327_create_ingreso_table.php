@@ -27,9 +27,10 @@ class CreateIngresoTable extends Migration
             $table->integer('ing_planta_id');
             $table->timestamp('ing_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('ing_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('ing_estado')->default('A');
+            $table->char('ing_estado',1)->default('A');
             $table->bigInteger('ing_env_acop_id')->nullable();
             $table->text('ing_obs')->nullable();
+            $table->integer('ing_planta_traspaso')->nullable();
         });
     }
 

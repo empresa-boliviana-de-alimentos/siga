@@ -20,7 +20,7 @@ class CreateUnidadMedidaTable extends Migration
             $table->integer('umed_usr_id');
             $table->timestamp('umed_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('umed_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('umed_estado')->default('A');
+            $table->char('umed_estado',1)->default('A');
         });
     }
 

@@ -25,10 +25,10 @@ table.dataTable tbody th, table.dataTable tbody td {
         <div class="container col-lg-12" style="background: white;">        
             <?php $now = new DateTime('America/La_Paz'); ?>
             <div class="text-center">
-                <h3 style="color:#2067b4"><strong>ENTREGA PEDIDO TRASPASO</strong></h3> 
+                <h3 style="color:#2067b4"><strong>INGRESO PEDIDO TRASPASO</strong></h3> 
             </div>
             <div class="text-center">
-            	<h3>Código: ORP-{{$sol_orden_produccion->orprod_nro_orden}}</h3>
+            	<h3></h3>
             </div>
             <form action="{{ url('AprobacionTraspaso') }}" class="form-horizontal" method="GET">
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
@@ -43,7 +43,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     <label>
                                         Observacion Pedido:
                                     </label>
-                                    <textarea type="text" value="" class="form-control" name="" readonly="true">{{$sol_orden_produccion->orprod_obs_usr}}</textarea>
+                                    <textarea type="text" value="" class="form-control" name="" readonly="true"></textarea>
                                 </div>
                             </div>
                         </div>                   
@@ -68,7 +68,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($detalle_sol_orp as $dorp)                                       
+                                                @foreach($detalle_ingreso as $dorp)                                       
                                                 <tr>
                                                     <td>{{$dorp->ins_codigo}}</td>
                                                     <td>{{$dorp->ins_desc}}</td>
@@ -113,7 +113,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="text-right">
-                            <a class="btn btn-danger btn-lg" href="{{ url('solRecibidas') }}" type="button">
+                            <a class="btn btn-danger btn-lg" href="{{ url('IngresoTraspaso') }}" type="button">
                             Cerrar
                             </a>
                             <!-- {!!link_to('#',$title='Registrar', $attributes=['id'=>'registro','class'=>'btn btn-success'], $secure=null)!!} -->

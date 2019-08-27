@@ -19,7 +19,7 @@ class CreateColorTable extends Migration
             $table->integer('col_usr_id');
             $table->timestamp('col_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('col_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('col_estado')->default('A');
+            $table->char('col_estado',1)->default('A');
         });
     }
 
