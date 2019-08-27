@@ -25,7 +25,7 @@ class CreateStockTable extends Migration
             $table->integer('stock_planta_id');
             $table->timestamp('stock_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('stock_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('stock_estado')->default('A');
+            $table->char('stock_estado',1)->default('A');
         });
     }
 

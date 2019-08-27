@@ -19,7 +19,7 @@ class CreateTipoIngresoTable extends Migration
             $table->integer('ting_usr_id');
             $table->timestamp('ting_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('ting_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('ting_estado')->default('A');
+            $table->char('ting_estado',1)->default('A');
         });
     }
 

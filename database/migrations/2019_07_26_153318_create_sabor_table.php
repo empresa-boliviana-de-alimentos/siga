@@ -19,7 +19,7 @@ class CreateSaborTable extends Migration
             $table->integer('sab_usr_id');
             $table->timestamp('sab_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('sab_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('sab_estado')->default('A');
+            $table->char('sab_estado',1)->default('A');
         });
     }
 

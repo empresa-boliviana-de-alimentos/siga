@@ -20,7 +20,7 @@ class CreateSubLineaTable extends Migration
             $table->integer('sublin_usr_id');
             $table->timestamp('sublin_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('sublin_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('sublin_estado')->default('A');
+            $table->char('sublin_estado',1)->default('A');
         });
     }
 

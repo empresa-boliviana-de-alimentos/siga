@@ -39,7 +39,7 @@ class CreateInsumoTable extends Migration
             $table->integer('ins_id_planta');
             $table->timestamp('ins_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('ins_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('ins_estado')->default('A');
+            $table->char('ins_estado',1)->default('A');
         });
     }
 

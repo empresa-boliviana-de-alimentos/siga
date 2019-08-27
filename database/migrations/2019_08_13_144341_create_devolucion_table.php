@@ -28,7 +28,7 @@ class CreateDevolucionTable extends Migration
             $table->timestamp('devo_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('devo_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->char('devo_estado_dev',1)->default('A');
-            $table->char('devo_estado')->default('A');
+            $table->char('devo_estado',1)->default('A');
         });
     }
 

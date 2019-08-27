@@ -41,7 +41,7 @@ class CreateOrdenProduccionTable extends Migration
             $table->timestamp('orprod_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('orprod_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->char('orprod_estado_orp',1)->default('A');
-            $table->char('orprod_estado')->default('A');
+            $table->char('orprod_estado',1)->default('A');
         });
     }
 

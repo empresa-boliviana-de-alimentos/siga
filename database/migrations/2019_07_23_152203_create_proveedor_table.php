@@ -27,7 +27,7 @@ class CreateProveedorTable extends Migration
             $table->timestamp('prov_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('prov_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('prov_id_planta');
-            $table->char('prov_estado')->default('A');
+            $table->char('prov_estado',1)->default('A');
         });
     }
 

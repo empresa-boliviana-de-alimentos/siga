@@ -51,6 +51,9 @@
                         KARDEX FÍSICO
                     </th>
                     <th>
+                        CODIDO
+                    </th>
+                    <th>
                         INSUMO
                     </th>
                     <th style="width: 250px;">
@@ -81,6 +84,7 @@
                 {data: 'ins_id'},
                 {data: 'kardexValorado',orderable: false, searchable: false},
                 {data: 'kardexFisico',orderable: false, searchable: false},
+                {data: 'ins_codigo'},
                 {data: 'NombreInsumo'},
                 {data: 'umed_nombre'},
                 {data: 'stocks_cantidad'},

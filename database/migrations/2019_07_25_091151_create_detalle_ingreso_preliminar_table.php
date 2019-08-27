@@ -23,7 +23,7 @@ class CreateDetalleIngresoPreliminarTable extends Migration
             $table->date('detingpre_fecha_venc');
             $table->timestamp('detingpre_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('detingpre_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('detingpre_estado')->default('A');        
+            $table->char('detingpre_estado',1)->default('A');        
         });
     }
 

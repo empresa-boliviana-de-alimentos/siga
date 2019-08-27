@@ -27,7 +27,7 @@ class CreateServicioTable extends Migration
             $table->timestamp('serv_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('serv_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('serv_id_planta');
-            $table->char('serv_estado')->default('A');
+            $table->char('serv_estado',1)->default('A');
         });
     }
 

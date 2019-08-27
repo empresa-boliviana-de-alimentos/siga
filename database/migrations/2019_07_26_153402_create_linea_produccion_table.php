@@ -19,7 +19,7 @@ class CreateLineaProduccionTable extends Migration
             $table->integer('linea_prod_usr_id');
             $table->timestamp('linea_prod_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('linea_prod_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('linea_prod_estado')->default('A');
+            $table->char('linea_prod_estado',1)->default('A');
         });
     }
 

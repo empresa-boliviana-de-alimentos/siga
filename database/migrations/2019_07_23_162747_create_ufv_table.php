@@ -20,7 +20,7 @@ class CreateUfvTable extends Migration
             $table->integer('ufv_usr_id');
             $table->timestamp('ufv_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('ufv_id_planta');
-            $table->char('ufv_estado')->default('A');
+            $table->char('ufv_estado',1)->default('A');
         });
     }
 

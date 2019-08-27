@@ -22,7 +22,7 @@ class CreateDetalleOrdenProduccionTable extends Migration
             $table->decimal('detorprod_cantidad',18,2);
             $table->timestamp('detorprod_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('detorprod_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('detorprod_estado')->default('A');
+            $table->char('detorprod_estado',1)->default('A');
         });
     }
 

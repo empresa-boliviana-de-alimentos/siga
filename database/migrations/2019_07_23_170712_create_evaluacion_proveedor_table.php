@@ -28,7 +28,7 @@ class CreateEvaluacionProveedorTable extends Migration
             $table->integer('eval_flexibilidad')->nullable();
             $table->timestamp('eval_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('eval_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('eval_estado')->default('A');
+            $table->char('eval_estado',1)->default('A');
         });
     }
 

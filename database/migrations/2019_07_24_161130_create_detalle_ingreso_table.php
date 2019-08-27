@@ -26,7 +26,7 @@ class CreateDetalleIngresoTable extends Migration
             $table->date('deting_fecha_venc')->nullable();
             $table->timestamp('deting_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('deting_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('deting_estado')->default('A');
+            $table->char('deting_estado',1)->default('A');
 
         });
     }

@@ -19,7 +19,7 @@ class CreateMercadoTable extends Migration
             $table->integer('mer_usr_id');
             $table->timestamp('mer_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('mer_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('mer_estado')->default('A');
+            $table->char('mer_estado',1)->default('A');
         });
     }
 

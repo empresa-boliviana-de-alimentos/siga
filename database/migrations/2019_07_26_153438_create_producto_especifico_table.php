@@ -19,7 +19,7 @@ class CreateProductoEspecificoTable extends Migration
             $table->integer('prod_esp_usr_id');
             $table->timestamp('prod_esp_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('prod_esp_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('prod_esp_estado')->default('A');
+            $table->char('prod_esp_estado',1)->default('A');
         });
     }
 

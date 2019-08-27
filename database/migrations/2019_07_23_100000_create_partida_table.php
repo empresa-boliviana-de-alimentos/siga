@@ -20,7 +20,7 @@ class CreatePartidaTable extends Migration
             $table->integer('part_usr_id');
             $table->timestamp('part_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('part_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('part_estado')->default('A');
+            $table->char('part_estado',1)->default('A');
         });
     }
 

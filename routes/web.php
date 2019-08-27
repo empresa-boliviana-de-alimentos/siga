@@ -321,6 +321,9 @@ Route::group(['middleware' => ['auth']], function () {
 	});
 	Route::resource('IngresoAlmacen', 'insumo\insumo_registros\gbIngresoAlmacenController');
 	Route::resource('IngresoPrima', 'insumo\insumo_registros\gbIngresoPrimaController');
+	Route::get('IngresoTraspaso','insumo\insumo_registros\gbIngresoAlmacenController@ingresoTraspaso');
+	Route::get('IngresoTraspasoCreate','insumo\insumo_registros\gbIngresoAlmacenController@ingresoTraspasoCreate');
+	Route::get('verIngresoTraspaso/{id}','insumo\insumo_registros\gbIngresoAlmacenController@mostrarIngresoTraspaso');
 	Route::post('EvaluacionProv', 'insumo\insumo_registros\gbProveedorController@storeEvalProv');
 	Route::get('ExportarEvalucionProveedores','ReportController@reporte_proveedores');
 	Route::get('ListarEvalProv/{id}', 'insumo\insumo_registros\gbProveedorController@listarEvaluaciones');

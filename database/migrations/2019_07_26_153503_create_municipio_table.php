@@ -19,7 +19,7 @@ class CreateMunicipioTable extends Migration
             $table->integer('muni_usr_id');
             $table->timestamp('muni_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('muni_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->char('muni_estado')->default('A');
+            $table->char('muni_estado',1)->default('A');
         });
     }
 
