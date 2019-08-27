@@ -136,11 +136,13 @@ table.dataTable tbody th, table.dataTable tbody td {
                         </div>                @endif
                 
                 @if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>FORMULACION DE LA BASE</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="col-md-8">                            
+                            
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">FORMULACION DE BASE</h3>
+                                    </div>
+                                    <div class="panel-body">
                                     <?php 
                                     
                                     $insumo_insumo = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
@@ -159,7 +161,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     }
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
-                                    <div class="form-group">
+                                    
                                         <table  class="table table-hover small-text" id="TableRecetasBase">
                                             <thead>
                                                 <tr>
@@ -184,18 +186,17 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                 @endforeach
                                             </tbody>
                                         </table>
-
-
-                                    </div>
-                        </div>
-                    </div>
+                                </div>                             
+                            </div>
+                        </div>   
                 @endif
                 @if ($receta->rece_lineaprod_id == 1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)  
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>SABORIZACIÓN</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="col-md-12">                            
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">SABORIZACION</h3>
+                            </div>
+                            <div class="panel-body">
                                     <?php 
                                     
                                     $detalle_formulacion = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
@@ -205,7 +206,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                    
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
-                                    <div class="form-group">
+                                    
                                         <table  class="table table-hover small-text" id="TableRecetasSab">
                                             <thead>
                                                 <tr>
@@ -237,11 +238,12 @@ table.dataTable tbody th, table.dataTable tbody td {
                     </div>
                 @endif
                 
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>MATERIAL DE ENVASADO</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="col-md-12">                            
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
+                            </div>
+                            <div class="panel-body">
                                     <?php 
                                     
                                     $detalle_formulacion = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
@@ -251,7 +253,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                    
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
-                                    <div class="form-group">
+                                    
                                         <table  class="table table-hover small-text" id="TableRecetasEnv">
                                             <thead>
                                                 <tr>
@@ -277,8 +279,6 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                 @endforeach 
                                             </tbody>
                                         </table>
-  
-
                                     </div>
                         </div>
                     </div>

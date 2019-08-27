@@ -21,10 +21,10 @@
                                         Orden de Producción:
                                     </label>
                                     <select name="orprod_id" id="orprod_id" style="width: 100%" class="form-control">
-                                    	<option value="">Seleccione un nro de orden</option>
-                                    	@foreach($ordenes_produccion as $orden)
-                                    		<option value="{{$orden->orprod_id}}">{{$orden->orprod_nro_orden}}</option>
-                                    	@endforeach
+                                        <option value="">Seleccione un nro de orden</option>
+                                        @foreach($ordenes_produccion as $orden)
+                                            <option value="{{$orden->orprod_id}}">{{$orden->orprod_nro_orden}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                         Cantidad a Producir:
                                     </label>
                                     <span class="block input-icon input-icon-right">
-                                    	{!! Form::text('cantidad_producir', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'cantidad_producir','readonly'=>'true')) !!}
+                                        {!! Form::text('cantidad_producir', null, array('placeholder' => 'Cantidad a Producir','class' => 'form-control','id'=>'cantidad_producir','readonly'=>'true')) !!}
                                     </span>
                                 </div>
                             </div>
@@ -268,163 +268,165 @@ $('#orprod_id').on('change', function(e){
       $("#id_receta").val(data.rece_id);
       var linea_tipo = data.rece_lineaprod_id;
       if (linea_tipo == 1 || linea_tipo == 4 || linea_tipo == 5) {
-      	$("#OcultarMateriaPrima").hide();
-      	$("#OcultarformulacionBase").show();
-      	$( "#TableRecetasBase tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
-      	$( "#TableRecetasSab tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
-      	$( "#TableRecetasEnv tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
-      	$.get('getDataDetOrprodInsPrima?orprod_id='+data.orprod_id, function(data_det){
-      		console.log(data_det);
-	      	for (i = 0; i < data_det.length; i++){
-	      		//console.log(data_det[i].ins_codigo);
-	      		function getstockActual(id)
-				{
-				    var res = JSON.parse($.ajax({
-				    type: 'get',
-				    url: "StockActualOP/"+id,
-				    dataType: 'json',
-				    async:false,
-					    success: function(data_stock)
-					    {
-					      	console.log(data_stock);
-					        return data_stock;
-					    }
-					}).responseText);
-					return res.stock_cantidad;
-				}
-				$("#TableRecetasBase").append('<tr class="items_columsReceta3">' +
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
-	        }
-    	});
-      	$("#OcultarSaborizacion").show();
-      	$.get('getDataDetOrprod?orprod_id='+data.orprod_id+'&tipo=4', function(data_det){
-	      	for (i = 0; i < data_det.length; i++){
-	      		//console.log(data_det[i].ins_codigo);
-	      		function getstockActual(id)
-				{
-				    var res = JSON.parse($.ajax({
-				    type: 'get',
-				    url: "StockActualOP/"+id,
-				    dataType: 'json',
-				    async:false,
-					    success: function(data_stock)
-					    {
-					      	console.log(data_stock);
-					        return data_stock;
-					    }
-					}).responseText);
-					return res.stock_cantidad;
-				}
-				$("#TableRecetasSab").append('<tr class="items_columsRecetaSab">' +
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
-	        }
-    	});
-      	$("#OcultarMatEnv").show();
-      	$.get('getDataDetOrprod?orprod_id='+data.rece_id+'&tipo=2', function(data_det){
-	      	for (i = 0; i < data_det.length; i++){
-	      		//console.log(data_det[i].ins_codigo);
-	      		function getstockActual(id)
-				{
-				    var res = JSON.parse($.ajax({
-				    type: 'get',
-				    url: "StockActualOP/"+id,
-				    dataType: 'json',
-				    async:false,
-					    success: function(data_stock)
-					    {
-					      	console.log(data_stock);
-					        return data_stock;
-					    }
-					}).responseText);
-					return res.stock_cantidad;
-				}
-				$("#TableRecetasEnv").append('<tr class="items_columsRecetaEnv">' +
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
-	        }
-    	});
+        $("#OcultarMateriaPrima").hide();
+        $("#OcultarformulacionBase").show();
+        $( "#TableRecetasBase tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
+        $( "#TableRecetasSab tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
+        $( "#TableRecetasEnv tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
+        $.get('getDataDetOrprodInsPrima?orprod_id='+data.orprod_id, function(data_det){
+            console.log(data_det);
+            for (i = 0; i < data_det.length; i++){
+                //console.log(data_det[i].ins_codigo);
+                function getstockActual(id)
+                {
+                    var res = JSON.parse($.ajax({
+                    type: 'get',
+                    url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                    dataType: 'json',
+                    async:false,
+                        success: function(data_stock)
+                        {
+                            console.log(data_stock);
+                            return data_stock;
+                        }
+                    }).responseText);
+                    return res.stock_cantidad;
+                }
+                $("#TableRecetasBase").append('<tr class="items_columsReceta3">' +
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
+            }
+        });
+        $("#OcultarSaborizacion").show();
+        $.get('getDataDetOrprod?orprod_id='+data.orprod_id+'&tipo=4', function(data_det){
+            for (i = 0; i < data_det.length; i++){
+                //console.log(data_det[i].ins_codigo);
+                function getstockActual(id)
+                {
+                    var res = JSON.parse($.ajax({
+                    type: 'get',
+                    url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                    dataType: 'json',
+                    async:false,
+                        success: function(data_stock)
+                        {
+                            console.log(data_stock);
+                            return data_stock;
+                        }
+                    }).responseText);
+                    return res.stock_cantidad;
+                }
+                $("#TableRecetasSab").append('<tr class="items_columsRecetaSab">' +
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
+            }
+        });
+        $("#OcultarMatEnv").show();
+        $.get('getDataDetOrprod?orprod_id='+data.rece_id+'&tipo=2', function(data_det){
+            for (i = 0; i < data_det.length; i++){
+                console.log("ENVASADO LACTEOS");
+                //console.log(data_det[i].ins_codigo);
+                function getstockActual(id)
+                {
+                    var res = JSON.parse($.ajax({
+                    type: 'get',
+                    url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                    dataType: 'json',
+                    async:false,
+                        success: function(data_stock)
+                        {
+                            console.log(data_stock);
+                            return data_stock;
+                        }
+                    }).responseText);
+                    return res.stock_cantidad;
+                }
+                $("#TableRecetasEnv").append('<tr class="items_columsRecetaEnv">' +
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
+            }
+        });
       }else if(linea_tipo == 2 || linea_tipo == 3){
-      	$( "#TableRecetasBase tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
-      	$( "#TableRecetasSab tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
-      	$( "#TableRecetasEnv tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
-      	$( "#TableRecetasMatPrim tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
-      	$("#OcultarMateriaPrima").show();
-      	$.get('getDataDetOrprod?orprod_id='+data.rece_id+'&tipo=3', function(data_det){
-	      	for (i = 0; i < data_det.length; i++){
-	      		//console.log(data_det[i].ins_codigo);
-	      		function getstockActual(id)
-				{
-				    var res = JSON.parse($.ajax({
-				    type: 'get',
-				    url: "StockActualOP/"+id,
-				    dataType: 'json',
-				    async:false,
-					    success: function(data_stock)
-					    {
-					      	console.log(data_stock);
-					        return data_stock;
-					    }
-					}).responseText);
-					return res.stock_cantidad;
-				}
-				$("#TableRecetasMatPrim").append('<tr class="items_columsReceta3">' +
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
-	        }
-    	});
-      	$("#OcultarformulacionBase").hide();
-      	$("#OcultarSaborizacion").hide();
-      	$("#OcultarMatEnv").show();
-      	$.get('getDataDetOrprod?orprod_id='+data.rece_id+'&tipo=2', function(data_det){
-	      	for (i = 0; i < data_det.length; i++){
-	      		//console.log(data_det[i].ins_codigo);
-	      		function getstockActual(id)
-				{
-				    var res = JSON.parse($.ajax({
-				    type: 'get',
-				    url: "StockActualOP/"+id,
-				    dataType: 'json',
-				    async:false,
-					    success: function(data_stock)
-					    {
-					      	console.log(data_stock);
-					        return data_stock;
-					    }
-					}).responseText);
-					return res.stock_cantidad;
-				}
-				$("#TableRecetasEnv").append('<tr class="items_columsRecetaEnv">' +
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data[i].ins_id)+'"></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
-	                '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
-	        }
-    	});
+        $( "#TableRecetasBase tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
+        $( "#TableRecetasSab tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
+        $( "#TableRecetasEnv tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
+        $( "#TableRecetasMatPrim tbody tr" ).each( function(){ this.parentNode.removeChild( this ); });
+        $("#OcultarMateriaPrima").show();
+        $.get('getDataDetOrprod?orprod_id='+data.rece_id+'&tipo=3', function(data_det){
+            for (i = 0; i < data_det.length; i++){
+                //console.log(data_det[i].ins_codigo);
+                function getstockActual(id)
+                {
+                    var res = JSON.parse($.ajax({
+                    type: 'get',
+                    url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                    dataType: 'json',
+                    async:false,
+                        success: function(data_stock)
+                        {
+                            console.log(data_stock);
+                            return data_stock;
+                        }
+                    }).responseText);
+                    return res.stock_cantidad;
+                }
+                $("#TableRecetasMatPrim").append('<tr class="items_columsReceta3">' +
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
+            }
+        });
+        $("#OcultarformulacionBase").hide();
+        $("#OcultarSaborizacion").hide();
+        $("#OcultarMatEnv").show();
+        $.get('getDataDetOrprod?orprod_id='+data.rece_id+'&tipo=2', function(data_det){
+            for (i = 0; i < data_det.length; i++){
+                console.log("ENVASES");
+                console.log(data_det[i].ins_codigo);
+                function getstockActual(id)
+                {
+                    var res = JSON.parse($.ajax({
+                    type: 'get',
+                    url: "StockActualOP/"+id+"/"+data.orprod_planta_id,
+                    dataType: 'json',
+                    async:false,
+                        success: function(data_stock)
+                        {
+                            console.log(data_stock);
+                            return data_stock;
+                        }
+                    }).responseText);
+                    return res.stock_cantidad;
+                }
+                $("#TableRecetasEnv").append('<tr class="items_columsRecetaEnv">' +
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_codigo + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].ins_desc + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].umed_nombre + '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+ data_det[i].detorprod_cantidad+ '"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+getstockActual(data_det[i].ins_id)+'"></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="text" name="cantidad_ins[]" class="form-control" value=""></input></td>'+
+                    '<td align="center" style="dislay: none;"><input type="hidden" name="id_ins[]" class="form-control" value="'+data_det[i].ins_id+'"></input></td></tr>');
+            }
+        });
 
       }
 
@@ -475,13 +477,13 @@ function getstockActual(id)
     url: "StockActualOP/"+id,
     dataType: 'json',
     async:false,
-	    success: function(data_stock)
-	    {
-	      	console.log(data_stock);
-	        return data_stock;
-	    }
-	}).responseText);
-	return res.stock_cantidad;
+        success: function(data_stock)
+        {
+            console.log(data_stock);
+            return data_stock;
+        }
+    }).responseText);
+    return res.stock_cantidad;
 }
 </script>
 @endpush

@@ -160,7 +160,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                     </div>
                 </div>
                 <div id="OcultarSaborizacion" style="display: none">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">SABORIZACIÓN</h3>
@@ -191,7 +191,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                     </div>
                 </div>
                 <div id="OcultarMatEnv" style="display: none">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
@@ -371,7 +371,7 @@ $( "#botonCalculos" ).click(function() {
         var id_receta = $("#id_recetaAux").val();
         console.log(id_receta);
     $.get('getDataReceta?rece_id='+id_receta, function(data){
-      //console.log(data);
+      console.log(data);
       $("#rendimiento_base").val(data.rece_rendimiento_base);
       var linea_tipo = data.rece_lineaprod_id;
       if (linea_tipo == 1 || linea_tipo == 4 || linea_tipo == 5) {
@@ -386,7 +386,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -415,7 +415,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -444,7 +444,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -478,7 +478,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)
@@ -509,7 +509,7 @@ $( "#botonCalculos" ).click(function() {
                 {
                     var res = JSON.parse($.ajax({
                         type: 'get',
-                        url: "StockActualOP/"+id,
+                        url: "StockActualOPMaq/"+id,
                         dataType: 'json',
                         async:false,
                         success: function(data_stock)

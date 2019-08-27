@@ -93,7 +93,11 @@ class gbOrdenProduccionController extends Controller
         				->where('rece_estado','A')->where('rece_nombre','LIKE','%'.$term.'%')->take(35)->get();
         $recetas = [];
         foreach ($receta as $rec) {
-            $recetas[] = ['id' => $rec->rece_id, 'text' => $rec->rece_nombre.' '.$rec->sab_nombre.' '.$rec->rece_presentacion];
+            if ($rec->sab_id == 1) {
+                $recetas[] = ['id' => $rec->rece_id, 'text' => $rec->rece_nombre.' '.$rec->rece_presentacion];
+            }else{
+                $recetas[] = ['id' => $rec->rece_id, 'text' => $rec->rece_nombre.' '.$rec->sab_nombre.' '.$rec->rece_presentacion];
+            }
         }
         return \Response::json($recetas);
     }
@@ -106,7 +110,13 @@ class gbOrdenProduccionController extends Controller
                                     ->where('stock_ins_id','=',$id_insumo)->first();
         return response()->json($stock_actual); 
     }
-
+    public function StockActualOPMaq($id_insumo)
+    {
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+        $stock_actual = Stock::select(DB::raw('SUM(stock_cantidad) as stock_cantidad'))->where('stock_planta_id','=',$planta->id_planta)->where('stock_ins_id','=',$id_insumo)->first();
+        return response()->json($stock_actual); 
+    }
     public function ordenProduccionCreate(Request $request)
     {   
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')

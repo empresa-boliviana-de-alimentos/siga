@@ -1,4 +1,14 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+  .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
+    padding: 1px;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 8px 10px;
+    color: dimgrey;
+    font-size: 8px;
+}
+</style>
 @section('main-content')
 <div class="row">
     <div class="col-md-12">
@@ -14,6 +24,7 @@
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="id_devo" id="id_devo" value="{{ $sol_devo_sobrante->devo_id}}">
+                <div class="col-md-12">
                     <div class="row">                
                        
                         <div class="col-md-12">
@@ -28,13 +39,13 @@
                         </div>                   
                                                                                     
                     </div>
-                
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>INSUMOS PARA LA DEVOLUCION</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
-                                <div class="form-group">
+                </div>
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">INSUMOS PARA LA DEVOLUCIÓN</h3>
+                            </div>
+                            <div class="panel-body">
                                         <table  class="table table-hover small-text" id="TableRecetasEnv">
                                             <thead>
                                                 <tr>

@@ -1,4 +1,14 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+  .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
+    padding: 1px;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 8px 10px;
+    color: dimgrey;
+    font-size: 8px;
+}
+</style>
 @section('main-content')
 <div class="row">
     <div class="col-md-12">
@@ -12,12 +22,13 @@
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="nro_de_orden" id="nro_de_orden" value="">
                 <input type="hidden" name="id_receta" id="id_receta" value="">
+                <div class="col-md-6">
                     <div class="row"> 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
-                                        SELECCIONAR ORDEN PRODUCCION:
+                                        SELEC. ORDEN PRODUCCION:
                                     </label>                                   
                                     <select name="orprod_id" id="orprod_id" style="width: 100%" class="form-control">
                                     	<option value="">Seleccione un nro de orden</option>
@@ -65,14 +76,16 @@
                             </div>
                         </div>                                      
                     </div>
+                </div>
                 <div id="OcultarMateriaPrima" style="display: none">
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>MATERIA PRIMA</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">MATERIA PRIMA</h3>
+                            </div>
+                            <div class="panel-body">
                             
-                                    <div class="form-group">
+                                    
                                         <table  class="table table-hover small-text" id="TableRecetasMatPrim">
 	                                        <thead>
 	                                            <tr>
@@ -97,11 +110,12 @@
                 </div>
                 
                 <div id="OcultarformulacionBase" style="display: none">
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>FORMULACION DE LA BASE</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">FORMULACIÓN DE LA BASE</h3>
+                            </div>
+                            <div class="panel-body">
                             
                                     <div class="form-group">
                                         <table  class="table table-hover small-text" id="TableRecetasBase">
@@ -127,12 +141,12 @@
                     </div>
                 </div>
                 <div id="OcultarSaborizacion" style="display: none">
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>SABORIZACIÓN</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
-                                    <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">SABORIZACIÓN</h3>
+                            </div>
+                            <div class="panel-body">
                                         <table  class="table table-hover small-text" id="TableRecetasSab">
 	                                        <thead>
 	                                            <tr>
@@ -156,12 +170,12 @@
                     </div>
                 </div>
                 <div id="OcultarMatEnv" style="display: none">
-                    <div class="text">
-                        <h4 style="color:#2067b4"><strong>MATERIAL DE ENVASADO</strong></h4> 
-                    </div> 
-                    <div class="row">
-                        <div class="col-md-12">
-                                    <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
+                            </div>
+                            <div class="panel-body">
                                         <table  class="table table-hover small-text" id="TableRecetasEnv">
 	                                        <thead>
 	                                            <tr>
