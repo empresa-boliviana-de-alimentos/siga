@@ -81,13 +81,13 @@
     </div>
 <br>
 <div class="row">
-    <div class="col-md-2">
-        <div class="form-group">
-            <div class="col-sm-12">
+    <div id="listcategoria" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
             </div>
         </div>
-    </div>
-    <div id="listcategoria" style="display: none;">
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -120,7 +120,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listunidadmedida" style="display: none;">
+    <div id="listunidadmedida" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -153,7 +159,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listpartida" style="display: none;">
+    <div id="listpartida" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -186,7 +198,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listingreso" style="display: none;">
+    <div id="listingreso" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -218,7 +236,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listipoinsumo" style="display: none;">
+    <div id="listipoinsumo" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -250,7 +274,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listipoenvase" style="display: none;">
+    <div id="listipoenvase" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -282,7 +312,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listmercado" style="display: none;">
+    <div id="listmercado" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -314,7 +350,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listcolor" style="display: none;">
+    <div id="listcolor" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -346,7 +388,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listsabor" style="display: none;">
+    <div id="listsabor" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -378,7 +426,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listlinprod" style="display: none;">
+    <div id="listlinprod" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -410,7 +464,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listsublinea" style="display: none;">
+    <div id="listsublinea" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -443,7 +503,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listprodesp" style="display: none;">
+    <div id="listprodesp" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -475,7 +541,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listmunicipio" style="display: none;">
+    <div id="listmunicipio" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
@@ -507,7 +579,13 @@
             </div>
         </div>
     </div>
-    <div class="row" id="listmaquila" style="display: none;">
+    <div id="listmaquila" style="display: none;">
+        <div class="col-md-2">
+            <div class="form-group">
+                <div class="col-sm-12">
+                </div>
+            </div>
+        </div>
         <div class="col-md-7">
             <div class="form-group">
                 <div class="col-sm-12">
