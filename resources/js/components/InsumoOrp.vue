@@ -19,9 +19,9 @@
 				<tr v-for="(item,index) in items" :key="index">
 					<td>{{item.ins_codigo}}</td>
 					<td>{{item.ins_desc}}</td>
-					<td>{{item.umed}}</td>
-					<td>{{item.cant_base}}</td>
-					<td>{{item.cant_cal}}</td>
+					<td>{{item.umed_nombre}}</td>
+					<td>{{item.detrece_cantidad}}</td>
+					<td>{{calcularCantidaPedido(item)}}</td>
 					<td><input type="number" v-model="item.cant_por"></td>
 					<td>{{calcularEor(item)}}</td>
 					<td>{{item.stock}}</td>
@@ -34,23 +34,38 @@
 <script>
 	export default
     {
-    	props: [],
+    	props: ['lista','cantidad'],
     	data: ()=>({
-    		items: [{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:10,cant_por:0,cant_eor:0,stock:0,cant_ent:0},{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:0,cant_por:0,cant_eor:0,stock:0,cant_ent:0}],
+    		// items: [{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:10,cant_por:0,cant_eor:0,stock:0,cant_ent:0},{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:0,cant_por:0,cant_eor:0,stock:0,cant_ent:0}],
     	}),
-    	methods: {
+        methods:
+        {
+            calcularCantidaPedido(item){
+                item.cant_cal = item.detrece_cantidad * this.cantidad_pedido;
+                return item.cant_cal;
+            },
     		calcularEor(item)
     		{
-    			item.cant_eor = item.cant_cal*item.cant_por/100; 
+    			item.cant_eor = item.cant_cal*item.cant_por/100;
     			return item.cant_eor;
     		},
     		sumarCantEnt(item)
     		{
-    			item.cant_ent = item.cant_cal+item.cant_cal*item.cant_por/100 
+    			item.cant_ent = item.cant_cal+item.cant_cal*item.cant_por/100
     			return item.cant_ent
     		}
-    	},
-    	mounted(){
-    		    	} 
+        },
+        computed:{
+            items(){
+                return this.lista;
+            },
+            cantidad_pedido(){
+                return this.cantidad;
+            }
+        },
+        mounted()
+        {
+            console.log('cantidad');
+        }
     }
 </script>

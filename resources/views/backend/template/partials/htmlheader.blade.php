@@ -5,6 +5,7 @@
         <link rel="shortcut icon" href="img/siga_logo_color.png">
         {{-- {!! Html::style('css/bootstrap.css') !!} --}}
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
         {!! Html::style('css/bootstrapValidator.css') !!}
         {!! Html::style('css/preload.min.css') !!}
         {!! Html::style('font-awesome/css/font-awesome.css') !!}

@@ -19,14 +19,14 @@ use TCPDF;
 class gbOrdenProduccionController extends Controller
 {
     public function index(){
-        
+
     	return view('backend.administracion.insumo.insumo_solicitud.insumo_ordenprod.index');
     }
 
     public function create()
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
-                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                             ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
                                             ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
@@ -63,8 +63,8 @@ class gbOrdenProduccionController extends Controller
                 return $this->traeUser($estadoAprobacion->orprod_usr_aprob);
             }
         })
-            ->editColumn('id', 'ID: {{$orprod_id}}')            
-            
+            ->editColumn('id', 'ID: {{$orprod_id}}')
+
             ->make(true);
 
     }
@@ -108,19 +108,19 @@ class gbOrdenProduccionController extends Controller
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $stock_actual = Stock::select(DB::raw('SUM(stock_cantidad) as stock_cantidad'))->where('stock_planta_id','=',$id_planta)
                                     ->where('stock_ins_id','=',$id_insumo)->first();
-        return response()->json($stock_actual); 
+        return response()->json($stock_actual);
     }
     public function StockActualOPMaq($id_insumo)
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $stock_actual = Stock::select(DB::raw('SUM(stock_cantidad) as stock_cantidad'))->where('stock_planta_id','=',$planta->id_planta)->where('stock_ins_id','=',$id_insumo)->first();
-        return response()->json($stock_actual); 
+        return response()->json($stock_actual);
     }
     public function ordenProduccionCreate(Request $request)
-    {   
+    {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
-                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();     
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_receta = $request['receta_id'];
         $planta_producion = $request['planta_produccion_id'];
         $cantidad_orden = $request['cantidad_producir'];
@@ -155,7 +155,7 @@ class gbOrdenProduccionController extends Controller
                 'detorprod_cantidad'    => $detrece->detrece_cantidad*$dato_calculo,
             ]);
         }
-        
+
         return redirect('OrdenProduccion')->with('success','Registro creado satisfactoriamente');
 
     }
@@ -176,7 +176,7 @@ class gbOrdenProduccionController extends Controller
         $pdf->SetTitle('EBA');
         $pdf->SetSubject('ORDEN PRODUCCION INSUMOS');
         $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
-        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '',PDF_FONT_SIZE_DATA)); 
+        $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '',PDF_FONT_SIZE_DATA));
         $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
         // set auto page breaks
@@ -206,24 +206,24 @@ class gbOrdenProduccionController extends Controller
         $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                         ->where('usr_id',Auth::user()->usr_id)->first();
       //  echo $id;
-       
+
         $receta = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                         ->join('insumo.sub_linea as subl','rece.rece_sublinea_id','=','subl.sublin_id')
                         ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                         ->join('insumo.unidad_medida as uni','rece.rece_uni_id','=','uni.umed_id')
                         ->join('insumo.mercado as mer','insumo.orden_produccion.orprod_mercado_id','=','mer.mer_id')
-                        ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_id',$id_orprod)->first();        
+                        ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_id',$id_orprod)->first();
         //dd($receta);
         if ($receta->rece_lineaprod_id == 1) {
             $datos_json = json_decode($receta->rece_datos_json);
         }
-        
-        $html = '   
+
+        $html = '
                     <table border="0" cellspacing="0" cellpadding="1">
                                                 <tr>
                         <th rowspan="3" align="center" width="150"><img src="img/logopeqe.png" width="150" height="105"></th>
                              <th rowspan="3" width="375"><h3 align="center"><br>EMPRESA BOLIVIANA DE ALIMENTOS Y DERIVADOS<br>LINEA PRODUCCIÓN: '.$this->nombreLinea($receta->rece_lineaprod_id).'</h3><br><h1 align="center">ORDEN DE PRODUCCIÓN</h1>
-                                </th> 
+                                </th>
                              <th rowspan="3" align="center" width="150">
                              <br><br>
                                 <table border="0.5" bordercolor="#000">
@@ -240,17 +240,17 @@ class gbOrdenProduccionController extends Controller
                                         <th align="center">'.$receta->orprod_nro_orden.'</th>
                                     </tr>
                                 </table>
-                             </th>                     
+                             </th>
                         </tr>
                     </table>
 
                     <br><br><br><br>
                     <table border="1">
                         <tr BGCOLOR="#f3f0ff">
-                            <th align="center" bgcolor="#5c6875" width="135"><strong color="white">NOMBRE PRODUCTO:</strong></th> 
-                            <th width="315"> '.$receta->rece_nombre.' '.$receta->sab_nombre.' '.$receta->rece_presentacion.' '.$receta->umed_nombre.'</th>                          
+                            <th align="center" bgcolor="#5c6875" width="135"><strong color="white">NOMBRE PRODUCTO:</strong></th>
+                            <th width="315"> '.$receta->rece_nombre.' '.$receta->sab_nombre.' '.$receta->rece_presentacion.' '.$receta->umed_nombre.'</th>
                             <th align="center" bgcolor="#5c6875" width="135"><strong color="white">No. Orden Producción:</strong></th>
-                            <th width="70"> '.$receta->orprod_nro_orden.'</th>                                                  
+                            <th width="70"> '.$receta->orprod_nro_orden.'</th>
                         </tr>
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="135"><strong color="white">Cantidad a Producir:</strong></th>
@@ -259,18 +259,18 @@ class gbOrdenProduccionController extends Controller
                             <th width="170"> '.$receta->nombre_planta.'</th>
                             <th align="center" bgcolor="#5c6875" width="65"><strong color="white">Mercado:</strong></th>
                             <th width="140"> '.$receta->mer_nombre.'</th>
-                        </tr>                        
+                        </tr>
                     </table>
                     <br>
-                    ';            
-                if ($receta->rece_lineaprod_id==2 OR $receta->rece_lineaprod_id==3) {                
+                    ';
+                if ($receta->rece_lineaprod_id==2 OR $receta->rece_lineaprod_id==3) {
                     $html = $html.'<br><br>
                     <table>
                         <tr>
                             <th align="center" style="color:black;font-size:11"><strong>MATERIA PRIMA</strong></th>
                         </tr>
                     </table>
-                    <table border="1" cellspacing="0" cellpadding="1">                     
+                    <table border="1" cellspacing="0" cellpadding="1">
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="30"><strong color="white">N°</strong></th>
                             <th align="center" bgcolor="#5c6875" width="280"><strong color="white">Insumo</strong></th>
@@ -294,14 +294,14 @@ class gbOrdenProduccionController extends Controller
                     }
                     $html = $html . '</table>';
                 }
-                if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5) {                
+                if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5) {
                     $html = $html.'<br><br>
-                    
+
                     <table>
                         <tr><th align="center" style="color:black;font-size:11"><strong>FORMULACIÓN DE LA BASE</strong></th></tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="30"><strong color="white">N°</strong></th>
                             <th align="center" bgcolor="#5c6875" width="280"><strong color="white">Insumo</strong></th>
@@ -337,14 +337,14 @@ class gbOrdenProduccionController extends Controller
                     $html = $html . '</table>';
                 }
                 if ($receta->rece_lineaprod_id == 1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5) {
-                    
-                
+
+
                     $html = $html.'<br><br>
                     <table>
                         <tr><th align="center" style="color:black;font-size:11"><strong>SABORIZACIÓN</strong></th></tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr>
                             <th align="center" bgcolor="#5c6875" width="30"><strong color="white">N°</strong></th>
                             <th align="center" bgcolor="#5c6875" width="280"><strong color="white">Insumo</strong></th>
@@ -373,7 +373,7 @@ class gbOrdenProduccionController extends Controller
                         <tr><th align="center" style="color:black;font-size:11"><strong>MATERIAL ENVASADO</strong></th></tr>
                     </table>
                     <table border="1" cellspacing="0" cellpadding="1">
-                     
+
                         <tr BGCOLOR="#f3f0ff">
                             <th align="center" bgcolor="#5c6875" width="30"><strong color="white">N°</strong></th>
                             <th align="center" bgcolor="#5c6875" width="280"><strong color="white">Insumo</strong></th>
@@ -396,14 +396,14 @@ class gbOrdenProduccionController extends Controller
                         </tr>';
                     }
                     $html = $html . '</table>';
-                
-                        
-                $htmltable = $html;    
+
+
+                $htmltable = $html;
         $pdf->writeHTML($htmltable, true, 0, true, 0);
 
 
         // reset pointer to the last page
-          
+
         $pdf->lastPage();
 
         // ---------------------------------------------------------
@@ -434,7 +434,7 @@ class gbOrdenProduccionController extends Controller
     public function createRecepcionOrp()
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
-                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         //$orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
         //                                    ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_planta_id',$planta->id_planta)->get();
         $orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
@@ -480,10 +480,10 @@ class gbOrdenProduccionController extends Controller
             }elseif($orden_produccion->orprod_estado_orp == 'D'){
                 return 'RECEPCIONADO EN ALMACEN';
             }
-            
+
         })
-            ->editColumn('id', 'ID: {{$orprod_id}}')            
-            
+            ->editColumn('id', 'ID: {{$orprod_id}}')
+
             ->make(true);
     }
 
@@ -503,7 +503,7 @@ class gbOrdenProduccionController extends Controller
     {
         //dd($request['obs_usr_vo']);
         $orden_produccion_update = OrdenProduccion::find($request['id_orp']);
-        $orden_produccion_update->orprod_obs_vo = $request['obs_usr_vo']; 
+        $orden_produccion_update->orprod_obs_vo = $request['obs_usr_vo'];
         $orden_produccion_update->orprod_usr_vo = Auth::user()->usr_id;
         $orden_produccion_update->orprod_estado_orp = 'B';
         $orden_produccion_update->save();
@@ -519,7 +519,7 @@ class gbOrdenProduccionController extends Controller
     public function createSolcitudOrp()
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
-                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         //$orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                             //->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_planta_id',$planta->id_planta)
                                             //->where('orprod_usr_vo','<>',null)->get();
@@ -566,8 +566,8 @@ class gbOrdenProduccionController extends Controller
             }
             //return $orden_produccion->orprod_estado_orp;
         })
-            ->editColumn('id', 'ID: {{$orprod_id}}')            
-            
+            ->editColumn('id', 'ID: {{$orprod_id}}')
+
             ->make(true);
     }
     public function showFrmSoliORP($id_ordenOrp)
@@ -585,7 +585,7 @@ class gbOrdenProduccionController extends Controller
     {
         //dd($request['obs_usr_vo']);
         $orden_produccion_update = OrdenProduccion::find($request['id_orp']);
-        $orden_produccion_update->orprod_obs_vodos = $request['obs_usr_vodos']; 
+        $orden_produccion_update->orprod_obs_vodos = $request['obs_usr_vodos'];
         $orden_produccion_update->orprod_usr_vodos = Auth::user()->usr_id;
         $orden_produccion_update->orprod_estado_orp = 'C';
         $orden_produccion_update->save();
