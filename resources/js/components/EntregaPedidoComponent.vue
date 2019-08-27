@@ -4,8 +4,8 @@
         <h4 style="color:#2067b4"><strong>FORMULACION DE LA BASE</strong></h4>
     </div>
     <div class="row">
-        <div class="col-md-12"
-        >
+        <div class="col-md-12">
+
         </div>
     </div>
 </div>

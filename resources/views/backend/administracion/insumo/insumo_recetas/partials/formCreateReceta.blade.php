@@ -201,7 +201,7 @@ tbody td {
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <div id="OcultarMateriaPrima" style="display: none">
                     <div class="col-md-6">
@@ -311,7 +311,8 @@ tbody td {
                     <div class="text">
                         <h4 style="color:#2067b4"><strong>FORMULACION DE LA BASE</strong></h4>
                     </div>
-                    <div class="row">
+                    <material-envasado :lista="{{$listarInsumo}}" nombre="bases" ></material-envasado>
+                    {{-- <div class="row">
                         <div class="col-md-12">
                                 <div class="text-right">
                                     <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person" class="btn btn-xs btn-primary"><i class="fa fa-plus"> Añadir</i>
@@ -345,7 +346,7 @@ tbody td {
 
                                     </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
 
@@ -354,7 +355,8 @@ tbody td {
                     <div class="text">
                         <h4 style="color:#2067b4"><strong>SABORIZACIÓN</strong></h4>
                     </div>
-                    <div class="row">
+                    <material-envasado :lista="{{$listarSaborizantes}}" nombre="saborizantes" ></material-envasado>
+                    {{-- <div class="row">
                         <div class="col-md-12">
                             <div class="text-right">
                                     <a href="javascript:void(0);" style="font-size:18px;" id="addMoreSabor" title="Add More Person" class="btn btn-xs btn-primary"><i class="fa fa-plus"> Añadir</i>
@@ -388,7 +390,7 @@ tbody td {
 
                                     </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
 
@@ -397,7 +399,8 @@ tbody td {
                     <div class="text">
                         <h4 style="color:#2067b4"><strong>MATERIAL DE ENVASADO</strong></h4>
                     </div>
-                    <div class="row">
+                    <material-envasado :lista="{{$listarEnvase}}" nombre="envasados"></material-envasado>
+                    {{-- <div class="row">
                         <div class="col-md-12">
                             <div class="text-right">
                                     <a href="javascript:void(0);" style="font-size:18px;" id="addMoreEnvase" title="Add More Person"class="btn btn-xs btn-primary"><i class="fa fa-plus"> Añadir</i>
@@ -413,10 +416,10 @@ tbody td {
                                                 <th>Opcion</th>
                                             </tr>
                                             </thead>
-                                                <!-- <th>Rango Adicional</th>                                             -->
                                             <tr class="items_columsReceta2">
-                                                <td id="tdformenv"><select name="descripcion_envase[]" id="form_envasado" class="form-control">
-                                                        <!--<option value="">Seleccione</option>-->
+                                                <td id="tdformenv">
+                                                    <select name="descripcion_envase[]" id="form_envasado" class="form-control">
+
                                                         @foreach($listarEnvase as $insumo)
                                                             <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}} {{$insumo->sab_nombre}} {{$insumo->ins_peso_presen}}</option>
                                                         @endforeach
@@ -431,7 +434,7 @@ tbody td {
 
                                     </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 </div>
 

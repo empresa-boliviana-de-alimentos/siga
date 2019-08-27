@@ -338,7 +338,7 @@
             <td  class="text-xs uppercase">{{$datos_json->densidad_lie}}</td>
             <td  class="text-xs uppercase">{{$datos_json->densidad_lse}}</td>
         </tr>
-    
+
     </table>
 @endif
 <br>

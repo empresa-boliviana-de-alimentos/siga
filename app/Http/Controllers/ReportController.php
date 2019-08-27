@@ -23,7 +23,7 @@ use siga\Modelo\insumo\InsumoHistorial;
 use siga\Modelo\insumo\Stock;
 class ReportController extends Controller
 {
-   
+
     public function test_print()
     {
         $username = Auth::user()->usr_usuario;
@@ -74,7 +74,7 @@ class ReportController extends Controller
                         ->join('insumo.unidad_medida as uni','insumo.receta.rece_uni_id','=','uni.umed_id')->where('rece_id',$id_receta)
                         ->first();
         // return $receta;
-        $code = $receta->rece_codigo;
+        $code = $receta->rece_codigo??'';
         $dataos_json = null;
         if ($receta->rece_lineaprod_id == 1) {
             $datos_json = json_decode($receta->rece_datos_json);
@@ -102,13 +102,13 @@ class ReportController extends Controller
                 ->where('usr_id',Auth::user()->usr_id)->first();
         $per=Collect($usr);
 
-       
+
         $reg = Ingreso::join('acopio.envio_almacen as env','insumo.ingreso.ing_env_acop_id','=','env.enval_id')
                       ->where('ing_env_acop_id',$id_envio)->first();
         $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')->where('deting_ing_id',$reg->ing_id)->first();
 
         $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
-        
+
         $view = \View::make('reportes.ingreso_materia_prima', compact('username','date','title','storage','receta','reg','detalle_ingreso','per','planta'));
 
         $html_content = $view->render();
@@ -121,13 +121,13 @@ class ReportController extends Controller
 
     public function orden_de_produccion($id_orprod)
     {
-        
+
         $username = Auth::user()->usr_usuario;
         $title = "ORDEN DE PRODUCCIÓN";
         $date =Carbon::now();
-       
 
-    
+
+
         $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                 ->where('usr_id',Auth::user()->usr_id)->first();
 
@@ -136,17 +136,17 @@ class ReportController extends Controller
                 ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                 ->join('insumo.unidad_medida as uni','rece.rece_uni_id','=','uni.umed_id')
                 ->join('insumo.mercado as mer','insumo.orden_produccion.orprod_mercado_id','=','mer.mer_id')
-                ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_id',$id_orprod)->first();        
-        
+                ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_id',$id_orprod)->first();
+
         $storage = 'LINEA PRODUCCIÓN '. $this->nombreLinea($receta->rece_lineaprod_id);
-        
+
         $datos_json = null;
         if ($receta->rece_lineaprod_id == 1) {
             $datos_json = json_decode($receta->rece_datos_json);
         }
 
         $code = null;
-        
+
         $view = \View::make('reportes.orden_de_produccion', compact('username','date','title','storage','receta','datos_json'));
 
         $html_content = $view->render();
@@ -158,17 +158,17 @@ class ReportController extends Controller
 
     public function solicitud_traspaso($id_orp)
     {
-        
+
         $username = Auth::user()->usr_usuario;
         $title = "NOTA DE SOLICITUD POR TRAPASO";
         $date =Carbon::now();
-       
 
-    
+
+
         $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                     ->where('usr_id',Auth::user()->usr_id)
                     ->first();
-        
+
         $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
                     ->where('usr_id',Auth::user()->usr_id)
                     ->first();
@@ -180,13 +180,13 @@ class ReportController extends Controller
                               ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
                               ->where('orprod_tiporprod_id',3)->where('orprod_id',$id_orp)
                               ->first();
-        
+
         $code = $reg['orprod_nro_solicitud'];
-        
+
         $view = \View::make('reportes.solicitud_traspaso', compact('username','date','title','storage','reg','id_orp','code'));
 
         $html_content = $view->render();
-        
+
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->loadHTML($html_content);
         return $pdf->inline();
@@ -225,7 +225,7 @@ class ReportController extends Controller
                                     ->get();
         // return $tabkarde;
         $detallesIngresos = DetalleIngreso::where('deting_ins_id',$rep)->get();
-       
+
         $stocks = Stock::join('insumo.detalle_ingreso as deting', 'insumo.stock.stock_deting_id', '=', 'deting.deting_id')
 			->where('stock_planta_id', $planta->id_planta)
 			->where('stock_cantidad', '>', 0)
@@ -241,7 +241,7 @@ class ReportController extends Controller
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->loadHTML($html_content);
         return $pdf->inline();
-       
+
     }
 
     public function kardex_fisico($rep)
@@ -275,8 +275,8 @@ class ReportController extends Controller
                                     ->where('insumo.insumo_historial.inshis_ins_id', $rep)
                                     ->orderBy('insumo.insumo_historial.inshis_id')
                                     ->get();
-     
-       
+
+
         $code = $insumo->ins_codigo;
 
         $view = \View::make('reportes.kardex_fisico', compact('username','date','title','storage','insumo','tabkarde','code'));
@@ -286,7 +286,7 @@ class ReportController extends Controller
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->loadHTML($html_content);
         return $pdf->inline();
-       
+
     }
 
     public function nota_de_salida($id_orp_aprob)
@@ -301,7 +301,7 @@ class ReportController extends Controller
         $storage = $planta->nombre_planta;
         $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                 ->where('usr_id',Auth::user()->usr_id)->first();
-            
+
         $reg = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                 ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
                                 ->join('insumo.mercado as merc','insumo.orden_produccion.orprod_mercado_id','=','merc.mer_id')
@@ -312,10 +312,10 @@ class ReportController extends Controller
                                 ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                 ->where('detorprod_orprod_id',$reg->orprod_id)
                                 ->get();
-        
-      
+
+
         $code = $reg['orprod_nro_salida'].'/'.date('Y',strtotime($reg['orprod_registrado']));
-        
+
         $view = \View::make('reportes.nota_de_salida', compact('username','date','title','storage','receta','reg','detroprod','usuario','code'));
 
         $html_content = $view->render();
@@ -325,12 +325,12 @@ class ReportController extends Controller
         return $pdf->inline();
 
     }
-    
+
     public function nota_de_ingreso($id_ingreso)
     {
         $username = Auth::user()->usr_usuario;
         $title = "NOTA INGRESO";
-        
+
         $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
                         ->where('usr_id', Auth::user()->usr_id)
                         ->first();
@@ -343,7 +343,7 @@ class ReportController extends Controller
                         ->where('ing_id',$id_ingreso)
                         ->first();
         $fecha = Carbon::parse($reg['ing_fecha_remision']);
-    
+
 
         $mesesLiteral = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 
@@ -351,8 +351,8 @@ class ReportController extends Controller
                                                 ->leftjoin('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                 ->join('insumo.proveedor as prov','insumo.detalle_ingreso.deting_prov_id','=','prov.prov_id')
                                                 ->where('deting_ing_id',$id_ingreso)->get();
-        
-      
+
+
         $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
         $date =date('d/m/Y',strtotime($reg['ing_registrado']));
 
@@ -395,13 +395,13 @@ class ReportController extends Controller
     //     $reg = Ingreso::join('acopio.envio_almacen as env','insumo.ingreso.ing_env_acop_id','=','env.enval_id')
     //                     ->where('ing_env_acop_id',$id_envio)
     //                     ->first();
-        
+
     //     $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
     //                     ->where('deting_ing_id',$reg->ing_id)
     //                     ->first();
 
     //     $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
-        
+
     //     $view = \View::make('reportes.ingreso_materia_prima', compact('username','date','title','storage','receta','reg','detalle_ingreso','per','planta'));
 
     //     $html_content = $view->render();
@@ -411,5 +411,5 @@ class ReportController extends Controller
     //     return $pdf->inline();
 
     // }
-    
+
 }

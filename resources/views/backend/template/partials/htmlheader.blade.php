@@ -3,7 +3,8 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
     	<title>Sistema Gestion de Almacenes SIGA</title>
         <link rel="shortcut icon" href="img/siga_logo_color.png">
-        {!! Html::style('css/bootstrap.css') !!}
+        {{-- {!! Html::style('css/bootstrap.css') !!} --}}
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         {!! Html::style('css/bootstrapValidator.css') !!}
         {!! Html::style('css/preload.min.css') !!}
         {!! Html::style('font-awesome/css/font-awesome.css') !!}
