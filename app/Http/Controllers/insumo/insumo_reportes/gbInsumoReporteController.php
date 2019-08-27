@@ -710,8 +710,9 @@ class gbInsumoReporteController extends Controller {
 		$planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
 			->where('usr_id', $id)->first();
 
-		$insumo_ingreso = DetalleIngreso::join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')->where('ing_planta_id', '=', $planta->id_planta)->orderby('deting_ins_id', 'ASC')->get();
-		
+		//$insumo_ingreso = DetalleIngreso::join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')->where('ing_planta_id', '=', $planta->id_planta)->orderby('deting_ins_id', 'ASC')->get();
+		$insumo_ingreso = DetalleIngreso::select(DB::raw('SUM(deting_cantidad) as deting_cantidad'),'deting_ins_id','deting_costo')->join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')->where('ing_planta_id', '=', $planta->id_planta)->groupBy('deting_costo','deting_ins_id')->orderby('deting_ins_id', 'ASC')->get();
+		//dd($insumo_ingreso);
 		$html = '   <br><br> <table border="0" cellspacing="0" cellpadding="1" class="bottomBorder">
                         <tr>
                              <th rowspan="3" align="center" width="250"><img src="img/logopeqe.png" width="150" height="105"></th>
@@ -770,7 +771,7 @@ class gbInsumoReporteController extends Controller {
 		foreach ($insumo_ingreso as $key => $ig) {
 			
 			$nro = $nro + 1;
-			$salidas = $this->traeSalidas($ig->deting_id);
+			$salidas = $this->traeSalidas($ig->deting_ins_id);
 			$saldo_cantidad = $ig->deting_cantidad - $salidas;
 			$costo_entrada = $ig->deting_cantidad * $ig->deting_costo;
 			$costo_salida = $ig->deting_costo * $salidas;
@@ -1027,7 +1028,7 @@ class gbInsumoReporteController extends Controller {
 	function traeSalidas($id_insumo)
 	{
 		//dd("INS ID: ".$id_insumo.", ID DETING: ".$id_deting);
-		$insumo = InsumoHistorial::select(DB::raw('SUM(inshis_cantidad) as cantidad'))->where('inshis_deting_id',$id_insumo)->where('inshis_detorprod_id','<>',null)->first();
+		$insumo = InsumoHistorial::select(DB::raw('SUM(inshis_cantidad) as cantidad'))->where('inshis_ins_id',$id_insumo)->where('inshis_detorprod_id','<>',null)->first();
 		//dd($insumo);
 		if ($insumo->cantidad) {
 			return $insumo->cantidad;
