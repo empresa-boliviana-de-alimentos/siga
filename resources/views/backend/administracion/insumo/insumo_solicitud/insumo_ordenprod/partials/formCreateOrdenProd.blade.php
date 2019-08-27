@@ -1,5 +1,5 @@
 @extends('backend.template.app')
-<style type="text/css" media="screen">
+{{-- <style type="text/css" media="screen">
   .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
     padding: 1px;
 }
@@ -10,7 +10,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 
 
-</style>
+</style> --}}
 @section('main-content')
 <div class="row">
     <div class="col-md-12">
@@ -23,8 +23,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="nro_acopio" id="nro_acopio" value="">
-                    <div class="col-md-4">
-                    <pedido-orp :plantas="{{$plantas}}" :mercados="{{$mercados}}"></pedido-orp>
+                    <div>
+                    <pedido-orp :plantas="{{$plantas}}" :mercados="{{$mercados}}" ></pedido-orp>
                     <!--<div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -584,8 +584,8 @@ function verficaStock(cantidadStock, cantidadSol)
         console.log("No hay stock");
         swal("STOCK BAJO","En uno o mas de los insumos no existe la cantidad de stock disponible, por lo cual no podra aprobar esta solicitud","warning");
         $('input[type="submit"]').attr('disabled','disabled');
-    }    
-    
+    }
+
 }
 </script>
 @endpush
