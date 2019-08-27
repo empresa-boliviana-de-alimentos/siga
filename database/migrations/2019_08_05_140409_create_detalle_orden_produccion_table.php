@@ -19,6 +19,8 @@ class CreateDetalleOrdenProduccionTable extends Migration
             $table->foreign('detorprod_orprod_id')->references('orprod_id')->on('insumo.orden_produccion');
             $table->bigInteger('detorprod_ins_id');
             $table->foreign('detorprod_ins_id')->references('ins_id')->on('insumo.insumo');
+            $table->decimal('detorprod_fc',18,2)->nullable();
+            $table->decimal('detorprod_cantidad_cal',18,2)->nullable();
             $table->decimal('detorprod_cantidad',18,2);
             $table->timestamp('detorprod_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('detorprod_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
