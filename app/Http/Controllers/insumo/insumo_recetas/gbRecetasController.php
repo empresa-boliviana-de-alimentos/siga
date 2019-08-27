@@ -110,13 +110,13 @@ class gbRecetasController extends Controller
     public function nuevaReceta()
     {
         $sabor = Sabor::where('sab_estado','A')->get();
-        $listarInsumo = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+        $listarInsumo = Insumo::with('unidad_medida')->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
                                 ->where('ins_id_tip_ins',1)->orWhere('ins_id_tip_ins',3)->get();
-        $listarMateriaPrima = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+        $listarMateriaPrima = Insumo::with('unidad_medida')->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
                                     ->where('ins_id_tip_ins',3)->get();
         $listarEnvase = Insumo::with('unidad_medida')->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
                               ->where('ins_id_tip_ins',2)->get();
-        $listarSaborizantes = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+        $listarSaborizantes = Insumo::with('unidad_medida')->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
                                     ->where('ins_id_tip_ins',4)->get();
         $listarUnidades = UnidadMedida::where('umed_estado','A')->get();
         $sublinea = SubLinea::where('sublin_estado','A')->get();
@@ -126,6 +126,7 @@ class gbRecetasController extends Controller
 
     public function registrarReceta(Request $request)
     {
+        // return $request->all()   ;
         if ($request['lineaProduccion'] == 1) {
             //CODIGO LACTEOS
             $num = Receta::select(DB::raw('MAX(rece_enumeracion) as nrocod'))->where('rece_lineaprod_id',$request['lineaProduccion'])->first();
@@ -142,16 +143,24 @@ class gbRecetasController extends Controller
             $detrec_id_ins_env = $request['descripcion_envase'];
             $detrec_cantidad_env = $request['cantidad_envase'];
 
-            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]);
+            $formulacion_base = json_decode($request->bases);
+            // return $formulacion_base;
+            foreach($formulacion_base as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
+            }
+            $saborizaciones = json_decode($request->saborizantes);
+
+            foreach($saborizaciones as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]);
-            }
+            $envasados = json_decode($request->envasados);
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
+            foreach($envasados as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
             }
 
         }elseif($request['lineaProduccion'] == 2){
@@ -171,8 +180,11 @@ class gbRecetasController extends Controller
                 $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_materia[$i], "cantidad"=>$detrec_cantidad_materia[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
+            $envasados = json_decode($request->envasados);
+
+            foreach($envasados as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
             }
         }elseif($request['lineaProduccion'] == 3){
             //CODIGO MIEL
@@ -184,14 +196,16 @@ class gbRecetasController extends Controller
             $detrec_id_ins_materia = $request['descripcion_materia'];
             $detrec_cantidad_materia = $request['cantidad_materia'];
 
-            $detrec_id_ins_env = $request['descripcion_envase'];
             $detrec_cantidad_env = $request['cantidad_envase'];
             for ($i=0; $i <sizeof($detrec_id_ins_materia) ; $i++) {
                 $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_materia[$i], "cantidad"=>$detrec_cantidad_materia[$i]);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
+            $envasados = json_decode($request->envasados);
+
+            foreach($envasados as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
             }
         }elseif($request['lineaProduccion'] == 4){
             //CODIGO FRUTOS
@@ -200,24 +214,24 @@ class gbRecetasController extends Controller
             $nroCod = $cont + 1;
             $nroCodCadena = 'PRO-ENF-'.$nroCod;
             //END CODIGO FRUTOS
-            $detrec_id_ins_base = $request['descripcion_base'];
-            $detrec_cantidad_base = $request['cantidad_base'];
+            $formulacion_base = json_decode($request->bases);
+            // return $formulacion_base;
+            foreach($formulacion_base as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
+            }
+            $saborizaciones = json_decode($request->saborizantes);
 
-            $detrec_id_ins_sab = $request['descripcion_saborizacion'];
-            $detrec_cantidad_sab = $request['cantidad_saborizacion'];
-
-            $detrec_id_ins_env = $request['descripcion_envase'];
-            $detrec_cantidad_env = $request['cantidad_envase'];
-            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]);
+            foreach($saborizaciones as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]);
-            }
+            $envasados = json_decode($request->envasados);
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
+            foreach($envasados as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
             }
         }elseif($request['lineaProduccion'] == 5){
             //CODIGO DERIVADOS
@@ -226,24 +240,24 @@ class gbRecetasController extends Controller
             $nroCod = $cont + 1;
             $nroCodCadena = 'PRO-DER-'.$nroCod;
             //END CODIGO DERIVADOS
-            $detrec_id_ins_base = $request['descripcion_base'];
-            $detrec_cantidad_base = $request['cantidad_base'];
+            $formulacion_base = json_decode($request->bases);
+            // return $formulacion_base;
+            foreach($formulacion_base as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
+            }
+            $saborizaciones = json_decode($request->saborizantes);
 
-            $detrec_id_ins_sab = $request['descripcion_saborizacion'];
-            $detrec_cantidad_sab = $request['cantidad_saborizacion'];
-
-            $detrec_id_ins_env = $request['descripcion_envase'];
-            $detrec_cantidad_env = $request['cantidad_envase'];
-            for ($i=0; $i <sizeof($detrec_id_ins_base) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_base[$i], "cantidad"=>$detrec_cantidad_base[$i]);
+            foreach($saborizaciones as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
             }
 
-            for ($i=0; $i <sizeof($detrec_id_ins_sab) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_sab[$i], "cantidad"=>$detrec_cantidad_sab[$i]);
-            }
+            $envasados = json_decode($request->envasados);
 
-            for ($i=0; $i <sizeof($detrec_id_ins_env) ; $i++) {
-                $detrecesta_datos[] = array("id_insumo"=>$detrec_id_ins_env[$i], "cantidad"=>$detrec_cantidad_env[$i]);
+            foreach($envasados as $insumo)
+            {
+                $detrecesta_datos[] = array("id_insumo"=>$insumo->id, "cantidad"=>$insumo->cantidad);
             }
         }
         //dd($detrecesta_datos);
@@ -282,8 +296,8 @@ class gbRecetasController extends Controller
             'rece_rendimiento_base' => $request['rendimiento_base'],
             'rece_datos_json'       => $datosjson,
             'rece_usr_id'           => Auth::user()->usr_id,
-            'rece_umed_repre'=> $request['unidad_presentacion'],
-            'rece_obs'              => $request['observaciones'],
+            // 'rece_umed_repre'=> $request['unidad_presentacion'],
+            // 'rece_obs'              => $request['observaciones'],
 
         ]);
         foreach ($detrecesta_datos as $det) {
