@@ -904,16 +904,26 @@ class gbIngresoAlmacenController extends Controller
         //$ingreso_traspaso = OrdenProduccion::where('orprod_planta_id',$planta->id_planta)->where('orprod_tiporprod_id',3)->where('orprod_estado_orp','D')->get();
         $ingreso_traspaso = Ingreso::where('ing_id_tiping',4)->where('ing_planta_id',$planta->id_planta)->get();
         return Datatables::of($ingreso_traspaso)->addColumn('acciones', function ($ingreso_traspaso) {
-            if($ingreso_traspaso->ing_estado == 'A'){
+            if($ingreso_traspaso->ing_estado == 'B'){
                return '<div class="text-center"><a href="verIngresoTraspaso/' . $ingreso_traspaso->ing_id . '" class="btn btn-md btn-success"><i class="fa fa-eye"></i></a></div>';
             }            
-        })          
+        })->addColumn('planta_traspaso', function ($planta_traspaso) {
+            return $this->traePlanta($planta_traspaso->ing_planta_traspaso);
+        })
+        ->addColumn('planta_recepcion', function ($planta_recepcion) {
+            return $this->traePlanta($planta_recepcion->ing_planta_id);
+        })           
             ->editColumn('id', 'ID: {{$ing_id}}')
             ->make(true);
     }
-
+    function traePlanta($id_planta)
+    {
+        $planta = \DB::table('public._bp_planta')->where('id_planta','=',$id_planta)->first();
+        return $planta->nombre_planta;
+    }
     public function mostrarIngresoTraspaso($id)
     {
+        $ingreso = Ingreso::where('')->first();
         return view('backend.administracion.insumo.insumo_registro.ingreso_traspaso.partials.formIngresoTraspaso');
     }
 

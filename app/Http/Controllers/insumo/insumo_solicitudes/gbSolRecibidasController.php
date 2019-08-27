@@ -604,11 +604,11 @@ class gbSolRecibidasController extends Controller
         //ARRAY ITEMS TRASPASO
         $ins_id = $request['id_insumo_tras'];
         $cantidad_ins = $request['cantidad_tras'];
-        $costo_ins = $request['costo_tras'];
+        //$costo_ins = $request['costo_tras'];
         //dd(sizeof($ins_id));
         for ($i=0; $i <sizeof($ins_id) ; $i++) {
-            if ($costo_ins[$i] != null) {
-                $ins_datos[] = array("id_insumo"=>$ins_id[$i], "cantidad"=>$cantidad_ins[$i], "costo"=>$costo_ins[$i]);
+            if ($cantidad_ins[$i] != null) {
+                $ins_datos[] = array("id_insumo"=>$ins_id[$i], "cantidad"=>$cantidad_ins[$i]);
             }
         }
         //END ARRAY ITEMS TRASPASO
@@ -667,6 +667,8 @@ class gbSolRecibidasController extends Controller
                 'ing_usr_id'            => Auth::user()->usr_id,
                 'ing_planta_id'         => $orden_produccion_aprob->orprod_planta_id,
                 'ing_enumeracion'       => $nid,
+                'ing_planta_traspaso'   => $id_planta,
+                'ing_estado'            => 'B',
                 //'ing_nrocontrato'  => $request['carr_ing_nrocontrato'],
             ]);
         $ingreso_id = $ingreso_alm->ing_id;
@@ -675,11 +677,11 @@ class gbSolRecibidasController extends Controller
                 'deting_ins_id'     => $det['id_insumo'],
                 'deting_prov_id'    => 1,
                 'deting_cantidad'   => $det['cantidad'],
-                'deting_costo'      => $det['costo'],
+                'deting_costo'      => 0,
                 'deting_fecha_venc' => "2019-08-16",
                 'deting_ing_id'     => $ingreso_id,
             ]);
-            Stock::create([
+            /*Stock::create([
                 'stock_ins_id' => $det['id_insumo'],
                 'stock_deting_id' => $det_ingreso->deting_id,
                 'stock_cantidad' => $det['cantidad'],
@@ -693,7 +695,7 @@ class gbSolRecibidasController extends Controller
                 'inshis_tipo'       => 'Entrada',
                 'inshis_deting_id'  => $det_ingreso->deting_id,
                 'inshis_cantidad'   => $det['cantidad']
-            ]);
+            ]);*/
         }
         //END INGRESO PLANTA SOLICITANTE
         //END SOCK

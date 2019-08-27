@@ -63,7 +63,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <th>Insumo</th>
                                                     <th>Unidad Medida</th>
                                                     <th>Cantidad</th>
-                                                    <th>Costo</th>th>
+                                                    <!--<th>Costo</th>th>-->
                                                     <th>Stock Actual</th>                               
                                                 </tr>
                                             </thead>
@@ -74,7 +74,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <td>{{$dorp->ins_desc}}</td>
                                                     <td>{{$dorp->umed_nombre}}</td>
                                                     <td>{{$dorp->detorprod_cantidad}}</td>
-                                                    <td><input type="text" name="costo_tras[]" value="" class="form-control"></td>                         
+                                                    <!--<td><input type="text" name="costo_tras[]" value="" class="form-control"></td>-->                         
                                                     @if($dorp->detorprod_cantidad > stock_actualOP($dorp->ins_id))
 
                                                     	<td style="background: #E99786">{{stock_actualOP($dorp->ins_id)}}</td>

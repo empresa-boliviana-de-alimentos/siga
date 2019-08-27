@@ -35,22 +35,13 @@
                         #
                     </th>
                     <th>
-                        CODIGO
+                        FECHA 
                     </th>
                     <th>
-                        NOMBRE ENCARGADO
+                        PLANTA RECEPCION
                     </th>
                     <th>
-                        FECHA ENVIO
-                    </th>
-                    <th>
-                        CANTIDAD ENVIO
-                    </th>
-                    <th>
-                        CANTIDAD RECEPCIONADA
-                    </th>
-                    <th>
-                        ESTADO
+                        PLANTA QUE ENVIA
                     </th>
                     <th>
                         OPCIONES
@@ -69,12 +60,9 @@
             "ajax": "IngresoTraspasoCreate",
             "columns":[
                 {data: 'ing_id'},                
-                {data: 'ing_id'},
-                {data: 'ing_id'},
-                {data: 'ing_id'},
-                {data: 'ing_id'},
-                {data: 'ing_id'},
-                {data: 'ing_id'},
+                {data: 'ing_registrado'},
+                {data: 'planta_recepcion'},
+                {data: 'planta_traspaso'},
                 {data: 'acciones',orderable: false, searchable: false},
         ],
         
