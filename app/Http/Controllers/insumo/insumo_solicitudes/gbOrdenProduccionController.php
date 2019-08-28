@@ -108,6 +108,10 @@ class gbOrdenProduccionController extends Controller
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $stock_actual = Stock::select(DB::raw('SUM(stock_cantidad) as stock_cantidad'))->where('stock_planta_id','=',$id_planta)
                                     ->where('stock_ins_id','=',$id_insumo)->first();
+        if($stock_actual->stock_cantidad == null)
+        {
+            $stock_actual->stock_cantidad = 0;
+        }
         return response()->json($stock_actual);
     }
     public function StockActualOPMaq($id_insumo)
@@ -119,11 +123,13 @@ class gbOrdenProduccionController extends Controller
     }
     public function ordenProduccionCreate(Request $request)
     {
+        //return $request->all();
         $tabla_materia_prima = json_decode($request->materias_prima);
         $tabla_saborizaciones = json_decode($request->saborizaciones);
         $tabla_envasados = json_decode($request->envasados);
+        $table_formbase = json_decode($request->formulaciones_base);
         //roddwy estan son las 3 tablas con la informacion que te manda de lo que se hizo en e l formuclario
-        return compact('tabla_materia_prima','tabla_saborizaciones','tabla_envasados');
+        return compact('tabla_materia_prima','tabla_saborizaciones','tabla_envasados','table_formbase');
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_receta = $request['receta_id'];
@@ -153,9 +159,6 @@ class gbOrdenProduccionController extends Controller
         $dato_calculo = $cantidad_orden/$rendimiento_base;
         //dd($dato_calculo);
         $detalle_receta = DetalleReceta::where('detrece_rece_id',$id_receta)->get();
-
-
-
 
         foreach ($detalle_receta as $detrece) {
             DetalleOrdenProduccion::create([

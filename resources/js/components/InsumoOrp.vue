@@ -29,6 +29,7 @@
 				</tr>
 			</tbody>
 		</table>
+
         <!-- este el campo por donde enviamos la lista el nombre lo colocas como props  cuanto se termine de guardar puedes adicionarle c la propiedad jhidden para que no se vea cuando se este registrando-->
         <input type="text" :name="nombre" :value="JSON.stringify(items)">
 
@@ -43,18 +44,22 @@
     	}),
         methods:
         {
+            addItem()
+            {
+                this.items.push({});
+            },
             calcularCantidaPedido(item){
-                item.cant_cal = item.detrece_cantidad * this.cantidad_pedido;
+                item.cant_cal = (parseFloat(item.detrece_cantidad) * parseFloat(this.cantidad_pedido)).toFixed(2);
                 return item.cant_cal;
             },
     		calcularEor(item)
     		{
-    			item.cant_eor = item.cant_cal*item.cant_por/100;
+    			item.cant_eor = (parseFloat(item.cant_cal)*parseFloat(item.cant_por/100)).toFixed(2);
     			return item.cant_eor;
     		},
     		sumarCantEnt(item)
     		{
-    			item.cant_ent = item.cant_cal+item.cant_cal*item.cant_por/100
+    			item.cant_ent = (parseFloat(item.cant_cal)+parseFloat(item.cant_cal)*parseFloat(item.cant_por/100)).toFixed(2);
     			return item.cant_ent
     		}
         },

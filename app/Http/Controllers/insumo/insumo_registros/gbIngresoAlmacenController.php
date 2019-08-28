@@ -906,6 +906,8 @@ class gbIngresoAlmacenController extends Controller
         return Datatables::of($ingreso_traspaso)->addColumn('acciones', function ($ingreso_traspaso) {
             if($ingreso_traspaso->ing_estado == 'B'){
                return '<div class="text-center"><a href="verIngresoTraspaso/' . $ingreso_traspaso->ing_id . '" class="btn btn-md btn-success"><i class="fa fa-eye"></i></a></div>';
+            }else{
+                return '<div class="text-center"><a href="ReporteAlmacen/'.$ingreso_traspaso->ing_id.'" class="btn btn-md btn-primary"><i class="fa fa-file-o"></i></a></div>';
             }            
         })->addColumn('planta_traspaso', function ($planta_traspaso) {
             return $this->traePlanta($planta_traspaso->ing_planta_traspaso);
@@ -924,11 +926,52 @@ class gbIngresoAlmacenController extends Controller
     public function mostrarIngresoTraspaso($id)
     {
         $ingreso = Ingreso::where('ing_id',$id)->first();
-        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')->where('deting_ing_id',$ingreso->ing_id)->get();
+        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
+                                         ->leftjoin('insumo.unidad_medida as umed','ins.ins_id_uni','=','umed.umed_id')
+                                         ->where('deting_ing_id',$ingreso->ing_id)->get();
         //dd($ingreso);
         return view('backend.administracion.insumo.insumo_registro.ingreso_traspaso.partials.formIngresoTraspaso',compact('ingreso','detalle_ingreso'));
     }
-
+    public function guardarIngresotraspaso(Request $request)
+    {
+        //dd($request);
+        $ins_id = $request['id_insumo_tras'];
+        $cantidad_ins = $request['cantidad_tras'];
+        $costo_ins = $request['costo_tras'];
+        $deting_id = $request['deting_id'];
+        //dd(sizeof($ins_id));
+        for ($i=0; $i <sizeof($ins_id) ; $i++) {
+            if ($costo_ins[$i] != null) {
+                $ins_datos[] = array("deting_id"=>$deting_id[$i],"id_insumo_tras"=>$ins_id[$i], "cantidad"=>$cantidad_ins[$i],"costo"=>$costo_ins[$i]);
+            }
+        }
+        //dd($ins_datos);
+        $ingreso_tras = Ingreso::where('ing_id',$request['id_ingreso'])->first();
+        $ingreso_tras->ing_estado='A';
+        $ingreso_tras->save();
+        foreach ($ins_datos as $det) {
+            $det_ingreso = DetalleIngreso::find($det['deting_id']);
+            $det_ingreso->deting_costo = $det['costo'];
+            $det_ingreso->save();
+            Stock::create([
+                'stock_ins_id' => $det['id_insumo_tras'],
+                'stock_deting_id' => $det_ingreso->deting_id,
+                'stock_cantidad' => $det['cantidad'],
+                'stock_costo' => $det['costo'],
+                'stock_fecha_venc' => '2019-08-14',
+                'stock_planta_id' => $ingreso_tras->ing_planta_id,
+            ]);
+            InsumoHistorial::create([
+                'inshis_ins_id'     => $det['id_insumo_tras'],
+                'inshis_planta_id'  => $ingreso_tras->ing_planta_id,
+                'inshis_tipo'       => 'Entrada',
+                'inshis_deting_id'  => $det_ingreso->deting_id,
+                'inshis_cantidad'   => $det['cantidad']
+            ]);
+        }
+        //dd($ingreso_tras);
+        return redirect('IngresoTraspaso')->with('success','Registro creado satisfactoriamente');
+    }
 
 }
 
