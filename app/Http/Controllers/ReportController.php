@@ -175,7 +175,7 @@ class ReportController extends Controller
 
         $storage = $planta->nombre_planta;
         $reg = OrdenProduccion::join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_traspaso','=','planta.id_planta')
-                              ->join('public._bp_planta as pl','insumo.orden_produccion.orprod_planta_traspaso','=','pl.id_planta')
+                              ->join('public._bp_planta as pl','insumo.orden_produccion.orprod_planta_id','=','pl.id_planta')
                               ->join('public._bp_usuarios as usu','insumo.orden_produccion.orprod_usr_id','=','usu.usr_id')
                               ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
                               ->where('orprod_tiporprod_id',3)->where('orprod_id',$id_orp)

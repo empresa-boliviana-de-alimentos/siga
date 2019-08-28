@@ -511,9 +511,9 @@ class gbSolRecibidasController extends Controller
         $solTraspaso = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
                                     ->join('public._bp_usuarios as usr','insumo.orden_produccion.orprod_usr_id','=','usr.usr_id')
                                     ->join('public._bp_personas as per','usr.usr_prs_id','=','per.prs_id')
-                                    ->join('public._bp_planta as tras','insumo.orden_produccion.orprod_planta_traspaso','=','tras.id_planta')
+                                    ->join('public._bp_planta as tras','insumo.orden_produccion.orprod_planta_id','=','tras.id_planta')
                                     ->where('orprod_tiporprod_id',3)
-                                    ->where('orprod_planta_traspaso',$planta->id_planta)->get();
+                                    ->where('orprod_planta_id',$planta->id_planta)->get();
         return Datatables::of($solTraspaso)->addColumn('acciones', function ($solTraspaso) {
             if($solTraspaso->orprod_estado_orp == 'D')
             {
