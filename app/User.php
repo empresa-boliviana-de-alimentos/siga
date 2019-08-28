@@ -4,6 +4,7 @@ namespace siga;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use siga\Modelo\insumo\insumo_registros\Ufv;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
 class User extends Authenticatable
