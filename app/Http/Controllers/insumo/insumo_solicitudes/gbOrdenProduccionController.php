@@ -123,20 +123,16 @@ class gbOrdenProduccionController extends Controller
     }
     public function ordenProduccionCreate(Request $request)
     {
-        //return $request->all();
-        $tabla_materia_prima = json_decode($request->materias_prima);
-        $tabla_saborizaciones = json_decode($request->saborizaciones);
-        $tabla_envasados = json_decode($request->envasados);
-        $table_formbase = json_decode($request->formulaciones_base);
+        //dd($request);    
         //roddwy estan son las 3 tablas con la informacion que te manda de lo que se hizo en e l formuclario
-        return compact('tabla_materia_prima','tabla_saborizaciones','tabla_envasados','table_formbase');
+        //return compact('tabla_materia_prima','tabla_saborizaciones','tabla_envasados','table_formbase');
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_receta = $request['receta_id'];
-        $planta_producion = $request['planta_produccion_id'];
+        $planta_producion = $request['planta_id'];
         $cantidad_orden = $request['cantidad_producir'];
         $mercado_id = $request['mercado_id'];
-        $rendimiento_base =$request['rendimiento_base'];
+        $rendimiento_base =$request['rece_rendimiento_base'];
         $observacion = $request['observacion'];
         //dd('Receta: '.$id_receta.', Planta: '.$planta_producion.', Cantidad: '.$cantidad_orden.', mercado: '.$mercado_id);
         $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_orden) as nro_op'))->where('plant.id_planta', $planta_producion)->first();
@@ -158,14 +154,77 @@ class gbOrdenProduccionController extends Controller
         ]);
         $dato_calculo = $cantidad_orden/$rendimiento_base;
         //dd($dato_calculo);
-        $detalle_receta = DetalleReceta::where('detrece_rece_id',$id_receta)->get();
+        //$detalle_receta = DetalleReceta::where('detrece_rece_id',$id_receta)->get();
 
-        foreach ($detalle_receta as $detrece) {
+        /*foreach ($detalle_receta as $detrece) {
             DetalleOrdenProduccion::create([
                 'detorprod_orprod_id'   => $orden_produccion->orprod_id,
                 'detorprod_ins_id'      => $detrece->detrece_ins_id,
                 'detorprod_cantidad'    => $detrece->detrece_cantidad*$dato_calculo,
             ]);
+        }*/
+        $receta = Receta::find($request['receta_id']);
+        if ($receta->rece_lineaprod_id == 1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5) {
+            $tabla_saborizaciones = json_decode($request->saborizaciones);
+            foreach ($tabla_saborizaciones as $tsab) {
+                //return $tsab;
+                //dd($tsab->ins_id);
+                DetalleOrdenProduccion::create([
+                    'detorprod_orprod_id'   => $orden_produccion->orprod_id,
+                    'detorprod_ins_id'      => $tsab->ins_id,
+                    'detorprod_cantidad'    => $tsab->cant_ent,
+                    'detorprod_fc'          => $tsab->cant_por,
+                    'detorprod_cantidad_cal'=> $tsab->cant_cal,
+                ]);
+            }
+            $tabla_envasados = json_decode($request->envasados);
+            foreach ($tabla_envasados as $tenv) {
+                //return $tsab;
+                //dd($tsab->ins_id);
+                DetalleOrdenProduccion::create([
+                    'detorprod_orprod_id'   => $orden_produccion->orprod_id,
+                    'detorprod_ins_id'      => $tenv->ins_id,
+                    'detorprod_cantidad'    => $tenv->cant_ent,
+                    'detorprod_fc'          => $tenv->cant_por,
+                    'detorprod_cantidad_cal'=> $tenv->cant_cal,
+                ]);
+            }
+            $table_formbase = json_decode($request->formulaciones_base);
+            foreach ($table_formbase as $tformb) {
+                //return $tsab;
+                //dd($tsab->ins_id);
+                DetalleOrdenProduccion::create([
+                    'detorprod_orprod_id'   => $orden_produccion->orprod_id,
+                    'detorprod_ins_id'      => $tformb->ins_id,
+                    'detorprod_cantidad'    => $tformb->cant_ent,
+                    'detorprod_fc'          => $tformb->cant_por,
+                    'detorprod_cantidad_cal'=> $tformb->cant_cal,
+                ]);
+            }
+        }elseif($receta->rece_lineaprod_id == 2 OR $receta->rece_lineaprod_id == 3)
+        {
+            $tabla_materia_prima = json_decode($request->materias_prima);
+            foreach ($tabla_materia_prima as $tmap) {
+                DetalleOrdenProduccion::create([
+                    'detorprod_orprod_id'   => $orden_produccion->orprod_id,
+                    'detorprod_ins_id'      => $tmap->ins_id,
+                    'detorprod_cantidad'    => $tmap->cant_ent,
+                    'detorprod_fc'          => $tmap->cant_por,
+                    'detorprod_cantidad_cal'=> $tmap->cant_cal,
+                ]);
+            }
+            $tabla_envasados = json_decode($request->envasados);
+            foreach ($tabla_envasados as $tenv) {
+                //return $tsab;
+                //dd($tsab->ins_id);
+                DetalleOrdenProduccion::create([
+                    'detorprod_orprod_id'   => $orden_produccion->orprod_id,
+                    'detorprod_ins_id'      => $tenv->ins_id,
+                    'detorprod_cantidad'    => $tenv->cant_ent,
+                    'detorprod_fc'          => $tenv->cant_por,
+                    'detorprod_cantidad_cal'=> $tenv->cant_cal,
+                ]);
+            }
         }
 
         return redirect('OrdenProduccion')->with('success','Registro creado satisfactoriamente');
