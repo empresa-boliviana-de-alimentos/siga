@@ -31,7 +31,7 @@
 		</table>
 
         <!-- este el campo por donde enviamos la lista el nombre lo colocas como props  cuanto se termine de guardar puedes adicionarle c la propiedad jhidden para que no se vea cuando se este registrando-->
-        <input type="text" :name="nombre" :value="JSON.stringify(items)">
+        <input type="hidden" :name="nombre" :value="JSON.stringify(items)">
 
 	</div>
 </template>

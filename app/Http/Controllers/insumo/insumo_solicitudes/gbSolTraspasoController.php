@@ -36,7 +36,7 @@ class gbSolTraspasoController extends Controller
         /*$solTraspaso = OrdenProduccion::join('public._bp_usuarios as usu','insumo.orden_produccion.orprod_usr_id','=','usu.usr_id')->where('orprod_tiporprod_id',3)->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')->join('public._bp_planta as pl','insumo.orden_produccion.orprod_planta_traspaso','=','pl.id_planta')->orderBy('orprod_id','desc')->get();*/
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();  
-        $solTraspaso = OrdenProduccion::join('public._bp_usuarios as usu','insumo.orden_produccion.orprod_usr_id','=','usu.usr_id')->where('orprod_tiporprod_id',3)->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')->join('public._bp_planta as pl','insumo.orden_produccion.orprod_planta_traspaso','=','pl.id_planta')->where('orprod_planta_id',$planta->id_planta)->orderBy('orprod_id','desc')->get();
+        $solTraspaso = OrdenProduccion::join('public._bp_usuarios as usu','insumo.orden_produccion.orprod_usr_id','=','usu.usr_id')->where('orprod_tiporprod_id',3)->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')->join('public._bp_planta as pl','insumo.orden_produccion.orprod_planta_id','=','pl.id_planta')->where('orprod_planta_traspaso',$planta->id_planta)->orderBy('orprod_id','desc')->get();
 
     	return Datatables::of($solTraspaso)->addColumn('acciones', function ($solTraspaso) {
             if ($solTraspaso->orprod_estado_orp == 'B') {
@@ -110,8 +110,8 @@ class gbSolTraspasoController extends Controller
             'orprod_nro_solicitud' => $nopsol,
             'orprod_cantidad'   => 0,
             'orprod_mercado_id'    => 1,
-            'orprod_planta_traspaso' => $planta_tras_id,
-            'orprod_planta_id'  => $planta->id_planta,
+            'orprod_planta_traspaso' => $planta->id_planta,
+            'orprod_planta_id'  => $planta_tras_id,
             'orprod_usr_id'     => Auth::user()->usr_id,
             'orprod_tiporprod_id' => 3,
             'orprod_obs_usr'    => $observacion,

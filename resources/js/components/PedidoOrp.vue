@@ -1,7 +1,8 @@
 <template>
-<div>
-	<div class="row">
-        <div class="col-md-6">
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="col-md-12">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label>
@@ -11,11 +12,11 @@
                         :options="recetas"
                         @change="populateList($event)"
                         />
-                    <input type="text" name="receta_id" :value="receta_id">
+                    <input type="hidden" name="receta_id" :value="receta_id">
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label>
@@ -27,11 +28,11 @@
                         :options="lista_plantas"
                       	 />
                     </span>
-                    <input type="text" name="planta_id" :value="planta_id">
+                    <input type="hidden" name="planta_id" :value="planta_id">
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label>
@@ -43,59 +44,59 @@
                         :options="lista_mercados"
                       	 />
                     </span>
-                    <input type="text" name="mercado_id" :value="mercado_id">
+                    <input type="hidden" name="mercado_id" :value="mercado_id">
                 </div>
             </div>
         </div>
-        <div class="col-md-6" v-if="receta">
+        <div class="col-md-12" v-if="receta">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label>
                         Rendimiento Base:
                     </label>
                     <span class="block input-icon input-icon-right">
-                        <input type="" name="rece_rendimiento_base" class="form-class" v-model="receta.rece_rendimiento_base">
+                        <input type="" name="rece_rendimiento_base" class="form-control" v-model="receta.rece_rendimiento_base" readonly="true">
                     </span>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label>
                         Cantidad a Producir:
                     </label>
                     <span class="block input-icon input-icon-right">
-                    	<input type="" name="cantidad_producir" class="form-class" v-model="cantidad_producir">
+                    	<input type="" name="cantidad_producir" class="form-control" v-model="cantidad_producir">
                     </span>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label>
                         Cantidad a Esperada:
                     </label>
                     <span class="block input-icon input-icon-right">
-                        <input type="" name="cantidad_esperada" class="form-class" v-model="cantidad_esperada">
+                        <input type="" name="cantidad_esperada" class="form-control" v-model="cantidad_esperada">
                     </span>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label>
                         Tiempo a Producir:
                     </label>
                     <span class="block input-icon input-icon-right">
-                        <input type="" name="tiempo_producir" class="form-class" v-model="tiempo_producir">
+                        <input type="" name="tiempo_producir" class="form-control" v-model="tiempo_producir">
                     </span>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 <div class="col-sm-12">
                     <label style="color:white">
@@ -108,7 +109,8 @@
                 </div>
             </div>
         </div>
-    </div>
+  </div>
+  <div class="col-md-9">
     <div class="row" v-if="receta">
         <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
             <div class="panel panel-primary">
@@ -151,6 +153,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 </template>
 <script>
