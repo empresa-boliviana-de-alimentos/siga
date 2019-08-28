@@ -17,10 +17,10 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                          <div class="col-sm-12">
-                                            <label>  MODULO:</label>  
+                                            <label>  MODULO:</label>
                                             <br>
                                             <input id="cod_prov2" name="cod_prov" type="hidden" value="">
-                                            <input  type="text" class="form-control" id="cod_nom2" name="cod_nom" disabled="true">                                 
+                                            <input  type="text" class="form-control" id="cod_nom2" name="cod_nom" disabled="true">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -31,7 +31,7 @@
                                                <select class="form-control" id="aco_apr" name="aco_apr">
                                                     <option disabled selected>--Seleccione--</option>
                                                     <option value="1">Aceptado</option>
-                                                    <option value="2">Rechazado</option> 
+                                                    <option value="2">Rechazado</option>
                                             </select>
                                             </div>
                                     </div>
@@ -41,7 +41,7 @@
                                         <div class="col-sm-12">
                                             <label>  Fecha :    </label>
                                                 <center> <label>
-                                                    <?php  
+                                                    <?php
                                                         date_default_timezone_set('America/New_York');
                                                         echo  date('m/d/Y g:ia');
                                                     ?>
@@ -72,8 +72,8 @@
                                             <label>  Cantidad Baldes:    </label>
                                                 {!! Form::number('aco_can_baldes', null, array('placeholder' => 'Ingrese Cantidad (Lts)','maxlength'=>'20','class' => 'form-control','id'=>'aco_can_baldes')) !!}
                                         </div>
-                                    </div>  
-                                </div>       
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="col-sm-12">
@@ -81,24 +81,24 @@
                                                 <select class="form-control" id="aco_tenv" name="aco_tenv">
                                                     <option disabled selected>--Seleccione--</option>
                                                     <option value="1">Aluminio</option>
-                                                    <option value="2">Plastico</option> 
-                                                    <option value="2">Cisterna</option> 
+                                                    <option value="2">Plastico</option>
+                                                    <option value="2">Cisterna</option>
                                                 </select>
                                         </div>
-                                    </div>                                                      
+                                    </div>
                                     <div class="col-md-3">
                                         <div class="col-sm-12">
                                             <label>  Condiciones de Higiente:    </label>
                                             <select class="form-control" id="aco_cond" name="aco_cond">
                                                 <option disabled selected>--Seleccione--</option>
                                                 <option value="1">Aceptable</option>
-                                                <option value="2">No Aceptable</option> 
+                                                <option value="2">No Aceptable</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <?php  
+                                    <?php
                                      if($turno->usr_id_turno==1)
-                                     { 
+                                     {
                                         echo '<div class="col-md-3">';
                                         echo '<div class="col-sm-12">';
                                         echo ' <label>  Turno:    </label>';
@@ -115,8 +115,8 @@
                                         echo '</div>';
                                         echo '</div>';
                                      }
-                                    ?> 
-                                </div>  
+                                    ?>
+                                </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                             <div class="col-sm-12">
@@ -128,7 +128,7 @@
                                                 </span>
                                             </div>
                                     </div>
-                                </div>       
+                                </div>
                             </input>
                         </input>
                     </hr>
@@ -145,12 +145,15 @@
     </div>
 </div>
 
-<link rel="stylesheet" href="https://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.css">
+{{-- <link rel="stylesheet" href="https://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.css">
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-<script src="https://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js"></script>
+<script src="https://weareoutman.github.io/clockpicker/dist/jquery-clockpicker.min.js"></script> --}}
 
 <script type="text/javascript">
-$('.clockpicker').clockpicker();
+// $( document ).ready(function() {
+//     $('.clockpicker').clockpicker();
+// });
+
 </script>
 
 <style type="text/css">
@@ -161,4 +164,3 @@ $('.clockpicker').clockpicker();
 
 
 
- 

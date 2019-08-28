@@ -119,6 +119,11 @@ class gbOrdenProduccionController extends Controller
     }
     public function ordenProduccionCreate(Request $request)
     {
+        $tabla_materia_prima = json_decode($request->materias_prima);
+        $tabla_saborizaciones = json_decode($request->saborizaciones);
+        $tabla_envasados = json_decode($request->envasados);
+        //roddwy estan son las 3 tablas con la informacion que te manda de lo que se hizo en e l formuclario
+        return compact('tabla_materia_prima','tabla_saborizaciones','tabla_envasados');
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
         $id_receta = $request['receta_id'];
@@ -148,6 +153,10 @@ class gbOrdenProduccionController extends Controller
         $dato_calculo = $cantidad_orden/$rendimiento_base;
         //dd($dato_calculo);
         $detalle_receta = DetalleReceta::where('detrece_rece_id',$id_receta)->get();
+
+
+
+
         foreach ($detalle_receta as $detrece) {
             DetalleOrdenProduccion::create([
                 'detorprod_orprod_id'   => $orden_produccion->orprod_id,

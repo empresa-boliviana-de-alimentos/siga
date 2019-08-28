@@ -16,25 +16,25 @@
                 </div>
                 <div class="btn pull-right col-md-4">
                      <a class="btn btn-primary btn-md fa fa-file-pdf-o" style="color:#ffffff" href="BoletaAcopiodia" target="_blank"><h7 style="color:#ffffff"> Generar Reporte Diario</h7></a>
-                      <?php  
+                      <?php
                      date_default_timezone_set('America/New_York');
                      $fechact=date('Y-m-d');
                      //echo $dat;
                    // echo $fecha;
                     //echo $turnulo=is_null($tur);
                       if($fechact==$fecha and $tur==0)
-                     { 
+                     {
                         echo  '<div class="hidden" id="contenido">';
                         echo'<button class="btn btn-success" data-target="#myCreateRTOT" data-toggle="modal"  type="button" onClick="MostrarCantidades2();" style="background:#2b5a2b;"><h7 style="color:#ffffff">Enviar Registros del dia</h7></button>' ;
                         echo '</div>';
                      }
                      elseif($fechact==$fecha and $tur==1)
-                     { 
+                     {
                         echo  '<div class="hidden" id="contenido">';
                         echo'<button class="btn btn-success" data-target="#myCreateRTOT" data-toggle="modal"  type="button" onClick="MostrarCantidades2();" style="background:#2b5a2b;"><h7 style="color:#ffffff">Enviar Registros del dia</h7></button>' ;
                         echo '</div>';
                      }
-                     elseif($fechact==$fecha and $tur==2) 
+                     elseif($fechact==$fecha and $tur==2)
                      {
                         echo  '<div class="hidden" id="contenido">';
                         echo'<button class="btn btn-success" data-target="#myCreateRTOT" data-toggle="modal"  type="button" onClick="MostrarCantidades2();" style="background:#2b5a2b;"><h7 style="color:#ffffff">Enviar Registros del dia</h7></button>' ;
@@ -43,7 +43,7 @@
                      {
                         echo'<button class="btn btn-success" data-target="#myCreateRTOT" data-toggle="modal"  type="button" onClick="MostrarCantidades2();" style="background:#2b5a2b;"><h7 style="color:#ffffff">Enviar Registros del dia</h7></button>' ;
                      }
-                    ?>  
+                    ?>
                 </div>
             </div>
             </div>
@@ -61,7 +61,7 @@
     </div>
     <div class="panel-body">
         <div id="sample_editable_1_wrapper" class="">
-            <table class="col-md-12 table-bordered table-striped table-condensed cf" style="font-size:7; width:100%" id="lts-acopio"> 
+            <table class="col-md-12 table-bordered table-striped table-condensed cf" style="font-size:7; width:100%" id="lts-acopio">
                 <thead class="table_head">
                     <tr>
                         <th>Opciones</th>
@@ -79,6 +79,9 @@
 
 @push('scripts')
 <script>
+    $( document ).ready(function() {
+        $('.clockpicker').clockpicker();
+    });
     $('#lts-acopio').DataTable( {
             "responsive": true,
             "processing": true,
@@ -92,7 +95,7 @@
                 {data: 'modulo_tel'}
                 // {data: 'lugardep'},
         ],
-        
+
         "language": {
              "url": "/lenguaje"
         },
@@ -102,7 +105,7 @@
           // width: "400px",
           targets: 0
           }]
-       
+
     });
 
     function Limpiar(){
@@ -140,12 +143,12 @@
                    'sabor' :$('#aco_sab').val()},
                success: function(data){
                     $("#myCreateRCA").modal('toggle');Limpiar()
-                    swal("El Acopio!", "Se ha registrado correctamente!", "success");                    
+                    swal("El Acopio!", "Se ha registrado correctamente!", "success");
                 },
                 error: function(result) {
                     var errorCompleto='Tiene los siguientes errores: ';
                     $.each(result.responseJSON.errors,function(indice,valor){
-                       errorCompleto = errorCompleto + valor+' ' ;                       
+                       errorCompleto = errorCompleto + valor+' ' ;
                     });
                     swal("Opss..., Hubo un error!",errorCompleto,"error");
                 }
@@ -160,12 +163,12 @@
         var token =$("#token").val();
         swal({   title: "Confirmacion de envio?",
               text: "Usted esta seguro de enviar los totales a Laboratorio",
-              type: "warning",   
+              type: "warning",
               showCancelButton: true,
               confirmButtonColor: "#28A345",
               confirmButtonText: "Enviar!",
               closeOnConfirm: true
-            },function(){  
+            },function(){
         //$('#myCreate').html('<div><img src="../img/ajax-loader.gif"/></div>');
         $.ajax({
             url: route,
@@ -184,14 +187,14 @@
                    'sabor'   :$('#acog_sab').val()},
                success: function(data){
                    $("#myCreateRTOT").modal('toggle');
-                   
-                 // swal("El Acopio General Dia!", "Se ha registrado correctamente El acopio General!", "success");  
-                    location.reload('/AcopioLacteos');                  
+
+                 // swal("El Acopio General Dia!", "Se ha registrado correctamente El acopio General!", "success");
+                    location.reload('/AcopioLacteos');
                 },
                 error: function(result) {
                      var errorCompleto='Tiene los siguientes errores: ';
                     $.each(result.responseJSON.errors,function(indice,valor){
-                       errorCompleto = errorCompleto + valor+' ' ;                       
+                       errorCompleto = errorCompleto + valor+' ' ;
                     });
                     swal("Opss..., Hubo un error!",errorCompleto,"error");
                 }
@@ -226,7 +229,7 @@ $("#registroModuloAco").click(function(){
                 error: function(result) {
                     var errorCompleto='Tiene los siguientes errores: ';
                     $.each(result.responseJSON.errors,function(indice,valor){
-                       errorCompleto = errorCompleto + valor+' ' ;                       
+                       errorCompleto = errorCompleto + valor+' ' ;
                     });
                     swal("Opss..., Hubo un error!",errorCompleto,"error");
                 }
@@ -241,26 +244,26 @@ $("#registroModuloAco").click(function(){
             $("#cod_prov2").val(res.modulo_id);
             $("#cod_nom2").val(res.modulo_modulo);
             // $("#cod_ap2").val(res.modulo_paterno);
-            // $("#cod_am2").val(res.modulo_materno); 
+            // $("#cod_am2").val(res.modulo_materno);
           });
     }
- //FUNCION QUE PERMITE MOSTRAR EL NOMBRE DEL PROVEEDOR EN LISTADO   
+ //FUNCION QUE PERMITE MOSTRAR EL NOMBRE DEL PROVEEDOR EN LISTADO
     // function MostrarProveedor(btn){
     //     var route = "/AcopioLacteos/"+btn.value+"/edit";
     //     $.get(route, function(res){
     //         $("#cod_prov1").val(res.prov_id);
     //         $("#cod_nom1").val(res.prov_nombre);
     //         $("#cod_ap1").val(res.prov_ap);
-    //         $("#cod_am1").val(res.prov_am);  
+    //         $("#cod_am1").val(res.prov_am);
     //       });
     // }
 
-//FUNCION QUE PERMITE MOSTRAR EL NOMBRE DEL PROVEEDOR EN LISTADO   
-    function MostrarCantidades2(){ 
+//FUNCION QUE PERMITE MOSTRAR EL NOMBRE DEL PROVEEDOR EN LISTADO
+    function MostrarCantidades2(){
         //var route1="/AcopioLacteosverificar"
        // if()
         var route = "/AcopioLacteosSum";
-        $.get(route, function(res){ 
+        $.get(route, function(res){
           console.log(res);
             // $("#cant_prov1").val(res[0].xtotalprov);
             $("#cant_lech1").val(res.cantidad_total);
@@ -270,6 +273,6 @@ $("#registroModuloAco").click(function(){
 
     }
 
-    
+
 </script>
 @endpush

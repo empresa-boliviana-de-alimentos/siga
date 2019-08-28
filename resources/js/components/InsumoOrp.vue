@@ -29,13 +29,16 @@
 				</tr>
 			</tbody>
 		</table>
-        <input type="text" :name="insumo" :value="JSON.stringify(items)">
+
+        <!-- este el campo por donde enviamos la lista el nombre lo colocas como props  cuanto se termine de guardar puedes adicionarle c la propiedad jhidden para que no se vea cuando se este registrando-->
+        <input type="text" :name="nombre" :value="JSON.stringify(items)">
+
 	</div>
 </template>
 <script>
 	export default
     {
-    	props: ['lista','cantidad'],
+    	props: ['lista','cantidad','nombre'],
     	data: ()=>({
     		// items: [{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:10,cant_por:0,cant_eor:0,stock:0,cant_ent:0},{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:0,cant_por:0,cant_eor:0,stock:0,cant_ent:0}],
     	}),
