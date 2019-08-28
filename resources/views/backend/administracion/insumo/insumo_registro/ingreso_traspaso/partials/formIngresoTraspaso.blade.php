@@ -20,23 +20,14 @@ table.dataTable tbody th, table.dataTable tbody td {
             <div class="text-center">
             	<h3></h3>
             </div>
-            <form action="{{ url('AprobacionTraspaso') }}" class="form-horizontal" method="GET">
+            <form action="{{ url('GuardarIngresotraspaso') }}" class="form-horizontal" method="GET">
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
-                <input type="hidden" name="id_orp" id="nro_acopio" value="">
+                <input type="hidden" name="id_ingreso" id="id_ingreso" value="{{$ingreso->ing_id}}">
                 <div class="col-md-12">
                     <div class="row">                
                        
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label>
-                                        Observacion Pedido:
-                                    </label>
-                                    <textarea type="text" value="" class="form-control" name="" readonly="true"></textarea>
-                                </div>
-                            </div>
-                        </div>                   
+                     
                                                                                     
                     </div>
                 </div>
@@ -53,7 +44,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <th>Insumo</th>
                                                     <th>Unidad Medida</th>
                                                     <th>Cantidad</th>
-                                                    <th>Costo</th>th>                             
+                                                    <th>Costo</th>                            
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -65,7 +56,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <td>{{$dorp->deting_cantidad}}</td>
                                                     <td><input type="text" name="costo_tras[]" value="" class="form-control"></td>                         
                                                     <td><input type="hidden" name="id_insumo_tras[]" value="{{$dorp->ins_id}}"></td>
-                                                    <td><input type="hidden" name="cantidad_tras[]" value="{{$dorp->detorprod_cantidad}}"></td>
+                                                    <td><input type="hidden" name="cantidad_tras[]" value="{{$dorp->deting_cantidad}}"></td>
+                                                    <td><input type="hidden" name="deting_id[]" value="{{$dorp->deting_id}}"></td>
                                                     
                                                 </tr>                                               
                                                 @endforeach 
@@ -76,19 +68,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     </div>
                         </div>
                     </div>
-                               <div class="row">
-                    
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label>
-                                        Observaciones:
-                                    </label>
-                                    <textarea type="text" value="" class="form-control" name="obs_usr_aprob"></textarea>
-                                </div>
-                            </div>
-                        </div> 
-                </div>               
+                                             
                     <br>
                     <div class="row">
                         <div class="col-lg-12">
