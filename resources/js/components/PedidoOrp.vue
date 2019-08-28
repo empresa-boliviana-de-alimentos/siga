@@ -11,6 +11,7 @@
                         :options="recetas"
                         @change="populateList($event)"
                         />
+                    <input type="text" name="receta_id" :value="receta_id">
                 </div>
             </div>
         </div>
@@ -22,10 +23,11 @@
                     </label>
                     <span class="block input-icon input-icon-right">
 
-                        <Select2 v-model="planta"
+                        <Select2 v-model="planta_id"
                         :options="lista_plantas"
                       	 />
                     </span>
+                    <input type="text" name="planta_id" :value="planta_id">
                 </div>
             </div>
         </div>
@@ -37,10 +39,11 @@
                     </label>
                     <span class="block input-icon input-icon-right">
 
-                        <Select2 v-model="mercado"
+                        <Select2 v-model="mercado_id"
                         :options="lista_mercados"
                       	 />
                     </span>
+                    <input type="text" name="mercado_id" :value="mercado_id">
                 </div>
             </div>
         </div>
@@ -51,7 +54,7 @@
                         Rendimiento Base:
                     </label>
                     <span class="block input-icon input-icon-right">
-                        <input type="" class="form-class" v-model="receta.rece_rendimiento_base">
+                        <input type="" name="rece_rendimiento_base" class="form-class" v-model="receta.rece_rendimiento_base">
                     </span>
                 </div>
             </div>
@@ -63,7 +66,7 @@
                         Cantidad a Producir:
                     </label>
                     <span class="block input-icon input-icon-right">
-                    	<input type="" name="" class="form-class" v-model="cantidad_producir">
+                    	<input type="" name="cantidad_producir" class="form-class" v-model="cantidad_producir">
                     </span>
                 </div>
             </div>
@@ -75,7 +78,7 @@
                         Cantidad a Esperada:
                     </label>
                     <span class="block input-icon input-icon-right">
-                        <input type="" name="" class="form-class">
+                        <input type="" name="cantidad_esperada" class="form-class" v-model="cantidad_esperada">
                     </span>
                 </div>
             </div>
@@ -87,7 +90,7 @@
                         Tiempo a Producir:
                     </label>
                     <span class="block input-icon input-icon-right">
-                        <input type="" name="" class="form-class">
+                        <input type="" name="tiempo_producir" class="form-class" v-model="tiempo_producir">
                     </span>
                 </div>
             </div>
@@ -107,7 +110,17 @@
         </div>
     </div>
     <div class="row" v-if="receta">
-        <div class="col-md-12">
+        <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">FORMULACION DE LA BASE</h3>
+                </div>
+            </div>
+            <div class="panel-body">
+                <insumo-orp :lista="formulacion_base" :cantidad="cantidad_pedido" nombre="formulaciones_base"></insumo-orp>
+            </div>
+        </div>
+        <div class="col-md-12" v-if="receta.rece_lineaprod_id==2 || receta.rece_lineaprod_id == 3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">MATERIA PRIMA</h3>
@@ -117,7 +130,7 @@
                 <insumo-orp :lista="materia_prima" :cantidad="cantidad_pedido" nombre="materias_prima"></insumo-orp>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">SABORIZACIÓN</h3>
@@ -127,7 +140,7 @@
                 <insumo-orp :lista="saborizaciones" :cantidad="cantidad_pedido" nombre="saborizaciones"></insumo-orp>
             </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 2 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
@@ -152,13 +165,16 @@
             receta_id:null,
     		lista_plantas: [],
     		lista_mercados: [],
-            planta: {},
-            mercado:{},
+            planta_id: {},
+            mercado_id:{},
+            formulacion_base:[],
             materia_prima:[],
             saborizaciones:[],
             envasados:[],
             cantidad_producir:0,
             cantidad_pedido:0,
+            cantidad_esperada:0,
+            tiempo_producir:0,
 
     	}),
     	methods: {
@@ -175,6 +191,17 @@
                     //     console.log(item);
                     //     return item;
                     // });
+                    for (var i = this.formulacion_base.length - 1; i >= 0; i--) { 
+                    console.log(this.formulacion_base[i]);                   
+                    axios.get('StockActualOP/'+this.formulacion_base[i].ins_id+'/'+this.planta_id)
+                     .then((response)=>{
+                         console.log(response.data);
+                        //this.formulacion_base[i].stock = response.data.stock_cantidad;
+                        let item = this.formulacion_base[i]
+                        item.stock = response.data.stock_cantidad;
+                        Object.assign(this.formulacion_base[i], item);  
+                     });
+                }
                 }
 
             },
@@ -205,8 +232,11 @@
                         // console.log(response.data);
                         this.envasados = response.data;
                      });
-
-
+                axios.get('getDataDetReceta?rece_id='+id+'&tipo=3')
+                     .then((response)=>{
+                        // console.log(response.data);
+                        this.formulacion_base = response.data;
+                     });
             },
     		// myChangeEvent(val){
             //     console.log(val);

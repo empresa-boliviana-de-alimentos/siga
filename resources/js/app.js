@@ -8,6 +8,7 @@ require('./bootstrap');
 import Multiselect from 'vue-multiselect';
 
 window.Vue = require('vue');
+window.numeral = require('numeral');
 Vue.component('multiselect', Multiselect)
 
 /**
