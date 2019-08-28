@@ -117,7 +117,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <insumo-orp :lista="formulacion_base" :cantidad="cantidad_pedido" nombre="formulaciones_base"></insumo-orp>
+                <insumo-orp :lista="formulacion_base" :cantidad="cantidad_pedido" nombre="formulaciones_base" :planta="planta_id"></insumo-orp>
             </div>
         </div>
         <div class="col-md-12" v-if="receta.rece_lineaprod_id==2 || receta.rece_lineaprod_id == 3">
@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <insumo-orp :lista="materia_prima" :cantidad="cantidad_pedido" nombre="materias_prima"></insumo-orp>
+                <insumo-orp :lista="materia_prima" :cantidad="cantidad_pedido" nombre="materias_prima" :planta="planta_id"></insumo-orp>
             </div>
         </div>
         <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
@@ -137,7 +137,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <insumo-orp :lista="saborizaciones" :cantidad="cantidad_pedido" nombre="saborizaciones"></insumo-orp>
+                <insumo-orp :lista="saborizaciones" :cantidad="cantidad_pedido" nombre="saborizaciones" :planta="planta_id"></insumo-orp>
             </div>
         </div>
         <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 2 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <insumo-orp :lista="envasados" :cantidad="cantidad_pedido" nombre="envasados"></insumo-orp>
+                <insumo-orp :lista="envasados" :cantidad="cantidad_pedido" nombre="envasados" :planta="planta_id"></insumo-orp>
             </div>
         </div>
     </div>
@@ -155,6 +155,7 @@
 </template>
 <script>
 	import Select2 from 'v-select2-component';
+import { constants } from 'crypto';
 	export default
     {
     	props: ['plantas','mercados'],
@@ -178,30 +179,107 @@
 
     	}),
     	methods: {
-    		calcularCantidad(){
+    		async calcularCantidad(){
                 this.cantidad_pedido = 0;
                 if(this.receta)
                 {
                     this.cantidad_pedido = parseFloat(this.cantidad_producir)  /  parseFloat( this.receta.rece_rendimiento_base);
                     console.log(this.cantidad_pedido);
 
+
+                    Promise.all(this.formulacion_base.map(({ ins_id })=>{
+                       return  axios.get('StockActualOP/'+ins_id+'/'+this.planta_id)
+                                    .then(response=>{ return response.data });
+
+                    })).then(values=>{
+
+                        this.formulacion_base.forEach(item => {
+                            let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
+
+                                item.stock = insumo.stock_cantidad;
+                            return item;
+
+                        });
+
+                    });
+
+                    Promise.all(this.formulacion_base.map(({ ins_id })=>{
+                       return  axios.get('StockActualOP/'+ins_id+'/'+this.planta_id)
+                                    .then(response=>{ return response.data });
+
+                    })).then(values=>{
+
+                        this.materia_prima.forEach(item => {
+                            let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
+
+                                item.stock = insumo.stock_cantidad;
+                            return item;
+
+                        });
+
+                    });
+
+                    Promise.all(this.saborizaciones.map(({ ins_id })=>{
+                       return  axios.get('StockActualOP/'+ins_id+'/'+this.planta_id)
+                                    .then(response=>{ return response.data });
+
+                    })).then(values=>{
+
+                        this.materia_prima.forEach(item => {
+                            let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
+
+                                item.stock = insumo.stock_cantidad;
+                            return item;
+
+                        });
+
+                    });
+
+                    Promise.all(this.envasados.map(({ ins_id })=>{
+                       return  axios.get('StockActualOP/'+ins_id+'/'+this.planta_id)
+                                    .then(response=>{ return response.data });
+
+                    })).then(values=>{
+
+                        this.materia_prima.forEach(item => {
+                            let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
+
+                                item.stock = insumo.stock_cantidad;
+                            return item;
+
+                        });
+
+                    });
+
+
+
+                    // console.log(new_formulacion_base);
                     // this.materia_prima.forEach(item => {
                     //     item.cant_cal = cantidad_pedido;
                     //     this.$set(userProfile, 'age', 27)
                     //     console.log(item);
                     //     return item;
                     // });
-                    for (var i = this.formulacion_base.length - 1; i >= 0; i--) { 
-                    console.log(this.formulacion_base[i]);                   
-                    axios.get('StockActualOP/'+this.formulacion_base[i].ins_id+'/'+this.planta_id)
-                     .then((response)=>{
-                         console.log(response.data);
-                        //this.formulacion_base[i].stock = response.data.stock_cantidad;
-                        let item = this.formulacion_base[i]
-                        item.stock = response.data.stock_cantidad;
-                        Object.assign(this.formulacion_base[i], item);  
-                     });
-                }
+
+                    // this.formulacion_base.forEach(async item => {
+                    //     // console.log(item);
+                    //     let res = await axios.get('StockActualOP/'+item.ins_id+'/'+this.planta_id);
+                    //     // console.log(res.data.stock_cantidad);
+                    //     item.stock = 30;
+                    // });
+
+
+                    // for (var i = this.formulacion_base.length - 1; i >= 0; i--) {
+                    // console.log(this.formulacion_base[i]);
+                    // axios.get('StockActualOP/'+this.formulacion_base[i].ins_id+'/'+this.planta_id)
+                    //  .then((response)=>{
+                    //      console.log(response.data);
+                    //     //this.formulacion_base[i].stock = response.data.stock_cantidad;
+                    //     let item = this.formulacion_base[i]
+                    //     item.stock = response.data.stock_cantidad;
+                    //     Object.assign(this.formulacion_base[i], item);
+                    //  });
+                    //  }
                 }
 
             },
@@ -237,6 +315,7 @@
                         // console.log(response.data);
                         this.formulacion_base = response.data;
                      });
+
             },
     		// myChangeEvent(val){
             //     console.log(val);

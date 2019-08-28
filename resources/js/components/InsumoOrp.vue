@@ -38,7 +38,7 @@
 <script>
 	export default
     {
-    	props: ['lista','cantidad','nombre'],
+    	props: ['lista','cantidad','nombre','planta'],
     	data: ()=>({
     		// items: [{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:10,cant_por:0,cant_eor:0,stock:0,cant_ent:0},{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:0,cant_por:0,cant_eor:0,stock:0,cant_ent:0}],
     	}),
@@ -61,15 +61,31 @@
     		{
     			item.cant_ent = (parseFloat(item.cant_cal)+parseFloat(item.cant_cal)*parseFloat(item.cant_por/100)).toFixed(2);
     			return item.cant_ent
-    		}
+            },
+            // async getStock(item)
+            // {
+            //     console.log(this.planta_id);
+
+            //     let res = await axios.get('StockActualOP/'+item.ins_id+'/'+this.planta_id)
+            //                 ;
+            //     console.log(res.data.stock_cantidad);
+            //     item.stock = res.data.stock_cantidad;
+            //     return item.stock;
+            // }
         },
-        computed:{
+        computed:
+        {
             items(){
                 return this.lista;
             },
             cantidad_pedido(){
                 return this.cantidad;
-            }
+            },
+            planta_id ()
+            {
+                return this.planta
+            },
+
         },
         mounted()
         {

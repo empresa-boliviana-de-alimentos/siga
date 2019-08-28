@@ -112,6 +112,7 @@ class gbOrdenProduccionController extends Controller
         {
             $stock_actual->stock_cantidad = 0;
         }
+        $stock_actual->ins_id = $id_insumo;
         return response()->json($stock_actual);
     }
     public function StockActualOPMaq($id_insumo)
