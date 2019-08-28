@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <insumo-orp :lista="materia_prima" :cantidad="cantidad_pedido"></insumo-orp>
+                <insumo-orp :lista="materia_prima" :cantidad="cantidad_pedido" nombre="materias_prima"></insumo-orp>
             </div>
         </div>
         <div class="col-md-12">
@@ -124,7 +124,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <insumo-orp :lista="saborizaciones" :cantidad="cantidad_pedido"></insumo-orp>
+                <insumo-orp :lista="saborizaciones" :cantidad="cantidad_pedido" nombre="saborizaciones"></insumo-orp>
             </div>
         </div>
         <div class="col-md-12">
@@ -134,7 +134,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <insumo-orp :lista="envasados" :cantidad="cantidad_pedido"></insumo-orp>
+                <insumo-orp :lista="envasados" :cantidad="cantidad_pedido" nombre="envasados"></insumo-orp>
             </div>
         </div>
     </div>
