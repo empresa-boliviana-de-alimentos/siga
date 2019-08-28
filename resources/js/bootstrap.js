@@ -11,6 +11,7 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+    require('../libs/clockpicker/dist/bootstrap-clockpicker.min.js');
 } catch (e) {}
 
 /**

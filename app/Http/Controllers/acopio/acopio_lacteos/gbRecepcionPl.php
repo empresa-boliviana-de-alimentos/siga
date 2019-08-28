@@ -20,7 +20,7 @@ use Session;
 class gbRecepcionPl extends Controller
 {
     public function index()
-    {   
+    {
 
         //     $turno = Usuario::where('usr_id','=',Auth::user()->usr_id)->first();
         // $tur = $turno['usr_id_turno'];
@@ -31,7 +31,7 @@ class gbRecepcionPl extends Controller
         // }
          // $usr=Auth::user()->usr_id;
          // $fecha=date('d/m/Y');
-         // $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first(); 
+         // $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
 
          //   $result=ModRecepcion::join('acopio.modulo as mod','acopio.recepcion_modulo.recmod_id_mod','=','mod.modulo_id')
          //                    ->join('public._bp_planta as planta','mod.modulo_id_planta','=','planta.id_planta')
@@ -45,18 +45,18 @@ class gbRecepcionPl extends Controller
         $persona = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                             ->where('usr_id','=',Auth::user()->usr_id)->first();
         // dd($persona);
-        $fech= AcopioGR::getfecha();   
+        $fech= AcopioGR::getfecha();
         $fecha= $fech['detlac_fecha_reg'];
         // echo $fecha;
         $tur= $fech['detlac_id_turno'];
-       // echo $tur;
+           // echo $tur;
 
         $turno = Usuario::where('usr_id','=',Auth::user()->usr_id)->first();
-        return view('backend.administracion.acopio.acopio_lacteos.recepcionPl.index', compact('fecha', 'persona', 'turno', 'tur'));  
+        return view('backend.administracion.acopio.acopio_lacteos.recepcionPl.index', compact('fecha', 'persona', 'turno', 'tur'));
     }
 
      public function create()
-    {   
+    {
         $turno = Usuario::where('usr_id','=',Auth::user()->usr_id)->first();
         $tur = $turno['usr_id_turno'];
         $modulo = Modulo::getListarModulo();
@@ -64,23 +64,23 @@ class gbRecepcionPl extends Controller
         return Datatables::of($modulo)->addColumn('acciones', function ($modulo) {
             // if($modulo->modulo_turno1==null and $modulo->modulo_fecha1 == null)
             // {
-            // return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+            // return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
             // }
             if($modulo->modulo_fecha1 == date('Y-m-d'))
             {
-            return '<a type="button" class="btn btn-primary fa fa-file-pdf-o" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px" target="_blank"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+            return '<a type="button" class="btn btn-primary fa fa-file-pdf-o" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px" target="_blank"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
             }
             if($modulo->modulo_fecha2 == date('Y-m-d'))
             {
-            return '<a type="button" class="btn btn-primary fa fa-file-pdf-o" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px" target="_blank"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+            return '<a type="button" class="btn btn-primary fa fa-file-pdf-o" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px" target="_blank"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
             }
             if($modulo->modulo_fecha3 == date('Y-m-d'))
             {
-            return '<a type="button" class="btn btn-primary fa fa-file-pdf-o" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px" target="_blank"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+            return '<a type="button" class="btn btn-primary fa fa-file-pdf-o" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px" target="_blank"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
             }
             else
             {
-            return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+            return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
             }
         })
 
@@ -95,15 +95,15 @@ class gbRecepcionPl extends Controller
         //     return Datatables::of($modulo)->addColumn('acciones', function ($modulo) {
         //     if($modulo->modulo_turno2==null and $modulo->modulo_fecha2 == null)
         //     {
-        //     return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+        //     return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
         //     }
         //     if($modulo->modulo_turno2==2 and $modulo->modulo_fecha2 == date('Y-m-d'))
         //     {
-        //     return '<a value="' . $modulo->modulo_id . '" type="button" class="btn btn-primary fa fa-file-pdf-o" target="_blank" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+        //     return '<a value="' . $modulo->modulo_id . '" type="button" class="btn btn-primary fa fa-file-pdf-o" target="_blank" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
         //     }
         //      else
         //     {
-        //     return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+        //     return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
         //     }
         // })
 
@@ -118,15 +118,15 @@ class gbRecepcionPl extends Controller
         //     return Datatables::of($modulo)->addColumn('acciones', function ($modulo) {
         //     if($modulo->modulo_turno3==null and $modulo->modulo_fecha3 == null)
         //     {
-        //     return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+        //     return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
         //     }
         //     if($modulo->modulo_turno3==0 and $modulo->modulo_fecha3 == date('Y-m-d'))
         //     {
-        //     return '<a value="' . $modulo->modulo_id . '" type="button" class="btn btn-primary fa fa-file-pdf-o" target="_blank" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+        //     return '<a value="' . $modulo->modulo_id . '" type="button" class="btn btn-primary fa fa-file-pdf-o" target="_blank" href="/BoletaRecepAco/' . $modulo->modulo_id . '" style="width:100px"> BOLETA</a> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
         //     }
         //      else
         //     {
-        //     return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> '; 
+        //     return '<button value="' . $modulo->modulo_id . '" class="btn btn-success btn-sm" style="width:100px" onClick="MostrarModulo(this);" data-toggle="modal" data-target="#myCreateRecepcion">REGISTRAR</button> <a class="btn btn-primary btn-sm" onClick="lstacopiolact(this);" style="background:#512E5F; width:100px;" href="listarModuloDetalle/' . $modulo->modulo_id . '">LISTAR</a> ';
         //     }
         // })
 
@@ -142,7 +142,7 @@ class gbRecepcionPl extends Controller
     {
         $recmod_id = $id;
         $modell_mod =Modulo::where('modulo_id',$id)->first();
-        
+
         return view('backend.administracion.acopio.acopio_lacteos.modeloDetalle.index',compact('recmod_id','modell_mod'));
     }
 
@@ -155,22 +155,22 @@ class gbRecepcionPl extends Controller
             return Datatables::of($modulodetalle)->addColumn('turno', function ($modulodetalle) {
             if($modulodetalle->recmod_id_turno==1)
                 {
-                return '<h7>MAÑANA</h7>'; 
+                return '<h7>MAÑANA</h7>';
                 }
             if($modulodetalle->recmod_id_turno==2)
                 {
-                return '<h7>TARDE</h7>'; 
+                return '<h7>TARDE</h7>';
                 }
              })
             -> addColumn('aceptacion', function ($modulodetalle) {
 
              if($modulodetalle->recmod_acepta==1)
                 {
-                return '<a class="btn btn-success btn-sm" style="width:110px">ACEPTADO</a>'; 
+                return '<a class="btn btn-success btn-sm" style="width:110px">ACEPTADO</a>';
                 }
             if($modulodetalle->recmod_acepta==2)
                 {
-                return '<a class="btn btn-danger btn-sm" style="width:110px">RECHAZADO</a>'; 
+                return '<a class="btn btn-danger btn-sm" style="width:110px">RECHAZADO</a>';
                 }
              })
              -> addColumn('acciones', function ($modulodetalle) {
@@ -179,14 +179,14 @@ class gbRecepcionPl extends Controller
              })
                 ->make(true);
     }
-                            
+
     public function store(Request $request)
     {
         $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')
                             ->where('usr_id','=',Auth::user()->usr_id)
-                            ->first();  
-         $plant=$planta['id_planta'];   
+                            ->first();
+         $plant=$planta['id_planta'];
          $turno = Usuario::where('usr_id','=',Auth::user()->usr_id)->first();
          $tur = $turno['usr_id_turno'];
 
@@ -262,7 +262,7 @@ class gbRecepcionPl extends Controller
     }
 
     public function boletAcopio($id)
-    {  
+    {
         $modulo = ModRecepcion::join('acopio.modulo as mod', 'acopio.recepcion_modulo.recmod_id_mod','=','mod.modulo_id')
                         ->join('public._bp_usuarios as usr', 'acopio.recepcion_modulo.recmod_id_usr','=','usr.usr_id')
                         ->join('public._bp_personas as per', 'usr.usr_prs_id','=','per.prs_id')
@@ -273,7 +273,7 @@ class gbRecepcionPl extends Controller
            PDF::AddPage();
 
            PDF::SetFont('helvetica','B',12);
-           PDF::Ln(5); 
+           PDF::Ln(5);
            PDF::Cell(45,0,'',0,1,'C');
            PDF::Cell(45,20,PDF::Image('img/logopeqe.png',13,18,'R',25),1,0,'C');
 
@@ -309,7 +309,7 @@ class gbRecepcionPl extends Controller
             PDF::SetFont('helvetica','',8);
             PDF::SetXY(38, 60);
             PDF::writeHTML('',PDF::Cell(131,7,$modulo['recmod_fecha'],0,1,'L',0), true, true, false, '');
-            
+
 
             if($modulo['recmod_id_turno']==1){
 
@@ -357,7 +357,7 @@ class gbRecepcionPl extends Controller
             PDF::SetFont('helvetica','',8);
             PDF::SetXY(115 , 80);
             PDF::writeHTML('',PDF::Cell(131,7,$modulo['recmod_cant_recep'].' '.'Litros',0,1,'L',0), true, true, false, '');
-            
+
 
             PDF::Ln(30);
             PDF::SetFont('helvetica','B',7);
@@ -367,7 +367,7 @@ class gbRecepcionPl extends Controller
             PDF::Cell(15,6,utf8_decode(''),0,0,'L',0);
             PDF::Cell(15,6,utf8_decode('Nombre:'),0,0,'L',0);
             PDF::writeHTML('',PDF::Cell(15,6,$modulo['modulo_nombre'].' '.$modulo['modulo_paterno'].' '.$modulo['modulo_materno'],0,1,'L',0), true, true, false, '');
-          
+
             PDF::SetXY(15, 140);
             PDF::Cell(15,6,utf8_decode(''),0,0,'L',0);
             PDF::Cell(15,6,utf8_decode('CI:'),0,0,'L',0);
@@ -379,19 +379,19 @@ class gbRecepcionPl extends Controller
             PDF::SetXY(120, 135);
             PDF::Cell(15,6,utf8_decode('Nombre:'),0,0,'C',0);
             PDF::writeHTML('',PDF::Cell(15,6,$modulo['prs_nombres'].' '.$modulo['prs_paterno'].' '.$modulo['prs_materno'],0,1,'L',0), true, true, false, '');
-          
+
             PDF::SetXY(120, 140);
             PDF::Cell(15,6,utf8_decode('CI:'),0,0,'C',0);
             PDF::writeHTML('',PDF::Cell(45,6,$modulo['prs_ci'],0,1,'L',0), true, true, false, '');
 
-            PDF::Line(35, 128, 85, 128); 
-            PDF::Line(135, 128,186, 128); 
-            
+            PDF::Line(35, 128, 85, 128);
+            PDF::Line(135, 128,186, 128);
+
 
         ///////////// BOLETA PROVEEDOR ////////////////////
 
            PDF::SetFont('helvetica','B',12);
-           PDF::Ln(4); 
+           PDF::Ln(4);
            PDF::Cell(45,0,'',0,1,'C');
            PDF::Cell(45,20,PDF::Image('img/logopeqe1.png',13,152,'',25),1,0,'C');
            // PDF::Cell(45,20,PDF::Image('img/email/logosedem1.png',23,157,'',15),1,0,'C');
@@ -424,7 +424,7 @@ class gbRecepcionPl extends Controller
             PDF::SetXY(55, 185);
             PDF::writeHTML('',PDF::Cell(0,7,$modulo['modulo_modulo'],0,1,'L',0), true, true, false, '');
            }
-          
+
 
             PDF::SetXY(15, 195);
             PDF::Cell(49,7,'Fecha Acopio:',0,0,'L',0);
@@ -463,7 +463,7 @@ class gbRecepcionPl extends Controller
             PDF::writeHTML('',PDF::Cell(131,7,'Rechazado',0,1,'L',0), true, true, false, '');
             }
 
-            
+
             PDF::SetFont('helvetica','B',8);
             PDF::SetXY(15, 215);
             PDF::Cell(40,8,'Cantidad de baldes:',0,0,'L',0);
@@ -505,12 +505,12 @@ class gbRecepcionPl extends Controller
             PDF::SetXY(135, 265);
             PDF::writeHTML('',PDF::Cell(45,6,$modulo['prs_ci'],0,1,'L',0), true, true, false, '');
 
-            PDF::Line(35, 252, 85, 252); 
-            PDF::Line(135, 252,186, 252); 
+            PDF::Line(35, 252, 85, 252);
+            PDF::Line(135, 252,186, 252);
 
             PDF::Output();
 
-   
+
         PDF::SetTitle('Boleta de Acopio');
         PDF::SetFont('helvetica', '', 10);
         //CUERPO
@@ -522,11 +522,11 @@ class gbRecepcionPl extends Controller
         );
      //   PDF::writeHTML($html, true, false, true, false, '');
 
-        PDF::Output('hello_world.pdf');   
+        PDF::Output('hello_world.pdf');
     }
 
      public function boletAcopioDetalle($id)
-    {  
+    {
         $modulo = ModRecepcion::join('acopio.modulo as mod', 'acopio.recepcion_modulo.recmod_id_mod','=','mod.modulo_id')
                         ->join('public._bp_usuarios as usr', 'acopio.recepcion_modulo.recmod_id_usr','=','usr.usr_id')
                         ->join('public._bp_personas as per', 'usr.usr_prs_id','=','per.prs_id')
@@ -537,7 +537,7 @@ class gbRecepcionPl extends Controller
            PDF::AddPage();
 
            PDF::SetFont('helvetica','B',12);
-           PDF::Ln(5); 
+           PDF::Ln(5);
            PDF::Cell(45,0,'',0,1,'C');
            PDF::Cell(45,20,PDF::Image('img/logopeqe.png',13,18,'R',25),1,0,'C');
 
@@ -573,7 +573,7 @@ class gbRecepcionPl extends Controller
             PDF::SetFont('helvetica','',8);
             PDF::SetXY(38, 60);
             PDF::writeHTML('',PDF::Cell(131,7,$modulo['recmod_fecha'],0,1,'L',0), true, true, false, '');
-            
+
 
             if($modulo['recmod_id_turno']==1){
 
@@ -621,7 +621,7 @@ class gbRecepcionPl extends Controller
             PDF::SetFont('helvetica','',8);
             PDF::SetXY(115 , 80);
             PDF::writeHTML('',PDF::Cell(131,7,$modulo['recmod_cant_recep'].' '.'Litros',0,1,'L',0), true, true, false, '');
-            
+
 
             PDF::Ln(30);
             PDF::SetFont('helvetica','B',7);
@@ -631,7 +631,7 @@ class gbRecepcionPl extends Controller
             PDF::Cell(15,6,utf8_decode(''),0,0,'L',0);
             PDF::Cell(15,6,utf8_decode('Nombre:'),0,0,'L',0);
             PDF::writeHTML('',PDF::Cell(15,6,$modulo['modulo_nombre'].' '.$modulo['modulo_paterno'].' '.$modulo['modulo_materno'],0,1,'L',0), true, true, false, '');
-          
+
             PDF::SetXY(15, 140);
             PDF::Cell(15,6,utf8_decode(''),0,0,'L',0);
             PDF::Cell(15,6,utf8_decode('CI:'),0,0,'L',0);
@@ -643,19 +643,19 @@ class gbRecepcionPl extends Controller
             PDF::SetXY(120, 135);
             PDF::Cell(15,6,utf8_decode('Nombre:'),0,0,'C',0);
             PDF::writeHTML('',PDF::Cell(15,6,$modulo['prs_nombres'].' '.$modulo['prs_paterno'].' '.$modulo['prs_materno'],0,1,'L',0), true, true, false, '');
-          
+
             PDF::SetXY(120, 140);
             PDF::Cell(15,6,utf8_decode('CI:'),0,0,'C',0);
             PDF::writeHTML('',PDF::Cell(45,6,$modulo['prs_ci'],0,1,'L',0), true, true, false, '');
 
-            PDF::Line(35, 128, 85, 128); 
-            PDF::Line(135, 128,186, 128); 
-            
+            PDF::Line(35, 128, 85, 128);
+            PDF::Line(135, 128,186, 128);
+
 
         ///////////// BOLETA PROVEEDOR ////////////////////
 
            PDF::SetFont('helvetica','B',12);
-           PDF::Ln(4); 
+           PDF::Ln(4);
            PDF::Cell(45,0,'',0,1,'C');
            PDF::Cell(45,20,PDF::Image('img/logopeqe1.png',13,152,'',25),1,0,'C');
            // PDF::Cell(45,20,PDF::Image('img/email/logosedem1.png',23,157,'',15),1,0,'C');
@@ -688,7 +688,7 @@ class gbRecepcionPl extends Controller
             PDF::SetXY(55, 185);
             PDF::writeHTML('',PDF::Cell(0,7,$modulo['modulo_modulo'],0,1,'L',0), true, true, false, '');
            }
-          
+
 
             PDF::SetXY(15, 195);
             PDF::Cell(49,7,'Fecha Acopio:',0,0,'L',0);
@@ -727,7 +727,7 @@ class gbRecepcionPl extends Controller
             PDF::writeHTML('',PDF::Cell(131,7,'Rechazado',0,1,'L',0), true, true, false, '');
             }
 
-            
+
             PDF::SetFont('helvetica','B',8);
             PDF::SetXY(15, 215);
             PDF::Cell(40,8,'Cantidad de baldes:',0,0,'L',0);
@@ -769,12 +769,12 @@ class gbRecepcionPl extends Controller
             PDF::SetXY(135, 265);
             PDF::writeHTML('',PDF::Cell(45,6,$modulo['prs_ci'],0,1,'L',0), true, true, false, '');
 
-            PDF::Line(35, 252, 85, 252); 
-            PDF::Line(135, 252,186, 252); 
+            PDF::Line(35, 252, 85, 252);
+            PDF::Line(135, 252,186, 252);
 
             PDF::Output();
 
-   
+
         PDF::SetTitle('Boleta de Acopio');
         PDF::SetFont('helvetica', '', 10);
         //CUERPO
@@ -786,7 +786,7 @@ class gbRecepcionPl extends Controller
         );
      //   PDF::writeHTML($html, true, false, true, false, '');
 
-        PDF::Output('hello_world.pdf');   
+        PDF::Output('hello_world.pdf');
      //    $turno = Usuario::where('usr_id','=',Auth::user()->usr_id)->first();
      //    $tur = $turno['usr_id_turno'];
 
@@ -796,14 +796,14 @@ class gbRecepcionPl extends Controller
 
      //    $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
      //                        ->where('usr_id','=',Auth::user()->usr_id)
-     //                        ->first();  
+     //                        ->first();
      //    $modulo = Modulo::join('acopio.recepcion_modulo as recep', 'acopio.modulo.modulo_id','=','recep.recmod_id_mod')
      //                     ->where('recep.recmod_id',$id)
      //                     ->first();
      //       PDF::AddPage();
 
      //       PDF::SetFont('helvetica','B',12);
-     //       PDF::Ln(5); 
+     //       PDF::Ln(5);
      //       PDF::Cell(45,0,'',0,1,'C');
      //       PDF::Cell(45,20,PDF::Image('img/logopeqe.png',13,18,'R',25),1,0,'C');
 
@@ -839,7 +839,7 @@ class gbRecepcionPl extends Controller
      //        PDF::SetFont('helvetica','',8);
      //        PDF::SetXY(38, 60);
      //        PDF::writeHTML('',PDF::Cell(131,7,$modulo['recmod_fecha'],0,1,'L',0), true, true, false, '');
-            
+
 
      //        if($modulo['recmod_id_turno']==1){
 
@@ -862,7 +862,7 @@ class gbRecepcionPl extends Controller
      //        PDF::Cell(49,7,'Turno:',0,0,'L',0);
      //        PDF::SetFont('helvetica','',8);
      //        PDF::SetXY(31, 70);
-     //        PDF::writeHTML('',PDF::Cell(131,7,'No corresponde',0,1,'L',0), true, true, false, ''); 
+     //        PDF::writeHTML('',PDF::Cell(131,7,'No corresponde',0,1,'L',0), true, true, false, '');
      //        }
 
      //        if($modulo['recmod_acepta']==1){
@@ -894,7 +894,7 @@ class gbRecepcionPl extends Controller
      //        PDF::SetFont('helvetica','',8);
      //        PDF::SetXY(115 , 80);
      //        PDF::writeHTML('',PDF::Cell(131,7,$modulo['recmod_cant_recep'].' '.'Litros',0,1,'L',0), true, true, false, '');
-            
+
 
      //        PDF::Ln(30);
      //        PDF::SetFont('helvetica','B',7);
@@ -904,7 +904,7 @@ class gbRecepcionPl extends Controller
      //        PDF::Cell(15,6,utf8_decode(''),0,0,'L',0);
      //        PDF::Cell(15,6,utf8_decode('Nombre:'),0,0,'L',0);
      //        PDF::writeHTML('',PDF::Cell(15,6,$modulo['modulo_nombre'].' '.$modulo['modulo_paterno'].' '.$modulo['modulo_materno'],0,1,'L',0), true, true, false, '');
-          
+
      //        PDF::SetXY(15, 140);
      //        PDF::Cell(15,6,utf8_decode(''),0,0,'L',0);
      //        PDF::Cell(15,6,utf8_decode('CI:'),0,0,'L',0);
@@ -916,19 +916,19 @@ class gbRecepcionPl extends Controller
      //        PDF::SetXY(120, 135);
      //        PDF::Cell(15,6,utf8_decode('Nombre:'),0,0,'C',0);
      //        PDF::writeHTML('',PDF::Cell(15,6,$persona['prs_nombres'].' '.$persona['prs_paterno'].' '.$persona['prs_materno'],0,1,'L',0), true, true, false, '');
-          
+
      //        PDF::SetXY(120, 140);
      //        PDF::Cell(15,6,utf8_decode('CI:'),0,0,'C',0);
      //        PDF::writeHTML('',PDF::Cell(45,6,$persona['prs_ci'],0,1,'L',0), true, true, false, '');
 
-     //        PDF::Line(35, 128, 85, 128); 
-     //        PDF::Line(135, 128,186, 128); 
-            
+     //        PDF::Line(35, 128, 85, 128);
+     //        PDF::Line(135, 128,186, 128);
+
 
      //    ///////////// BOLETA PROVEEDOR ////////////////////
 
      //       PDF::SetFont('helvetica','B',12);
-     //       PDF::Ln(4); 
+     //       PDF::Ln(4);
      //       PDF::Cell(45,0,'',0,1,'C');
      //       PDF::Cell(45,20,PDF::Image('img/logopeqe1.png',13,152,'',25),1,0,'C');
      //       // PDF::Cell(45,20,PDF::Image('img/email/logosedem1.png',23,157,'',15),1,0,'C');
@@ -961,7 +961,7 @@ class gbRecepcionPl extends Controller
      //        PDF::SetXY(55, 185);
      //        PDF::writeHTML('',PDF::Cell(0,7,$modulo['modulo_modulo'],0,1,'L',0), true, true, false, '');
      //       }
-          
+
 
      //        PDF::SetXY(15, 195);
      //        PDF::Cell(49,7,'Fecha Acopio:',0,0,'L',0);
@@ -1007,7 +1007,7 @@ class gbRecepcionPl extends Controller
      //        PDF::writeHTML('',PDF::Cell(131,7,'Rechazado',0,1,'L',0), true, true, false, '');
      //        }
 
-            
+
      //        PDF::SetFont('helvetica','B',8);
      //        PDF::SetXY(15, 215);
      //        PDF::Cell(40,8,'Cantidad de baldes:',0,0,'L',0);
@@ -1049,12 +1049,12 @@ class gbRecepcionPl extends Controller
      //        PDF::SetXY(135, 265);
      //        PDF::writeHTML('',PDF::Cell(45,6,$persona['prs_ci'],0,1,'L',0), true, true, false, '');
 
-     //        PDF::Line(35, 252, 85, 252); 
-     //        PDF::Line(135, 252,186, 252); 
+     //        PDF::Line(35, 252, 85, 252);
+     //        PDF::Line(135, 252,186, 252);
 
      //        PDF::Output();
 
-   
+
      //    PDF::SetTitle('Boleta de Acopio');
      //    PDF::SetFont('helvetica', '', 10);
      //    //CUERPO
@@ -1066,7 +1066,7 @@ class gbRecepcionPl extends Controller
      //    );
      // //   PDF::writeHTML($html, true, false, true, false, '');
 
-     //    PDF::Output('hello_world.pdf');   
+     //    PDF::Output('hello_world.pdf');
     }
 
 }
