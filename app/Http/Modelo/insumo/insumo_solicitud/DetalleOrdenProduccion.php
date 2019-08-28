@@ -12,6 +12,8 @@ class DetalleOrdenProduccion extends Model
         'detorprod_id',
         'detorprod_orprod_id',
         'detorprod_ins_id',
+        'detorprod_fc',
+        'detorprod_cantidad_cal',
         'detorprod_cantidad',
         'detorprod_registrado',
         'detorprod_modificado',

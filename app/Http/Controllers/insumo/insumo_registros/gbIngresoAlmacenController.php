@@ -924,11 +924,16 @@ class gbIngresoAlmacenController extends Controller
     public function mostrarIngresoTraspaso($id)
     {
         $ingreso = Ingreso::where('ing_id',$id)->first();
-        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')->where('deting_ing_id',$ingreso->ing_id)->get();
+        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
+                                         ->leftjoin('insumo.unidad_medida as umed','ins.ins_id_uni','=','umed.umed_id')
+                                         ->where('deting_ing_id',$ingreso->ing_id)->get();
         //dd($ingreso);
         return view('backend.administracion.insumo.insumo_registro.ingreso_traspaso.partials.formIngresoTraspaso',compact('ingreso','detalle_ingreso'));
     }
-
+    public function guardarIngresotraspaso(Request $request)
+    {
+        
+    }
 
 }
 

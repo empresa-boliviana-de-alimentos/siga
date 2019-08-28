@@ -29,6 +29,7 @@
 				</tr>
 			</tbody>
 		</table>
+        <input type="text" :name="insumo" :value="JSON.stringify(items)">
 	</div>
 </template>
 <script>
@@ -40,6 +41,10 @@
     	}),
         methods:
         {
+            addItem()
+            {
+                this.items.push({});
+            },
             calcularCantidaPedido(item){
                 item.cant_cal = item.detrece_cantidad * this.cantidad_pedido;
                 return item.cant_cal;
