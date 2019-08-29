@@ -9,6 +9,7 @@ import Multiselect from 'vue-multiselect';
 
 window.Vue = require('vue');
 window.numeral = require('numeral');
+window.iziToast = require('izitoast');//notificaciones
 Vue.component('multiselect', Multiselect)
 
 /**
