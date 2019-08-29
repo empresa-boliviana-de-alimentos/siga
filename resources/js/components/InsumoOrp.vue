@@ -55,12 +55,12 @@
     		calcularEor(item)
     		{
                 console.log(item.cant_por);
-    			item.cant_eor = (parseFloat(item.cant_cal)*parseFloat(item.cant_por/100)).toFixed(2);
+    			item.cant_eor = (parseFloat(item.cant_cal)*parseFloat((item.cant_por||0)/100)).toFixed(2);
     			return item.cant_eor;
     		},
     		sumarCantEnt(item)
     		{
-    			item.cant_ent = (parseFloat(item.cant_cal)+parseFloat(item.cant_cal)*parseFloat(item.cant_por/100)).toFixed(2);
+    			item.cant_ent = (parseFloat(item.cant_cal)+parseFloat(item.cant_cal)*parseFloat((item.cant_por||0)/100)).toFixed(2);
     			return item.cant_ent
             },
             // async getStock(item)

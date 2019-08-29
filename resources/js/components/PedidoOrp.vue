@@ -163,7 +163,7 @@ import { constants } from 'crypto';
     {
     	props: ['plantas','mercados'],
     	data: ()=>({
-    		
+
     		recetas: [],
             receta: null,
             receta_id:null,
@@ -195,13 +195,16 @@ import { constants } from 'crypto';
                                     .then(response=>{ return response.data });
 
                     })).then(values=>{
+                        // for (let index = 0; index < array.length; index++) {
+                        //     const element = array[index];
 
+                        // }
                         this.formulacion_base.forEach(item => {
                             let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
-
+                            let index = this.formulacion_base.indexOf(insumo);
                                 item.stock = insumo.stock_cantidad;
+                                this.$set(this.formulacion_base, index, item)
                             return item;
-
                         });
 
                     });
@@ -213,9 +216,10 @@ import { constants } from 'crypto';
                     })).then(values=>{
 
                         this.materia_prima.forEach(item => {
-                            let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
-
+                           let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
+                            let index = this.materia_prima.indexOf(insumo);
                                 item.stock = insumo.stock_cantidad;
+                                this.$set(this.materia_prima, index, item)
                             return item;
 
                         });
@@ -230,8 +234,9 @@ import { constants } from 'crypto';
 
                         this.saborizaciones.forEach(item => {
                             let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
-
+                            let index = this.saborizaciones.indexOf(insumo);
                                 item.stock = insumo.stock_cantidad;
+                                this.$set(this.saborizaciones, index, item)
                             return item;
 
                         });
@@ -246,8 +251,9 @@ import { constants } from 'crypto';
 
                         this.envasados.forEach(item => {
                             let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
-
+                            let index = this.envasados.indexOf(insumo);
                                 item.stock = insumo.stock_cantidad;
+                                this.$set(this.envasados, index, item)
                             return item;
 
                         });
@@ -256,33 +262,6 @@ import { constants } from 'crypto';
 
 
 
-                    // console.log(new_formulacion_base);
-                    // this.materia_prima.forEach(item => {
-                    //     item.cant_cal = cantidad_pedido;
-                    //     this.$set(userProfile, 'age', 27)
-                    //     console.log(item);
-                    //     return item;
-                    // });
-
-                    // this.formulacion_base.forEach(async item => {
-                    //     // console.log(item);
-                    //     let res = await axios.get('StockActualOP/'+item.ins_id+'/'+this.planta_id);
-                    //     // console.log(res.data.stock_cantidad);
-                    //     item.stock = 30;
-                    // });
-
-
-                    // for (var i = this.formulacion_base.length - 1; i >= 0; i--) {
-                    // console.log(this.formulacion_base[i]);
-                    // axios.get('StockActualOP/'+this.formulacion_base[i].ins_id+'/'+this.planta_id)
-                    //  .then((response)=>{
-                    //      console.log(response.data);
-                    //     //this.formulacion_base[i].stock = response.data.stock_cantidad;
-                    //     let item = this.formulacion_base[i]
-                    //     item.stock = response.data.stock_cantidad;
-                    //     Object.assign(this.formulacion_base[i], item);
-                    //  });
-                    //  }
                 }
 
             },
