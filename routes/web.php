@@ -460,7 +460,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('getDataDetReceta', function () {
 		$rec_id = Input::get('rece_id');
 		$tipo = Input::get('tipo');
-		$datos_det = DB::table('insumo.detalle_receta')->join('insumo.insumo as ins', 'insumo.detalle_receta.detrece_ins_id', '=', 'ins.ins_id')->join('insumo.unidad_medida as uni', 'ins.ins_id_uni', '=', 'uni.umed_id')->where('detrece_rece_id', '=', $rec_id)->where('ins_id_tip_ins', $tipo)->get();
+        $datos_det = DB::table('insumo.detalle_receta')->join('insumo.insumo as ins', 'insumo.detalle_receta.detrece_ins_id', '=', 'ins.ins_id')->join('insumo.unidad_medida as uni', 'ins.ins_id_uni', '=', 'uni.umed_id')->where('detrece_rece_id', '=', $rec_id)->where('ins_id_tip_ins', $tipo)->get();
+        foreach($datos_det as $dato)
+        {
+            $dato->cant_por=0;
+        }
+
 		return Response::json($datos_det);
 	});
 	// ROUTE PARA BUSCAR NOTAS DE SALIDAS
