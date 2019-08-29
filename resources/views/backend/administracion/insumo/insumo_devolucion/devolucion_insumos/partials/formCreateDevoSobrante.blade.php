@@ -33,7 +33,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     <select name="orprod_id" id="orprod_id" style="width: 100%" class="form-control">
                                     	<option value="">Seleccione un nro de orden</option>
                                     	@foreach($ordenes_produccion as $orden)
-                                    		<option value="{{$orden->orprod_id}}">{{$orden->orprod_nro_orden}}</option>
+                                    		<option value="{{$orden->orprod_id}}">{{$orden->orprod_nro_salida}}</option>
                                     	@endforeach
                                     </select>     
                                 </div>

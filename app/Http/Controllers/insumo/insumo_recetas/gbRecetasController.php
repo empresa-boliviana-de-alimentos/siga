@@ -118,6 +118,7 @@ class gbRecetasController extends Controller
                               ->where('ins_id_tip_ins',2)->get();
         $listarSaborizantes = Insumo::with('unidad_medida')->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
                                     ->where('ins_id_tip_ins',4)->get();
+        //dd($listarSaborizantes);
         $listarUnidades = UnidadMedida::where('umed_estado','A')->get();
         $sublinea = SubLinea::where('sublin_estado','A')->get();
         //dd($listarInsumo);

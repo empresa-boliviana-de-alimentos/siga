@@ -49,7 +49,8 @@ class gbDevolucionInsController extends Controller
 
     public function formDevolucionSobrante()
     {
-        $ordenes_produccion = OrdenProduccion::where('orprod_nro_salida','<>',null)->get();
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();   
+        $ordenes_produccion = OrdenProduccion::where('orprod_nro_salida','<>',null)->where('orprod_planta_id',$planta->id_planta)->get();
         $listarInsumo = Insumo::where('ins_estado','A')->get();
         return view('backend.administracion.insumo.insumo_devolucion.devolucion_insumos.partials.formCreateDevoSobrante',compact('ordenes_produccion','listarInsumo'));
     }

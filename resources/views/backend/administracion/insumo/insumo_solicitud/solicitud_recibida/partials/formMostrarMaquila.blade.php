@@ -34,7 +34,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="id_orp" id="nro_acopio" value="{{ $sol_orden_produccion->orprod_id}}">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="row"> 
                         <div class="col-md-12">
                             <div class="form-group">
@@ -79,8 +79,9 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                                                     
                     </div>
                 </div>
+                <div class="col-md-9">
                 @if($receta->rece_lineaprod_id == 2 OR $receta->rece_lineaprod_id == 3)
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">MATERIA PRIMA</h3>
@@ -136,7 +137,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 @endif
                 
                 @if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">FORMULACION DE LA BASE</h3>
@@ -311,6 +312,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     </div>
                         </div>
                     </div>
+                </div>
                                <div class="row">
                     
                         <div class="col-md-12">

@@ -907,7 +907,7 @@ class gbIngresoAlmacenController extends Controller
             if($ingreso_traspaso->ing_estado == 'B'){
                return '<div class="text-center"><a href="verIngresoTraspaso/' . $ingreso_traspaso->ing_id . '" class="btn btn-md btn-success"><i class="fa fa-eye"></i></a></div>';
             }else{
-                return '<div class="text-center"><a href="ReporteAlmacen/'.$ingreso_traspaso->ing_id.'" class="btn btn-md btn-primary"><i class="fa fa-file-o"></i></a></div>';
+                return '<div class="text-center"><a href="ReporteAlmacen/'.$ingreso_traspaso->ing_id.'" target="_blank" class="btn btn-md btn-primary"><i class="fa fa-file-o"></i></a></div>';
             }            
         })->addColumn('planta_traspaso', function ($planta_traspaso) {
             return $this->traePlanta($planta_traspaso->ing_planta_traspaso);

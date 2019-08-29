@@ -543,7 +543,8 @@ class gbSolRecibidasController extends Controller
     }
     public function formMostrarTraspaso($id_tras)
     {
-        $sol_orden_produccion = OrdenProduccion::where('orprod_id',$id_tras)->first();
+        $sol_orden_produccion = OrdenProduccion::join('public._bp_planta as pl','insumo.orden_produccion.orprod_planta_traspaso','=','pl.id_planta')->where('orprod_id',$id_tras)->first();
+        //dd($sol_orden_produccion);
         $detalle_sol_orp = DetalleOrdenProduccion::join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')->join('insumo.unidad_medida as umed','ins.ins_id_uni','=','umed.umed_id')->where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
         return view('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.formMostrarTraspaso',compact('sol_orden_produccion','detalle_sol_orp'));
     }
@@ -655,7 +656,7 @@ class gbSolRecibidasController extends Controller
             }
         }
         //INGRESO PLANTA SOLICITANTE
-        $num = Ingreso::join('public._bp_planta as plant', 'insumo.ingreso.ing_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(ing_enumeracion) as nroing'))->where('plant.id_planta', $orden_produccion_aprob->orprod_planta_id)->first();
+        $num = Ingreso::join('public._bp_planta as plant', 'insumo.ingreso.ing_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(ing_enumeracion) as nroing'))->where('plant.id_planta', $orden_produccion_aprob->orprod_planta_trapaso)->first();
         $cont=$num['nroing'];
         $nid = $cont + 1;
         $ingreso_alm=Ingreso::create([
@@ -665,7 +666,7 @@ class gbSolRecibidasController extends Controller
                 //'ing_factura'           => $nombreImagenFactura,
                 //'ing_nrofactura'        => $request['carr_ing_nrofactura'],
                 'ing_usr_id'            => Auth::user()->usr_id,
-                'ing_planta_id'         => $orden_produccion_aprob->orprod_planta_id,
+                'ing_planta_id'         => $orden_produccion_aprob->orprod_planta_traspaso,
                 'ing_enumeracion'       => $nid,
                 'ing_planta_traspaso'   => $id_planta,
                 'ing_estado'            => 'B',
