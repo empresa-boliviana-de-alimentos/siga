@@ -22,9 +22,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="nro_de_orden" id="nro_de_orden" value="">
                 <input type="hidden" name="id_receta" id="id_receta" value="">
-                <div class="col-md-6">
+                <input type="hidden" name="id_planta" id="id_planta" value="{{$planta->id_planta}}">
+                <div class="col-md-3">
                     <div class="row"> 
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -39,7 +40,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>                                
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -51,7 +52,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -63,7 +64,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>                        
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -77,8 +78,9 @@ table.dataTable tbody th, table.dataTable tbody td {
                         </div>                                      
                     </div>
                 </div>
+            <div class="col-md-9">
                 <div id="OcultarMateriaPrima" style="display: none">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">MATERIA PRIMA</h3>
@@ -196,7 +198,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                         </div>
                     </div>
                 </div>
-                
+            </div>
                 <div class="row">
                     <div class="col-md-12">
                         <label>
@@ -257,7 +259,7 @@ $('#orprod_id').on('change', function(e){
 				{
 				    var res = JSON.parse($.ajax({
 				    type: 'get',
-				    url: "StockActualOP/"+id,
+				    url: "StockActualOP/"+id+"/"+$("#id_planta").val(),
 				    dataType: 'json',
 				    async:false,
 					    success: function(data_stock)
@@ -286,7 +288,7 @@ $('#orprod_id').on('change', function(e){
 				{
 				    var res = JSON.parse($.ajax({
 				    type: 'get',
-				    url: "StockActualOP/"+id,
+				    url: "StockActualOP/"+id+"/"+$("#id_planta").val(),
 				    dataType: 'json',
 				    async:false,
 					    success: function(data_stock)
@@ -315,7 +317,7 @@ $('#orprod_id').on('change', function(e){
 				{
 				    var res = JSON.parse($.ajax({
 				    type: 'get',
-				    url: "StockActualOP/"+id,
+				    url: "StockActualOP/"+id+"/"+$("#id_planta").val(),
 				    dataType: 'json',
 				    async:false,
 					    success: function(data_stock)
@@ -349,7 +351,7 @@ $('#orprod_id').on('change', function(e){
 				{
 				    var res = JSON.parse($.ajax({
 				    type: 'get',
-				    url: "StockActualOP/"+id,
+				    url: "StockActualOP/"+id+"/"+$("#id_planta").val(),
 				    dataType: 'json',
 				    async:false,
 					    success: function(data_stock)
@@ -380,7 +382,7 @@ $('#orprod_id').on('change', function(e){
 				{
 				    var res = JSON.parse($.ajax({
 				    type: 'get',
-				    url: "StockActualOP/"+id,
+				    url: "StockActualOP/"+id+"/"+$("#id_planta").val(),
 				    dataType: 'json',
 				    async:false,
 					    success: function(data_stock)
