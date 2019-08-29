@@ -153,6 +153,7 @@
             </div>
         </div>
     </div>
+    <button class="btn btn-success" :disabled="state" >Registra</button>
 </div>
 </div>
 </template>
@@ -179,6 +180,7 @@ import { constants } from 'crypto';
             cantidad_pedido:0,
             cantidad_esperada:0,
             tiempo_producir:0,
+            state:true,
 
     	}),
     	methods: {
@@ -204,6 +206,15 @@ import { constants } from 'crypto';
                             let index = this.formulacion_base.indexOf(insumo);
                                 item.stock = insumo.stock_cantidad;
                                 this.$set(this.formulacion_base, index, item)
+                                console.log('mostrando mensaje');
+                                if(item.stock==0)
+                                {
+                                    iziToast.info({
+                                        title: 'No hay Stock',
+                                        message: 'En el insumo '+item.ins_desc,
+                                    });
+                                    this.state =false;
+                                }
                             return item;
                         });
 
