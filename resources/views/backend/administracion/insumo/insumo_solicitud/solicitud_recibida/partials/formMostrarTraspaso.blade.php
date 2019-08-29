@@ -36,7 +36,16 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <input type="hidden" name="id_orp" id="nro_acopio" value="{{ $sol_orden_produccion->orprod_id}}">
                 <div class="col-md-12">
                     <div class="row">                
-                       
+                       <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        Planta Solicitante:
+                                    </label>
+                                    <input type="text" value="{{$sol_orden_produccion->nombre_planta}}" class="form-control" name="" readonly="true">
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">

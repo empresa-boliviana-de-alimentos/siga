@@ -77,7 +77,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                             Cerrar
                             </a>
                             <!-- {!!link_to('#',$title='Registrar', $attributes=['id'=>'registro','class'=>'btn btn-success'], $secure=null)!!} -->
-                            <input type="submit"  value="Enviar a Producción" class="btn btn-success btn-lg">
+                            <input type="submit"  value="Ingresar" class="btn btn-success btn-lg">
                             </div>
                         </div>
                     </div>
