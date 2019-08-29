@@ -83,7 +83,8 @@ class gbSolInsumoAdController extends Controller
                                              //->where('orprod_')
                                              ->get();
         //dd($ordenes_produccion);
-        $listarInsumo = Insumo::where('ins_estado','A')->get();
+        $listarInsumo = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+                            ->where('ins_estado','A')->get();
         return view('backend.administracion.insumo.insumo_solicitud.solicitud_insumo.partials.formCreateAdiInsumo', compact('ordenes_produccion','listarInsumo'));
     }
     public function solicitudAdicionalCreate(Request $request)

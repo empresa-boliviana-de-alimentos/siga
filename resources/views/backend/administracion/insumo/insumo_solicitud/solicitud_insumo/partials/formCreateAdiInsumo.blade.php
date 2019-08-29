@@ -12,24 +12,25 @@
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="nro_de_orden" id="nro_de_orden" value="">
                 <input type="hidden" name="id_receta" id="id_receta" value="">
-                <div class="col-md-4">
+                <input type="hidden" name="id_planta" id="id_planta" value="">
+                <div class="col-md-3">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
-                                        Orden de Producción:
+                                        Nro de Salida de Orden de Producción:
                                     </label>
                                     <select name="orprod_id" id="orprod_id" style="width: 100%" class="form-control">
                                         <option value="">Seleccione un nro de orden</option>
                                         @foreach($ordenes_produccion as $orden)
-                                            <option value="{{$orden->orprod_id}}">{{$orden->orprod_nro_orden}}</option>
+                                            <option value="{{$orden->orprod_id}}">{{$orden->orprod_nro_salida}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -41,7 +42,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -53,7 +54,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -67,8 +68,9 @@
                         </div>
                     </div>
                 </div>
+            <div class="col-md-9">
                 <div id="OcultarMateriaPrima" style="display: none">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">MATERIA PRIMA</h3>
@@ -95,7 +97,7 @@
                 </div>
 
                 <div id="OcultarformulacionBase" style="display: none">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">FORMULACION DE LA BASE</h3>
@@ -121,7 +123,7 @@
                     </div>
                 </div>
                 <div id="OcultarSaborizacion" style="display: none">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">SABORIZACIÓN</h3>
@@ -147,7 +149,7 @@
                     </div>
                 </div>
                 <div id="OcultarMatEnv" style="display: none">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
@@ -178,7 +180,7 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">ADICCION INSUMO EXTRA</h3>
                             </div>
-                            <div class="panel-body">
+                                <div class="panel-body">
                                     <div class="">
                                         <div class="">
                                             <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="btn btn-primary">Añadir Insumo</span>
@@ -198,7 +200,7 @@
                                                 <td><select name="descripcion_base[]" class="descripcion_base form-control">
                                                         <!--<option value="">Seleccione</option>-->
                                                         @foreach($listarInsumo as $insumo)
-                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc}}</option>
+                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc.' '.$insumo->sab_nombre.' '.$insumo->ins_peso_presen}}</option>
                                                         @endforeach
                                                     </select>
                                                 <td id="tdformbaseuni">
@@ -208,18 +210,21 @@
                                                 <td id="tdformbasestock">
                                                     <input type="" name="" readonly="" class="stock form-control">
                                                 </td>
-                                                <td><div class="text-center"><a href='javascript:void(0);'  class='remove btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div></td>
+                                                <td><div class="text-center"><a href='javascript:void(0);'  class='remove btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div>
+                                                </td>
                                                 <td>
                                                     <input type="hidden" name="id_ins[]" value="">
                                                 </td>
                                                 <!-- <td><input type="text" name="rango[]" class="form-control"></td> -->
                                             </tr>
                                         </table>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
                     </div>
-
-                </div>
+                </div>    
+                
+            </div>
                 <div class="row">
                     <div class="col-md-12">
                         <label>
@@ -266,6 +271,7 @@ $('#orprod_id').on('change', function(e){
       $("#nombre_producto").val(data.rece_nombre+' '+data.sab_nombre+' '+data.rece_presentacion+' '+data.umed_nombre);
       $("#nro_de_orden").val(data.orprod_nro_orden);
       $("#id_receta").val(data.rece_id);
+      $("#id_planta").val(data.orprod_planta_id);
       var linea_tipo = data.rece_lineaprod_id;
       if (linea_tipo == 1 || linea_tipo == 4 || linea_tipo == 5) {
         $("#OcultarMateriaPrima").hide();
@@ -474,7 +480,7 @@ function getstockActual(id)
 {
     var res = JSON.parse($.ajax({
     type: 'get',
-    url: "StockActualOP/"+id,
+    url: "StockActualOP/"+id+"/"+$("#id_planta").val(),
     dataType: 'json',
     async:false,
         success: function(data_stock)
