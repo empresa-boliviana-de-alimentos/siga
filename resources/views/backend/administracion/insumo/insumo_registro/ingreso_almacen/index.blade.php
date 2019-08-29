@@ -45,6 +45,7 @@
                                     <th>COSTO/U.</th>
                                     <th>PROVEEDOR</th>
                                     <th>FECHA VENCIMIENTO</th>
+                                    <th></th>
                                     <!--<th>Partida</th>-->
                                 </tr>
                             </thead>
@@ -98,6 +99,7 @@
                                     <th>COSTO/U</th>
                                     <th>PROVEEDOR</th>
                                     <th>FECHA VENCIMIENTO</th>
+                                    <th></th>
                                 </tr>
                             </tfoot>
                         </table>

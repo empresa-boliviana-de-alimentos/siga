@@ -163,7 +163,7 @@ import { constants } from 'crypto';
     {
     	props: ['plantas','mercados'],
     	data: ()=>({
-    		items: [{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:10,cant_por:0,cant_eor:0,stock:0,cant_ent:0},{ins_codigo:0,ins_desc:'leche',umed:'litros',cant_base: 0,cant_cal:0,cant_por:0,cant_eor:0,stock:0,cant_ent:0}],
+    		
     		recetas: [],
             receta: null,
             receta_id:null,
@@ -206,7 +206,7 @@ import { constants } from 'crypto';
 
                     });
 
-                    Promise.all(this.formulacion_base.map(({ ins_id })=>{
+                    Promise.all(this.materia_prima.map(({ ins_id })=>{
                        return  axios.get('StockActualOP/'+ins_id+'/'+this.planta_id)
                                     .then(response=>{ return response.data });
 
@@ -228,7 +228,7 @@ import { constants } from 'crypto';
 
                     })).then(values=>{
 
-                        this.materia_prima.forEach(item => {
+                        this.saborizaciones.forEach(item => {
                             let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
 
                                 item.stock = insumo.stock_cantidad;
@@ -244,7 +244,7 @@ import { constants } from 'crypto';
 
                     })).then(values=>{
 
-                        this.materia_prima.forEach(item => {
+                        this.envasados.forEach(item => {
                             let insumo = _.find(values, (o) =>{ return o.ins_id == item.ins_id; });
 
                                 item.stock = insumo.stock_cantidad;
@@ -317,6 +317,9 @@ import { constants } from 'crypto';
                      .then((response)=>{
                         // console.log(response.data);
                         this.formulacion_base = response.data;
+                        /*this.formulacion_base.forEach(item => {
+                            item.cant_por = "0";
+                        });*/
                      });
 
             },

@@ -59,7 +59,12 @@
         mounted() {
 
             this.lista.forEach(item => {
-                this.options.push({id:item.ins_id,text: item.ins_codigo+'-'+item.ins_desc, unit: item.unidad_medida.umed_nombre});
+                if (item.sab_nombre) {
+                    this.options.push({id:item.ins_id,text: item.ins_codigo+'-'+item.ins_desc+' '+item.sab_nombre, unit: item.unidad_medida.umed_nombre});
+                }else{
+                    this.options.push({id:item.ins_id,text: item.ins_codigo+'-'+item.ins_desc, unit: item.unidad_medida.umed_nombre});
+                }
+                
             });
             console.log(this.lista);
         },

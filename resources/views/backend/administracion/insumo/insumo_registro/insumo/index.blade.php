@@ -61,8 +61,12 @@
                     </th>
                 </tr>
             </thead>
-                <tr>
-                </tr>
+            <tbody>
+                
+            </tbody>
+            <tfoot>
+                
+            </tfoot>
         </table>
     </div>
 </div>
@@ -71,14 +75,14 @@
 <script>
      var t = $('#lts-insumo').DataTable( {
       
-         "processing": true,
-            "serverSide": true,
+            "processing": true,
+            "serverSide": true,            
             "ajax": "/Insumo/create/",
             "columns":[
                 {data: 'ins_id'},                
                 {data: 'ins_codigo'},
                 {data: 'tins_nombre'},
-                {data: 'nombre_generico'},
+                {data: 'nombre_generico',searchable: true},
                 {data: 'umed_nombre'},
                 {data: 'part_nombre'},              
                 {data: 'ins_estado'},

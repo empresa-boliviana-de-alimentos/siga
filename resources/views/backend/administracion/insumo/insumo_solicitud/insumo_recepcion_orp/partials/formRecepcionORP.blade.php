@@ -34,7 +34,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="id_orp" id="nro_acopio" value="{{ $sol_orden_produccion->orprod_id}}">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="row"> 
                         <div class="col-md-12">
                             <div class="form-group">
@@ -46,7 +46,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>                                
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -56,7 +56,27 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        Cantidad a Esperada:
+                                    </label>
+                                    <input type="text" value="{{$sol_orden_produccion->orprod_cant_esp}}" name="" class="form-control" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <label>
+                                        Tiempo a Producir:
+                                    </label>
+                                    <input type="text" value="{{$sol_orden_produccion->orprod_tiempo_prod}}" name="" class="form-control" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
@@ -80,6 +100,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                              
                     </div>
                 </div>
+        <div class="col-md-9">
                 @if($receta->rece_lineaprod_id == 2 OR $receta->rece_lineaprod_id == 3)
                     <!--<div class="text">
                         <h4 style="color:#2067b4"><strong>MATERIA PRIMA</strong></h4> 
@@ -93,10 +114,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     </div>
                                     <div class="panel-body">
                                         <?php 
-                                        $detalle_map = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                                        $detalle_map = \DB::table('insumo.detalle_orden_produccion')->join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')
                                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                                         ->where('ins_id_tip_ins',3)
-                                                                        ->where('detrece_rece_id',$receta->rece_id)->get();
+                                                                        ->where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
                                    
                                         $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                         ?>
@@ -133,7 +154,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 @endif
                 
                 @if ($receta->rece_lineaprod_id==1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">FORMULACION DE LA BASE</h3>
@@ -143,19 +164,19 @@ table.dataTable tbody th, table.dataTable tbody td {
                         <div class="col-md-12">-->
                                     <?php 
                                     
-                                    $insumo_insumo = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                                    $insumo_insumo = \DB::table('insumo.detalle_orden_produccion')->join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('ins_id_tip_ins',1)
-                                                        ->where('detrece_rece_id',$receta->rece_id)->get();
-                                    $insumo_matprima = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                                                        ->where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
+                                    $insumo_matprima = \DB::table('insumo.detalle_orden_produccion')->join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')
                                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                                         ->where('ins_id_tip_ins',3)
-                                                                        ->where('detrece_rece_id',$receta->rece_id)->get();
+                                                                        ->where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
                                     foreach ($insumo_insumo as $ins) {
-                                        $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detrece_cantidad"=>$ins->detrece_cantidad);
+                                        $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detorprod_cantidad"=>$ins->detorprod_cantidad,"detorprod_cantidad_cal"=>$ins->detorprod_cantidad_cal);
                                     }
                                     foreach ($insumo_matprima as $ins) {
-                                        $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detrece_cantidad"=>$ins->detrece_cantidad);
+                                        $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detorprod_cantidad"=>$ins->detorprod_cantidad,"detorprod_cantidad_cal"=>$ins->detorprod_cantidad_cal);
                                     }
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
@@ -177,8 +198,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <td>{{$dorp['ins_codigo']}}</td>
                                                     <td>{{$dorp['ins_desc']}}</td>
                                                     <td>{{$dorp['umed_nombre']}}</td>
-                                                    <td>{{$dorp['detrece_cantidad']}}</td>
-                                                    <td>{{$dorp['detrece_cantidad']*$calculos}}</td>
+                                                    <td>{{$dorp['detorprod_cantidad_cal']}}</td>
+                                                    <td>{{$dorp['detorprod_cantidad']}}</td>
                                                     <td>{{stock_actualOP($dorp['ins_id'])}}</td> 
                                                 </tr>
                                                 @endforeach
@@ -197,10 +218,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                             <div class="panel-body">
                                     <?php 
                                     
-                                    $detalle_formulacion = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                                    $detalle_formulacion = \DB::table('insumo.detalle_orden_produccion')->join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')
                                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                                         ->where('ins_id_tip_ins',4)
-                                                                        ->where('detrece_rece_id',$receta->rece_id)->get();
+                                                                        ->where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
                                    
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
@@ -222,8 +243,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <td>{{$dorp->ins_codigo}}</td>
                                                     <td>{{$dorp->ins_desc}}</td>
                                                     <td>{{$dorp->umed_nombre}}</td>
-                                                    <td>{{$dorp->detrece_cantidad}}</td>
-                                                    <td>{{$dorp->detrece_cantidad*$calculos}}</td>
+                                                    <td>{{$dorp->detorprod_cantidad_cal}}</td>
+                                                    <td>{{$dorp->detorprod_cantidad}}</td>
                                                     <td>{{stock_actualOP($dorp->ins_id)}}</td> 
                                                 </tr>
                                                 @endforeach 
@@ -242,10 +263,10 @@ table.dataTable tbody th, table.dataTable tbody td {
 
                                     <?php 
                                     
-                                    $detalle_formulacion = \DB::table('insumo.detalle_receta')->join('insumo.insumo as ins','insumo.detalle_receta.detrece_ins_id','=','ins.ins_id')
+                                    $detalle_formulacion = \DB::table('insumo.detalle_orden_produccion')->join('insumo.insumo as ins','insumo.detalle_orden_produccion.detorprod_ins_id','=','ins.ins_id')
                                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                                         ->where('ins_id_tip_ins',2)
-                                                                        ->where('detrece_rece_id',$receta->rece_id)->get();
+                                                                        ->where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
                                    
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
@@ -268,8 +289,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <td>{{$dorp->ins_codigo}}</td>
                                                     <td>{{$dorp->ins_desc}}</td>
                                                     <td>{{$dorp->umed_nombre}}</td>
-                                                    <td>{{$dorp->detrece_cantidad}}</td>
-                                                    <td>{{$dorp->detrece_cantidad*$calculos}}</td>
+                                                    <td>{{$dorp->detorprod_cantidad_cal}}</td>
+                                                    <td>{{$dorp->detorprod_cantidad}}</td>
                                                     <td>{{stock_actualOP($dorp->ins_id)}}</td> 
                                                 </tr>
                                                 @endforeach 
@@ -278,6 +299,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     </div>
                                 </div>
                             </div>
+        </div>
                                <div class="row">
                     
                         <div class="col-md-12">
