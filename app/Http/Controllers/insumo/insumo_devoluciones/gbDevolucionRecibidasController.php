@@ -42,7 +42,7 @@ class gbDevolucionRecibidasController extends Controller
           if ($devolucion->devo_estado_dev == 'A') {
             return '<a href="FormMostrarDevoSobrante/' . $devolucion->devo_id . '" class="btn btn-success">Ver</a>';
           }elseif($devolucion->devo_estado_dev == 'B'){
-            return '<a href="BoletaAprobDevoSobrante/'.$devolucion->devo_id.'" class="btn btn-primary"><span class="fa fa-file-o"></span></a>';
+            return '<a href="BoletaAprobDevoSobrante/'.$devolucion->devo_id.'" target="_blank" class="btn btn-primary"><span class="fa fa-file-o"></span></a>';
           }
             
         })
@@ -76,7 +76,7 @@ class gbDevolucionRecibidasController extends Controller
           if ($devolucion_defec->devo_estado_dev == 'A') {
             return '<a href="FormMostrarDevoDefectuoso/' . $devolucion_defec->devo_id . '" class="btn btn-success">Ver</a>';
           }elseif($devolucion_defec->devo_estado_dev == 'B'){
-            return '<a href="BoletaAprobDevoDefectuoso/'.$devolucion_defec->devo_id.'" class="btn btn-primary"><span class="fa fa-file-o"></span></a>';
+            return '<a href="BoletaAprobDevoDefectuoso/'.$devolucion_defec->devo_id.'" target="_blank" class="btn btn-primary"><span class="fa fa-file-o"></span></a>';
           }
         })
         ->addColumn('estadoDevoDefectuoso', function ($devolucion_defec) {

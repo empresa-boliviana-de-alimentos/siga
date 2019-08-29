@@ -35,7 +35,7 @@ class gbDevolucionDefectuosoController extends Controller
                             ->where('devo_tipodevo_id',2)
             				->get();
         return Datatables::of($soldev)->addColumn('acciones', function ($soldev) {
-            return '<a href="BoletaDevolucion/' . $soldev->devo_id . '" class="btn btn-primary"><span class="fa fa-file-pdf-o"></span> VER</a>';
+            return '<a href="BoletaDevolucion/' . $soldev->devo_id . '" target="_blank" class="btn btn-primary"><span class="fa fa-file-pdf-o"></span> VER</a>';
         })
         ->addColumn('nombreReceta', function ($nombreReceta) {
             return $nombreReceta->rece_nombre.' '.$nombreReceta->sab_nombre.' '.$nombreReceta->rece_presentacion;
@@ -49,9 +49,10 @@ class gbDevolucionDefectuosoController extends Controller
 
     public function formDevolucionDefec()
     {
-    	$ordenes_produccion = OrdenProduccion::where('orprod_nro_salida','<>',null)->get();
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+    	$ordenes_produccion = OrdenProduccion::where('orprod_nro_salida','<>',null)->where('orprod_tiporprod_id',1)->where('orprod_planta_id',$planta->id_planta)->get();
         $listarInsumo = Insumo::where('ins_estado','A')->get();
-    	return view('backend.administracion.insumo.insumo_devolucion.devolucion_defectuoso.partials.formCreateDevolucionDefec',compact('ordenes_produccion','listarInsumo'));
+    	return view('backend.administracion.insumo.insumo_devolucion.devolucion_defectuoso.partials.formCreateDevolucionDefec',compact('ordenes_produccion','listarInsumo','planta'));
     }
 
     public function registroDevolucionDefectuosa(Request $request)
