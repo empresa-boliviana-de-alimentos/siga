@@ -317,9 +317,9 @@ import { constants } from 'crypto';
                      .then((response)=>{
                         // console.log(response.data);
                         this.formulacion_base = response.data;
-                        /*this.formulacion_base.forEach(item => {
-                            item.cant_por = "0";
-                        });*/
+                        this.formulacion_base.forEach(item => {
+                            item.cant_por = 0;
+                        });
                      });
 
             },
