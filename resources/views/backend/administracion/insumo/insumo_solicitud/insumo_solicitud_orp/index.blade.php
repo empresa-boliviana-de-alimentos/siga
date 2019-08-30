@@ -129,7 +129,7 @@ var t = $('#lts-orprod').DataTable( {
                 {data: 'acciones',orderable: false, searchable: false},
                 // {data: 'sol_id'},
         ],
-
+        "order": [[ 0, "desc" ]],
         "language": {
              "url": "/lenguaje"
         },

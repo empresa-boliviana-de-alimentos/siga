@@ -443,7 +443,7 @@ table.dataTable tbody th, table.dataTable tbody td {
             "orderable": false,
             "targets": 0
         } ],
-        "order": [[ 1, 'asc' ]],
+        "order": [[ 0, 'desc' ]],
         "language": {
              "url": "/lenguaje"
         },
