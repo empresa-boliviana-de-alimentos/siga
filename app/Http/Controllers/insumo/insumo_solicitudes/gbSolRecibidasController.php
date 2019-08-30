@@ -178,7 +178,7 @@ class gbSolRecibidasController extends Controller
                     'detorprod_cantidad_cal'=> 0,
                 ]);
             }
-            $detoprod = DetalleOrdenProduccion::where('detorprod_orprod_id',$orden_produccion_aprob->orprod_id)->get();
+            $detoprod = DetalleOrdenProduccion::where('detorprod_orprod_id',$orden_produccion_aprob->orprod_id)->where('detorprod_estado','A')->get();
             //dd($detoprod);
             foreach ($detoprod as $det) {
                 $stocks = Stock::where('stock_ins_id','=',$det->detorprod_ins_id)
