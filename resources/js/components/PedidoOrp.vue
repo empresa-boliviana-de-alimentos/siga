@@ -153,7 +153,7 @@
             </div>
         </div>
     </div>
-    <button class="btn btn-success" :disabled="state" >Registra</button>
+    <!--<button class="btn btn-success" :disabled="state" >Registra</button>-->
 </div>
 </div>
 </template>
