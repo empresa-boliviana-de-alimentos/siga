@@ -124,6 +124,7 @@ class gbOrdenProduccionController extends Controller
     }
     public function ordenProduccionCreate(Request $request)
     {
+        //return $table_formbase = json_decode($request->formulaciones_base);
         //dd($request);    
         //roddwy estan son las 3 tablas con la informacion que te manda de lo que se hizo en e l formuclario
         //return compact('tabla_materia_prima','tabla_saborizaciones','tabla_envasados','table_formbase');
