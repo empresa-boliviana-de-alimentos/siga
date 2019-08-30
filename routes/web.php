@@ -558,8 +558,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('boletaSolReceta/{id}', 'insumo\insumo_solicitudes\gbSolRecetaController@reporteBoletaSolReceta');
 	Route::get('boletaSolMaquila/{id}', 'insumo\insumo_solicitudes\gbSolTraspasoController@boletaSolMaquila');
-	Route::get('boletaSolAdicional/{id}', 'insumo\insumo_solicitudes\gbSolInsumoAdController@boletaSolAdicional');
-
+	//Route::get('boletaSolAdicional/{id}', 'insumo\insumo_solicitudes\gbSolInsumoAdController@boletaSolAdicional');
+	Route::get('boletaSolAdicional/{id}','ReportController@boleta_solicitud_adicional');
 	Route::get('listMaquila', 'insumo\insumo_solicitudes\gbSolRecibidasController@listMaquila');
 	Route::get('listAdicional', 'insumo\insumo_solicitudes\gbSolRecibidasController@listAdicional');
 	Route::get('listTraspaso', 'insumo\insumo_solicitudes\gbSolRecibidasController@listTraspaso');
@@ -593,8 +593,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('BoletaDevolucion/{id}', 'insumo\insumo_devoluciones\gbDevolucionDefectuosoController@boletaDevolucion');
 	Route::get('RegistroDevolucionSobrante', 'insumo\insumo_devoluciones\gbDevolucionInsController@formDevolucionSobrante');
 	Route::get('RegistroDevolucionSobranteInsert', 'insumo\insumo_devoluciones\gbDevolucionInsController@registroDevolucionSobrante');
-	Route::get('BoletaDevolucionSobrante/{id}', 'insumo\insumo_devoluciones\gbDevolucionInsController@boletaDevolucionSobrante');
-
+	//Route::get('BoletaDevolucionSobrante/{id}', 'insumo\insumo_devoluciones\gbDevolucionInsController@boletaDevolucionSobrante');
+	Route::get('BoletaDevolucionSobrante/{id}', 'ReportController@boleta_devolucion_sobrante');
 	Route::resource('DevolucionRecibida', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController');
 	Route::get('DevolucionRecibidaDefecCreate', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@listarDevoDefectuosoCreate');
 	Route::get('FormMostrarDevoSobrante/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@formMostrarDevoSobrante');
