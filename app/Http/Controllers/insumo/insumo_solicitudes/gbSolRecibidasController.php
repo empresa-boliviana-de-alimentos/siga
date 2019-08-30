@@ -24,6 +24,7 @@ use siga\Modelo\insumo\Stock;
 use siga\Modelo\insumo\InsumoHistorial;
 use siga\Modelo\insumo\insumo_registros\Ingreso;
 use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
+use siga\Modelo\insumo\insumo_registros\Insumo;
 use DB;
 use Auth;
 use Carbon\Carbon;
@@ -133,63 +134,147 @@ class gbSolRecibidasController extends Controller
 
         // return $detalle_formulacion_map;
 
-
+        $listarInsumo = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+                            ->where('ins_estado','A')->get();
         // return $stocks;
         // return $detalle_sol_orp;
-        return view('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.formMostrarReceta',compact('sol_orden_produccion','receta','detalle_sol_orp'));
+        return view('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.formMostrarReceta',compact('sol_orden_produccion','receta','detalle_sol_orp','listarInsumo'));
     }
     public function aprobacionReceta(Request $request)
     {
-        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
-        $id_planta=$planta->id_planta;
-        $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_salida) as nrosal'))->where('plant.id_planta', $id_planta)->first();
-        $cont=$num['nrosal'];
-        $nro_sal = $cont + 1;
-        $orden_produccion_aprob = OrdenProduccion::find($request['id_orp']);
-        //STOCK
-        $detoprod = DetalleOrdenProduccion::where('detorprod_orprod_id',$orden_produccion_aprob->orprod_id)->get();
-        foreach ($detoprod as $det) {
-            $stocks = Stock::where('stock_ins_id','=',$det->detorprod_ins_id)
-                          ->where('stock_planta_id',$id_planta)
-                          ->where('stock_cantidad','>',0)
-                          ->orderBy('stock_id','Asc')
-                          ->get();
-            $cantidad_aprobada = $det->detorprod_cantidad;
-            foreach ($stocks as $stock) {
-                if ($cantidad_aprobada>0) {
-                    if ($cantidad_aprobada >= $stock->stock_cantidad) {
-                        $cantidad_aprobada = $cantidad_aprobada - $stock->stock_cantidad;
-                        $descuento = $stock->stock_cantidad;
-                        $stock->stock_cantidad = 0;
-                    }else
-                    {
-                        $stock->stock_cantidad = $stock->stock_cantidad - $cantidad_aprobada;
-                        $descuento = $cantidad_aprobada;
-                        $cantidad_aprobada = 0;
-                    }
-                    $stock->save();
-                    //AQUI IRA PARA LA TABLA INSUMOS HISTORY
-                    InsumoHistorial::create([
-                            'inshis_ins_id'     => $det->detorprod_ins_id,
-                            'inshis_planta_id'  => $id_planta,
-                            'inshis_tipo'       => 'Salida',
-                            'inshis_deting_id'  => $stock->stock_deting_id,//para el costo de ingreso
-                            'inshis_detorprod_id'  => $det->detorprod_id,
-                            'inshis_cantidad'   => $descuento,
-                    ]);
-                    //END INSUMOS HISTORY
-                }
-
+        if ($request['detorprod_estado']) {
+            $detorprod_estado = $request['detorprod_estado'];
+            $detorprod_cantidad = $request['detorprod_cantidad'];
+            $detorprod_id = $request['detorprod_id'];
+            $detorprod_ins_id = $request['detorprod_ins_id'];
+            for ($i=0; $i <sizeof($detorprod_estado) ; $i++) { 
+                if ($detorprod_estado[$i] == 'on') {
+                    $ins_datos[] = array("detorprod_id"=>$detorprod_id[$i],"detorprod_ins_id"=>$detorprod_ins_id[$i],"detorprod_estado"=>'B');
+                }                 
             }
+            $detorprod_ins_id_adi = $request['detorprod_ins_id_adi'];
+            $detorprod_cantidad_adi = $request['detorprod_cantidad_adi'];
+            for ($j=0; $j <sizeof($detorprod_ins_id_adi) ; $j++) { 
+                $ins_datos_adi[] = array("detorpord_ins_id_adi"=>$detorprod_ins_id_adi[$j],"detorprod_cantidad_adi"=>$detorprod_cantidad_adi[$j]);
+            }
+            $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+            $id_planta=$planta->id_planta;
+            $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_salida) as nrosal'))->where('plant.id_planta', $id_planta)->first();
+            $cont=$num['nrosal'];
+            $nro_sal = $cont + 1;
+            $orden_produccion_aprob = OrdenProduccion::find($request['id_orp']);
+            //STOCK            
+            foreach ($ins_datos as $ins_orp) {
+                $detorprod = DetalleOrdenProduccion::where('detorprod_id',$ins_orp['detorprod_id'])->first();
+                $detorprod->detorprod_estado = 'B';
+                $detorprod->save();
+            }
+            foreach ($ins_datos_adi as $ins_orp_adi) {
+                DetalleOrdenProduccion::create([
+                    'detorprod_orprod_id'   => $request['id_orp'],
+                    'detorprod_ins_id'      => $ins_orp_adi['detorpord_ins_id_adi'],
+                    'detorprod_cantidad'    => $ins_orp_adi['detorprod_cantidad_adi'],
+                    'detorprod_fc'          => 0,
+                    'detorprod_cantidad_cal'=> 0,
+                ]);
+            }
+            $detoprod = DetalleOrdenProduccion::where('detorprod_orprod_id',$orden_produccion_aprob->orprod_id)->where('detorprod_estado','A')->get();
+            //dd($detoprod);
+            foreach ($detoprod as $det) {
+                $stocks = Stock::where('stock_ins_id','=',$det->detorprod_ins_id)
+                              ->where('stock_planta_id',$id_planta)
+                              ->where('stock_cantidad','>',0)
+                              ->orderBy('stock_id','Asc')
+                              ->get();
+                $cantidad_aprobada = $det->detorprod_cantidad;
+                foreach ($stocks as $stock) {
+                    if ($cantidad_aprobada>0) {
+                        if ($cantidad_aprobada >= $stock->stock_cantidad) {
+                            $cantidad_aprobada = $cantidad_aprobada - $stock->stock_cantidad;
+                            $descuento = $stock->stock_cantidad;
+                            $stock->stock_cantidad = 0;
+                        }else
+                        {
+                            $stock->stock_cantidad = $stock->stock_cantidad - $cantidad_aprobada;
+                            $descuento = $cantidad_aprobada;
+                            $cantidad_aprobada = 0;
+                        }
+                        $stock->save();
+                        //AQUI IRA PARA LA TABLA INSUMOS HISTORY
+                        InsumoHistorial::create([
+                                'inshis_ins_id'     => $det->detorprod_ins_id,
+                                'inshis_planta_id'  => $id_planta,
+                                'inshis_tipo'       => 'Salida',
+                                'inshis_deting_id'  => $stock->stock_deting_id,//para el costo de ingreso
+                                'inshis_detorprod_id'  => $det->detorprod_id,
+                                'inshis_cantidad'   => $descuento,
+                        ]);
+                        //END INSUMOS HISTORY
+                    }
+                }
+            }
+            //END SOCK
+            $orden_produccion_aprob->orprod_nro_salida = $nro_sal;
+            $orden_produccion_aprob->orprod_usr_aprob = Auth::user()->usr_id;
+            $orden_produccion_aprob->orprod_obs_aprob = $request['obs_usr_aprob'];
+            $orden_produccion_aprob->orprod_estado_orp = 'D';
+            $orden_produccion_aprob->orprod_modificado = Carbon::now();
+            $orden_produccion_aprob->save();
+            return redirect('solRecibidas')->with('success','Registro creado satisfactoriamente');
+
+        }else{
+            $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+            $id_planta=$planta->id_planta;
+            $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_salida) as nrosal'))->where('plant.id_planta', $id_planta)->first();
+            $cont=$num['nrosal'];
+            $nro_sal = $cont + 1;
+            $orden_produccion_aprob = OrdenProduccion::find($request['id_orp']);
+            //STOCK
+            $detoprod = DetalleOrdenProduccion::where('detorprod_orprod_id',$orden_produccion_aprob->orprod_id)->get();
+            foreach ($detoprod as $det) {
+                $stocks = Stock::where('stock_ins_id','=',$det->detorprod_ins_id)
+                              ->where('stock_planta_id',$id_planta)
+                              ->where('stock_cantidad','>',0)
+                              ->orderBy('stock_id','Asc')
+                              ->get();
+                $cantidad_aprobada = $det->detorprod_cantidad;
+                foreach ($stocks as $stock) {
+                    if ($cantidad_aprobada>0) {
+                        if ($cantidad_aprobada >= $stock->stock_cantidad) {
+                            $cantidad_aprobada = $cantidad_aprobada - $stock->stock_cantidad;
+                            $descuento = $stock->stock_cantidad;
+                            $stock->stock_cantidad = 0;
+                        }else
+                        {
+                            $stock->stock_cantidad = $stock->stock_cantidad - $cantidad_aprobada;
+                            $descuento = $cantidad_aprobada;
+                            $cantidad_aprobada = 0;
+                        }
+                        $stock->save();
+                        //AQUI IRA PARA LA TABLA INSUMOS HISTORY
+                        InsumoHistorial::create([
+                                'inshis_ins_id'     => $det->detorprod_ins_id,
+                                'inshis_planta_id'  => $id_planta,
+                                'inshis_tipo'       => 'Salida',
+                                'inshis_deting_id'  => $stock->stock_deting_id,//para el costo de ingreso
+                                'inshis_detorprod_id'  => $det->detorprod_id,
+                                'inshis_cantidad'   => $descuento,
+                        ]);
+                        //END INSUMOS HISTORY
+                    }
+                }
+            }
+            //END SOCK
+            $orden_produccion_aprob->orprod_nro_salida = $nro_sal;
+            $orden_produccion_aprob->orprod_usr_aprob = Auth::user()->usr_id;
+            $orden_produccion_aprob->orprod_obs_aprob = $request['obs_usr_aprob'];
+            $orden_produccion_aprob->orprod_estado_orp = 'D';
+            $orden_produccion_aprob->orprod_modificado = Carbon::now();
+            $orden_produccion_aprob->save();
+            return redirect('solRecibidas')->with('success','Registro creado satisfactoriamente');
         }
-        //END SOCK
-        $orden_produccion_aprob->orprod_nro_salida = $nro_sal;
-        $orden_produccion_aprob->orprod_usr_aprob = Auth::user()->usr_id;
-        $orden_produccion_aprob->orprod_obs_aprob = $request['obs_usr_aprob'];
-        $orden_produccion_aprob->orprod_estado_orp = 'D';
-        $orden_produccion_aprob->orprod_modificado = Carbon::now();
-        $orden_produccion_aprob->save();
-        return redirect('solRecibidas')->with('success','Registro creado satisfactoriamente');
+        
+        
     }
     public function boletaAprovReceta($id_orp_aprob)
     {

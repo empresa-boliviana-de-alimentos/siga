@@ -145,8 +145,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <th>Unidad Medida</th>
                                                     <th>Cant. Base</th>
                                                     <th>Cantidad</th>
-
                                                     <th>Stock Actual</th>
+                                                    <th>Deshabilitar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -165,6 +165,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     @php
                                                     	$datos_stock[] = array('cantidadSol'=>$dorp->detrece_cantidad*$calculos,'cantidadStock'=>stock_actualOP($dorp->ins_id));
                                                     @endphp
+                                                    <td class="text-center"><input type="checkbox" name="detorprod_estado[]"></td>
+                                                    <td><input type="hidden" name="detorprod_id[]" value="{{$dorp->detorprod_id}}"></td>
+                                                    <td><input type="hidden" name="detorprod_cantidad[]" value="{{$dorp->detorprod_cantidad}}"></td>
+                                                    <td><input type="hidden" name="detorprod_ins_id[]" value="{{$dorp->detorprod_ins_id}}"></td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -193,10 +197,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                                         ->where('ins_id_tip_ins',3)
                                                                         ->where('detorprod_orprod_id',$sol_orden_produccion->orprod_id)->get();
                                     foreach ($insumo_insumo as $ins) {
-                                        $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detorprod_cantidad"=>$ins->detorprod_cantidad,"detorprod_cantidad_cal"=>$ins->detorprod_cantidad_cal);
+                                        $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detorprod_cantidad"=>$ins->detorprod_cantidad,"detorprod_cantidad_cal"=>$ins->detorprod_cantidad_cal,"detorprod_id"=>$ins->detorprod_id);
                                     }
                                     foreach ($insumo_matprima as $ins) {
-                                        $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detorprod_cantidad"=>$ins->detorprod_cantidad,"detorprod_cantidad_cal"=>$ins->detorprod_cantidad_cal);
+                                        $detalle_formulacion[] = array("ins_id"=>$ins->ins_id,"ins_codigo"=>$ins->ins_codigo,"ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detorprod_cantidad"=>$ins->detorprod_cantidad,"detorprod_cantidad_cal"=>$ins->detorprod_cantidad_cal,"detorprod_id"=>$ins->detorprod_id);
                                     }
                                     $calculos = $sol_orden_produccion->orprod_cantidad/$receta->rece_rendimiento_base;
                                     ?>
@@ -210,6 +214,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <th>Cant. Base</th>
                                                     <th>Cantidad</th>
                                                     <th>Stock Actual</th>
+                                                    <th>Deshabilitar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -228,6 +233,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     @php
                                                     	$datos_stock[] = array('cantidadSol'=>$dorp['detorprod_cantidad'],'cantidadStock'=>stock_actualOP($dorp['ins_id']));
                                                     @endphp
+                                                    <td class="text-center"><input type="checkbox" name="detorprod_estado[]"></td>
+                                                    <td><input type="hidden" name="detorprod_id[]" value="{{$dorp['detorprod_id']}}"></td>
+                                                    <td><input type="hidden" name="detorprod_cantidad[]" value="{{$dorp['detorprod_cantidad']}}"></td>
+                                                    <td><input type="hidden" name="detorprod_ins_id[]" value="{{$dorp['ins_id']}}"></td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -263,6 +272,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <th>Cant. Base</th>
                                                     <th>Cantidad</th>
                                                     <th>Stock Actual</th>
+                                                    <th>Deshabilitar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -281,6 +291,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     @php
                                                     	$datos_stock[] = array('cantidadSol'=>$dorp->detorprod_cantidad,'cantidadStock'=>stock_actualOP($dorp->ins_id));
                                                     @endphp
+                                                    <td class="text-center"><input type="checkbox" name="detorprod_estado[]"></td>
+                                                    <td><input type="hidden" name="detorprod_id[]" value="{{$dorp->detorprod_id}}"></td>
+                                                    <td><input type="hidden" name="detorprod_cantidad[]" value="{{$dorp->detorprod_cantidad}}"></td>
+                                                    <td><input type="hidden" name="detorprod_ins_id[]" value="{{$dorp->detorprod_ins_id}}"></td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -316,8 +330,8 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <th>Unidad Medida</th>
                                                     <th>Cant. Base</th>
                                                     <th>Cantidad</th>
-
                                                     <th>Stock Actual</th>
+                                                    <th>Deshabilitar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -338,6 +352,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     @php
                                                     	$datos_stock[] = array('cantidadSol'=>$dorp->detorprod_cantidad,'cantidadStock'=>stock_actualOP($dorp->ins_id));
                                                     @endphp
+                                                    <td class="text-center"><input type="checkbox" name="detorprod_estado[]"></td>
+                                                    <td><input type="hidden" name="detorprod_id[]" value="{{$dorp->detorprod_id}}"></td>
+                                                    <td><input type="hidden" name="detorprod_cantidad[]" value="{{$dorp->detorprod_cantidad}}"></td>
+                                                    <td><input type="hidden" name="detorprod_ins_id[]" value="{{$dorp->detorprod_ins_id}}"></td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -347,6 +365,55 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     </div>
                         </div>
                     </div>
+                    <!--INSUMO ADICIONAL-->
+                    <div class="col-md-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">ADICCION INSUMO EXTRA</h3>
+                            </div>
+                                <div class="panel-body">
+                                    <div class="">
+                                        <div class="">
+                                            <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="btn btn-primary">Añadir Insumo</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <table  class="table table-hover small-text" id="tb">
+                                            <tr class="tr-header">
+                                                <th>Descripcion</th>
+                                                <th>Unidad</th>
+                                                <th>Cantidad</th>
+                                                <th>Stock</th>
+                                                <th>Opcion</th>
+                                                <!-- <th>Rango Adicional</th>                                             -->
+                                            <tr class="items_columsReceta2" id="tdformbase">
+                                                <td><select name="descripcion_base[]" class="descripcion_base form-control">
+                                                        <!--<option value="">Seleccione</option>-->
+                                                        @foreach($listarInsumo as $insumo)
+                                                            <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc.' '.$insumo->sab_nombre.' '.$insumo->ins_peso_presen}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                <td id="tdformbaseuni">
+                                                    <input type="" name="" class="form-control" readonly>
+                                                </td>
+                                                <td><input type="text" name="detorprod_cantidad_adi[]" class="form-control"></td>
+                                                <td id="tdformbasestock">
+                                                    <input type="" name="" readonly="" class="stock form-control">
+                                                </td>
+                                                <td><div class="text-center"><a href='javascript:void(0);'  class='remove btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" name="detorprod_ins_id_adi[]" value="">
+                                                </td>
+                                                <!-- <td><input type="text" name="rango[]" class="form-control"></td> -->
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <!--END INSUMO ADICIONAL-->
             </div>
                                <div class="row">
 
@@ -393,7 +460,7 @@ function verficaStock()
 	for (var i = arrayJS.length - 1; i >= 0; i--) {
 		var cantidadStock = parseInt(arrayJS[i].cantidadStock);
         var cantidadSol = parseInt(arrayJS[i].cantidadSol);
-        console.log(cantidadSol);
+        //console.log(cantidadSol);
         if (cantidadStock>=cantidadSol) {
             //console.log(arrayJS[i].cantidadStock);
         }else{
@@ -402,6 +469,58 @@ function verficaStock()
             $('input[type="submit"]').attr('disabled','disabled');
         }
 	}
+}
+//AÑADIR INSUMO
+$('#addMore').on('click', function() {
+              var data = $("#tb tr:eq(1)").clone(true).appendTo("#tb");
+              data.find("input").val('');
+     });
+$(document).on('click', '.remove', function() {
+    var trIndex = $(this).closest("tr").index();
+    if(trIndex>1) {
+        $(this).closest("tr").remove();
+    } else {
+        swal('Lo siento','No puede borrar el unico item');
+    }
+});
+
+$("#tdformbase td select").click(function(){
+    //console.log($(this).parents("tr").find("td").find("select").eq(0).val());
+    var ins_id2 = $(this).parents("tr").find("td").find("select").eq(0).val();
+    //console.log(ins_id2);
+    traeUnidad(ins_id2);
+    $(this).parents("tr").find("td").find("input").eq(0).val(traeUnidad(ins_id2));
+    $(this).parents("tr").find("td").find("input").eq(2).val(getstockActual(ins_id2));
+    $(this).parents("tr").find("td").find("input").eq(3).val(ins_id2);
+});
+function traeUnidad(id_insumo){
+    var route = '/trae_uni?ins_id='+id_insumo;
+    console.log(route);
+    var dataToReturn = "Error";
+    $.ajax({
+        url: route,
+        type: "GET",
+        async: false,
+        success: function(data) {
+            dataToReturn = data.umed_nombre;
+        }
+    });
+    return dataToReturn;
+}
+function getstockActual(id)
+{
+    var res = JSON.parse($.ajax({
+    type: 'get',
+    url: "/StockActualOP/"+id+"/"+26,
+    dataType: 'json',
+    async:false,
+        success: function(data_stock)
+        {
+            console.log(data_stock);
+            return data_stock;
+        }
+    }).responseText);
+    return res.stock_cantidad;
 }
 </script>
 @endpush
