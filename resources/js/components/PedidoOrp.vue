@@ -289,7 +289,8 @@ import { constants } from 'crypto';
                 axios.get('getDataDetRecetaInsPrima?rece_id='+id)
                      .then((response)=>{
                         // console.log(response.data);
-                        this.materia_prima = response.data;
+                        this.formulacion_base = response.data;
+                        
 
                      });
                 //
@@ -306,10 +307,10 @@ import { constants } from 'crypto';
                 axios.get('getDataDetReceta?rece_id='+id+'&tipo=3')
                      .then((response)=>{
                         // console.log(response.data);
-                        this.formulacion_base = response.data;
-                        this.formulacion_base.forEach(item => {
+                        this.materia_prima = response.data;
+                        /*this.formulacion_base.forEach(item => {
                             item.cant_por = 0;
-                        });
+                        });*/
                      });
 
             },
