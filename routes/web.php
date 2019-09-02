@@ -409,7 +409,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::delete('CarritoItemDelete/{id}', 'insumo\insumo_registros\gbIngresoAlmacenController@borrarItem');
 	Route::post('CarritoIngreso', 'insumo\insumo_registros\gbIngresoAlmacenController@storeIngreso');
 	Route::delete('CarritoIngreso', 'insumo\insumo_registros\gbIngresoAlmacenController@borrarCarrito');
-	Route::get('/ReportPreliminar/{id}', ['as' => 'reportePreliminar', 'uses' => 'insumo\insumo_registros\gbIngresoAlmacenController@reportePreliminar']);
+	//Route::get('/ReportPreliminar/{id}', ['as' => 'reportePreliminar', 'uses' => 'insumo\insumo_registros\gbIngresoAlmacenController@reportePreliminar']);
+	Route::get('/ReportPreliminar/{id}','ReportController@ReportPreliminarIngreso');
 	Route::post('Preliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@storePreliminar');
 	Route::delete('DeletePreliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@borrarPreliminar');
 	Route::get('/ReporteAlmacen/{id}', ['as' => 'reporteAlmacen', 'uses' => 'ReportController@nota_de_ingreso']);
