@@ -590,7 +590,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::resource('DevolucionDefectuoso', 'insumo\insumo_devoluciones\gbDevolucionDefectuosoController');
 	Route::get('RegistroDevolucionDefec', 'insumo\insumo_devoluciones\gbDevolucionDefectuosoController@formDevolucionDefec');
 	Route::get('RegistroDevolucionDefectuosa', 'insumo\insumo_devoluciones\gbDevolucionDefectuosoController@registroDevolucionDefectuosa');
-	Route::get('BoletaDevolucion/{id}', 'insumo\insumo_devoluciones\gbDevolucionDefectuosoController@boletaDevolucion');
+	//Route::get('BoletaDevolucion/{id}', 'insumo\insumo_devoluciones\gbDevolucionDefectuosoController@boletaDevolucion');
+	Route::get('BoletaDevolucion/{id}', 'ReportController@boleta_devolucion_defectuoso');
 	Route::get('RegistroDevolucionSobrante', 'insumo\insumo_devoluciones\gbDevolucionInsController@formDevolucionSobrante');
 	Route::get('RegistroDevolucionSobranteInsert', 'insumo\insumo_devoluciones\gbDevolucionInsController@registroDevolucionSobrante');
 	//Route::get('BoletaDevolucionSobrante/{id}', 'insumo\insumo_devoluciones\gbDevolucionInsController@boletaDevolucionSobrante');
@@ -601,8 +602,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('FormMostrarDevoDefectuoso/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@formMostrarDevoDefectuoso');
 	Route::get('AprobacionDevolcuionSobrante', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@aprobacionDevolcuionSobrante');
 	Route::get('AprobacionDevolcuionDefectuoso', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@aprobacionDevolcuionDefectuoso');
-	Route::get('BoletaAprobDevoSobrante/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@boletaAprobDevoSobrante');
-	Route::get('BoletaAprobDevoDefectuoso/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@boletaAprobDevoDefectuoso');
+	//Route::get('BoletaAprobDevoSobrante/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@boletaAprobDevoSobrante');
+	Route::get('BoletaAprobDevoSobrante/{id}','ReportController@boleta_aprobacion_sobrante');
+	//Route::get('BoletaAprobDevoDefectuoso/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@boletaAprobDevoDefectuoso');
+	Route::get('BoletaAprobDevoDefectuoso/{id}','ReportController@boleta_aprobacion_defectuoso');
 
 	Route::get('DevolucionDetalle/{id}', 'insumo\insumo_devoluciones\gbDevolucionInsController@listDetalleDevolucion');
 	Route::get('DevolucionDetalleRec/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@listDetalleRecibidas');
