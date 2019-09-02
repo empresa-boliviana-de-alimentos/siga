@@ -609,4 +609,38 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();
     }
+
+    public function ingreso_materia_prima_pri($id)
+    {
+        //dd("Hola");
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA DE INGRESO DE MATERIA PRIMA";
+        $date =Carbon::now();
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per=Collect($usr);
+
+
+        $reg = Ingreso::join('acopio.envio_almacen as env','insumo.ingreso.ing_env_acop_id','=','env.enval_id')
+                      ->where('ing_id',$id)->first();
+        //dd($reg);
+        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')->where('deting_ing_id',$reg->ing_id)->first();
+
+
+
+        $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
+
+        $view = \View::make('reportes.ingreso_materia_prima_pri', compact('username','date','title','storage','receta','reg','detalle_ingreso','per','planta'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
 }
