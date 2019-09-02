@@ -17,37 +17,11 @@
                                     <!--start-->
                                     
                                     <div class="col-sm-4 social-buttons">
-                                        
-                                            <!--<a href="{{ url('ListKardex') }}">
+                                                               
+                                            <!--<a href="{{ url('RpMensual') }}" target="_blank">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
-                                                      <h4>KARDEX</h4>
-                                                      <p>POR INSUMO</p>
-                                                    </div>
-                                                    <div class="icon efectoicon">
-                                                      <img src="img/botones/reportes_lacteos.png" alt="" width="80">
-                                                    </div>
-                                                </div>
-                                            </a>-->
-                                            
-                                            <!--<a href="{{ url('RpInventarioGeneral') }}">
-                                                <div class="small-box bg-blue-gradient efectoboton">
-                                                    <div class="inner">
-                                                      <h4>INVENTARIO GENERAL</h4>
-                                                      <p style="color: #2477bf">GENERAL</p>
-                                                    </div>
-                                                    <div class="icon efectoicon">
-                                                      <img src="img/botones/reportes_lacteos.png" alt="" width="80">
-                                                    </div>
-                                                </div>
-                                            </a>-->
-                                            
-                                          
-                                            <a href="{{ url('RpMensual') }}" target="_blank">
-                                                <div class="small-box bg-blue-gradient efectoboton">
-                                                    <div class="inner">
-                                                      <!--<h4>REPORTE</h4>
-                                                      <p>MENSUAL</p>-->
+                                                      
                                                       <h4>MENSUAL</h4>
                                                       <p style="color: #2477bf">.</p>
                                                     </div>
@@ -55,8 +29,31 @@
                                                       <img src="img/botones/reporte mensual.png" alt="" width="80">
                                                     </div>
                                                 </div>
-                                            </a>
-                                             
+                                            </a>-->
+                                            <!--NUEVO-->
+                                            <li class="dropdown small-box bg-blue-gradient">
+                                                <div class="inner">
+                                                  <h4> MENSUAL</h4>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: white;"> SELECCIONE TIPO DE ARCHIVO<span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('RpMensual')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> PDF</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('RpMensualExcel')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-excel-o"></span>  EXCEL</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>                                                      
+                                                    </ul>
+                                                </div>
+                                                <div class="icon efectoicon">
+                                                    <img src="img/botones/reporte mensual.png" alt="" width="80">
+                                                </div>                                              
+                                              </li>   
+                                            <!--END NUEVO-->
                                             <a href="{{ url('RpCostoAlmacen') }}" target="_blank">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">

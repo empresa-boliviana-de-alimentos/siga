@@ -771,7 +771,7 @@ class gbInsumoReporteController extends Controller {
 		foreach ($insumo_ingreso as $key => $ig) {
 			
 			$nro = $nro + 1;
-			$salidas = $this->traeSalidas($ig->deting_ins_id);
+			$salidas = $this->traeSalidas($ig->deting_ins_id,$planta->id_planta);
 			$saldo_cantidad = $ig->deting_cantidad - $salidas;
 			$costo_entrada = $ig->deting_cantidad * $ig->deting_costo;
 			$costo_salida = $ig->deting_costo * $salidas;
@@ -1025,10 +1025,10 @@ class gbInsumoReporteController extends Controller {
 			->where('ins_id', $id_insumo)->first();
 		return $insumo->umed_nombre;
 	}
-	function traeSalidas($id_insumo)
+	function traeSalidas($id_insumo,$id_planta)
 	{
 		//dd("INS ID: ".$id_insumo.", ID DETING: ".$id_deting);
-		$insumo = InsumoHistorial::select(DB::raw('SUM(inshis_cantidad) as cantidad'))->where('inshis_ins_id',$id_insumo)->where('inshis_detorprod_id','<>',null)->first();
+		$insumo = InsumoHistorial::select(DB::raw('SUM(inshis_cantidad) as cantidad'))->where('inshis_ins_id',$id_insumo)->where('inshis_detorprod_id','<>',null)->where('inshis_planta_id',$id_planta)->first();
 		//dd($insumo);
 		if ($insumo->cantidad) {
 			return $insumo->cantidad;

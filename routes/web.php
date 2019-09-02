@@ -415,7 +415,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::delete('DeletePreliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@borrarPreliminar');
 	Route::get('/ReporteAlmacen/{id}', ['as' => 'reporteAlmacen', 'uses' => 'ReportController@nota_de_ingreso']);
 	Route::get('ReporteUfvExcel', 'insumo\insumo_registros\gbUfvController@reporteUfvExcel');
-	Route::get('/ReportePrima/{id}', ['as' => 'reportePrima', 'uses' => 'insumo\insumo_registros\gbIngresoPrimaController@reportePrima']);
+	//Route::get('/ReportePrima/{id}', ['as' => 'reportePrima', 'uses' => 'insumo\insumo_registros\gbIngresoPrimaController@reportePrima']);
+	Route::get('/ReportePrima/{id}', ['as' => 'reportePrima', 'uses' => 'ReportController@ingreso_materia_prima_pri']);
 	Route::get('/ReportePrimaEnval/{id}', ['as' => 'reportePrima', 'uses' => 'ReportController@ingreso_materia_prima']);
 
 	//RECETAS
@@ -645,6 +646,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('RpKardexValoradoInsumo/{id}', ['as' => 'rptKerdexInsumo', 'uses' => 'ReportController@kardex_valorado']);
 	Route::get('RpKardexFisicoInsumo/{id}', 'ReportController@kardex_fisico');
 	Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptMensual']);
+	Route::get('RpMensualExcel','ReportExcelController@RpMensualExcel');
+	//Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'ReportController@RpMensual']);
 	Route::get('RpCostoAlmacen', ['as' => 'rptCostoAlmacen', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptCostoAlmacen']);
 	Route::get('RptInventarioPlanta', 'insumo\insumo_registros\gbIngresoAlmacenController@rptInventarioPlanta');
 	Route::get('StockActual/{id}', 'insumo\insumo_solicitudes\gbSolRecetaController@stock_actual');
