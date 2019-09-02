@@ -643,4 +643,37 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();
     }
+    //******************************************************REPORTES GENERALES*************************************************************//
+    public function RpMensual()
+    {
+        dd("REPORTE GENERAL MENSUAL");
+        $username = Auth::user()->usr_usuario;
+        $title = "REPORTE MENSUAL";
+        $date =Carbon::now();
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per=Collect($usr);
+
+
+        $reg = $insumo_ingreso = DetalleIngreso::select(DB::raw('SUM(deting_cantidad) as deting_cantidad'),'deting_ins_id','deting_costo')->join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')->where('ing_planta_id', '=', $planta->id_planta)->groupBy('deting_costo','deting_ins_id')->orderby('deting_ins_id', 'ASC')->get();
+        //dd($reg);
+        $detalle_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')->where('deting_ing_id',$reg->ing_id)->first();
+
+
+
+        $code = $reg['ing_enumeracion'].'/'.date('Y',strtotime($reg['ing_registrado']));
+
+        $view = \View::make('reportes.ingreso_materia_prima_pri', compact('username','date','title','storage','receta','reg','detalle_ingreso','per','planta'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
 }
