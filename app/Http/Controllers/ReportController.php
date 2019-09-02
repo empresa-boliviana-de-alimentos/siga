@@ -17,8 +17,11 @@ use siga\Modelo\insumo\insumo_registros\Sabor;
 use siga\Modelo\insumo\insumo_registros\SubLinea;
 use siga\Modelo\insumo\insumo_registros\Ingreso;
 use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
+use siga\Modelo\insumo\insumo_registros\IngresoPreliminar;
+use siga\Modelo\insumo\insumo_registros\DetalleIngresoPreliminar;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
 use siga\Modelo\insumo\insumo_solicitud\DetalleOrdenProduccion;
+use siga\Modelo\insumo\insumo_devolucion\Devolucion;
 use siga\Modelo\insumo\InsumoHistorial;
 use siga\Modelo\insumo\Stock;
 class ReportController extends Controller
@@ -453,10 +456,152 @@ class ReportController extends Controller
         $username = Auth::user()->usr_usuario;
         $title = "DEVOLUCION SOBRANTE";
         $date =Carbon::now();
-        
-        $storage = 'LINEA PRODUCCIÓN';       
+
+        $usuario = Usuario::join('public._bp_personas as persona','public._bp_usuarios.usr_prs_id','=','persona.prs_id')->where('usr_id','=',Auth::user()->usr_id)->first();
+        $id_user =  Auth::user()->usr_id;
+
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                 ->where('usr_id',$id_user)->first();
+        $devolucion = Devolucion::join('public._bp_planta as planta','insumo.devolucion.devo_planta_id','=','planta.id_planta')
+                              ->join('public._bp_usuarios as usu','insumo.devolucion.devo_usr_id','=','usu.usr_id')
+                              ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+                              ->join('insumo.orden_produccion as orp','insumo.devolucion.devo_nro_orden','=','orp.orprod_id')
+                              ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+                              ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                              ->where('devo_id',$id)
+                              ->first();       
         $code = null;
-        $view = \View::make('reportes.boleta_devolucion_sobrante', compact('username','date','title','storage'));
+        $view = \View::make('reportes.boleta_devolucion_sobrante', compact('username','date','title','planta','devolucion'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+
+    public function boleta_devolucion_defectuoso($id)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "DEVOLUCION DEFECTUOSO";
+        $date =Carbon::now();
+
+        $usuario = Usuario::join('public._bp_personas as persona','public._bp_usuarios.usr_prs_id','=','persona.prs_id')->where('usr_id','=',Auth::user()->usr_id)->first();
+        $id_user =  Auth::user()->usr_id;
+
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                 ->where('usr_id',$id_user)->first();
+        $devolucion = Devolucion::join('public._bp_planta as planta','insumo.devolucion.devo_planta_id','=','planta.id_planta')
+                              ->join('public._bp_usuarios as usu','insumo.devolucion.devo_usr_id','=','usu.usr_id')
+                              ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+                              ->join('insumo.orden_produccion as orp','insumo.devolucion.devo_nro_orden','=','orp.orprod_id')
+                              ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+                              ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                              ->where('devo_id',$id)
+                              ->first();       
+        $code = null;
+        $view = \View::make('reportes.boleta_devolucion_defectuoso', compact('username','date','title','planta','devolucion'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+
+    public function boleta_aprobacion_sobrante($id)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA DE ACEPTACIÓN DEVOLUCIÓN DEFECTUOSO";
+        $date =Carbon::now();
+
+        $usuario = Usuario::join('public._bp_personas as persona','public._bp_usuarios.usr_prs_id','=','persona.prs_id')->where('usr_id','=',Auth::user()->usr_id)->first();
+        $id_user =  Auth::user()->usr_id;
+
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                 ->where('usr_id',$id_user)->first();
+        $devolucion = Devolucion::join('public._bp_planta as planta','insumo.devolucion.devo_planta_id','=','planta.id_planta')
+                              ->join('public._bp_usuarios as usu','insumo.devolucion.devo_usr_id','=','usu.usr_id')
+                              ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+                              ->join('insumo.orden_produccion as orp','insumo.devolucion.devo_nro_orden','=','orp.orprod_id')
+                              ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+                              ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                              ->where('devo_id',$id)
+                              ->first();       
+        $code = null;
+        $view = \View::make('reportes.boleta_aceptacion_sobrante', compact('username','date','title','planta','devolucion'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+
+    public function boleta_aprobacion_defectuoso($id)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA DE ACEPTACIÓN DEVOLUCIÓN DEFECTUOSO";
+        $date =Carbon::now();
+
+        $usuario = Usuario::join('public._bp_personas as persona','public._bp_usuarios.usr_prs_id','=','persona.prs_id')->where('usr_id','=',Auth::user()->usr_id)->first();
+        $id_user =  Auth::user()->usr_id;
+
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                 ->where('usr_id',$id_user)->first();
+        $devolucion = Devolucion::join('public._bp_planta as planta','insumo.devolucion.devo_planta_id','=','planta.id_planta')
+                              ->join('public._bp_usuarios as usu','insumo.devolucion.devo_usr_id','=','usu.usr_id')
+                              ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+                              ->join('insumo.orden_produccion as orp','insumo.devolucion.devo_nro_orden','=','orp.orprod_id')
+                              ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+                              ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                              ->where('devo_id',$id)
+                              ->first();       
+        $code = null;
+        $view = \View::make('reportes.boleta_aceptacion_defectuoso', compact('username','date','title','planta','devolucion'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();    
+    }
+
+    public function ReportPreliminarIngreso($id)
+    {
+        //dd("REPORTE PRELIMINAR");
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA INGRESO";
+
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = $planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per=Collect($usuario);
+        $reg = IngresoPreliminar::join('insumo.tipo_ingreso as tiping','insumo.ingreso_preliminar.ingpre_id_tiping','=','tiping.ting_id')
+                                ->where('insumo.ingreso_preliminar.ingpre_id',$id)->first();
+        $fecha = Carbon::parse($reg['ing_fecha_remision']);
+
+
+        $mesesLiteral = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
+        //$deta_ingreso = DetalleIngreso::join('insumo.insumo as ins','insumo.detalle_ingreso.deting_ins_id','=','ins.ins_id')
+        //                                        ->leftjoin('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+        //                                        ->join('insumo.proveedor as prov','insumo.detalle_ingreso.deting_prov_id','=','prov.prov_id')
+        //                                        ->where('deting_ing_id',$id_ingreso)->get();
+        $deta_ingreso = DetalleIngresoPreliminar::join('insumo.proveedor as prov','insumo.detalle_ingreso_preliminar.detingpre_prov_id','=','prov.prov_id')
+                                        ->join('insumo.insumo as ins','insumo.detalle_ingreso_preliminar.detingpre_ins_id','=','ins.ins_id')
+                                        ->leftjoin('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
+                                        ->where('detingpre_ingpre_id',$id)->get();
+
+
+        $code = $reg['ingpre_enumeracion'].'/'.date('Y',strtotime($reg['ingpre_registrado']));
+        $date =date('d/m/Y',strtotime($reg['ingpre_registrado']));
+
+        $view = \View::make('reportes.nota_de_ingreso_preliminar', compact('username','date','title','storage','reg','deta_ingreso','usuario','code','per'));
 
         $html_content = $view->render();
         // return $html_content;
