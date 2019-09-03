@@ -53,6 +53,22 @@ class ReportExcelController extends Controller
 
     public function RptSolicitudGeneralExcel()
     {
-        dd("EXCEL SOLICITUD GENERAL");
+        //dd("EXCEL SOLICITUD GENERAL");
+        $id_usuario = Auth::user()->usr_id;
+        $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+            ->where('usr_id', $id_usuario)->first();
+        $per = Collect($usr);
+        $id = Auth::user()->usr_id;
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+            ->where('usr_id', $id)->first();
+        //$insumo_ingreso = DetalleIngreso::join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')->where('ing_planta_id', '=', $planta->id_planta)->orderby('deting_ins_id', 'ASC')->get();
+        $orprod = OrdenProduccion::where('orprod_planta_id',$planta->id_planta)->get();
+        $detorprod = DetalleOrdenProduccion::join('insumo.orden_produccion as orp','insumo.detalle_orden_produccion.detorprod_orprod_id','=','orp.orprod_id')->where('orprod_planta_id', '=', $planta->id_planta)->orderby('detorprod_ins_id', 'ASC')->get();
+        $ufvs = Ufv::get();
+        \Excel::create('Reporte_General_Ingreso', function($excel) use ($detorprod, $planta) {
+             $excel->sheet('Excel sheet', function($sheet) use ($detorprod, $planta) {
+                $sheet->loadView('reportes_excel.reporte_solicitud_general', array('detorprod'=>$detorprod,'planta'=>$planta));
+            });
+        })->export('xlsx');
     }
 }

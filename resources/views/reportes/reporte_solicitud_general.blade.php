@@ -32,21 +32,12 @@
       <td class="px-15 py text-center text-xxs">
         Cantidad.
       </td>
-      <td class="px-15 py text-center text-xxs ">
-        Costo U.
-      </td>
       <td class="px-15 py text-center  text-xxs">
-        Fecha Ingreso
+        Fecha Solicitud
       </td>
       <td class="px-15 py text-center text-xxs">
-        Fecha Vencimiento
-      </td>
-      <td class="px-15 py text-center text-xxs">
-        Tipo Ingreso
-      </td>
-      <td class="px-15 py text-center text-xxs">
-        Nro. Remisión
-      </td>     
+        Tipo Solicitud
+      </td>  
     </tr>
   </thead>
   <tbody>
@@ -63,15 +54,12 @@
       ?>
       <tr>      
         <td class="px-15 py text-center text-xxs">{{$nro}}</td>
-        <td class="px-15 py text-center text-xxs">{{$ig->orp_nro_orden}}</td>
+        <td class="px-15 py text-center text-xxs">{{$ig->orprod_nro_orden}}</td>
         <td class="px-15 py text-center text-xxs">{{traeCodigo($ig->detorprod_ins_id)}}</td>
         <td class="px-15 py text-center text-xxs">{{traeDetalle($ig->detorprod_ins_id)}}</td> 
         <td class="px-15 py text-center text-xxs">{{$ig->detorprod_cantidad}}</td>
-        <td class="px-15 py text-center text-xxs">{{$ig->detorprod_costo}}</td>
         <td class="px-15 py text-center text-xxs">{{date('d/m/Y',strtotime($ig->detorprod_registrado))}}</td>
-        <td class="px-15 py text-center text-xxs">{{$ig->detorprod_fecha_venc}}</td>
-        <td class="px-15 py text-center text-xxs">{{traeTipoIngreso($ig->orprod_tiporprod_id)}}</td>
-        <td class="px-15 py text-center text-xxs">{{0}}</td> 
+        <td class="px-15 py text-center text-xxs">{{traeTipoOrprod($ig->orprod_tiporprod_id)}}</td>
       </tr> 
     @endforeach
   </tbody>
@@ -123,10 +111,10 @@
       return 0.00;
     }
   }
-  function traeTipoIngreso($id)
+  function traeTipoOrprod($id)
   {
-    $tipo = \DB::table('insumo.tipo_ingreso')->where('ting_id',$id)->first();
-    return $tipo->ting_nombre;
+    $tipo = \DB::table('insumo.tipo_orden_produccion')->where('tiporprod_id',$id)->first();
+    return $tipo->tiporprod_nombre;
   }
  ?>
 @endsection
