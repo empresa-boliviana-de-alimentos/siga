@@ -645,9 +645,9 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('RpKardexValoradoInsumo/{id}', ['as' => 'rptKerdexInsumo', 'uses' => 'ReportController@kardex_valorado']);
 	Route::get('RpKardexFisicoInsumo/{id}', 'ReportController@kardex_fisico');
-	Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptMensual']);
+	//Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptMensual']);
 	Route::get('RpMensualExcel','ReportExcelController@RpMensualExcel');
-	//Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'ReportController@RpMensual']);
+	Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'ReportController@RpMensual']);
 	Route::get('RpCostoAlmacen', ['as' => 'rptCostoAlmacen', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptCostoAlmacen']);
 	Route::get('RptInventarioPlanta', 'insumo\insumo_registros\gbIngresoAlmacenController@rptInventarioPlanta');
 	Route::get('StockActual/{id}', 'insumo\insumo_solicitudes\gbSolRecetaController@stock_actual');
