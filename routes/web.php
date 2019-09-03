@@ -615,6 +615,10 @@ Route::group(['middleware' => ['auth']], function () {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//// REPORTES /////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	Route::get('ReportePdfIngresoGral', 'ReportController@RptIngresoGeneral');
+	Route::get('ReporteExcelIngresoGral', 'ReportExcelController@RptIngresoGeneralExcel');
+	Route::get('ReportePdfSolicitudGral', 'ReportController@RptSolicitudGeneral');
+	Route::get('ReporteExcelSolicitudGral', 'ReportExcelController@RptSolicitudGeneralExcel');
 	Route::get('ReportesInsumoMenu', function () {
 		return view('backend.administracion.insumo.insumo_reportes.index');
 	});

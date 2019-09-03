@@ -639,4 +639,48 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content)->setPaper('Letter')->setOrientation('landscape')->setOption('margin-bottom', 0);
         return $pdf->inline();
     }
+
+    public function RptIngresoGeneral()
+    {
+        //dd("REPORTE PDF INGRESO GENERAL");
+        $username = Auth::user()->usr_usuario;
+        $title = "REPORTE GENERAL DE INGRESOS";
+        $date =Carbon::now();
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+        $storage = $planta->nombre_planta;
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per=Collect($usr);
+        $ingreso = Ingreso::where('ing_planta_id',$planta->id_planta)->get();
+        //dd($ingreso);
+        $insumo_ingreso = DetalleIngreso::join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')->where('ing_planta_id', '=', $planta->id_planta)->orderby('deting_ins_id', 'ASC')->get();
+        $view = \View::make('reportes.reporte_ingreso_general', compact('username','date','title','storage','insumo_ingreso','per','storage','planta','ingreso'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content)->setPaper('Letter')->setOrientation('landscape')->setOption('margin-bottom', 0);
+        return $pdf->inline();
+    }
+
+    public function RptSolicitudGeneral()
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "REPORTE GENERAL DE SOLICITUD";
+        $date =Carbon::now();
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                        ->where('usr_id', Auth::user()->usr_id)
+                        ->first();
+        $storage = $planta->nombre_planta;
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per=Collect($usr);
+        $orprod = OrdenProduccion::where('orprod_planta_id',$planta->id_planta)->get();
+        $detorprod = DetalleOrdenProduccion::join('insumo.orden_produccion as orp','insumo.detalle_orden_produccion.detorprod_orprod_id','=','orp.orprod_id')->where('orprod_planta_id', '=', $planta->id_planta)->orderby('detorprod_ins_id', 'ASC')->get();
+        $view = \View::make('reportes.reporte_solicitud_general', compact('username','date','title','storage','detorprod','per','storage','planta','orprod'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content)->setPaper('Letter')->setOrientation('landscape')->setOption('margin-bottom', 0);
+        return $pdf->inline();
+    }
 }
