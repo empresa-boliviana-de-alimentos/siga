@@ -32,4 +32,22 @@ class ReportExcelController extends Controller
             });
         })->export('xlsx');
     }
+
+    public function RptIngresoGeneralExcel()
+    {
+        $id_usuario = Auth::user()->usr_id;
+        $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+            ->where('usr_id', $id_usuario)->first();
+        $per = Collect($usr);
+        $id = Auth::user()->usr_id;
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+            ->where('usr_id', $id)->first();
+        $insumo_ingreso = DetalleIngreso::join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')->where('ing_planta_id', '=', $planta->id_planta)->orderby('deting_ins_id', 'ASC')->get();
+        $ufvs = Ufv::get();
+        \Excel::create('Reporte_General_Ingreso', function($excel) use ($insumo_ingreso, $planta) {
+             $excel->sheet('Excel sheet', function($sheet) use ($insumo_ingreso, $planta) {
+                $sheet->loadView('reportes_excel.reporte_ingreso_general', array('insumo_ingreso'=>$insumo_ingreso,'planta'=>$planta));
+            });
+        })->export('xlsx');
+    }
 }
