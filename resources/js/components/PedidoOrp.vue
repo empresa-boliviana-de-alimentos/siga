@@ -142,7 +142,7 @@
                 <insumo-orp :lista="saborizaciones" :cantidad="cantidad_pedido" nombre="saborizaciones" :planta="planta_id"></insumo-orp>
             </div>
         </div>
-        <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 2 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
+        <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 2 || receta.rece_lineaprod_id == 3 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
@@ -207,14 +207,14 @@ import { constants } from 'crypto';
                                 item.stock = insumo.stock_cantidad;
                                 this.$set(this.formulacion_base, index, item)
                                 console.log('mostrando mensaje');
-                                if(item.stock==0)
+                                /*if(item.stock==0)
                                 {
                                     iziToast.info({
                                         title: 'No hay Stock',
                                         message: 'En el insumo '+item.ins_desc,
                                     });
                                     this.state =false;
-                                }
+                                }*/
                             return item;
                         });
 
