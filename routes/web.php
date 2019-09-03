@@ -452,10 +452,10 @@ Route::group(['middleware' => ['auth']], function () {
 			->where('ins_id_tip_ins', 3)
 			->where('detrece_rece_id', $rec_id)->get();
 		foreach ($insumo_insumo as $ins) {
-			$detalle_formulacion[] = array("ins_id" => $ins->ins_id, "ins_codigo" => $ins->ins_codigo, "ins_desc" => $ins->ins_desc, "umed_nombre" => $ins->umed_nombre, "detrece_cantidad" => $ins->detrece_cantidad);
+			$detalle_formulacion[] = array("ins_id" => $ins->ins_id, "ins_codigo" => $ins->ins_codigo, "ins_desc" => $ins->ins_desc, "umed_nombre" => $ins->umed_nombre, "detrece_cantidad" => $ins->detrece_cantidad, "cant_por"=>0);
 		}
 		foreach ($insumo_matprima as $ins) {
-			$detalle_formulacion[] = array("ins_id" => $ins->ins_id, "ins_codigo" => $ins->ins_codigo, "ins_desc" => $ins->ins_desc, "umed_nombre" => $ins->umed_nombre, "detrece_cantidad" => $ins->detrece_cantidad);
+			$detalle_formulacion[] = array("ins_id" => $ins->ins_id, "ins_codigo" => $ins->ins_codigo, "ins_desc" => $ins->ins_desc, "umed_nombre" => $ins->umed_nombre, "detrece_cantidad" => $ins->detrece_cantidad, "cant_por"=>0);
 		}
 		return Response::json($detalle_formulacion);
 	});
