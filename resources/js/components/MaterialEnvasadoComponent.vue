@@ -73,9 +73,11 @@
             {
                 this.envasados.push({});
             },
-            removeItem(index)
+            removeItem(item)
             {
-                this.envasados.splice(index,1);
+                //this.envasados.splice(item.index,1);
+                const index = this.envasados.indexOf(item)
+                this.envasados.splice(index, 1)
             },
 
 

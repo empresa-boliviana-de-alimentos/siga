@@ -50,4 +50,9 @@ class ReportExcelController extends Controller
             });
         })->export('xlsx');
     }
+
+    public function RptSolicitudGeneralExcel()
+    {
+        dd("EXCEL SOLICITUD GENERAL");
+    }
 }

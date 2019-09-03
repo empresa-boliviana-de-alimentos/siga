@@ -146,7 +146,7 @@
                                                     </div>
                                                 </div>
                                             </a>-->
-                                            <li class="dropdown small-box bg-blue-gradient">
+                                            <!--<li class="dropdown small-box bg-blue-gradient">
                                                 <div class="inner">
                                                   <h4> SALIDA GENERAL</h4>
                                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: white;"> SELECCIONE TIPO DE ARCHIVO<span class="caret"></span>
@@ -172,7 +172,7 @@
                                                 <div class="icon efectoicon">
                                                     <img src="img/botones/reportes_lacteos.png" alt="" width="80">
                                                 </div>                                              
-                                              </li>  
+                                              </li>-->  
                                             <!--<a href="#">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
