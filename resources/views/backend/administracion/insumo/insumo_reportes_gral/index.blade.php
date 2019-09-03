@@ -39,7 +39,7 @@
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                       <li class="dropdown-submenu">
-                                                        <a href="{{url('ListarReporteGralIngreso')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
+                                                        <a href="{{url('ListarReporteGralIngreso')}}" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
                                                         <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                         </ul>
                                                       </li>
@@ -77,7 +77,7 @@
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                       <li class="dropdown-submenu">
-                                                        <a href="{{url('ListarReporteGralSolicitudes')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
+                                                        <a href="{{url('ListarReporteGralSolicitudes')}}" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
                                                         <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                         </ul>
                                                       </li>
@@ -115,17 +115,17 @@
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                       <li class="dropdown-submenu">
-                                                        <a href="{{url('ListarReporteGralSalidas')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
+                                                        <a href="{{url('ListarReporteGralSalidas')}}" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
                                                         <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                         </ul>
                                                       </li>
                                                       <li class="dropdown-submenu">
-                                                        <a href="{{url('ReportePdfIngresoGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span>  PDF GENERICO</a>
+                                                        <a href="{{url('ReportePdfSalidasGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span>  PDF GENERICO</a>
                                                         <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                         </ul>
                                                       </li>
                                                       <li class="dropdown-submenu">
-                                                        <a href="{{url('ReporteExcelIngresoGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-excel-o"></span>  EXCEL GENERICO</a>
+                                                        <a href="{{url('ReporteExcelSalidasGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-excel-o"></span>  EXCEL GENERICO</a>
                                                         <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                         </ul>
                                                       </li>                                                      

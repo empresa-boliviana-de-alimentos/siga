@@ -71,4 +71,9 @@ class ReportExcelController extends Controller
             });
         })->export('xlsx');
     }
+
+    public function RptSalidasGeneralExcel()
+    {
+        dd("REPORTE GENERAL DE SALIDAS EXCEL");
+    }
 }
