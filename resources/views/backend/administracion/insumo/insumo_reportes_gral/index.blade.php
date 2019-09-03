@@ -31,10 +31,35 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            
-                                          
-                                             
-                                            <a href="{{ url('ListarReporteGralIngreso') }}">
+
+                                            <li class="dropdown small-box bg-blue-gradient">
+                                                <div class="inner">
+                                                  <h4> INGRESO GENERAL</h4>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: white;"> SELECCIONE TIPO DE ARCHIVO<span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ListarReporteGralIngreso')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ReportePdfIngresoGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span>  PDF GENERICO</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ReporteExcelIngresoGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-excel-o"></span>  EXCEL GENERICO</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>                                                      
+                                                    </ul>
+                                                </div>
+                                                <div class="icon efectoicon">
+                                                    <img src="img/botones/reportes_lacteos.png" alt="" width="80">
+                                                </div>                                              
+                                              </li>                                    
+                                            <!--<a href="{{ url('ListarReporteGralIngreso') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
                                                       <h4>INGRESO GENERAL</h4>
@@ -44,8 +69,35 @@
                                                       <img src="img/botones/reportes_lacteos.png" alt="" width="80">
                                                     </div>
                                                 </div>
-                                            </a>
-                                            <a href="{{ url('ListarReporteGralSolicitudes') }}">
+                                            </a>-->
+                                            <li class="dropdown small-box bg-blue-gradient">
+                                                <div class="inner">
+                                                  <h4> SOLICITUD GENERAL</h4>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: white;"> SELECCIONE TIPO DE ARCHIVO<span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ListarReporteGralSolicitudes')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ReportePdfSolicitudGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span>  PDF GENERICO</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ReporteExcelSolicitudGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-excel-o"></span>  EXCEL GENERICO</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>                                                      
+                                                    </ul>
+                                                </div>
+                                                <div class="icon efectoicon">
+                                                    <img src="img/botones/reportes_lacteos.png" alt="" width="80">
+                                                </div>                                              
+                                              </li>  
+                                            <!--<a href="{{ url('ListarReporteGralSolicitudes') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
                                                       <h4>SOLICITUD GENERAL</h4>
@@ -55,8 +107,35 @@
                                                       <img src="img/botones/reportes_lacteos.png" alt="" width="80">
                                                     </div>
                                                 </div>
-                                            </a>
-                                            <a href="{{ url('ListarReporteGralSalidas') }}">
+                                            </a>-->
+                                            <li class="dropdown small-box bg-blue-gradient">
+                                                <div class="inner">
+                                                  <h4> SALIDA GENERAL</h4>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: white;"> SELECCIONE TIPO DE ARCHIVO<span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ListarReporteGralSalidas')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ReportePdfIngresoGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span>  PDF GENERICO</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ReporteExcelIngresoGral')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-excel-o"></span>  EXCEL GENERICO</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>                                                      
+                                                    </ul>
+                                                </div>
+                                                <div class="icon efectoicon">
+                                                    <img src="img/botones/reportes_lacteos.png" alt="" width="80">
+                                                </div>                                              
+                                              </li>  
+                                            <!--<a href="{{ url('ListarReporteGralSalidas') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
                                                       <h4>SALIDA GENERAL</h4>
@@ -66,8 +145,35 @@
                                                       <img src="img/botones/reportes_lacteos.png" alt="" width="80">
                                                     </div>
                                                 </div>
-                                            </a>
-                                            <a href="#">
+                                            </a>-->
+                                            <li class="dropdown small-box bg-blue-gradient">
+                                                <div class="inner">
+                                                  <h4> SALIDA GENERAL</h4>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: white;"> SELECCIONE TIPO DE ARCHIVO<span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                      <li class="dropdown-submenu">
+                                                        <a href="#" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO GENERAL</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="#" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span>  PDF GENERICO</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="#" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-excel-o"></span>  EXCEL GENERICO</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>                                                      
+                                                    </ul>
+                                                </div>
+                                                <div class="icon efectoicon">
+                                                    <img src="img/botones/reportes_lacteos.png" alt="" width="80">
+                                                </div>                                              
+                                              </li>  
+                                            <!--<a href="#">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
                                                       <h4>ORP - PEDIDOS</h4>
@@ -77,7 +183,7 @@
                                                       <img src="img/botones/reportes_lacteos.png" alt="" width="80">
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </a>-->
                                     </div>
                                     <div class="col-sm-8">
                                       <div class="row">
