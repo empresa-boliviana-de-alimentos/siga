@@ -153,6 +153,7 @@ class gbOrdenProduccionController extends Controller
             'orprod_usr_id'     => Auth::user()->usr_id,
             'orprod_tiporprod_id'   => 1,
             'orprod_obs_usr'    => $observacion,
+            'orprod_estado_recep'=>'PENDIENTE',
         ]);
         $dato_calculo = $cantidad_orden/$rendimiento_base;
         //dd($dato_calculo);
@@ -545,13 +546,15 @@ class gbOrdenProduccionController extends Controller
         })
         ->addColumn('acciones', function ($orden_produccion) {
             if($orden_produccion->orprod_estado_orp == 'B'){
-                return 'PEDIDO ENVIADO';
+                return '<div class="text-center"><a href="BoletaOrdenProduccionRorp/' . $orden_produccion->orprod_id . '" class="btn btn-md btn-primary" target="_blank">'.$orden_produccion->orprod_nro_orden.'</a></div>';
             }elseif($orden_produccion->orprod_estado_orp == 'A'){
-                return '<div class="text-center"><a href="frmRecepORP/' . $orden_produccion->orprod_id . '" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> VER</a><div>';
+                return '<div class="text-center"><a  onClick="CambiarEstado('.$orden_produccion->orprod_id.');" href="frmRecepORP/' . $orden_produccion->orprod_id . '" class="btn btn-success btn-xs"><i class="fa fa-edit"></i> VER</a><div>';
             }elseif($orden_produccion->orprod_estado_orp == 'C'){
-                return 'PEDIDO ENVIADO A ALMACEN';
+                //return 'PEDIDO ENVIADO A ALMACEN';
+                return '<div class="text-center"><a href="BoletaOrdenProduccionRorp/' . $orden_produccion->orprod_id . '" class="btn btn-md btn-primary" target="_blank">'.$orden_produccion->orprod_nro_orden.'</a></div>';
             }elseif($orden_produccion->orprod_estado_orp == 'D'){
-                return 'RECEPCIONADO EN ALMACEN';
+                //return 'RECEPCIONADO EN ALMACEN';
+                return '<div class="text-center"><a href="BoletaOrdenProduccionRorp/' . $orden_produccion->orprod_id . '" class="btn btn-md btn-primary" target="_blank">'.$orden_produccion->orprod_nro_orden.'</a></div>';
             }
 
         })
@@ -579,6 +582,7 @@ class gbOrdenProduccionController extends Controller
         $orden_produccion_update->orprod_obs_vo = $request['obs_usr_vo'];
         $orden_produccion_update->orprod_usr_vo = Auth::user()->usr_id;
         $orden_produccion_update->orprod_estado_orp = 'B';
+        $orden_produccion_update->orprod_estado_recep = 'RECEPCION JEFE PLANTA';
         $orden_produccion_update->save();
         //dd($orden_produccion_update);
         return redirect('RecepcionORP')->with('success','Registro creado satisfactoriamente');
@@ -631,11 +635,12 @@ class gbOrdenProduccionController extends Controller
             }
         })->addColumn('acciones', function ($orden_produccion) {
             if ($orden_produccion->orprod_estado_orp=='C') {
-                return "ENVIADO A ALMACEN";
+                return '<div class="text-center"><a href="BoletaOrdenProduccionSolalorp/' . $orden_produccion->orprod_id . '" class="btn btn-md btn-primary" target="_blank">'.$orden_produccion->orprod_nro_orden.'</a></div>';
             }elseif($orden_produccion->orprod_estado_orp=='B'){
                 return '<div class="text-center"><a href="frmSoliORP/' . $orden_produccion->orprod_id . '" class="btn btn-success"><i class="fa fa-eye"></i></a><div>';
             }elseif($orden_produccion->orprod_estado_orp == 'D'){
-                return 'RECEPCIONADO EN ALMACEN';
+                //return 'RECEPCIONADO EN ALMACEN';
+                return '<div class="text-center"><a href="BoletaOrdenProduccionSolalorp/' . $orden_produccion->orprod_id . '" class="btn btn-md btn-primary" target="_blank">'.$orden_produccion->orprod_nro_orden.'</a></div>';
             }
             //return $orden_produccion->orprod_estado_orp;
         })
@@ -661,8 +666,18 @@ class gbOrdenProduccionController extends Controller
         $orden_produccion_update->orprod_obs_vodos = $request['obs_usr_vodos'];
         $orden_produccion_update->orprod_usr_vodos = Auth::user()->usr_id;
         $orden_produccion_update->orprod_estado_orp = 'C';
+        $orden_produccion_update->orprod_estado_recep = 'PENDIENTE ENTREGAR INSUMOS';
+        $orden_produccion_update->orprod_fecha_vodos = Carbon::now();
         $orden_produccion_update->save();
         //dd($orden_produccion_update);
         return redirect('SolOrpReceta')->with('success','Registro creado satisfactoriamente');
+    }
+
+    public function cambioEstadoRecepOrp($id)
+    {
+        $orp_recep = OrdenProduccion::find($id);
+        $orp_recep->orprod_estado_recep = 'VISTO';
+        $orp_recep->orprod_fecha_vo = Carbon::now();
+        $orp_recep->save();
     }
 }

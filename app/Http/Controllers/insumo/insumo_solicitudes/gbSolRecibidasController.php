@@ -219,6 +219,7 @@ class gbSolRecibidasController extends Controller
             $orden_produccion_aprob->orprod_obs_aprob = $request['obs_usr_aprob'];
             $orden_produccion_aprob->orprod_estado_orp = 'D';
             $orden_produccion_aprob->orprod_modificado = Carbon::now();
+            $orden_produccion_aprob->orprod_estado_recep = 'SE ENTREGO LOS INSUMOS';
             $orden_produccion_aprob->save();
             return redirect('solRecibidas')->with('success','Registro creado satisfactoriamente');
 
@@ -270,6 +271,7 @@ class gbSolRecibidasController extends Controller
             $orden_produccion_aprob->orprod_obs_aprob = $request['obs_usr_aprob'];
             $orden_produccion_aprob->orprod_estado_orp = 'D';
             $orden_produccion_aprob->orprod_modificado = Carbon::now();
+            $orden_produccion_aprob->orprod_estado_recep = 'SE ENTREGO LOS INSUMOS';
             $orden_produccion_aprob->save();
             return redirect('solRecibidas')->with('success','Registro creado satisfactoriamente');
         }

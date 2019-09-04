@@ -61,6 +61,9 @@
                                         CANTIDAD PRODUCIR
                                     </th>
                                     <th class="text-center">
+                                        ESTADO RECEPCIÓN
+                                    </th>
+                                    <th class="text-center">
                                         ESTADO
                                     </th>
                                 </tr>
@@ -95,6 +98,9 @@
                                         CANTIDAD PRODUCIR
                                     </th>
                                     <th class="text-center">
+                                        ESTADO RECEPCIÓN
+                                    </th>
+                                    <th class="text-center">
                                         ESTADO
                                     </th>
                                 </tr>
@@ -126,6 +132,7 @@ var t = $('#lts-orprod').DataTable( {
                 {data: 'umed_nombre'},
                 {data: 'lineaProduccion'},
                 {data: 'orprod_cantidad'},
+                {data: 'orprod_estado_recep'},
                 {data: 'acciones',orderable: false, searchable: false},
                 // {data: 'sol_id'},
         ],
