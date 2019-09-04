@@ -134,8 +134,11 @@ class gbSolRecibidasController extends Controller
 
         // return $detalle_formulacion_map;
 
-        $listarInsumo = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
-                            ->where('ins_estado','A')->get();
+        //$listarInsumo = Insumo::leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+        //                    ->join('insumo.unidad_medida as umed','insumo.insumo.ins_id_uni','=','umed.umed_id')
+        //                    ->where('ins_estado','A')->get();
+        $listarInsumo = Insumo::with('unidad_medida')->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
+                                ->get();
         // return $stocks;
         // return $detalle_sol_orp;
         return view('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.formMostrarReceta',compact('sol_orden_produccion','receta','detalle_sol_orp','listarInsumo'));

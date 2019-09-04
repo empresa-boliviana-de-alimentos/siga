@@ -28,6 +28,7 @@ Vue.component('insumo-select', require('./components/InsumoSelect.vue').default)
 Vue.component('material-envasado', require('./components/MaterialEnvasadoComponent.vue').default);
 Vue.component('insumo-orp', require('./components/InsumoOrp.vue').default);
 Vue.component('pedido-orp', require('./components/PedidoOrp.vue').default);
+Vue.component('insumo-adicional', require('./components/InsumoAdicionalComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
