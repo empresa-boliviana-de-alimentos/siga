@@ -317,7 +317,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="text-right">
-                            <a class="btn btn-danger btn-lg" href="{{ url('OrdenProduccion') }}" type="button">
+                            <a class="btn btn-danger btn-lg" href="{{ url('RecepcionORP') }}" type="button">
                             Cerrar
                             </a>
                             <!-- {!!link_to('#',$title='Registrar', $attributes=['id'=>'registro','class'=>'btn btn-success'], $secure=null)!!} -->

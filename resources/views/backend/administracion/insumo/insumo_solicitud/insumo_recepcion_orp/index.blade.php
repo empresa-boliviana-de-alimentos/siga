@@ -61,7 +61,10 @@
                                         CANTIDAD PRODUCIR
                                     </th>
                                     <th class="text-center">
-                                        ESTADO
+                                        ESTADO RECEPCIÓN
+                                    </th>
+                                    <th class="text-center">
+                                        RECEPCIONADO
                                     </th>
                                     <th class="text-center">
                                         OPCIONES
@@ -98,7 +101,10 @@
                                         CANTIDAD PRODUCIR
                                     </th>
                                     <th class="text-center">
-                                        ESTADO
+                                        ESTADO RECEPCIÓN
+                                    </th>
+                                    <th class="text-center">
+                                        RECEPCIONADO
                                     </th>
                                     <th class="text-center">
                                         OPCIONES
@@ -133,6 +139,7 @@ var t = $('#lts-orprod').DataTable( {
                 {data: 'umed_nombre'},
                 {data: 'lineaProduccion'},
                 {data: 'orprod_cantidad'},
+                {data: 'orprod_estado_recep'},
                 {data: 'estadoAprobacion',orderable: false, searchable: false},
                 {data: 'acciones'},
         ],
@@ -149,6 +156,21 @@ var t = $('#lts-orprod').DataTable( {
             cell.innerHTML = i+1;
         } );
     } ).draw();
+
+    function CambiarEstado(id)
+    {
+        //alert("CAMBIANDO EL ESTADO RECEPCION CON ID ORP: "+id);
+        var route="CambioEstadoRecepOrp/"+id+"";
+           $.ajax({
+                url: route,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data){
+                },
+                error: function(result) {
+                }
+            });
+    }
 </script>
 @endpush
 

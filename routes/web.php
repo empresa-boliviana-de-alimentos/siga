@@ -494,6 +494,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('StockActualOPMaq/{id}','insumo\insumo_solicitudes\gbOrdenProduccionController@StockActualOPMaq');
 	Route::get('OrdenProduccionCreate', 'insumo\insumo_solicitudes\gbOrdenProduccionController@ordenProduccionCreate');
 	Route::get('BoletaOrdenProduccion/{id}', 'ReportController@orden_de_produccion');
+	Route::get('BoletaOrdenProduccionRorp/{id}', 'ReportController@orden_de_produccion_rorp');
+	Route::get('BoletaOrdenProduccionSolalorp/{id}', 'ReportController@orden_de_produccion_solalorp');
 	Route::get('RecepcionORP', 'insumo\insumo_solicitudes\gbOrdenProduccionController@menuRecepcionORP');
 	Route::get('CreateRecepcionOrp', 'insumo\insumo_solicitudes\gbOrdenProduccionController@createRecepcionOrp');
 	Route::get('frmRecepORP/{id}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@showFrmRecepORP');
@@ -548,6 +550,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//SOLICITUDES RECIBIDAS DE ORP
 	Route::get('FormMostrarReceta/{id}', 'insumo\insumo_solicitudes\gbSolRecibidasController@formMostrarReceta');
+	Route::get('CambioEstadoRecepOrp/{id}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@cambioEstadoRecepOrp');
 	Route::get('AprobacionReceta', 'insumo\insumo_solicitudes\gbSolRecibidasController@aprobacionReceta');
 	Route::get('BoletaAprovReceta/{id}', 'ReportController@nota_de_salida');
 	Route::resource('solRecibidas', 'insumo\insumo_solicitudes\gbSolRecibidasController');

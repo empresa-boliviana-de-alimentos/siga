@@ -704,4 +704,76 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content)->setPaper('Letter')->setOrientation('landscape')->setOption('margin-bottom', 0);
         return $pdf->inline();
     }
+
+    public function orden_de_produccion_rorp($id_orp)
+    {
+        //dd("BOLETA DE RECEPCION ORP");
+        $username = Auth::user()->usr_usuario;
+        $title = "ORDEN DE PRODUCCIÓN";
+        $date =Carbon::now();
+
+
+
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+
+        $receta = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                ->join('insumo.sub_linea as subl','rece.rece_sublinea_id','=','subl.sublin_id')
+                ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                ->join('insumo.unidad_medida as uni','rece.rece_uni_id','=','uni.umed_id')
+                ->join('insumo.mercado as mer','insumo.orden_produccion.orprod_mercado_id','=','mer.mer_id')
+                ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_id',$id_orp)->first();
+
+        $storage = 'LINEA PRODUCCIÓN '. $this->nombreLinea($receta->rece_lineaprod_id);
+
+        $datos_json = null;
+        if ($receta->rece_lineaprod_id == 1) {
+            $datos_json = json_decode($receta->rece_datos_json);
+        }
+
+        $code = null;
+
+        $view = \View::make('reportes.orden_de_produccion_rorp', compact('username','date','title','storage','receta','datos_json'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+
+    public function orden_de_produccion_solalorp($id_solalorp)
+    {
+        //dd($id_solalorp);
+        $username = Auth::user()->usr_usuario;
+        $title = "ORDEN DE PRODUCCIÓN";
+        $date =Carbon::now();
+
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+
+        $receta = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                ->join('insumo.sub_linea as subl','rece.rece_sublinea_id','=','subl.sublin_id')
+                ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                ->join('insumo.unidad_medida as uni','rece.rece_uni_id','=','uni.umed_id')
+                ->join('insumo.mercado as mer','insumo.orden_produccion.orprod_mercado_id','=','mer.mer_id')
+                ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_id',$id_solalorp)->first();
+
+        $storage = 'LINEA PRODUCCIÓN '. $this->nombreLinea($receta->rece_lineaprod_id);
+
+        $datos_json = null;
+        if ($receta->rece_lineaprod_id == 1) {
+            $datos_json = json_decode($receta->rece_datos_json);
+        }
+
+        $code = null;
+
+        $view = \View::make('reportes.orden_de_produccion_solalorp', compact('username','date','title','storage','receta','datos_json'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
 }

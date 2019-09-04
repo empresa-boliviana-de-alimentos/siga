@@ -34,7 +34,10 @@ class OrdenProduccion extends Model
         'orprod_estado_orp',
         'orprod_estado',
         'orprod_tiempo_prod',
-        'orprod_cant_esp'
+        'orprod_cant_esp',
+        'orprod_fecha_vo',
+        'orprod_fecha_vodos',
+        'orprod_estado_recep'
     ];
 
     protected $primaryKey = 'orprod_id';
