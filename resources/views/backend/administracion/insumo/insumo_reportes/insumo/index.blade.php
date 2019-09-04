@@ -10,6 +10,7 @@
     }
     tbody td {
       background-color: #EEEEEE;
+      font-size: 10px;
     }
 </style>
 @section('main-content')
@@ -41,28 +42,28 @@
         <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-inskardex">
             <thead>
                 <tr>
-                    <th>
+                    <th class="text-center">
                         #
                     </th>
-                    <th>
-                        kARDEX VALORADO
+                    <th class="text-center">
+                        KARDEX VALORADO
                     </th>
-                    <th>
+                    <th class="text-center">
                         KARDEX FÍSICO
                     </th>
-                    <th>
+                    <th class="text-center">
                         CODIDO
                     </th>
-                    <th>
+                    <th class="text-center" style="width: 200px">
                         INSUMO
                     </th>
-                    <th style="width: 250px;">
-                        UNIDAD DE MEDIDA
+                    <th class="text-center">
+                        U. MEDIDA
                     </th>
-                    <th>
+                    <th class="text-center">
                         STOCK ACTUAL
                     </th>
-                    <th>
+                    <th class="text-center">
                         PARTIDA
                     </th>
                 </tr>

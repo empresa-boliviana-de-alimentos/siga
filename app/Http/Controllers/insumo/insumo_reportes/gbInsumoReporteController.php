@@ -52,10 +52,10 @@ class gbInsumoReporteController extends Controller {
 			->where('stock_planta_id',$planta->id_planta)->get();
 		return Datatables::of($ins)->addColumn('kardexValorado', function ($ins) {
 
-			return '<div class="text-center"><a style="background-color: #d4b729;border: none;color: white;padding: 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;border-radius: 50%;" href="RpKardexValoradoInsumo/' . $ins->ins_id . '" type="button" target="_blank"><span class="glyphicon glyphicon-usd fa-2x"></span></a></div>';
+			return '<div class="text-center"><a style="background-color: #d4b729;border: none;color: white;padding: 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 10px;margin: 4px 2px;border-radius: 50%;" href="RpKardexValoradoInsumo/' . $ins->ins_id . '" type="button" target="_blank"><span class="glyphicon glyphicon-usd fa-2x"></span></a></div>';
 		})
 			->addColumn('kardexFisico', function ($ins) {
-				return '<div class="text-center"><a style="background-color:#999;border: none;color: white;padding: 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;margin: 4px 2px;border-radius: 50%;" href="/RpKardexFisicoInsumo/' . $ins->ins_id . '" type="button" target="_blank"><span class="fa fa-file-o fa-2x"></span></a></div>';
+				return '<div class="text-center"><a style="background-color:#999;border: none;color: white;padding: 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 10px;margin: 4px 2px;border-radius: 50%;" href="/RpKardexFisicoInsumo/' . $ins->ins_id . '" type="button" target="_blank"><span class="fa fa-file-o fa-2x"></span></a></div>';
 			})
 			->addColumn('NombreInsumo', function ($ins) {
 				return $ins->ins_desc.' '.$ins->sab_nombre.' '.$ins->ins_peso_presen;
