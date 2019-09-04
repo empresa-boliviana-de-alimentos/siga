@@ -7,6 +7,7 @@
     thead th {
       background-color:#428bca;
       color: white;
+      font-size: 12px;
     }
     tbody td {
       background-color: #EEEEEE;
@@ -52,7 +53,7 @@
                         KARDEX FÍSICO
                     </th>
                     <th class="text-center">
-                        CODIDO
+                        CÓDIDO
                     </th>
                     <th class="text-center" style="width: 200px">
                         INSUMO
