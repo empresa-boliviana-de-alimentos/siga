@@ -307,6 +307,7 @@ class ReportController extends Controller
                 ->where('usr_id',Auth::user()->usr_id)->first();
 
         $reg = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                                 ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
                                 ->join('insumo.mercado as merc','insumo.orden_produccion.orprod_mercado_id','=','merc.mer_id')
                                 ->where('orprod_id','=',$id_orp_aprob)

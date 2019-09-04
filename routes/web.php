@@ -746,6 +746,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::resource('MenuCanastillos','producto_terminado\CanastilloController');
 	Route::resource('MenuDestinos','producto_terminado\DestinoController');
 	Route::resource('MenuIngresos','producto_terminado\IngresoProductoTerminadoController');
+
+	/*******************************RUTAS COMERCIAL*******************************************/
+	Route::get('DatosComercial', function(){
+		return view('backend.administracion.comercial.datos.index');
+	});
+	Route::resource('SolPedidoPvComercial', 'comercial\SolicitudPedidoPvController');
 });
 
 

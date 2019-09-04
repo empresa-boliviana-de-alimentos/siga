@@ -19,6 +19,10 @@
         <td  class="text-center bg-grey-darker text-xs text-white">Fecha Entrega:</td>
         <td colspan="3" class="text-xs uppercase">{{date('d/m/Y',strtotime($reg['orprod_modificado']))}}</td>
     </tr>
+    <tr>
+        <td  class="text-center bg-grey-darker text-xs text-white">Producto:</td>
+        <td colspan="9" class="text-xs uppercase">{{$reg['rece_nombre']}} {{$reg['sab_nombre']}} {{$reg['rece_presentacion']}}</td>
+    </tr>
 
 </table>
 <br>
