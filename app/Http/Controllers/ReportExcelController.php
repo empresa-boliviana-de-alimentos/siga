@@ -74,6 +74,20 @@ class ReportExcelController extends Controller
 
     public function RptSalidasGeneralExcel()
     {
-        dd("REPORTE GENERAL DE SALIDAS EXCEL");
+        $id_usuario = Auth::user()->usr_id;
+        $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+            ->where('usr_id', $id_usuario)->first();
+        $per = Collect($usr);
+        $id = Auth::user()->usr_id;
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+            ->where('usr_id', $id)->first();
+        $orprod = OrdenProduccion::where('orprod_planta_id',$planta->id_planta)->get();
+        $detorprod = DetalleOrdenProduccion::join('insumo.orden_produccion as orp','insumo.detalle_orden_produccion.detorprod_orprod_id','=','orp.orprod_id')->where('orprod_planta_id', '=', $planta->id_planta)->where('orprod_estado_orp','D')->orderby('detorprod_ins_id', 'ASC')->get();
+        $ufvs = Ufv::get();
+        \Excel::create('Reporte_General_Salida', function($excel) use ($detorprod, $planta) {
+             $excel->sheet('Excel sheet', function($sheet) use ($detorprod, $planta) {
+                $sheet->loadView('reportes_excel.reporte_salida_general', array('detorprod'=>$detorprod,'planta'=>$planta));
+            });
+        })->export('xlsx');
     }
 }
