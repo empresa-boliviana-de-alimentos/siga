@@ -413,13 +413,13 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 </div>
                             </div>
                     </div>
-                    <div class="col-md-12">
+                    <!--<div class="col-md-12">
                             <div class="text">
                                 <h4 style="color:#2067b4"><strong>ADICIÓN INSUMO EXTRA</strong></h4>
                             </div>
                             <insumo-adicional :lista="{{$listarInsumo}}" nombre="envasados" ></insumo-adicional>
 
-                    </div>
+                    </div>-->
                     <!--END INSUMO ADICIONAL-->
             </div>
                                <div class="row">
