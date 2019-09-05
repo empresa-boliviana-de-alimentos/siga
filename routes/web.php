@@ -761,6 +761,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('VerSolicitudPedidoProd/{id}', 'comercial\SolicitudPedidoPvController@verSolicitudPedidoProd');
 	Route::get('PuntoVentaComercial', 'comercial\PuntoVentaController@index');
 	Route::get('NuevoPuntoVenta', 'comercial\PuntoVentaController@nuevoPuntoVenta');
+	Route::get('IngresosPuntosVentaComercial', 'comercial\IngresoPuntoVentaController@index');
 });
 
 
