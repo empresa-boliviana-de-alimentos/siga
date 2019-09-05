@@ -40,5 +40,15 @@ class SolicitudPedidoPvController extends Controller
     public function verSolicitudPedidoPv($id)
     {
         return view('backend.administracion.comercial.solicitud_recibida_pv.verFormSolicitudRecibidaPedidoPv');
+    }
+    //SOLICITUDES RECIBIDAS DE PEDIDOS DE PRODUCCION
+    public function indexSolPedidoProdRecibidas()
+    {
+        return view('backend.administracion.comercial.solicitud_recibida_prod.index');
+    }
+    public function verSolicitudPedidoProd($id)
+    {
+        //dd("FORMULARIO SOLICITUD DE PEDIDO PRODUCCION");
+        return view('backend.administracion.comercial.solicitud_recibida_prod.verFormSolicitudRecibidaPedidoProd');
     } 
 }
