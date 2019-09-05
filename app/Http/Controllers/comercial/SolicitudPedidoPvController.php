@@ -31,4 +31,14 @@ class SolicitudPedidoPvController extends Controller
                                 ->join('insumo.unidad_medida as umed','insumo.receta.rece_uni_id','=','umed.umed_id')->get();
         return view('backend.administracion.comercial.solicitud_pedido_prod.formNuevaSolicitudPedidoProd', compact('listarProducto'));
     }
+    //SOLICITUDES RECIBIDAS DE PEDIDOS PUNTOS DE VENTA
+    public function indexSolPedidoPvRecibidas()
+    {
+        //dd("PRUEBA DE SOLCITUDES RECIBIDAS");
+        return view('backend.administracion.comercial.solicitud_recibida_pv.index');
+    }
+    public function verSolicitudPedidoPv($id)
+    {
+        return view('backend.administracion.comercial.solicitud_recibida_pv.verFormSolicitudRecibidaPedidoPv');
+    } 
 }
