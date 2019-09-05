@@ -132,7 +132,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <div class="col-md-12">
                     <div class="col-lg-12">
                         <div class="text-right">
-                           <a class="btn btn-danger btn-lg" href="{{ url('SolPedidoPvComercial') }}" type="button">Cerrar</a>
+                           <a class="btn btn-danger btn-lg" href="{{ url('PuntoVentaComercial') }}" type="button">Cerrar</a>
                             <input type="submit"  value="Registrar" class="btn btn-success btn-lg">
                         </div>
                     </div>
