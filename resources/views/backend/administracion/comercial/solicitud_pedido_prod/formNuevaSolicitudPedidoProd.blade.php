@@ -17,7 +17,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         <div class="container col-lg-12" style="background: white;">
             <?php $now = new DateTime('America/La_Paz');?>
             <div class="text-center">
-                <h3 style="color:#2067b4"><strong>SOLICITAR PEDIDO PARA PUNTO DE VENTA</strong></h3>
+                <h3 style="color:#2067b4"><strong>SOLICITAR ORDEN DE PEDIDO</strong></h3>
             </div>
             <form action="#" class="form-horizontal" method="GET">
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
@@ -44,16 +44,21 @@ table.dataTable tbody th, table.dataTable tbody td {
                     </div>
                     <div class="col-md-4">
                         <label>
-                            Punto de Venta:
+                            Fecha Posible Entrega:
                         </label>
-                        <input type="text" name="" class="form-control" value="TELEFERICO ROJO" readonly>
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="text" class="form-control">
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>                
                 <div class="col-md-12">
                     <h4><strong>DETALLE SOLICITUD</strong></h4>
                 </div>
                 <div class="col-md-12">
-                    <producto-comercialpv :lista="{{$listarProducto}}" nombre="productos" ></producto-comercialpv>
+                    <producto-comercialpvlinea :lista="{{$listarProducto}}" nombre="productos" ></producto-comercialpvlinea>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
@@ -67,7 +72,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="text-right">
-                            <a class="btn btn-danger btn-lg" href="{{ url('SolPedidoPvComercial') }}" type="button">
+                            <a class="btn btn-danger btn-lg" href="{{ url('SolPedidoProdComercial') }}" type="button">
                             Cerrar
                             </a>
                             <input type="submit"  value="Registrar" class="btn btn-success btn-lg">
@@ -83,6 +88,6 @@ table.dataTable tbody th, table.dataTable tbody td {
 @endsection
 @push('scripts')
 <script>
-
+$('.datepicker').datepicker();
 </script>
 @endpush

@@ -29,6 +29,8 @@ Vue.component('material-envasado', require('./components/MaterialEnvasadoCompone
 Vue.component('insumo-orp', require('./components/InsumoOrp.vue').default);
 Vue.component('pedido-orp', require('./components/PedidoOrp.vue').default);
 Vue.component('insumo-adicional', require('./components/InsumoAdicionalComponent.vue').default);
+Vue.component('producto-comercialpv', require('./components/ProductoComercialComponent.vue').default);
+Vue.component('producto-comercialpvlinea', require('./components/ProductoComercialComponentLinea.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
