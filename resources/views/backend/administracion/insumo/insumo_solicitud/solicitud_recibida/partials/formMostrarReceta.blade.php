@@ -366,7 +366,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                         </div>
                     </div>
                     <!--INSUMO ADICIONAL-->
-                    <div class="col-md-12">
+                    <!--<div class="col-md-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title">ADICCION INSUMO EXTRA</h3>
@@ -386,10 +386,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                 <th>Cantidad</th>
                                                 <th>Stock</th>
                                                 <th>Opcion</th>
-                                                <!-- <th>Rango Adicional</th>                                             -->
+                                                                                           
                                             <tr class="items_columsReceta2" id="tdformbase">
                                                 <td><select name="descripcion_base[]" class="descripcion_base form-control">
-                                                        <!--<option value="">Seleccione</option>-->
+                                                        
                                                         @foreach($listarInsumo as $insumo)
                                                             <option value="{{$insumo->ins_id}}">{{ $insumo->ins_codigo.' - '.$insumo->ins_desc.' '.$insumo->sab_nombre.' '.$insumo->ins_peso_presen}}</option>
                                                         @endforeach
@@ -406,20 +406,20 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                 <td>
                                                     <input type="hidden" name="detorprod_ins_id_adi[]" value="">
                                                 </td>
-                                                <!-- <td><input type="text" name="rango[]" class="form-control"></td> -->
+                                                
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                    <!--<div class="col-md-12">
+                    </div>-->
+                    <div class="col-md-12">
                             <div class="text">
                                 <h4 style="color:#2067b4"><strong>ADICIÓN INSUMO EXTRA</strong></h4>
                             </div>
                             <insumo-adicional :lista="{{$listarInsumo}}" nombre="envasados" ></insumo-adicional>
 
-                    </div>-->
+                    </div>
                     <!--END INSUMO ADICIONAL-->
             </div>
                                <div class="row">
