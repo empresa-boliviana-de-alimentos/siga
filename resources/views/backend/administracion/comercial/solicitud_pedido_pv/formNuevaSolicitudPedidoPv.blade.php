@@ -53,7 +53,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                     <h4><strong>DETALLE SOLICITUD</strong></h4>
                 </div>
                 <div class="col-md-12">
-                    <material-envasado :lista="{{$listarInsumo}}" nombre="bases" ></material-envasado>
+                    <producto-comercialpv :lista="{{$listarProducto}}" nombre="productos" ></producto-comercialpv>
                 </div>
                 <div class="row">
                     <div class="col-md-12">

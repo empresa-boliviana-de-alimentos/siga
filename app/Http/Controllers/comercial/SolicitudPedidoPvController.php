@@ -14,8 +14,8 @@ class SolicitudPedidoPvController extends Controller
     }
     public function nuevaSolicitudPedidoPv()
     {
-    	$listarInsumo = Insumo::with('unidad_medida')->leftjoin('insumo.sabor as sab','insumo.insumo.ins_id_sabor','=','sab.sab_id')
-                                ->where('ins_id_tip_ins',1)->orWhere('ins_id_tip_ins',3)->get();
-    	return view('backend.administracion.comercial.solicitud_pedido_pv.formNuevaSolicitudPedidoPv', compact('listarInsumo'));    
+    	$listarProducto = Receta::leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
+                                ->join('insumo.unidad_medida as umed','insumo.receta.rece_uni_id','=','umed.umed_id')->get();
+    	return view('backend.administracion.comercial.solicitud_pedido_pv.formNuevaSolicitudPedidoPv', compact('listarProducto'));    
     }
 }
