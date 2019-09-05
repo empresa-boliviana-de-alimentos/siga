@@ -29,7 +29,7 @@
                 <td><div class="text-center"><a href='#' @click="removeItem(index)" class='btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div></td>
             </tr>
         </table>
-        <input type="text" :name="nombre" :value="JSON.stringify(envasados)">
+        <input type="text" :name="nombre" :value="JSON.stringify(envasados)" hidden>
 
     </div>
 </div>

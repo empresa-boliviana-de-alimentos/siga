@@ -145,6 +145,7 @@ class gbSolRecibidasController extends Controller
     }
     public function aprobacionReceta(Request $request)
     {
+
         if ($request['detorprod_estado']) {
             $detorprod_estado = $request['detorprod_estado'];
             $detorprod_cantidad = $request['detorprod_cantidad'];
@@ -155,11 +156,12 @@ class gbSolRecibidasController extends Controller
                     $ins_datos[] = array("detorprod_id"=>$detorprod_id[$i],"detorprod_ins_id"=>$detorprod_ins_id[$i],"detorprod_estado"=>'B');
                 }                 
             }
-            $detorprod_ins_id_adi = $request['detorprod_ins_id_adi'];
+            /*$detorprod_ins_id_adi = $request['detorprod_ins_id_adi'];
             $detorprod_cantidad_adi = $request['detorprod_cantidad_adi'];
             for ($j=0; $j <sizeof($detorprod_ins_id_adi) ; $j++) { 
                 $ins_datos_adi[] = array("detorpord_ins_id_adi"=>$detorprod_ins_id_adi[$j],"detorprod_cantidad_adi"=>$detorprod_cantidad_adi[$j]);
-            }
+            }*/
+            $ins_datos_adi =  json_decode($request->envasados);
             $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
             $id_planta=$planta->id_planta;
             $num = OrdenProduccion::join('public._bp_planta as plant', 'insumo.orden_produccion.orprod_planta_id', '=', 'plant.id_planta')->select(DB::raw('MAX(orprod_nro_salida) as nrosal'))->where('plant.id_planta', $id_planta)->first();
@@ -175,8 +177,8 @@ class gbSolRecibidasController extends Controller
             foreach ($ins_datos_adi as $ins_orp_adi) {
                 DetalleOrdenProduccion::create([
                     'detorprod_orprod_id'   => $request['id_orp'],
-                    'detorprod_ins_id'      => $ins_orp_adi['detorpord_ins_id_adi'],
-                    'detorprod_cantidad'    => $ins_orp_adi['detorprod_cantidad_adi'],
+                    'detorprod_ins_id'      => $ins_orp_adi->id,
+                    'detorprod_cantidad'    => $ins_orp_adi->cantidad,
                     'detorprod_fc'          => 0,
                     'detorprod_cantidad_cal'=> 0,
                 ]);
