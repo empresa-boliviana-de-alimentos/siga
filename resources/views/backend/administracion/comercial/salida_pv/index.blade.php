@@ -20,7 +20,7 @@
                 
             </div>
             <div class="col-md-7 text-center">
-                <p class="panel-title">PUNTOS DE VENTA / SUCURSALES</p>
+                <p class="panel-title">SALIDAS POR VENTA</p>
             </div>
             <div class="col-md-3 text-right">
                 <a href="{{url('NuevoPuntoVenta')}}" class="btn btn-default btn-xs" style="background: #616A6B;">
