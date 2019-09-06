@@ -5,10 +5,10 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-2">
-                <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('solTraspaso') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
+                
             </div>
             <div class="col-md-7 text-center">
-                <p class="panel-title">SOLICITUD INSUMO POR TRASPASO</p>
+                <p class="panel-title">INGRESO PRODUCTOS</p>
             </div>
             <div class="col-md-3 text-right">
             </div>
