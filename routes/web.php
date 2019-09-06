@@ -763,6 +763,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('NuevoPuntoVenta', 'comercial\PuntoVentaController@nuevoPuntoVenta');
 	Route::get('IngresosPuntosVentaComercial', 'comercial\IngresoPuntoVentaController@index');
 	Route::get('ListarProductos', 'comercial\IngresoPuntoVentaController@listarProductos');
+	Route::get('TraspasosPuntoVentaComercial', 'comercial\TraspasoPuntoVentaController@index');
+	Route::get('CarritoSolicitudTraspaso', 'comercial\TraspasoPuntoVentaController@carritoSolicitudTraspaso');
 });
 
 
