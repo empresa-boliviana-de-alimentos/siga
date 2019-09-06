@@ -13,18 +13,39 @@
                         <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                             <input id="id_planta_confirm" name="id_planta_confirm" type="hidden" value="">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label>
-                                                    PLANTA:
+                                                    FECHA INGRESO:
                                                 </label>
-                                                <input type="text" name="nombre_planta_confirm" id="nombre_planta_confirm" value="" class="form-control" readonly="true">
+                                                <input type="text" name="nombre_planta_confirm" id="nombre_planta_confirm" value="06/09/2019" class="form-control" readonly="true">
                                             </div>
                                         </div>
                                     </div>
-                                   
-                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label>
+                                                    COSTO TOTAL:
+                                                </label>
+                                                <input type="text" name="nombre_planta_confirm" id="nombre_planta_confirm" value="12000.20" class="form-control" readonly="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <label>
+                                                    ORIGEN:
+                                                </label>
+                                                <select class="form-control">
+                                                    <option value="1">PUNTO DE VENTA</option>
+                                                    <option value="2">PUNTO DE VENTA TRANSITORIO</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>                            
                                 </div>
                                 <div class="row"> 
                                     <div class="col-md-12">                                                      
@@ -45,7 +66,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-sm-12">
+                                        <div class="col-md-12">
                                             <label>
                                                 Obseraciones:
                                             </label>

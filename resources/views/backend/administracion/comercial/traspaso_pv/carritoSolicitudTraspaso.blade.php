@@ -5,10 +5,10 @@
     <div class="panel-heading">
         <div class="row">
             <div class="col-md-2">
-                <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('solTraspaso') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
+                <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('TraspasosPuntoVentaComercial') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
             </div>
             <div class="col-md-7 text-center">
-                <p class="panel-title">SOLICITUD INSUMO POR TRASPASO</p>
+                <p class="panel-title">SOLICITUD NUEVA TRASPASO</p>
             </div>
             <div class="col-md-3 text-right">
             </div>
@@ -20,6 +20,15 @@
             <div class="box">
                 <div class="row">
                   <div class="col-md-6">
+                    <label>DE:</label>
+                    <input type="" name="" value="TELEFERICO ROJO" class="form-control" readonly>
+                  </div>
+                  <div class="col-md-6">
+                    <label>A:</label>
+                    <select class="form-control">
+                        <option value="1">TELEFERICO ROJO</option>
+                        <option value="2">ECOBOL</option>
+                    </select>
                   </div>
                 </div>
                 <div class="box-header with-border"></div>
@@ -30,10 +39,10 @@
                                     <th width="5%" class="text-center">#</th>
                                     <th width="20%" class="text-center">CODIGO</th>
                                     <th width="25%" class="text-center">PRODUCTO</th>
-                                    <th width="10%" class="text-center">CANTIDAD</th>
-                                    <th width="10%" class="text-center">COSTO</th>
                                     <th width="10%" class="text-center">LOTE</th>
                                     <th width="10%" class="text-center">F. VENC.</th>
+                                    <th width="10%" class="text-center">STOCK</th>
+                                    <th width="10%" class="text-center">CANTIDAD</th>
                                     <th width="10%" class="text-center">OPCIÓN</th>
                                     <th></th>
                                 </tr>
@@ -50,10 +59,10 @@
                                     @else
                                         <td width="10%" class="text-center">{{$receta->rece_nombre}} {{$receta->sab_nombre}} {{$receta->rece_presentacion}}</td>
                                     @endif
-                                        <td width="10%" class="text-center"><input style="width: 105px" type="number" name="" class="form-control"></td>
-                                        <td width="10%" class="text-center"><input style="width: 95px" type="number" name="" class="form-control"></td>
-                                        <td width="10%" class="text-center"><input style="width: 130px" type="text" name="" class="form-control"></td>
-                                        <td width="10%" class="text-center"><input style="width: 100px" type="" name="" class="form-control datepicker"></td>
+                                        <td width="10%" class="text-center">17JUN19</td>
+                                        <td width="10%" class="text-center">20/02/2020</td>
+                                        <td width="10%" class="text-center">1200.00</td>
+                                        <td width="10%" class="text-center"><input style="width: 100px" type="number" name="" class="form-control"></td>
                                         <td width="10%" class="text-center"><button class="btncirculo btn-success btn-xs" onClick="MostrarCarrito()">+</button></td>
                                         <td><input type="hidden" name="" value="{{$receta->rece_id}}"></td>
                                     </tr>
@@ -62,13 +71,13 @@
                             <tfoot>
                                 <tr>
                                     <th width="5%" class="text-center">#</th>
-                                    <th width="20%" class="text-center">Cod. Producto</th>
-                                    <th width="25%" class="text-center">Producto</th>
-                                    <th width="10%" class="text-center">Cantidad</th>
-                                    <th width="10%" class="text-center">Costo</th>
-                                    <th width="10%" class="text-center">Lote</th>
-                                    <th width="10%" class="text-center">Fecha Vencimiento</th>
-                                    <th width="10%" class="text-center">Acciones</th>
+                                    <th width="20%" class="text-center">CODIGO</th>
+                                    <th width="25%" class="text-center">PRODUCTO</th>
+                                    <th width="10%" class="text-center">LOTE</th>
+                                    <th width="10%" class="text-center">F. VENC.</th>
+                                    <th width="10%" class="text-center">STOCK</th>
+                                    <th width="10%" class="text-center">CANTIDAD</th>
+                                    <th width="10%" class="text-center">OPCIÓN</th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -90,8 +99,8 @@
                                         <th>codigo</th>
                                         <th>Producto</th>
                                         <th>Cant.</th>
-                                        <th>Costo</th>
-                                        <th>Subtotal</th>
+                                        <th>Lote</th>
+                                        <th>F. Venc.</th>
                                         <th>Opción</th>
                                     </tr>
                                 </thead>
