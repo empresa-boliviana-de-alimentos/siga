@@ -8,6 +8,10 @@
       background-color:#428bca;
       color: white;
     }
+    tfoot th {
+      background-color:#428bca;
+      color: white;
+    }
     tbody td {
       background-color: #EEEEEE;
     }
@@ -63,75 +67,54 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($puntos_ventas as $punto_venta)
                             	<tr>
                             		<td class="text-center">
-                                        1
+                                        {{ $punto_venta->pv_id}}
                                     </td>
                                     <td class="text-center">
-                                        SUC-1
+                                        {{ $punto_venta->pv_codigo}}
                                     </td>
                                     <td class="text-center">
-                                        TELEFERICO ROJO
+                                        {{ $punto_venta->pv_nombre }}
                                     </td>
                                     <td class="text-center">
-                                        PUNTO DE VENTA AL POR MENOR
+                                        {{ $punto_venta->pv_descripcion }}
                                     </td>
                                     <td class="text-center">
-                                        LA PAZ
+                                        {{ $punto_venta->depto_nombre }}
                                     </td>
                                     <td class="text-center">
-                                        VENTAS AL POR MENOR
+                                        {{ $punto_venta->pv_actividad_economica }}
                                     </td>
                                     <td class="text-center">
-                                        PUNTO DE VENTA
+                                        {{ $punto_venta->pv_tipopv_id }}
                                     </td>
                             	</tr>
-                                <tr>
-                                    <td class="text-center">
-                                        2
-                                    </td>
-                                    <td class="text-center">
-                                        SUC-2
-                                    </td>
-                                    <td class="text-center">
-                                        VILLA FATIMA
-                                    </td>
-                                    <td class="text-center">
-                                        PUNTO DE VENTA ALMACÉN TRANSITORIO
-                                    </td>
-                                    <td class="text-center">
-                                        LA PAZ
-                                    </td>
-                                    <td class="text-center">
-                                        VENTAS AL POR MENOR
-                                    </td>
-                                    <td class="text-center">
-                                        PUNTO DE VENTA TRANSITORIO
-                                    </td>
-                                </tr>
+                                @endforeach                                
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th class="text-center">
+                                   <th class="text-center">
                                         #
                                     </th>
                                     <th class="text-center">
-                                        NRO SOLICITUD
+                                        COD. SUC
                                     </th>
                                     <th class="text-center">
-                                        REPORTE SOLICITUD
+                                        NOMBRE
                                     </th>
                                     <th class="text-center">
-                                        FECHA SOLICITUD
+                                        DESCRIPCIÓN
                                     </th>
                                     <th class="text-center">
-                                        CANTIDAD PRODUCTO
+                                        DEPARTAMENTO
                                     </th>
                                     <th class="text-center">
-                                        OBSERVACIONES
+                                        ACTIVIDAD ECONÓMICA
                                     </th>
                                     <th class="text-center">
-                                        ESTADO
+                                        TIPO
                                     </th>
                                 </tr>
                             </tfoot>
