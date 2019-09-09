@@ -38,11 +38,11 @@
                             <div class="panel-body">
                                 <div class="row">                                                                  
                                     <div class="col-sm-4 social-buttons">                                
-                                            <a href="#">
+                                            <a href="{{url('TipoPuntoVenta')}}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
-                                                      <h4>PUNTOS DE VENTA</h4>
-                                                      <p>REGISTRO DE PUNTO DE VENTA</p>
+                                                      <h4>TIPO PUNTO DE VENTA</h4>
+                                                      <p>REGISTRO DE  TIPO PUNTO DE VENTA</p>
                                                     </div>
                                                     <div class="icon efectoicon">
                                                       <img src="img/botones/almacenes_cambio_lacteos.png" alt="" width="80">
