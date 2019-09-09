@@ -19,22 +19,22 @@ table.dataTable tbody th, table.dataTable tbody td {
             <div class="text-center">
                 <h3 style="color:#2067b4"><strong>CREACIÓN DE PUNTO DE VENTA</strong></h3>
             </div>
-            <form action="#" class="form-horizontal" method="GET">
-                <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
-                <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
+            <form action="{{url('RegistrarNuevoPuntoVenta')}}" class="form-horizontal" method="post">
+                {{ csrf_field() }}               
+                <input id="fecha_resgistro" name="fecha_registro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="nro_acopio" id="nro_acopio" value="">                    
                 <div class="col-md-12">
                     <div class="col-md-6">
                         <label>
                             Nombre:
                         </label>
-                        <input type="text" name="" class="form-control">
+                        <input type="text" name="nombre_pv" class="form-control" required>
                     </div>
                     <div class="col-md-6">
                         <label>
                             Dirección:
                         </label>
-                        <input type="" name="" class="form-control" value="">
+                        <input type="" name="direccion_pv" class="form-control" value="" required>
                     </div>
                 </div>                
                 <div class="col-md-12">
@@ -42,7 +42,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                         <label>
                             Descripción:
                         </label>
-                        <input class="form-control" name="descripcion">
+                        <input class="form-control" name="descripcion_pv" required>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -50,31 +50,26 @@ table.dataTable tbody th, table.dataTable tbody td {
                         <label>
                             Teléfono:
                         </label>
-                        <input type="text" name="fecha" class="form-control">
+                        <input type="text" name="telefono_pv" class="form-control" required>
                     </div>
                     <div class="col-md-4">
                         <label>
                             Reponsable:
                         </label>
-                        <select class="form-control">
-                            <option value="1">RONALD VASQUEZ</option>
-                            <option value="2">RENE VARGAS</option>
+                        <select class="form-control" name="responsable_pv" id="responsable">
+                            @foreach($usuarios as $usuario)
+                                <option value="{{$usuario->usr_id}}">{{$usuario->prs_nombres}} {{$usuario->prs_paterno}} {{$usuario->prs_materno}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-4">
                         <label>
                             Departamento:
                         </label>
-                        <select class="form-control">
-                            <option value="1">LA PAZ</option>
-                            <option value="2">COCHABAMBA</option>
-                            <option value="3">SANTA CRUZ</option>
-                            <option value="4">ORURO</option>
-                            <option value="5">POTOSI</option>
-                            <option value="6">CHUQUISACA</option>
-                            <option value="7">TARIJA</option>
-                            <option value="8">PANDO</option>
-                            <option value="9">BENI</option>
+                        <select class="form-control" name="departamento_pv">
+                            @foreach($departamentos as $depto)
+                                <option value="{{$depto->depto_id}}">{{$depto->depto_nombre}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -83,7 +78,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                         <label>
                             Actividad Económica:
                         </label>
-                        <input type="" name="" class="form-control">
+                        <input type="" name="actividad_economica_pv" class="form-control" required>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -91,9 +86,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                         <label>
                             Tipo:
                         </label>
-                        <select class="form-control" id="tipoPv">
-                            <option value="1">PUNTO DE VENTA</option>
-                            <option value="2">PUNTO DE VENTA TRANSITORIO</option>
+                        <select class="form-control" id="tipoPv" name="tipo_pv">
+                            @foreach($tipo_pv as $tipv)
+                                <option value="{{$tipv->tipopv_id}}">{{$tipv->tipopv_nombre}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="ocultarPv" style="display:none;">
@@ -102,7 +98,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 Fecha Inicio:
                             </label>
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="fecha_inicio_pv">
                                 <div class="input-group-addon">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </div>
@@ -113,7 +109,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                 Fecha Fin:
                             </label>
                             <div class="input-group date" data-provide="datepicker">
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="fecha_fin_pv">
                                 <div class="input-group-addon">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </div>
@@ -126,7 +122,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                         <label>
                             Observaciones:
                         </label>
-                        <textarea class="form-control" name="observacion"></textarea>
+                        <textarea class="form-control" name="observacion_pv"></textarea>
                     </div>
                 </div>    
                 <div class="col-md-12">
@@ -155,5 +151,7 @@ $('#tipoPv').change(function(){
         $('.ocultarPv').show();
     } 
 });
+
+$('#responsable').select2();
 </script>
 @endpush
