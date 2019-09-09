@@ -8,6 +8,10 @@
       background-color:#428bca;
       color: white;
     }
+    tfoot th {
+      background-color:#428bca;
+      color: white;
+    }
     tbody td {
       background-color: #EEEEEE;
     }
@@ -91,26 +95,26 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th class="text-center">
+                                   <th class="text-center">
                                         #
                                     </th>
                                     <th class="text-center">
-                                        NRO SOLICITUD
+                                        COD. SUC
                                     </th>
                                     <th class="text-center">
-                                        REPORTE SOLICITUD
+                                        NOMBRE
                                     </th>
                                     <th class="text-center">
-                                        FECHA SOLICITUD
+                                        DESCRIPCIÓN
                                     </th>
                                     <th class="text-center">
-                                        CANTIDAD PRODUCTO
+                                        DEPARTAMENTO
                                     </th>
                                     <th class="text-center">
-                                        OBSERVACIONES
+                                        ACTIVIDAD ECONÓMICA
                                     </th>
                                     <th class="text-center">
-                                        ESTADO
+                                        TIPO
                                     </th>
                                 </tr>
                             </tfoot>

@@ -26,20 +26,22 @@ class PuntoVentaController extends Controller
     }
     public function registrarNuevoPuntoVenta(Request $request)
     {
-    	PuntoVenta::create([
+    	$punto_venta = PuntoVenta::create([
     		'pv_nombre' 			=> $request['nombre_pv'],
     		'pv_direccion' 			=> $request['direccion_pv'],
     		'pv_descripcion'		=> $request['descripcion_pv'],
     		'pv_telefono'			=> $request['telefono_pv'],
     		'pv_usr_responsable'	=> $request['responsable_pv'],
     		'pv_tipopv_id'			=> $request['tipo_pv'],
-    		'pv_codigo'				=> 'SUC-1',
+    		'pv_codigo'				=> '',
     		'pv_depto_id'			=> $request['departamento_pv'],
     		'pv_actividad_economica'=> $request['actividad_economica_pv'],
     		'pv_fecha_inicio'		=> $request['fecha_inicio_pv'],
     		'pv_fecha_fin'			=> $request['fecha_fin_pv'],
     		'pv_usr_id'				=> Auth::user()->usr_id
     	]);
+        $punto_venta->pv_codigo = 'SUC-'.$punto_venta->pv_id;
+        $punto_venta->save();
     	return redirect('PuntoVentaComercial')->with('success','Registro creado satisfactoriamente');
     }
 }
