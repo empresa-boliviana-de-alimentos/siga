@@ -22,6 +22,7 @@ class PuntoVenta extends Model
         'pv_fecha_inicio',
         'pv_fecha_fin',
         'pv_usr_id',
+        'pv_id_planta',
         'pv_registrado',
         'pv_modificado',
         'pv_estado'

@@ -22,7 +22,7 @@
                                                     Nombre:
                                                 </label>
                                                 <span class="block input-icon input-icon-right">
-                                                    {!! Form::text('nombre', null, array('placeholder' => 'Nombre Color','maxlength'=>'200','class' => 'form-control','id'=>'nombre','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
+                                                    {!! Form::text('nombre', null, array('placeholder' => 'Nombre tipo punto de venta','maxlength'=>'200','class' => 'form-control','id'=>'nombre','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                                                 </span>  
                                             </div>
                                         </div>
@@ -34,7 +34,7 @@
                                                     Descripción:
                                                 </label>
                                                 <span class="block input-icon input-icon-right">
-                                                    {!! Form::textarea('descripcion', null, array('placeholder' => 'Nombre Color','class' => 'form-control','id'=>'descripcion','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
+                                                    {!! Form::textarea('descripcion', null, array('placeholder' => 'Descripcion al tipo punto de venta','class' => 'form-control','id'=>'descripcion','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                                                 </span>  
                                             </div>
                                         </div>

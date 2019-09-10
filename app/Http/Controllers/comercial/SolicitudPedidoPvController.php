@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use siga\Http\Controllers\Controller;
 use siga\Modelo\insumo\insumo_registros\Insumo;
 use siga\Modelo\insumo\insumo_recetas\Receta;
+use siga\Modelo\admin\Usuario;
+use Auth;
 class SolicitudPedidoPvController extends Controller
 {
     //SOLCITUD PEDIDO PUNTO DE VENTA
@@ -17,7 +19,11 @@ class SolicitudPedidoPvController extends Controller
     {
     	$listarProducto = Receta::leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
                                 ->join('insumo.unidad_medida as umed','insumo.receta.rece_uni_id','=','umed.umed_id')->get();
-    	return view('backend.administracion.comercial.solicitud_pedido_pv.formNuevaSolicitudPedidoPv', compact('listarProducto'));    
+        $solicitante = Usuario::join('public._bp_personas as prs','public._bp_usuarios.usr_prs_id','=','prs.prs_id')
+                              ->where('usr_id',Auth::user()->usr_id)->first();
+        $punto_venta = Usuario::join('public._bp_planta as pl','public._bp_usuarios.usr_planta_id','=','pl.id_planta')
+                              ->where('usr_id',Auth::user()->usr_id)->first();
+    	return view('backend.administracion.comercial.solicitud_pedido_pv.formNuevaSolicitudPedidoPv', compact('listarProducto','solicitante','punto_venta'));    
     }
     //SOLICITUD PEDIDO PRODUCCIÓN
     public function indexSolPedidoProdComercial()

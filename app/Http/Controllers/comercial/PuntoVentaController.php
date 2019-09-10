@@ -7,6 +7,7 @@ use siga\Http\Controllers\Controller;
 use siga\Http\Modelo\comercial\PuntoVenta;
 use siga\Http\Modelo\comercial\TipoPv;
 use siga\Modelo\admin\Usuario;
+use siga\Http\Modelo\admin\Planta;
 use DB;
 use Auth;
 class PuntoVentaController extends Controller
@@ -14,6 +15,7 @@ class PuntoVentaController extends Controller
     public function index()
     {
     	$puntos_ventas = PuntoVenta::join('comercial.departamento_comercial as depto','comercial.punto_venta_comercial.pv_depto_id','=','depto.depto_id')
+        ->join('comercial.tipo_pv_comercial as tipopv','comercial.punto_venta_comercial.pv_tipopv_id','=','tipopv.tipopv_id')
     								->where('pv_estado','A')->get();
     	return view('backend.administracion.comercial.punto_venta.index', compact('puntos_ventas'));
     }
@@ -25,7 +27,11 @@ class PuntoVentaController extends Controller
     	return view('backend.administracion.comercial.punto_venta.nuevoFormPuntoVenta', compact('tipo_pv','usuarios','departamentos'));
     }
     public function registrarNuevoPuntoVenta(Request $request)
-    {
+    {   
+        $planta = Planta::create([
+            'nombre_planta'         => $request['nombre_pv'],
+            'tipo'                  => 2
+        ]);
     	$punto_venta = PuntoVenta::create([
     		'pv_nombre' 			=> $request['nombre_pv'],
     		'pv_direccion' 			=> $request['direccion_pv'],
@@ -36,9 +42,10 @@ class PuntoVentaController extends Controller
     		'pv_codigo'				=> '',
     		'pv_depto_id'			=> $request['departamento_pv'],
     		'pv_actividad_economica'=> $request['actividad_economica_pv'],
-    		'pv_fecha_inicio'		=> $request['fecha_inicio_pv'],
-    		'pv_fecha_fin'			=> $request['fecha_fin_pv'],
-    		'pv_usr_id'				=> Auth::user()->usr_id
+    		'pv_fecha_inicio'		=> date('Y-m-d',strtotime($request['fecha_inicio_pv'])),
+    		'pv_fecha_fin'			=> date('Y-m-d',strtotime($request['fecha_fin_pv'])),
+    		'pv_usr_id'				=> Auth::user()->usr_id,
+            'pv_id_planta'          => $planta->id_planta
     	]);
         $punto_venta->pv_codigo = 'SUC-'.$punto_venta->pv_id;
         $punto_venta->save();

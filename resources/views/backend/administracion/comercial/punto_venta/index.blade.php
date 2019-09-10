@@ -88,7 +88,7 @@
                                         {{ $punto_venta->pv_actividad_economica }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $punto_venta->pv_tipopv_id }}
+                                        {{ $punto_venta->tipopv_nombre }}
                                     </td>
                             	</tr>
                                 @endforeach                                

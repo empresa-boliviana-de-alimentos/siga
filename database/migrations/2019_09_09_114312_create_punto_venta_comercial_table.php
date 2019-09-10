@@ -29,6 +29,7 @@ class CreatePuntoVentaComercialTable extends Migration
             $table->date('pv_fecha_inicio')->nullable();
             $table->date('pv_fecha_fin')->nullable();
             $table->integer('pv_usr_id');
+            $table->integer('pv_id_planta');
             $table->timestamp('pv_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('pv_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->char('pv_estado',1)->default('A');        });
