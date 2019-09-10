@@ -48,8 +48,20 @@
                                                       <img src="img/botones/almacenes_cambio_lacteos.png" alt="" width="80">
                                                     </div>
                                                 </div>
+                                            </a>   
+                                            <a href="{{url('ProductosComercial')}}">
+                                                <div class="small-box bg-blue-gradient efectoboton">
+                                                    <div class="inner">
+                                                      <h4>PRODUCTOS</h4>
+                                                      <p>LISTADO DE PRODUCTOS</p>
+                                                    </div>
+                                                    <div class="icon efectoicon">
+                                                      <img src="img/botones/almacenes_cambio_lacteos.png" alt="" width="80">
+                                                    </div>
+                                                </div>
                                             </a>                                
                                     </div>
+
                                     <div class="col-sm-8">
                                       <div class="row">
                                         <div class="col-sm-12">

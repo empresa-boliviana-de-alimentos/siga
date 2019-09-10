@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use siga\Http\Controllers\Controller;
 use Yajra\Datatables\Datatables;
 use siga\Http\Modelo\comercial\TipoPv;
+use siga\Http\Modelo\comercial\Producto;
 use DB;
 use Auth;
 
@@ -60,5 +61,28 @@ class DatoComercialController extends Controller
 		$tipopv->tipopv_estado = 'B';
 		$tipopv->save();
 		return response()->json(['mensaje' => 'Se elimino correcta,ente']);
+	}
+
+	//PRODUCTOS
+	public function indexProductos()
+	{
+		$productos = Producto::join('insumo.receta as rece', 'comercial.producto_comercial.prod_rece_id','=','rece.rece_id')
+									->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+									->orderBy('prod_id','DESC')->get();
+		return view('backend.administracion.comercial.datos.productos.index', compact('productos'));
+	}
+	public function mostrarProducto($id)
+	{
+		$producto = Producto::join('insumo.receta as rece', 'comercial.producto_comercial.prod_rece_id','=','rece.rece_id')
+							->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+							->where('prod_id',$id)->first();
+		return response()->json($producto->toArray());
+	}
+	public function modificarCodProducto(Request $request, $id)
+	{
+		$producto = Producto::find($id);
+		$producto->prod_codigo = $request['codigo_producto'];
+		$producto->save();
+		return response()->json(['mensaje' => 'Se actualizo el codigo de producto']);
 	}
 }
