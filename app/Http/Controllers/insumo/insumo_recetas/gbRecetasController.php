@@ -12,6 +12,7 @@ use siga\Modelo\insumo\insumo_recetas\Receta;
 use siga\Modelo\insumo\insumo_recetas\DetalleReceta;
 use siga\Modelo\insumo\insumo_registros\Sabor;
 use siga\Modelo\insumo\insumo_registros\SubLinea;
+use siga\Http\Modelo\comercial\Producto;
 use siga\Modelo\admin\Usuario;
 use Yajra\Datatables\Datatables;
 use DB;
@@ -300,6 +301,10 @@ class gbRecetasController extends Controller
             // 'rece_umed_repre'=> $request['unidad_presentacion'],
             // 'rece_obs'              => $request['observaciones'],
 
+        ]);
+        $producto_comercial = Producto::create([
+            'prod_rece_id'  => $receta->rece_id,
+            'prod_codigo'   => 'cod' 
         ]);
         foreach ($detrecesta_datos as $det) {
             DetalleReceta::create([

@@ -752,6 +752,8 @@ Route::group(['middleware' => ['auth']], function () {
 		return view('backend.administracion.comercial.datos.index');
 	});
 	Route::resource('TipoPuntoVenta', 'comercial\DatoComercialController');
+	Route::get('ProductosComercial', 'comercial\DatoComercialController@indexProductos');
+	Route::get('MostrarProductoC/{id}', 'comercial\DatoComercialController@mostrarProducto');
 	Route::get('SolPedidoPvComercial', 'comercial\SolicitudPedidoPvController@index');
 	Route::get('NuevaSolicitudPedidoPv', 'comercial\SolicitudPedidoPvController@nuevaSolicitudPedidoPv');
 	Route::post('RegistrarSolicitudPedidoPv', 'comercial\SolicitudPedidoPvController@registrarSolicitudPedidoPv');
