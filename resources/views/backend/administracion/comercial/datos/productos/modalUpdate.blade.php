@@ -1,4 +1,4 @@
-<div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myUpdateTipoPv" tabindex="-5">
+<div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myUpdateProducto" tabindex="-5">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -13,7 +13,7 @@
                 <div class="caption">
                         {!! Form::open(['id'=>'productos'])!!}
                         <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
-                            <input id="id_tipopv" name="id_tipopv" type="hidden" value="">
+                            <input id="prod_id" name="prod_id" type="hidden" value="">
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="form-group">
@@ -72,7 +72,7 @@
                  <button class="btn btn-danger" data-dismiss="modal" type="button">
                     Cerrar
                 </button>
-                {!!link_to('#',$title='Modificar', $attributes=['id'=>'actualizarTipoPv','class'=>'btn btn-success','style'=>''], $secure=null)!!}
+                {!!link_to('#',$title='Modificar', $attributes=['id'=>'actualizarProducto','class'=>'btn btn-success','style'=>''], $secure=null)!!}
                 {!! Form::close() !!}
             </div>
         </div>

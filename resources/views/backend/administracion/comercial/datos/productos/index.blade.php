@@ -72,7 +72,7 @@
                                             @endif
                                             </td>
                                             <td class="text-center">{{linea($producto->rece_lineaprod_id)}}</td>
-                                            <td class="text-center"><button value="{{$producto->prod_id}}" class="btncirculo btn-xs btn-warning" onClick="MostrarProducto(this);" data-toggle="modal" data-target="#myUpdateTipoPv"><i class="fa fa-pencil-square"></i></button></td>
+                                            <td class="text-center"><button value="{{$producto->prod_id}}" class="btncirculo btn-xs btn-warning" onClick="MostrarProducto(this);" data-toggle="modal" data-target="#myUpdateProducto"><i class="fa fa-pencil-square"></i></button></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -123,7 +123,7 @@
 <script>    
 $('#lts-producto').DataTable( {
         "responsive": true,
-        "order": [[ 0, "desc" ]],
+        "order": [[ 0, "asc" ]],
         "language": {
              "url": "/lenguaje"
         },
@@ -188,13 +188,12 @@ function MostrarProducto(btn){
             $("#linea_produccion").val("DERIVADOS");
         }
         $("#codigo_produccion").val(res.rece_codigo);
-        /*$("#nombre1").val(res.tipopv_nombre);
-        $("#descripcion1").val(res.tipopv_descripcion);*/
+        $("#prod_id").val(res.prod_id);
     });
 }
-$("#actualizarTipoPv").click(function(){
-    var value =$("#id_tipopv").val();
-    var route="TipoPuntoVenta/"+value+"";
+$("#actualizarProducto").click(function(){
+    var value =$("#prod_id").val();
+    var route="ModificarCodProducto/"+value+"";
     var token =$("#token").val();
     $.ajax({
         url: route,
@@ -202,44 +201,27 @@ $("#actualizarTipoPv").click(function(){
         type: 'PUT',
         dataType: 'json',
         data: {
-            'tipopv_nombre':$("#nombre1").val(),
-            'tipopv_descripcion':$("#descripcion1").val(),
+            'codigo_producto':$("#codigo_producto").val(),
         },
         success: function(data){
-            $("#myUpdateTipoPv").modal('toggle');
-            swal("EL TIPO PUNTO DE VENTA!", "Fue actualizado correctamente!", "success");
-            $('#lts-tipoPv').DataTable().ajax.reload();
+            $("#myUpdateProducto").modal('toggle');
+            /*swal("CODIGO DE PRODUCTO!", "Fue actualizado correctamente!", "success");
+            $('#lts-producto').DataTable().ajax.reload();*/
+            swal({ 
+                title: "Exito",
+                text: "Codigo de Producto guardado",
+                type: "success" 
+            },
+               function(){
+                   location.reload();
+            });
+
         },  error: function(result) {
             console.log(result);
-            swal("Opss..!", "El tipo punto de venta no se puedo actualizar intente de nuevo!", "error")
+            swal("Opss..!", "El codigo de producto no se puedo actualizar intente de nuevo!", "error")
         }
     });
 });
-function Eliminar(btn){
-    var route="TipoPuntoVenta/"+btn.value+"";
-    var token =$("#token").val();
-    swal({   title: "Esta seguro de eliminar el tipo de punto de venta?",
-      text: "Presione ok para eliminar el registro de la base de datos!",
-      type: "warning",   showCancelButton: true,
-      confirmButtonColor: "#DD6B55",
-      confirmButtonText: "Si, Eliminar!",
-      closeOnConfirm: false
-    }, function(){
-       $.ajax({
-            url: route,
-            headers: {'X-CSRF-TOKEN': token},
-            type: 'DELETE',
-            dataType: 'json',
-            success: function(data){
-                $('#lts-tipoPv').DataTable().ajax.reload();
-                swal("Tipo Punto de Venta!", "Fue eliminado correctamente!", "success");
-            },
-            error: function(result) {
-                swal("Opss..!", "El Tipo Punto de Venta tiene registros en otras tablas!", "error")
-            }
-        });
-    });
-}
 
 function LimpiarTipoPv()
 {
