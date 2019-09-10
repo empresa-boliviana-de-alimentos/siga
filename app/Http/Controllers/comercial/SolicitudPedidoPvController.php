@@ -25,6 +25,10 @@ class SolicitudPedidoPvController extends Controller
                               ->where('usr_id',Auth::user()->usr_id)->first();
     	return view('backend.administracion.comercial.solicitud_pedido_pv.formNuevaSolicitudPedidoPv', compact('listarProducto','solicitante','punto_venta'));    
     }
+    public function registrarSolicitudPedidoPv(Request $request)
+    {
+        return $request;
+    }
     //SOLICITUD PEDIDO PRODUCCIÓN
     public function indexSolPedidoProdComercial()
     {
