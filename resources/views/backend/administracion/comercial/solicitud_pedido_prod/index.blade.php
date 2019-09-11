@@ -8,6 +8,10 @@
       background-color:#428bca;
       color: white;
     }
+    tfoot th {
+      background-color:#428bca;
+      color: white;
+    }
     tbody td {
       background-color: #EEEEEE;
     }
@@ -69,35 +73,39 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $nro=0; ?>
+                                @foreach($solproductos as $solprod)
+                                <?php $nro=$nro+1; ?>
                             	<tr>
                             		<td class="text-center">
-                                        1
+                                        {{$nro}}
                                     </td>
                                     <td class="text-center">
-                                        1
+                                        {{$solprod->solprod_nro_solicitud}}
                                     </td>
                                     <td class="text-center">
-                                        <div class="btn btn-primary"><span class="fa fa-file-o"></span></div>
+                                        <a class="btn btn-primary" target="_blank" href="ImprimirSolprod/{{$solprod->solprod_id}}"><i class="fa fa-file"></i></a>
                                     </td>
                                     <td class="text-center">
-                                        04/09/2019
+                                        {{date('d-m-Y',strtotime($solprod->solprod_registrado))}}
                                     </td>
                                     <td class="text-center">
-                                        05/09/2019
+                                        {{date('d-m-Y',strtotime($solprod->solprod_fecha_posent))}}
                                     </td>
                                     <td class="text-center">
-                                        12000.00
+                                        {{cantidadProductos($solprod->solprod_id)}}
                                     </td>
                                     <td class="text-center">
-                                        Cantidad de Producto solicitadas
+                                        {{$solprod->solprod_obs}}
                                     </td>
                                     <td class="text-center">
-                                        LACTEOS
+                                        {{traeLinea($solprod->solprod_lineaprod_id)}}
                                     </td>
                                     <td class="text-center">
-                                        ENVIADO
+                                        {{$solprod->solprod_descripestado_recep}}
                                     </td>
                             	</tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -139,7 +147,32 @@
 </div>
     </div>
 </div>
-
+<?php 
+function cantidadProductos($id)
+{
+    $cantidadProductos = \DB::table('comercial.detalle_solicitud_produccion_comercial')->where('detsolprod_solprod_id',$id)->get();
+    //dd($cantidadProductos);
+    $cantidad = 0;
+    foreach ($cantidadProductos as $cp) {
+        $cantidad = $cantidad + $cp->detsolprod_cantidad;
+    }
+    return $cantidad;
+}
+function traeLinea($id)
+{
+    if ($id == 1) {
+        return "LACTEOS";
+    }elseif($id == 2){
+        return "ALMENDRA";
+    }elseif($id == 3){
+        return "MIEL";
+    }elseif($id == 4){
+        return "FRUTOS";
+    }elseif($id == 5){
+        return "DERIVADOS";
+    }
+}
+ ?>
 @endsection
 @push('scripts')
 <script>

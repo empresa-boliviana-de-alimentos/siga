@@ -10,6 +10,8 @@ use siga\Modelo\admin\Usuario;
 use siga\Http\Modelo\comercial\Producto;
 use siga\Http\Modelo\comercial\SolicitudPv;
 use siga\Http\Modelo\comercial\DetalleSolicitudPv;
+use siga\Http\Modelo\comercial\SolicitudProd;
+use siga\Http\Modelo\comercial\DetalleSolicitudProd;
 use DB;
 use Auth;
 class SolicitudPedidoPvController extends Controller
@@ -61,14 +63,48 @@ class SolicitudPedidoPvController extends Controller
     //SOLICITUD PEDIDO PRODUCCIÓN
     public function indexSolPedidoProdComercial()
     {
-        //dd("INDEX SOLICITUD PEDIDO PRODUCCION");
-        return view('backend.administracion.comercial.solicitud_pedido_prod.index');
+        $solproductos = SolicitudProd::orderBy('solprod_id','DESC')->get();
+        return view('backend.administracion.comercial.solicitud_pedido_prod.index', compact('solproductos'));
     }
     public function nuevaSolicitudPedidoProd()
     {
-        $listarProducto = Receta::leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
-                                ->join('insumo.unidad_medida as umed','insumo.receta.rece_uni_id','=','umed.umed_id')->get();
-        return view('backend.administracion.comercial.solicitud_pedido_prod.formNuevaSolicitudPedidoProd', compact('listarProducto'));
+        $solicitante = Usuario::join('public._bp_personas as prs','public._bp_usuarios.usr_prs_id','=','prs.prs_id')
+                              ->where('usr_id',Auth::user()->usr_id)->first();
+        $listarProducto = Producto::join('insumo.receta as rece','comercial.producto_comercial.prod_rece_id','=','rece.rece_id')
+                                ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                ->where('prod_codigo','<>',null)->get();
+        return view('backend.administracion.comercial.solicitud_pedido_prod.formNuevaSolicitudPedidoProd', compact('listarProducto','solicitante'));
+    }
+    public function registrarSolicitudPedidoProd(Request $request)
+    {
+        //dd($request);
+        $punto_venta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                              ->join('comercial.punto_venta_comercial as pvc', 'planta.id_planta','=','pvc.pv_id_planta')
+                              ->select('pvc.pv_nombre','pvc.pv_id','planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+        $num = SolicitudProd::join('public._bp_planta as plant', 'comercial.solicitud_produccion_comercial.solprod_id_planta','=','plant.id_planta')->select(DB::raw('MAX(solprod_nro_solicitud) as nro_sol'))->where('plant.id_planta', $punto_venta->id_planta)->first();
+        $cont=$num['nro_sol'];
+        $nosol = $cont + 1;
+        $solprod = SolicitudProd::create([
+            'solprod_pv_id'               => $punto_venta->pv_id,
+            'solprod_id_planta'           => $punto_venta->id_planta,
+            'solprod_nro_solicitud'       => $nosol,
+            'solprod_usr_id'              => Auth::user()->usr_id,
+            'solprod_lineaprod_id'        => $request['linea'],
+            'solprod_obs'                 => $request['observacion'],
+            'solprod_descripestado_recep' => 'ENVIADO',
+            'solprod_fecha_posent'        => date('Y-m-d',strtotime($request['fecha_entrega'])),    
+        ]);
+        $solproductos = json_decode($request->productos);
+        foreach ($solproductos as $solproducto) {
+            DetalleSolicitudProd::create([
+                'detsolprod_solprod_id' => $solprod->solprod_id,
+                'detsolprod_prod_id'  => $solproducto->id,
+                'detsolprod_cantidad' => $solproducto->cantidad,
+                'detsolprod_tonelada' => $solproducto->tonelada
+            ]);
+        }
+        return redirect('SolPedidoProdComercial')->with('success','Registro creado satisfactoriamente');
     }
     //SOLICITUDES RECIBIDAS DE PEDIDOS PUNTOS DE VENTA
     public function indexSolPedidoPvRecibidas()
