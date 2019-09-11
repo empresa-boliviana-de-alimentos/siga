@@ -73,12 +73,35 @@ class SolicitudPedidoPvController extends Controller
     //SOLICITUDES RECIBIDAS DE PEDIDOS PUNTOS DE VENTA
     public function indexSolPedidoPvRecibidas()
     {
-        //dd("PRUEBA DE SOLCITUDES RECIBIDAS");
-        return view('backend.administracion.comercial.solicitud_recibida_pv.index');
+        $solpvs = SolicitudPv::orderBY('solpv_id','DESC')->get(); 
+        return view('backend.administracion.comercial.solicitud_recibida_pv.index', compact('solpvs'));
     }
     public function verSolicitudPedidoPv($id)
     {
-        return view('backend.administracion.comercial.solicitud_recibida_pv.verFormSolicitudRecibidaPedidoPv');
+        $solpv = SolicitudPv::join('public._bp_usuarios as usr','comercial.solicitud_pv_comercial.solpv_usr_id','=','usr.usr_id')
+                            ->join('public._bp_personas as prs','usr.usr_prs_id','=','prs_id')
+                            ->where('solpv_id',$id)->first();
+        $detsolpv = DetalleSolicitudPv::join('comercial.producto_comercial as prod','comercial.detalle_solicitud_pv_comercial.detsolpv_prod_id','=','prod.prod_id')
+                                      ->join('insumo.receta as rece','prod.prod_rece_id','=','rece.rece_id')
+                                      ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                      ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                      ->where('detsolpv_solpv_id',$id)->get();
+        //dd($detsolpv);
+        $punto_venta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                              ->join('comercial.punto_venta_comercial as pvc', 'planta.id_planta','=','pvc.pv_id_planta')
+                              ->select('pvc.pv_nombre','pvc.pv_id','planta.id_planta')->where('usr_id','=',$solpv->solpv_usr_id)->first();
+        return view('backend.administracion.comercial.solicitud_recibida_pv.verFormSolicitudRecibidaPedidoPv', compact('solpv','detsolpv','punto_venta'));
+    }
+    public function registrarAprobSolicitudPedidoPv(Request $request)
+    {
+        $solpv_aprob = SolicitudPv::find($request['solpv_id']);
+        $solpv_aprob->solpv_usr_aprob = Auth::user()->usr_id;
+        $solpv_aprob->solpv_obs_aprob = $request['observacion'];
+        $solpv_aprob->solpv_descripestado_recep = 'APROBADO';
+        $solpv_aprob->solpv_estado_recep = 'B';
+        $solpv_aprob->save();
+
+        return redirect('SolRecibidasPvComercial')->with('success','Registro creado satisfactoriamente');
     }
     //SOLICITUDES RECIBIDAS DE PEDIDOS DE PRODUCCION
     public function indexSolPedidoProdRecibidas()

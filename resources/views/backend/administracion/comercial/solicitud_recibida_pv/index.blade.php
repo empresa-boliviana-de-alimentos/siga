@@ -63,32 +63,40 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $nro = 0; ?>
+                                @foreach($solpvs as $solpv)
+                                <?php $nro = $nro + 1; ?>
                             	<tr>
                             		<td class="text-center">
-                                        1
+                                        {{$nro}}
                                     </td>
                                     <td class="text-center">
-                                        1
+                                        {{$solpv->solpv_nro_solicitud}}
                                     </td>
                                     <td class="text-center">
-                                        <div class="btn btn-primary"><span class="fa fa-file-o"></span></div>
+                                        <a class="btn btn-primary" target="_blank" href="ImprimirSolpv/{{$solpv->solpv_id}}"><i class="fa fa-file"></i></a>
                                     </td>
                                     <td class="text-center">
-                                        04/09/2019
+                                        {{date('d-m-Y',strtotime($solpv->solpv_registrado))}}
                                     </td>
                                     <td class="text-center">
-                                        10000
+                                        {{cantidadProductos($solpv->solpv_id)}}
                                     </td>
                                     <td class="text-center">
-                                        Cantidad de Producto solicitadas
+                                        {{$solpv->solpv_obs}}
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{url('VerSolicitudPedidoPv/1')}}" class="btn btn-success"><span class="fa fa-eye"></span></a>
+                                        @if($solpv->solpv_estado_recep == 'A')
+                                        <a href="VerSolicitudPedidoPv/{{$solpv->solpv_id}}" class="btn btn-success"><span class="fa fa-eye"></span></a>
+                                        @else
+                                         RECEPCIONADO
+                                        @endif
                                     </td>
                                     <td class="text-center">
-                                        ENVIADO
+                                        {{$solpv->solpv_descripestado_recep}}
                                     </td>
                             	</tr>
+                                @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -127,29 +135,24 @@
 </div>
     </div>
 </div>
-
+<?php 
+function cantidadProductos($id)
+{
+    $cantidadProductos = \DB::table('comercial.detalle_solicitud_pv_comercial')->where('detsolpv_solpv_id',$id)->get();
+    //dd($cantidadProductos);
+    $cantidad = 0;
+    foreach ($cantidadProductos as $cp) {
+        $cantidad = $cantidad + $cp->detsolpv_cantidad;
+    }
+    return $cantidad;
+}
+ ?>
 @endsection
 @push('scripts')
 <script>
-var t = $('#lts-orprod').DataTable( {
-
-         "processing": true,
-            "serverSide": true,
-            "ajax": "/OrdenProduccion/create/",
-            "columns":[
-                {data: 'orprod_id'},
-                {data: 'acciones',orderable: false, searchable: false},
-                {data: 'orprod_registrado'},
-                {data: 'nombre_planta'},
-                {data: 'nombreReceta'},
-                {data: 'umed_nombre'},
-                {data: 'lineaProduccion'},
-                {data: 'orprod_cantidad'},
-                {data: 'orprod_estado_recep'},
-                {data: 'estadoAprobacion'},
-                // {data: 'sol_id'},
-        ],
-        "order": [[ 0, "desc" ]],
+$('#lts-solPediPv').DataTable( {        
+            
+        "order": [[ 0, "asc" ]],
         "language": {
              "url": "/lenguaje"
         },
@@ -157,11 +160,7 @@ var t = $('#lts-orprod').DataTable( {
 
     });
 
-    t.on( 'order.dt search.dt', function () {
-        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
+  
 </script>
 @endpush
 
