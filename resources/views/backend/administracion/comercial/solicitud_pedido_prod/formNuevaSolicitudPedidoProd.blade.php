@@ -23,7 +23,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
                 <input type="hidden" name="nro_acopio" id="nro_acopio" value="">                    
-                <div class="col-md-12">
+                <!--<div class="col-md-12">
                     <div class="col-md-4">
                         <label>
                             Linea:
@@ -53,12 +53,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>-->                
+                
                 <div class="col-md-12">
-                    <h4><strong>DETALLE SOLICITUD</strong></h4>
-                </div>
-                <div class="col-md-12">
-                    <producto-comercialpvlinea :lista="{{$listarProducto}}" nombre="productos" ></producto-comercialpvlinea>
+                    <producto-comercialpvlinea></producto-comercialpvlinea>
                 </div>
                 <div class="row">
                     <div class="col-md-12">

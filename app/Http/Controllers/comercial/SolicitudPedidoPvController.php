@@ -66,8 +66,10 @@ class SolicitudPedidoPvController extends Controller
     }
     public function nuevaSolicitudPedidoProd()
     {
-        $listarProducto = Receta::leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
-                                ->join('insumo.unidad_medida as umed','insumo.receta.rece_uni_id','=','umed.umed_id')->get();
+        $listarProducto = Producto::join('insumo.receta as rece','comercial.producto_comercial.prod_rece_id','=','rece.rece_id')
+                                ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                ->where('prod_codigo','<>',null)->get();
         return view('backend.administracion.comercial.solicitud_pedido_prod.formNuevaSolicitudPedidoProd', compact('listarProducto'));
     }
     //SOLICITUDES RECIBIDAS DE PEDIDOS PUNTOS DE VENTA

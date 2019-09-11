@@ -31,6 +31,8 @@ Vue.component('pedido-orp', require('./components/PedidoOrp.vue').default);
 Vue.component('insumo-adicional', require('./components/InsumoAdicionalComponent.vue').default);
 Vue.component('producto-comercialpv', require('./components/ProductoComercialComponent.vue').default);
 Vue.component('producto-comercialpvlinea', require('./components/ProductoComercialComponentLinea.vue').default);
+Vue.component('lista-productolineacomercial', require('./components/ListaProductosLineaComercial.vue').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

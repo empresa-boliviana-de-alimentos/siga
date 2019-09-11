@@ -761,6 +761,17 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('ImprimirSolpv/{id}','ReportController@imprimirSolpvComercial');
 	Route::get('SolPedidoProdComercial', 'comercial\SolicitudPedidoPvController@indexSolPedidoProdComercial');
 	Route::get('NuevaSolicitudPedidoProd', 'comercial\SolicitudPedidoPvController@nuevaSolicitudPedidoProd');
+	Route::get('getProductoLinea', function () {
+		$linea_id = Input::get('linea_id');
+		$datos = DB::table('comercial.producto_comercial')
+					->join('insumo.receta as rece','comercial.producto_comercial.prod_rece_id','=','rece.rece_id')
+                    ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                    ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                    ->where('prod_codigo','<>',null)
+                    ->where('rece.rece_lineaprod_id',$linea_id)->get();
+		//$datos = DB::table('.receta')->where('rece_id', '=', $rec_id)->first();
+		return Response::json($datos);
+	});
 	Route::get('SolRecibidasPvComercial', 'comercial\SolicitudPedidoPvController@indexSolPedidoPvRecibidas');
 	Route::get('VerSolicitudPedidoPv/{id}', 'comercial\SolicitudPedidoPvController@verSolicitudPedidoPv');
 	Route::post('RegistrarAprobSolicitudPedidoPv','comercial\SolicitudPedidoPvController@registrarAprobSolicitudPedidoPv');
