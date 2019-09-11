@@ -20,8 +20,13 @@ class CreateSolicitudPvComercialTable extends Migration
             $table->integer('solpv_id_planta');
             $table->bigInteger('solpv_nro_solicitud');
             $table->integer('solpv_usr_id');
+            $table->text('solpv_obs')->nullable();
+            $table->integer('solpv_usr_aprob')->nullable();
+            $table->text('solpv_obs_aprob')->nullable();
             $table->timestamp('solpv_registrado')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('solpv_modificado')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->string('solpv_descripestado_recep')->nullable();
+            $table->char('solpv_estado_recep',1)->default('A');
             $table->char('solpv_estado',1)->default('A');
         });
     }

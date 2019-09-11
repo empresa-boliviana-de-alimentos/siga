@@ -758,6 +758,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('SolPedidoPvComercial', 'comercial\SolicitudPedidoPvController@index');
 	Route::get('NuevaSolicitudPedidoPv', 'comercial\SolicitudPedidoPvController@nuevaSolicitudPedidoPv');
 	Route::post('RegistrarSolicitudPedidoPv', 'comercial\SolicitudPedidoPvController@registrarSolicitudPedidoPv');
+	Route::get('ImprimirSolpv/{id}','ReportController@imprimirSolpvComercial');
 	Route::get('SolPedidoProdComercial', 'comercial\SolicitudPedidoPvController@indexSolPedidoProdComercial');
 	Route::get('NuevaSolicitudPedidoProd', 'comercial\SolicitudPedidoPvController@nuevaSolicitudPedidoProd');
 	Route::get('SolRecibidasPvComercial', 'comercial\SolicitudPedidoPvController@indexSolPedidoPvRecibidas');

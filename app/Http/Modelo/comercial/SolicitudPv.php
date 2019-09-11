@@ -14,9 +14,14 @@ class SolicitudPv extends Model
         'solpv_id_planta',
         'solpv_nro_solicitud',
         'solpv_usr_id',
-        'prod_registrado',
-        'prod_modificado',
-        'prod_estado'
+        'solpv_obs',
+        'solpv_registrado',
+        'solpv_modificado',
+        'solpv_estado',
+        'solpv_usr_aprob',
+        'solpv_obs_aprob',
+        'solpv_descripestado_recep',
+        'solpv_estado_recep'
     ];
 
     protected $primaryKey = 'solpv_id';

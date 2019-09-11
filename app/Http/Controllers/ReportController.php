@@ -24,6 +24,7 @@ use siga\Modelo\insumo\insumo_solicitud\DetalleOrdenProduccion;
 use siga\Modelo\insumo\insumo_devolucion\Devolucion;
 use siga\Modelo\insumo\InsumoHistorial;
 use siga\Modelo\insumo\Stock;
+use siga\Http\Modelo\comercial\SolicitudPv;
 class ReportController extends Controller
 {
 
@@ -770,6 +771,33 @@ class ReportController extends Controller
         $code = null;
 
         $view = \View::make('reportes.orden_de_produccion_solalorp', compact('username','date','title','storage','receta','datos_json'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+
+    //REPORTES COMRECIAL
+    public function imprimirSolpvComercial($id)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "BOLETA DE SOLICITUD PUNTO DE VENTA";
+        $date =Carbon::now();
+        $punto_venta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                              ->join('comercial.punto_venta_comercial as pvc', 'planta.id_planta','=','pvc.pv_id_planta')
+                              ->select('pvc.pv_nombre','pvc.pv_id','planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+        $storage = 'PUNTO DE VENTA : '.$punto_venta->pv_nombre;
+        $usr = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $solpv = SolicitudPv::join('public._bp_usuarios as usr','comercial.solicitud_pv_comercial.solpv_usr_id','=','usr.usr_id')
+                            ->join('public._bp_personas as prs','usr.usr_prs_id','=','prs.prs_id')
+                            ->where('solpv_id',$id)->first();
+
+        $code = null;
+
+        $view = \View::make('reportes.boleta_solicitudpv_comercial', compact('username','date','title','storage','solpv'));
 
         $html_content = $view->render();
         // return $html_content;
