@@ -769,9 +769,10 @@ Route::group(['middleware' => ['auth']], function () {
                     ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
                     ->where('prod_codigo','<>',null)
                     ->where('rece.rece_lineaprod_id',$linea_id)->get();
-		//$datos = DB::table('.receta')->where('rece_id', '=', $rec_id)->first();
 		return Response::json($datos);
 	});
+	Route::post('RegistrarSolicitudPedidoProd','comercial\SolicitudPedidoPvController@registrarSolicitudPedidoProd');
+	Route::get('ImprimirSolprod/{id}','ReportController@imprimirSolprodComercial');
 	Route::get('SolRecibidasPvComercial', 'comercial\SolicitudPedidoPvController@indexSolPedidoPvRecibidas');
 	Route::get('VerSolicitudPedidoPv/{id}', 'comercial\SolicitudPedidoPvController@verSolicitudPedidoPv');
 	Route::post('RegistrarAprobSolicitudPedidoPv','comercial\SolicitudPedidoPvController@registrarAprobSolicitudPedidoPv');

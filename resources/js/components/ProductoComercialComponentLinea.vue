@@ -9,20 +9,20 @@
         <Select2 v-model="linea.id"
                             :options="lineas" 
                             @change="cambioLinea($event)"
-                            />
+                            name="linea"/>
     </div>
     <div class="col-md-4">
         <label>
             Solicitante:
         </label>
-        <input type="" name="" class="form-control" value="RENE VALVERDE" readonly>
+        <input type="" name="" class="form-control" :value="solicitanteProd()" readonly>
     </div>
     <div class="col-md-4">
         <label>
             Fecha Posible Entrega:
         </label>
         <div class="input-group date" data-provide="datepicker">
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" name="fecha_entrega">
             <div class="input-group-addon">
                 <span class="glyphicon glyphicon-th"></span>
             </div>
@@ -44,7 +44,7 @@
     import Select2 from 'v-select2-component';
     export default
     {
-        
+        props:['solicitante'],
         data:()=>({
             value: { name: 'Vue.js', language: 'JavaScript' },
             options: [
@@ -75,14 +75,18 @@
                         //this.products = response.data;
                         this.products = [];
                         response.data.forEach(item => {
-                if (item.sab_id == 1) {
-                    this.products.push({id:item.rece_id,text: item.prod_codigo+'-'+item.rece_nombre+' '+item.rece_presentacion, unit: item.umed_nombre, linea_prod: item.rece_lineaprod_id});
-                }else{
-                    this.products.push({id:item.rece_id,text: item.prod_codigo+'-'+item.rece_nombre+' '+item.sab_nombre+' '+item.rece_presentacion, unit: item.umed_nombre, linea_prod: item.rece_lineaprod_id});
-                }
+                            if (item.sab_id == 1) {
+                                this.products.push({id:item.rece_id,text: item.prod_codigo+'-'+item.rece_nombre+' '+item.rece_presentacion, unit: item.umed_nombre, linea_prod: item.rece_lineaprod_id});
+                            }else{
+                                this.products.push({id:item.rece_id,text: item.prod_codigo+'-'+item.rece_nombre+' '+item.sab_nombre+' '+item.rece_presentacion, unit: item.umed_nombre, linea_prod: item.rece_lineaprod_id});
+                            }
                 
-            });
+                        });
                 });
+            },
+            solicitanteProd()
+            {
+                return this.solicitante.prs_nombres+' '+this.solicitante.prs_paterno+' '+this.solicitante.prs_materno;
             }            
 
         },

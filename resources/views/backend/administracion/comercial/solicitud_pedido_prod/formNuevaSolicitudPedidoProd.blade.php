@@ -19,10 +19,10 @@ table.dataTable tbody th, table.dataTable tbody td {
             <div class="text-center">
                 <h3 style="color:#2067b4"><strong>SOLICITAR ORDEN DE PEDIDO</strong></h3>
             </div>
-            <form action="#" class="form-horizontal" method="GET">
-                <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
+            <form action="{{url('RegistrarSolicitudPedidoProd')}}" class="form-horizontal" method="POST">
+                {{ csrf_field() }}
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
-                <input type="hidden" name="nro_acopio" id="nro_acopio" value="">                    
+                <input type="hidden" name="" id="" value="">                    
                 <!--<div class="col-md-12">
                     <div class="col-md-4">
                         <label>
@@ -56,7 +56,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 </div>-->                
                 
                 <div class="col-md-12">
-                    <producto-comercialpvlinea></producto-comercialpvlinea>
+                    <producto-comercialpvlinea :solicitante="{{$solicitante}}"></producto-comercialpvlinea>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
