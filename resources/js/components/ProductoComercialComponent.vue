@@ -36,6 +36,9 @@
                     <input type="" name="" class="form-control" :value="producto.id?producto.linea_prod:''"  readonly  >
                 </td>
                 <td><div class="text-center"><a href='#' @click="removeItem(index)" class='btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div></td>
+                <td>
+                    <input type="hidden" name="prod_nombre" :value="producto.id?producto.prod_nombre:''" class="form-control">
+                </td>
             </tr>
         </table>
         <input type="text" :name="nombre" :value="JSON.stringify(productos)" hidden>
@@ -68,10 +71,10 @@
         mounted() {
 
             this.lista.forEach(item => {
-                if (item.sab_nombre) {
-                    this.options.push({id:item.rece_id,text: item.rece_codigo+'-'+item.rece_nombre+' '+item.sab_nombre, unit: item.umed_nombre, linea_prod: item.rece_lineaprod_id});
+                if (item.sab_id != 1) {
+                    this.options.push({id:item.prod_id,text: item.prod_codigo+'-'+item.rece_nombre+' '+item.sab_nombre, unit: item.umed_nombre, linea_prod: item.rece_lineaprod_id, prod_nombre: item.rece_nombre});
                 }else{
-                    this.options.push({id:item.rece_id,text: item.rece_codigo+'-'+item.rece_nombre, unit: item.umed_nombre, linea_prod: item.rece_lineaprod_id});
+                    this.options.push({id:item.prod_id,text: item.prod_codigo+'-'+item.rece_nombre, unit: item.umed_nombre, linea_prod: item.rece_lineaprod_id, prod_nombre: item.rece_nombre});
                 }
                 
             });
@@ -92,9 +95,10 @@
             myChangeEvent(val){
                 console.log(val);
             },
-            mySelectEvent({id, text, unit, linea_prod},index){
+            mySelectEvent({id, text, unit, linea_prod, prod_nombre},index){
                 this.productos[index].unit = unit;
                 this.productos[index].linea_prod = lineaNombre(linea_prod);
+                this.productos[index].prod_nombre = prod_nombre;
             }
         },
         components: {Select2},

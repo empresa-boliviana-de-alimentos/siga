@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetalleSolicitudPv extends Model
 {
-    protected $table = 'comercial.detalle_solcitud_pv_comercial';
+    protected $table = 'comercial.detalle_solicitud_pv_comercial';
 
     protected $fillable = [
         'detsolpv_id',

@@ -63,29 +63,33 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            <?php $nro=0; ?>
+                            @foreach($solproductos as $solproducto)
+                                <?php $nro=$nro+1; ?>
                             	<tr>
                             		<td class="text-center">
-                                        1
+                                        {{$nro}}
                                     </td>
                                     <td class="text-center">
-                                        1
+                                        {{$solproducto->solpv_nro_solicitud}}
                                     </td>
                                     <td class="text-center">
-                                        <div class="btn btn-primary"><span class="fa fa-file-o"></span></div>
+                                        <a class="btn btn-primary" target="_blank" href="ImprimirSolpv/{{$solproducto->solpv_id}}"><i class="fa fa-file"></i></a>
                                     </td>
                                     <td class="text-center">
-                                        04/09/2019
+                                        {{date('d-m-Y',strtotime($solproducto->solpv_registrado))}}
                                     </td>
                                     <td class="text-center">
-                                        10000
+                                        {{cantidadProductos($solproducto->solpv_id)}}
                                     </td>
                                     <td class="text-center">
-                                        Cantidad de Producto solicitadas
+                                        {{$solproducto->solpv_obs}}
                                     </td>
                                     <td class="text-center">
-                                        ENVIADO
+                                        {{$solproducto->solpv_descripestado_recep}}
                                     </td>
                             	</tr>
+                            @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
@@ -121,7 +125,18 @@
 </div>
     </div>
 </div>
-
+<?php 
+function cantidadProductos($id)
+{
+    $cantidadProductos = \DB::table('comercial.detalle_solicitud_pv_comercial')->where('detsolpv_solpv_id',$id)->get();
+    //dd($cantidadProductos);
+    $cantidad = 0;
+    foreach ($cantidadProductos as $cp) {
+        $cantidad = $cantidad + $cp->detsolpv_cantidad;
+    }
+    return $cantidad;
+}
+ ?>
 @endsection
 @push('scripts')
 <script>
