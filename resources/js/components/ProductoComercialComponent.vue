@@ -8,34 +8,34 @@
         <table  class="table small-text" >
             <thead>
             <tr >
-                <th >#</th>
-                <th >DESCRIPCIÓN</th>
-                <th >UNIDAD MEDIDA</th>
-                <th >CANTIDAD SOLICITAR</th>
-                <th >LINEA</th>
-                <th >OPCIÓN</th>
+                <th class="text-center" style="background-color:#428bca; color:white">#</th>
+                <th class="text-center" style="background-color:#428bca; color:white">DESCRIPCIÓN</th>
+                <th class="text-center" style="background-color:#428bca; color:white">UNIDAD MEDIDA</th>
+                <th class="text-center" style="background-color:#428bca; color:white">CANTIDAD SOLICITAR</th>
+                <th class="text-center" style="background-color:#428bca; color:white">LINEA</th>
+                <th class="text-center" style="background-color:#428bca; color:white">OPCIÓN</th>
             </tr>
             </thead>
 
             <tr  v-for="(producto,index) in productos" :key="index">
-                <td>
+                <td style="width:10%">
                     <input type="" name="" class="form-control" :value="index+1" readonly>
                 </td>
-                <td >
+                <td style="width:40%">
                     <Select2 v-model="producto.id"
                         :options="options"
 
                         @change="myChangeEvent($event)"
-                        @select="mySelectEvent($event,index)" style="width:700px" />
+                        @select="mySelectEvent($event,index)" style="width:100%" />
                 </td>
-                <td>
+                <td style="width:20%">
                     <input type="" name="" class="form-control" :value="producto.id?producto.unit:''"  readonly  >
                 </td>                
-                <td><input type="text" v-model="producto.cantidad" name="cantidad_envase[]" class="form-control"></td>
-                <td>
+                <td style="width:10%"><input type="text" v-model="producto.cantidad" name="cantidad_envase[]" class="form-control"></td>
+                <td style="width:10%">
                     <input type="" name="" class="form-control" :value="producto.id?producto.linea_prod:''"  readonly  >
                 </td>
-                <td><div class="text-center"><a href='#' @click="removeItem(index)" class='btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div></td>
+                <td style="width:10%"><div class="text-center"><a href='#' @click="removeItem(index)" class='btncirculo btn-md btn-danger'><i class="glyphicon glyphicon-trash"></i></a></div></td>
                 <td>
                     <input type="hidden" name="prod_nombre" :value="producto.id?producto.prod_nombre:''" class="form-control">
                 </td>

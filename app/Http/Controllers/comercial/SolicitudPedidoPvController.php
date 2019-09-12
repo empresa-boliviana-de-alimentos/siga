@@ -142,11 +142,30 @@ class SolicitudPedidoPvController extends Controller
     //SOLICITUDES RECIBIDAS DE PEDIDOS DE PRODUCCION
     public function indexSolPedidoProdRecibidas()
     {
-        return view('backend.administracion.comercial.solicitud_recibida_prod.index');
+        $solprod = SolicitudProd::orderBY('solprod_id','DESC')->get();
+        return view('backend.administracion.comercial.solicitud_recibida_prod.index', compact('solprod'));
     }
     public function verSolicitudPedidoProd($id)
     {
-        //dd("FORMULARIO SOLICITUD DE PEDIDO PRODUCCION");
-        return view('backend.administracion.comercial.solicitud_recibida_prod.verFormSolicitudRecibidaPedidoProd');
+        $solprod = SolicitudProd::join('public._bp_usuarios as usr','comercial.solicitud_produccion_comercial.solprod_usr_id','=','usr.usr_id')
+                            ->join('public._bp_personas as prs','usr.usr_prs_id','=','prs_id')
+                            ->where('solprod_id',$id)->first();
+        $detsolprod = DetalleSolicitudProd::join('comercial.producto_comercial as prod','comercial.detalle_solicitud_produccion_comercial.detsolprod_prod_id','=','prod.prod_id')
+                                      ->join('insumo.receta as rece','prod.prod_rece_id','=','rece.rece_id')
+                                      ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                      ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                      ->where('detsolprod_solprod_id',$id)->get();
+        return view('backend.administracion.comercial.solicitud_recibida_prod.verFormSolicitudRecibidaPedidoProd', compact('solprod','detsolprod'));
     } 
+    public function registrarAprobSolicitudPedidoProd(Request $request)
+    {
+        $solprod_aprob = SolicitudProd::find($request['solprod_id']);
+        $solprod_aprob->solprod_usr_aprob = Auth::user()->usr_id;
+        $solprod_aprob->solprod_obs_aprob = $request['observacion'];
+        $solprod_aprob->solprod_descripestado_recep = 'APROBADO';
+        $solprod_aprob->solprod_estado_recep = 'B';
+        $solprod_aprob->save();
+
+        return redirect('SolRecibidasProdComercial')->with('success','Registro creado satisfactoriamente');
+    }
 }
