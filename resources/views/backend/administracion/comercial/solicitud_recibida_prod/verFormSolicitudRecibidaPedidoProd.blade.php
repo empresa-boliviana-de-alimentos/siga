@@ -30,34 +30,34 @@ tbody td {
             <div class="text-center">
                 <h3 style="color:#2067b4"><strong>VER ORDEN DE PEDIDO</strong></h3>
             </div>
-            <form action="#" class="form-horizontal" method="GET">
-                <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
+            <form action="{{url('RegistrarAprobSolicitudPedidoProd')}}" class="form-horizontal" method="POST">
+                {{ csrf_field() }}  
                 <input id="fecha_resgistro" name="fecha_resgistro" type="hidden" value="<?php echo $now->format('d-m-Y H:i:s'); ?>">
-                <input type="hidden" name="nro_acopio" id="nro_acopio" value="">                    
+                <input type="hidden" name="solprod_id" id="solprod_id" value="{{$solprod->solprod_id}}">                    
                 <div class="col-md-12">
                     <div class="col-md-4">
                         <label>
                             Solicitante:
                         </label>
-                        <input type="" name="" class="form-control" value="RENE VALVERDE" readonly>
+                        <input type="" name="" class="form-control" value="{{$solprod->prs_nombres.' '.$solprod->prs_paterno.' '.$solprod->prs_materno}}" readonly>
                     </div>
                     <div class="col-md-2">
                         <label>
-                            Nro:
+                            Nro Solicitud:
                         </label>
-                        <input type="text" name="" class="form-control" value="1" readonly>
+                        <input type="text" name="" class="form-control" value="{{$solprod->solprod_nro_solicitud}}" readonly>
                     </div>
                     <div class="col-md-3">
                         <label>
                             Fecha Solicitud:
                         </label>
-                        <input type="text" name="" class="form-control" value="05/09/2019" readonly>
+                        <input type="text" name="" class="form-control" value="{{date('d-m-Y',strtotime($solprod->solprod_registrado))}}" readonly>
                     </div>
                     <div class="col-md-3">
                         <label>
                             Fecha Posible Entrega:
                         </label>
-                        <input type="text" name="" class="form-control" value="05/09/2019" readonly>
+                        <input type="text" name="" class="form-control" value="{{date('d-m-Y',strtotime($solprod->solprod_fecha_posent))}}" readonly>
                     </div>
                 </div>
                               
@@ -74,33 +74,33 @@ tbody td {
                             <th class="text-center">CANTIDAD</th>
                             <th class="text-center">CANT. TONELADA</th>
                         </tr>
+                        <?php 
+                            $nro = 0; 
+                            $total_tonelada = 0;
+                        ?>
+                        @foreach($detsolprod as $det)
+                        <?php 
+                            $nro = $nro + 1; 
+                            $total_tonelada = $total_tonelada + $det->detsolprod_tonelada;
+                        ?>
                         <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center">PROLAC-1</td>
-                            <td class="text-center">LECHE CHOCOLATADA</td>
-                            <td class="text-center">LITROS</td>
-                            <td class="text-center">1200.00</td>
-                            <td class="text-center">12.00</td>
+                            <td class="text-center">{{$nro}}</td>
+                            <td class="text-center">{{$det->prod_codigo}}</td>
+                            <td class="text-center">
+                            @if($det->sab_id == 1)
+                                {{$det->rece_nombre.' '.$det->rece_presentacion}}
+                            @else
+                                {{$det->rece_nombre.' '.$det->sab_nombre.' '.$det->rece_presentacion}}
+                            @endif
+                            </td>
+                            <td class="text-center">{{$det->umed_nombre}}</td>
+                            <td class="text-center">{{$det->detsolprod_cantidad}}</td>
+                            <td class="text-center">{{$det->detsolprod_tonelada}}</td>
                         </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td class="text-center">PROLAC-2</td>
-                            <td class="text-center">LECHE UHT</td>
-                            <td class="text-center">LITROS</td>
-                            <td class="text-center">1200.00</td>
-                            <td class="text-center">12.00</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td class="text-center">PROLAC-3</td>
-                            <td class="text-center">YOGURT PROBIOTICO</td>
-                            <td class="text-center">LITROS</td>
-                            <td class="text-center">1200.00</td>
-                            <td class="text-center">12.00</td>
-                        </tr>
+                        @endforeach
                         <tr>
                             <td class="text-center" colspan="5" style="background-color:#2067b4; color: white;"><strong>TOTAL TONELADAS APROX.</strong></td>
-                            <td class="text-center">36.00</td>
+                            <td class="text-center">{{number_format($total_tonelada,2,'.',',')}}</td>
                         </tr>
                     </table>
                 </div>
