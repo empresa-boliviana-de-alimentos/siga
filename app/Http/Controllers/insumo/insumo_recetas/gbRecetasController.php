@@ -304,7 +304,7 @@ class gbRecetasController extends Controller
         ]);
         $producto_comercial = Producto::create([
             'prod_rece_id'  => $receta->rece_id,
-            'prod_codigo'   => 'sin codificacion' 
+            //'prod_codigo'   => 'sin codificacion' 
         ]);
         foreach ($detrecesta_datos as $det) {
             DetalleReceta::create([

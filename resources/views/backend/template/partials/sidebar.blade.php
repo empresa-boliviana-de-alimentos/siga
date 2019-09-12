@@ -1,4 +1,10 @@
 @inject('menu','siga\Http\Controllers\MenuController')
+<style type="text/css">
+    #sidebar {
+    height: 100%;
+    overflow-y: scroll;
+}
+</style>
 <aside>
     <div class="nav-collapse " id="sidebar">
         <ul class="sidebar-menu" id="nav-accordion">
