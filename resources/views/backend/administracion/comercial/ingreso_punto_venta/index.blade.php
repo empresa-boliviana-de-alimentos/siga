@@ -87,12 +87,12 @@
                             <table id="lts-carrito" class="table table-condensed" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>codigo</th>
-                                        <th>Producto</th>
-                                        <th>Cant.</th>
-                                        <th>Costo</th>
-                                        <th>Subtotal</th>
-                                        <th>Opción</th>
+                                        <th class="text-center">codigo</th>
+                                        <th class="text-center">Producto</th>
+                                        <th class="text-center">Cant.</th>
+                                        <th class="text-center">Costo</th>
+                                        <th class="text-center">Subtotal</th>
+                                        <th class="text-center">Opción</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -156,9 +156,9 @@ function MostrarCarrito(){
         }else if(cantidad > null){
             if(costo > 0 && lote){
                 //$(this).closest("tr").remove();
-                $(this).find('td:eq(3) input').attr('disabled',true);
-                $(this).find('td:eq(4) input').attr('disabled',true);
-                $(this).find('td:eq(5) input').attr('disabled',true);
+                //$(this).find('td:eq(3) input').attr('disabled',true);
+                //$(this).find('td:eq(4) input').attr('disabled',true);
+                //$(this).find('td:eq(5) input').attr('disabled',true);
                 datos_carrito.push({"codigo_producto":codigo_producto,"producto":producto,"producto_id":receta_id,"cantidad":cantidad,"costo":costo,"lote":lote,"fecha_vencimiento":fecha_vencimiento, "index":trIndex});
             }else{
                 mensaje.push({"producto":producto});
@@ -180,12 +180,12 @@ function MostrarCarrito(){
    var d;
    for (var i = 0; i < datos_carrito.length; i++) {
         d+= '<tr id="items">'+
-            '<td>'+datos_carrito[i].codigo_producto+'</td>'+
-            '<td>'+datos_carrito[i].producto+'</td>'+
-            '<td>'+datos_carrito[i].cantidad+'</td>'+
-            '<td>'+datos_carrito[i].costo+'</td>'+
-            '<td>'+parseFloat(datos_carrito[i].cantidad*datos_carrito[i].costo)+'</td>'+
-            '<td><div class="text-center"><a href="javascript:void(0);" onClick="EliminaItem('+datos_carrito[i].index+')" class="removeItem btncirculo btn-md btn-danger"><i class="glyphicon glyphicon-remove"></i></a></div></td>'+
+            '<td class="text-center">'+datos_carrito[i].codigo_producto+'</td>'+
+            '<td class="text-center">'+datos_carrito[i].producto+'</td>'+
+            '<td class="text-center">'+datos_carrito[i].cantidad+'</td>'+
+            '<td class="text-center">'+datos_carrito[i].costo+'</td>'+
+            '<td class="text-center">'+parseFloat(datos_carrito[i].cantidad*datos_carrito[i].costo).toFixed(2)+'</td>'+
+            '<td class="text-center"><div class="text-center"><a href="javascript:void(0);" onClick="EliminaItem('+datos_carrito[i].index+')" class="removeItem btncirculo btn-md btn-danger"><i class="glyphicon glyphicon-remove"></i></a></div></td>'+
             '<td><input type="hidden" value="'+datos_carrito[i].producto_id+'"></td>'+
             '<td><input type="hidden" value="'+datos_carrito[i].fecha_vencimiento+'"></td>'+
             '<td><input type="hidden" value="'+datos_carrito[i].lote+'"></td>'+
@@ -202,21 +202,13 @@ function MostrarCarrito(){
 function EliminaItem(id)
 {
     console.log("pulsando el boton: "+id);
-    //console.log($('#lts-solProducto tr .num input')[id]);
     $('#lts-solProducto tr').each(function(index, element){
         if(index == id){
-            //console.log("ENCONTRADO EL PRODUCTO: "+index+' '+$(this).find('td:eq(3) input').attr('enable',true));
-            //$(this).find('td:eq(3) input').attr('enabled',true);
-            //$(this).find('td:eq(3) input').attr('enable',true);
-            console.log(index);
+            //console.log("ES EL PRODUCTO: "+index);
         }else{
-            console.log("NO ES EL PRODUCTO: "+index);
+            //console.log("NO ES EL PRODUCTO: "+index);
         }
     });
-    //$(this).find('td:eq(3) input').attr('disabled',true);
-    //$(this).find('td:eq(4) input').attr('disabled',true);
-    //$(this).find('td:eq(5) input').attr('disabled',true);
-
 }
 $(document).on('click', '.removeItem', function() {
     var trIndex = $(this).closest("tr").index();
@@ -233,7 +225,7 @@ function eliminarTodos()
 
 function MostrarCarritoConfirm()
 {
-    console.log("ENTRANDO A LA FUNCION DE MOSTRAR CONFIRMACION");
+    //console.log("ENTRANDO A LA FUNCION DE MOSTRAR CONFIRMACION");
     datos_carrito_confirm = [];
     $('#lts-carrito tr').each(function () {
         var codigo_producto = $(this).find("td").eq(0).html();
@@ -244,22 +236,24 @@ function MostrarCarritoConfirm()
         var fecha_vencimiento = $(this).find('td:eq(7) input').val();
         var lote = $(this).find('td:eq(8) input').val();
         if (producto_id === undefined) {
-            console.log("NULL NADA");
+            //console.log("NULL NADA");
         } else {
             datos_carrito_confirm.push({"codigo_producto":codigo_producto,"producto":producto,"cantidad":cantidad,"costo":costo,"lote":lote,"fecha_vencimiento":fecha_vencimiento,"producto_id":producto_id});
         }
     });
-    console.log(JSON.stringify(datos_carrito_confirm));
+    //console.log(JSON.stringify(datos_carrito_confirm));
     //console.log("TRAENDO DATOS DE LA TABLA CARRITO");
     //LLENANDO AL MODAL SOLICITUD
     var dsol;
+    var totalcosto = 0;
     for (var i = 0; i < datos_carrito_confirm.length; i++) {
+        totalcosto = totalcosto+datos_carrito_confirm[i].costo*datos_carrito_confirm[i].cantidad;
         dsol+= '<tr>'+
             '<td class="text-center">'+datos_carrito_confirm[i].codigo_producto+'</td>'+
             '<td class="text-center">'+datos_carrito_confirm[i].producto+'</td>'+
             '<td class="text-center">'+datos_carrito_confirm[i].cantidad+'</td>'+
             '<td class="text-center">'+datos_carrito_confirm[i].costo+'</td>'+
-            '<td class="text-center">'+datos_carrito_confirm[i].costo*datos_carrito_confirm[i].cantidad+'</td>'+
+            '<td class="text-center">'+parseFloat(datos_carrito_confirm[i].costo*datos_carrito_confirm[i].cantidad).toFixed(2)+'</td>'+
             '<td class="text-center">'+datos_carrito_confirm[i].lote+'</td>'+
             '<td class="text-center">'+datos_carrito_confirm[i].fecha_vencimiento+'</td>'+
             '<td class="text-center"><input type="hidden" value="'+datos_carrito_confirm[i].producto_id+'"></input></td>'+
@@ -267,29 +261,34 @@ function MostrarCarritoConfirm()
         //console.log(datos_carrito_confirm[i].cantidad_solicitud);
         //datos_carrito_confirm.push({"codigo_insumot":datos_carrito[i].id_insumo,"cantidad_solicitud":datos_carrito[i].cantidad_solicitud});
     }
-    $("#lts-carritosol").append(dsol);
+    $("#lts-carritoingresopv").append(dsol);
+    $("#costo_total").val(parseFloat(totalcosto).toFixed(2));
     //eliminarTodosModal();
 }
 function eliminarTodosModal()
 {
-    $("#lts-carritosol").find("tr:gt(0)").remove();
+    $("#lts-carritoingresopv").find("tr:gt(0)").remove();
 }
- /*$("#registroSolTrasp").click(function(){
+
+ $("#registroIngresoPv").click(function(){
         datos_carrito_registro = [];
-        $('#lts-carritosol tr').each(function () {
-            var codigo_insumo_sol = $(this).find("td").eq(0).html();
-            var insumo_sol = $(this).find("td").eq(1).html();
-            var cantidad_sol = $(this).find("td").eq(3).html();
-            var id_insumo_sol = $(this).find('td:eq(4) input').val();
-            if (id_insumo_sol === undefined) {
+        $('#lts-carritoingresopv tr').each(function () {
+            var codigo_producto = $(this).find("td").eq(0).html();
+            var producto = $(this).find("td").eq(1).html();
+            var cantidad = $(this).find("td").eq(2).html();
+            var costo = $(this).find("td").eq(3).html();
+            var lote = $(this).find("td").eq(5).html();
+            var fecha_vencimiento = $(this).find("td").eq(6).html();
+            var producto_id = $(this).find("td:eq(7) input").val();
+            if (producto_id === undefined) {
 
             } else {
-                datos_carrito_registro.push({"codigo_insumo_sol":codigo_insumo_sol,"id_insumo_sol":id_insumo_sol,"insumo_sol":insumo_sol,"cantidad_sol":cantidad_sol});
+                datos_carrito_registro.push({"codigo_producto":codigo_producto,"producto_id":producto_id,"cantidad":cantidad,"costo":costo,"lote":lote,"fecha_vencimiento":fecha_vencimiento,"producto":producto});
             }
         });
-        //console.log(datos_carrito_registro);
         var datosJson = JSON.stringify(datos_carrito_registro);
-        var route="solTraspaso";
+        console.log(datosJson);
+        var route="RegistrarIngresoPV";
         var token =$("#token").val();
         $.ajax({
             url: route,
@@ -297,9 +296,10 @@ function eliminarTodosModal()
             type: 'POST',
             dataType: 'json',
             data:   {
-                        'id_planta_traspaso':$("#id_planta_confirm").val(),
+                        'origen':$("#origen").val(),
+                        'costo_total':$("#costo_total").val(),
                         'datos_json':datosJson,
-                        'observacion':$("#soltras_obs").val(),
+                        'observacion':$("#observacion").val(),
                     },
                 success: function(data){
                     //$('#myCreate').fadeIn(1000).html(data);
@@ -320,7 +320,7 @@ function eliminarTodosModal()
                         swal("Opss..!", "Sucedio un problema al registrar inserte bien los datos!", "error");
                 }
         });
-    });*/
+    });
 
 $(".datepicker").datepicker({
       format: "dd-mm-yyyy",
