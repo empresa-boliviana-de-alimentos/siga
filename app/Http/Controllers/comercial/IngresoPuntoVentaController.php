@@ -5,14 +5,18 @@ namespace siga\Http\Controllers\comercial;
 use Illuminate\Http\Request;
 use siga\Http\Controllers\Controller;
 use siga\Modelo\insumo\insumo_recetas\Receta;
+use siga\Http\Modelo\comercial\Producto;
 
 class IngresoPuntoVentaController extends Controller
 {
     public function index()
     {
     	//dd("INGRESO PRODUCTOS PUNTO DE VENTA");
-    	$recetas = Receta::leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')->get();
-    	return view('backend.administracion.comercial.ingreso_punto_venta.index', compact('recetas'));
+        $productos = Producto::join('insumo.receta as rece','comercial.producto_comercial.prod_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->where('prod_codigo','<>',null)->get();
+    	//$recetas = Receta::leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')->get();
+    	return view('backend.administracion.comercial.ingreso_punto_venta.index', compact('productos'));
     }
 
     public function listarProductos()
