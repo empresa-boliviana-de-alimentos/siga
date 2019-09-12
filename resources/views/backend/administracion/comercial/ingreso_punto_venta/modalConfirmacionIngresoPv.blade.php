@@ -19,7 +19,7 @@
                                                 <label>
                                                     FECHA INGRESO:
                                                 </label>
-                                                <input type="text" name="nombre_planta_confirm" id="nombre_planta_confirm" value="06/09/2019" class="form-control" readonly="true">
+                                                <span class="form-control" readonly>{{date('d-m-Y')}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -29,7 +29,7 @@
                                                 <label>
                                                     COSTO TOTAL:
                                                 </label>
-                                                <input type="text" name="nombre_planta_confirm" id="nombre_planta_confirm" value="12000.20" class="form-control" readonly="true">
+                                                <input type="text" name="costo_total" id="costo_total" value="" class="form-control" readonly="true">
                                             </div>
                                         </div>
                                     </div>
@@ -39,9 +39,10 @@
                                                 <label>
                                                     ORIGEN:
                                                 </label>
-                                                <select class="form-control">
-                                                    <option value="1">PUNTO DE VENTA</option>
-                                                    <option value="2">PUNTO DE VENTA TRANSITORIO</option>
+                                                <select class="form-control" name="origen">
+                                                    @foreach($punto_ventas as $pv)
+                                                    <option value="{{$pv->id_planta}}">{{$pv->pv_nombre}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -49,7 +50,7 @@
                                 </div>
                                 <div class="row"> 
                                     <div class="col-md-12">                                                      
-                                        <table id="lts-carritosol" class="table table-condensed" style="width:100%">
+                                        <table id="lts-carritoingresopv" class="table table-condensed" style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center">CODIGO</th>
@@ -70,7 +71,7 @@
                                             <label>
                                                 Obseraciones:
                                             </label>
-                                            <textarea class="form-control" name="soltras_obs" id="soltras_obs"></textarea>
+                                            <textarea class="form-control" name="observacion" id="observacion"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +86,7 @@
                 <button class="btn btn-danger" onclick="eliminarTodosModal()" data-dismiss="modal" type="button">
                     Cerrar
                 </button>
-                {!!link_to('#',$title='Enviar Solicitud', $attributes=['id'=>'registroSolTrasp','class'=>'btn btn-success','style'=>''], $secure=null)!!}
+                {!!link_to('#',$title='Enviar Solicitud', $attributes=['id'=>'registroIngresoPv','class'=>'btn btn-success','style'=>''], $secure=null)!!}
                 {!! Form::close() !!}
             </div>
         </div>

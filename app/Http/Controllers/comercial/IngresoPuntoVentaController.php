@@ -5,14 +5,21 @@ namespace siga\Http\Controllers\comercial;
 use Illuminate\Http\Request;
 use siga\Http\Controllers\Controller;
 use siga\Modelo\insumo\insumo_recetas\Receta;
+use siga\Http\Modelo\comercial\Producto;
+use siga\Http\Modelo\comercial\PuntoVenta;
 
 class IngresoPuntoVentaController extends Controller
 {
     public function index()
     {
     	//dd("INGRESO PRODUCTOS PUNTO DE VENTA");
-    	$recetas = Receta::leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')->get();
-    	return view('backend.administracion.comercial.ingreso_punto_venta.index', compact('recetas'));
+        $productos = Producto::join('insumo.receta as rece','comercial.producto_comercial.prod_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->where('prod_codigo','<>', null)->get();
+    	//$recetas = Receta::leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')->get();
+        $punto_ventas = PuntoVenta::join('public._bp_planta as pl','comercial.punto_venta_comercial.pv_id_planta','=','pl.id_planta')
+                                 ->get();
+    	return view('backend.administracion.comercial.ingreso_punto_venta.index', compact('productos','punto_ventas'));
     }
 
     public function listarProductos()
@@ -34,5 +41,9 @@ class IngresoPuntoVentaController extends Controller
                 return '<input class="id_insumo form-control" type="hidden" value="'.$stock_insumo->ins_id.'"></input>';
             })
             ->make(true);
+    }
+    public function registrarIngresoPV(Request $request)
+    {
+        dd($request);
     }
 }
