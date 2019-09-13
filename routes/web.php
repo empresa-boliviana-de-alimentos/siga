@@ -784,6 +784,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('RegistrarNuevoPuntoVenta', 'comercial\PuntoVentaController@registrarNuevoPuntoVenta');
 	Route::get('IngresosPuntosVentaComercial', 'comercial\IngresoPuntoVentaController@index');
 	Route::post('RegistrarIngresoPV', 'comercial\IngresoPuntoVentaController@registrarIngresoPV');
+	Route::get('BoletaIngresoPv/{id}', 'ReportController@boletaIngresoPvComercial');
 	Route::get('ListarProductos', 'comercial\IngresoPuntoVentaController@listarProductos');
 	Route::get('TraspasosPuntoVentaComercial', 'comercial\TraspasoPuntoVentaController@index');
 	Route::get('CarritoSolicitudTraspaso', 'comercial\TraspasoPuntoVentaController@carritoSolicitudTraspaso');

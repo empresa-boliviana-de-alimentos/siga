@@ -1,6 +1,7 @@
 @extends('backend.template.app')
 @section('main-content')
 @include('backend.administracion.comercial.ingreso_punto_venta.modalConfirmacionIngresoPv')
+@include('backend.administracion.comercial.ingreso_punto_venta.boletaIngresoPv')
 <div class="panel panel-primary">
     <div class="panel-heading">
         <div class="row">
@@ -126,22 +127,13 @@
         t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
-    } ).draw();
-/*$(document).on('click', '.btnAdd', function() {
-    var trIndex = $(this).closest("tr").index();
-    console.log(trIndex);
-    if(trIndex=1) {
-        $(this).closest("tr").remove();
-    }
-});*/    
+    } ).draw(); 
 var datos_carrito_confirm = [];
 function MostrarCarrito(){
-    //console.log("DATOS HACIA AL CARRITO");
    var datos_carrito = [];
    var mensaje = [];
    $('#lts-solProducto tr').each(function(){
         var trIndex = $(this).closest("tr").index();
-        //console.log($(this));  
         var nro_producto = $(this).find('td:eq(0)').text();
         var codigo_producto  = $(this).find('td:eq(1)').text();
         var producto = $(this).find('td:eq(2)').text();
@@ -150,7 +142,6 @@ function MostrarCarrito(){
         var lote = $(this).find('td:eq(5) input').val();
         var fecha_vencimiento = $(this).find('td:eq(6) input').val();
         var receta_id = $(this).find('td:eq(8) input').val();
-        //console.log(nro_insumo);
         if (cantidad === undefined) {
             //console.log("Es null");
         }else if(cantidad > null){
@@ -162,7 +153,6 @@ function MostrarCarrito(){
                 datos_carrito.push({"codigo_producto":codigo_producto,"producto":producto,"producto_id":receta_id,"cantidad":cantidad,"costo":costo,"lote":lote,"fecha_vencimiento":fecha_vencimiento, "index":trIndex});
             }else{
                 mensaje.push({"producto":producto});
-                //swal("NO HAY COSTO O LOTE EN EL PRODUCTO: "+producto);
             }
             
         }
@@ -176,7 +166,6 @@ function MostrarCarrito(){
         swal("No existe costo o lote en los productos: "+productosmsj);
    }   
    var dataSet = JSON.stringify(datos_carrito);
-   //console.log(dataSet);
    var d;
    for (var i = 0; i < datos_carrito.length; i++) {
         d+= '<tr id="items">'+
@@ -193,9 +182,7 @@ function MostrarCarrito(){
         '</tr>';
         datos_carrito_confirm.push({"codigo_producto":datos_carrito[i].codigo_producto,"producto":datos_carrito[i].producto,"cantidad":datos_carrito[i].cantidad,"costo":datos_carrito[i].costo,"lote":datos_carrito[i].lote,"fecha_vencimiento":datos_carrito[i].fecha_vencimiento,"producto_id":datos_carrito[i].producto_id});
     }
-    //console.log(JSON.stringify(datos_carrito_confirm));
     $("#lts-carrito").append(d);
-    //$("#lts-solProducto").table().reload();
     $('input[type="text"]').val('');
     $('input[type="number"]').val('');
 }
@@ -225,7 +212,6 @@ function eliminarTodos()
 
 function MostrarCarritoConfirm()
 {
-    //console.log("ENTRANDO A LA FUNCION DE MOSTRAR CONFIRMACION");
     datos_carrito_confirm = [];
     $('#lts-carrito tr').each(function () {
         var codigo_producto = $(this).find("td").eq(0).html();
@@ -241,9 +227,7 @@ function MostrarCarritoConfirm()
             datos_carrito_confirm.push({"codigo_producto":codigo_producto,"producto":producto,"cantidad":cantidad,"costo":costo,"lote":lote,"fecha_vencimiento":fecha_vencimiento,"producto_id":producto_id});
         }
     });
-    //console.log(JSON.stringify(datos_carrito_confirm));
-    //console.log("TRAENDO DATOS DE LA TABLA CARRITO");
-    //LLENANDO AL MODAL SOLICITUD
+
     var dsol;
     var totalcosto = 0;
     for (var i = 0; i < datos_carrito_confirm.length; i++) {
@@ -258,12 +242,9 @@ function MostrarCarritoConfirm()
             '<td class="text-center">'+datos_carrito_confirm[i].fecha_vencimiento+'</td>'+
             '<td class="text-center"><input type="hidden" value="'+datos_carrito_confirm[i].producto_id+'"></input></td>'+
         '</tr>';
-        //console.log(datos_carrito_confirm[i].cantidad_solicitud);
-        //datos_carrito_confirm.push({"codigo_insumot":datos_carrito[i].id_insumo,"cantidad_solicitud":datos_carrito[i].cantidad_solicitud});
     }
     $("#lts-carritoingresopv").append(dsol);
     $("#costo_total").val(parseFloat(totalcosto).toFixed(2));
-    //eliminarTodosModal();
 }
 function eliminarTodosModal()
 {
@@ -302,18 +283,18 @@ function eliminarTodosModal()
                         'observacion':$("#observacion").val(),
                     },
                 success: function(data){
-                    //$('#myCreate').fadeIn(1000).html(data);
+                    console.log(data.ingpv_id);
                     $("#myCreateConfirmacionIngresoPv").modal('toggle');
-                    //swal("La Persona!", "Se registrado correctamente!", "success");
-                    //$('#lts-persona').DataTable().ajax.reload();
-                    swal({
+                    $('#iframeboletaIng').attr('src', 'BoletaIngresoPv/'+data.ingpv_id);
+                    $('#bolIngPv').modal('show');                    
+                        /*swal({
                             title: "Exito",
                             text: "Registrado con Exito",
                             type: "success"
                         },
                         function(){
                             location.reload();
-                        });
+                        });*/
 
                 },
                 error: function(result) {
@@ -321,7 +302,16 @@ function eliminarTodosModal()
                 }
         });
     });
-
+function CerrarBoleta()
+{
+    swal({
+            title: "Exito",
+            text: "Registrado con Exito",
+            type: "success"
+        },function(){
+            location.reload();
+    });
+}
 $(".datepicker").datepicker({
       format: "dd-mm-yyyy",
       language: "es",
