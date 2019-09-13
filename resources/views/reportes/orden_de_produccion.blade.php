@@ -99,14 +99,13 @@
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('ins_id_tip_ins',3)
                                                         ->where('detorprod_orprod_id',$receta->orprod_id)->get();
-                
                     foreach ($insumo_insumo as $ins) {
                         $detalle_formulacion[] = array("ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detorprod_cantidad"=>$ins->detorprod_cantidad);
                     }
                     foreach ($insumo_matprima as $ins) {
                         $detalle_formulacion[] = array("ins_desc"=>$ins->ins_desc, "umed_nombre"=>$ins->umed_nombre, "detorprod_cantidad"=>$ins->detorprod_cantidad);
                     }
-				
+
 					$nro = 1;
 				@endphp
 				@foreach($detalle_formulacion as $detform)
@@ -151,9 +150,9 @@
                                                         ->join('insumo.unidad_medida as uni','ins.ins_id_uni','=','uni.umed_id')
                                                         ->where('detorprod_orprod_id',$receta->orprod_id)
                                                         ->where('ins_id_tip_ins',4)->get();
-                 
+
                     $nro = 1;
-					
+
 				@endphp
 				@foreach($detalle_formulacion as $detform)
 				<tr class="text-sm">
@@ -223,6 +222,6 @@
         <td class="text-center text-xxs">Encargado de Produccion Planta</td>
     </tr>
 
-</table> 
+</table>
 
 @endsection

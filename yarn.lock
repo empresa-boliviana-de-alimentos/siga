@@ -5534,6 +5534,13 @@ vm-browserify@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.0.tgz#bd76d6a23323e2ca8ffa12028dc04559c75f9019"
 
+vue-bootstrap4-table@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/vue-bootstrap4-table/-/vue-bootstrap4-table-1.1.10.tgz#3806abca84958ae0b9c30dafdf55d18fa7ecbc58"
+  integrity sha512-70+aA8ry+ca9c0EcdkV/4a53Td8L1o3yaUScGhM+05B/szwxy5wx/BskY7TPIbJOOJhJ1HcGWuIs9FMUHyxdMw==
+  dependencies:
+    lodash "^4.17.11"
+
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/vue-hot-reload-api/-/vue-hot-reload-api-2.3.3.tgz#2756f46cb3258054c5f4723de8ae7e87302a1ccf"

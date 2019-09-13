@@ -51,7 +51,7 @@ CREATE TABLE _bp_usuarios (
 	usr_id serial PRIMARY KEY,
 	usr_prs_id integer NOT NULL DEFAULT '1',
 	usr_usuario text NOT NULL,
-	usr_clave text NOT NULL,
+	password text NOT NULL,
 	usr_controlar_ip char(1) NOT NULL DEFAULT 'S',
 	usr_registrado timestamp NOT NULL DEFAULT now(),
 	usr_modificado timestamp NOT NULL DEFAULT now(),
@@ -67,11 +67,11 @@ CREATE TABLE _bp_usuarios (
 	FOREIGN KEY(usr_zona_id) REFERENCES _bp_zonaS(zona_id)
 );
 
-INSERT INTO _bp_usuarios (usr_prs_id, usr_usuario, usr_clave, usr_controlar_ip, usr_usr_id, usr_estado, usr_linea_trabajo) 
+INSERT INTO _bp_usuarios (usr_prs_id, usr_usuario, password, usr_controlar_ip, usr_usr_id, usr_estado, usr_linea_trabajo) 
 VALUES ( 1, 'rortiz', '$2y$10$fhqENLSXN5TLXW4wHx3sy.Lw4Ns331BElTk2zJUGw21d0mmaIQJGG', 'N', 1, 'A', 1);
-INSERT INTO _bp_usuarios (usr_prs_id, usr_usuario, usr_clave, usr_controlar_ip, usr_usr_id, usr_estado, usr_linea_trabajo)
+INSERT INTO _bp_usuarios (usr_prs_id, usr_usuario, password, usr_controlar_ip, usr_usr_id, usr_estado, usr_linea_trabajo)
 VALUES ( 1, 'sandra', '$2y$10$fhqENLSXN5TLXW4wHx3sy.Lw4Ns331BElTk2zJUGw21d0mmaIQJGG', 'N', 1, 'A', 2);
-INSERT INTO _bp_usuarios (usr_prs_id, usr_usuario, usr_clave, usr_controlar_ip, usr_usr_id, usr_estado, usr_linea_trabajo)
+INSERT INTO _bp_usuarios (usr_prs_id, usr_usuario, password, usr_controlar_ip, usr_usr_id, usr_estado, usr_linea_trabajo)
 VALUES ( 1, 'roddwy', '$2y$10$fhqENLSXN5TLXW4wHx3sy.Lw4Ns331BElTk2zJUGw21d0mmaIQJGG', 'N', 1, 'A', 3);
 
 
@@ -232,7 +232,7 @@ BEGIN
      INNER JOIN _bp_personas ON  prs_id=usr_prs_id  and prs_estado='A'
      INNER JOIN _bp_usuarios_roles ON usrls_usr_id=usr_id  and usrls_estado='A'
      INNER  JOIN _bp_roles ON usrls_rls_id=rls_id and rls_estado='A'
-     where usr_usuario=usrId  AND usr_clave=usuario AND usr_estado='A' ORDER BY usrls_registrado DESC ;
+     where usr_usuario=usrId  AND password=usuario AND usr_estado='A' ORDER BY usrls_registrado DESC ;
 
 END;
 $BODY$
