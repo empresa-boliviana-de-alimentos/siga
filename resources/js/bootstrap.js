@@ -12,6 +12,7 @@ try {
 
     require('bootstrap');
     require('./bootstrap-clockpicker.min.js');
+    //require('node_modules/js/izitoast/dist/js/iziToast.min.js');
 } catch (e) {}
 
 /**

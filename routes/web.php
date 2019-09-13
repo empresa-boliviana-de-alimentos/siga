@@ -16,15 +16,13 @@ use siga\Modelo\acopio\acopio_miel\Municipio;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
-
+ */
 
 Auth::routes();
 
 Route::get('/', function () {
 	return view('frontend.index');
 });
-
 
 // Route::post('sesion', [
 // 	'as' => 'login-post',
@@ -35,10 +33,10 @@ Route::get('/', function () {
 // 	'uses' => 'Auth\AuthController@Login',
 // ]);
 
-Route::get('test_print','ReportController@test_print');
+Route::get('test_print', 'ReportController@test_print');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/home','HomeController@index');
+	Route::get('/home', 'HomeController@index');
 	Route::get('ReportePdf', 'RerportController@prueba');
 	Route::resource('Acceso', 'admin\gbAccesoController');
 	Route::resource('Persona', 'admin\gbPersonaController');
@@ -321,12 +319,12 @@ Route::group(['middleware' => ['auth']], function () {
 	});
 	Route::resource('IngresoAlmacen', 'insumo\insumo_registros\gbIngresoAlmacenController');
 	Route::resource('IngresoPrima', 'insumo\insumo_registros\gbIngresoPrimaController');
-	Route::get('IngresoTraspaso','insumo\insumo_registros\gbIngresoAlmacenController@ingresoTraspaso');
-	Route::get('IngresoTraspasoCreate','insumo\insumo_registros\gbIngresoAlmacenController@ingresoTraspasoCreate');
-	Route::get('verIngresoTraspaso/{id}','insumo\insumo_registros\gbIngresoAlmacenController@mostrarIngresoTraspaso');
-	Route::get('GuardarIngresotraspaso','insumo\insumo_registros\gbIngresoAlmacenController@guardarIngresotraspaso');
+	Route::get('IngresoTraspaso', 'insumo\insumo_registros\gbIngresoAlmacenController@ingresoTraspaso');
+	Route::get('IngresoTraspasoCreate', 'insumo\insumo_registros\gbIngresoAlmacenController@ingresoTraspasoCreate');
+	Route::get('verIngresoTraspaso/{id}', 'insumo\insumo_registros\gbIngresoAlmacenController@mostrarIngresoTraspaso');
+	Route::get('GuardarIngresotraspaso', 'insumo\insumo_registros\gbIngresoAlmacenController@guardarIngresotraspaso');
 	Route::post('EvaluacionProv', 'insumo\insumo_registros\gbProveedorController@storeEvalProv');
-	Route::get('ExportarEvalucionProveedores','ReportController@reporte_proveedores');
+	Route::get('ExportarEvalucionProveedores', 'ReportController@reporte_proveedores');
 	Route::get('ListarEvalProv/{id}', 'insumo\insumo_registros\gbProveedorController@listarEvaluaciones');
 
 	/////**********LISTAS**************/////
@@ -410,7 +408,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('CarritoIngreso', 'insumo\insumo_registros\gbIngresoAlmacenController@storeIngreso');
 	Route::delete('CarritoIngreso', 'insumo\insumo_registros\gbIngresoAlmacenController@borrarCarrito');
 	//Route::get('/ReportPreliminar/{id}', ['as' => 'reportePreliminar', 'uses' => 'insumo\insumo_registros\gbIngresoAlmacenController@reportePreliminar']);
-	Route::get('/ReportPreliminar/{id}','ReportController@ReportPreliminarIngreso');
+	Route::get('/ReportPreliminar/{id}', 'ReportController@ReportPreliminarIngreso');
 	Route::post('Preliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@storePreliminar');
 	Route::delete('DeletePreliminar', 'insumo\insumo_registros\gbIngresoAlmacenController@borrarPreliminar');
 	Route::get('/ReporteAlmacen/{id}', ['as' => 'reporteAlmacen', 'uses' => 'ReportController@nota_de_ingreso']);
@@ -452,21 +450,20 @@ Route::group(['middleware' => ['auth']], function () {
 			->where('ins_id_tip_ins', 3)
 			->where('detrece_rece_id', $rec_id)->get();
 		foreach ($insumo_insumo as $ins) {
-			$detalle_formulacion[] = array("ins_id" => $ins->ins_id, "ins_codigo" => $ins->ins_codigo, "ins_desc" => $ins->ins_desc, "umed_nombre" => $ins->umed_nombre, "detrece_cantidad" => $ins->detrece_cantidad, "cant_por"=>0);
+			$detalle_formulacion[] = array("ins_id" => $ins->ins_id, "ins_codigo" => $ins->ins_codigo, "ins_desc" => $ins->ins_desc, "umed_nombre" => $ins->umed_nombre, "detrece_cantidad" => $ins->detrece_cantidad, "cant_por" => 0);
 		}
 		foreach ($insumo_matprima as $ins) {
-			$detalle_formulacion[] = array("ins_id" => $ins->ins_id, "ins_codigo" => $ins->ins_codigo, "ins_desc" => $ins->ins_desc, "umed_nombre" => $ins->umed_nombre, "detrece_cantidad" => $ins->detrece_cantidad, "cant_por"=>0);
+			$detalle_formulacion[] = array("ins_id" => $ins->ins_id, "ins_codigo" => $ins->ins_codigo, "ins_desc" => $ins->ins_desc, "umed_nombre" => $ins->umed_nombre, "detrece_cantidad" => $ins->detrece_cantidad, "cant_por" => 0);
 		}
 		return Response::json($detalle_formulacion);
 	});
 	Route::get('getDataDetReceta', function () {
 		$rec_id = Input::get('rece_id');
 		$tipo = Input::get('tipo');
-        $datos_det = DB::table('insumo.detalle_receta')->join('insumo.insumo as ins', 'insumo.detalle_receta.detrece_ins_id', '=', 'ins.ins_id')->join('insumo.unidad_medida as uni', 'ins.ins_id_uni', '=', 'uni.umed_id')->where('detrece_rece_id', '=', $rec_id)->where('ins_id_tip_ins', $tipo)->get();
-        foreach($datos_det as $dato)
-        {
-            $dato->cant_por=0;
-        }
+		$datos_det = DB::table('insumo.detalle_receta')->join('insumo.insumo as ins', 'insumo.detalle_receta.detrece_ins_id', '=', 'ins.ins_id')->join('insumo.unidad_medida as uni', 'ins.ins_id_uni', '=', 'uni.umed_id')->where('detrece_rece_id', '=', $rec_id)->where('ins_id_tip_ins', $tipo)->get();
+		foreach ($datos_det as $dato) {
+			$dato->cant_por = 0;
+		}
 
 		return Response::json($datos_det);
 	});
@@ -491,7 +488,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('RegistroOrdenProd', 'insumo\insumo_solicitudes\gbOrdenProduccionController@viewRegistroProd');
 	Route::get('getProducto', 'insumo\insumo_solicitudes\gbOrdenProduccionController@getProducto');
 	Route::get('StockActualOP/{id}/{id_planta}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@stock_actualOP');
-	Route::get('StockActualOPMaq/{id}','insumo\insumo_solicitudes\gbOrdenProduccionController@StockActualOPMaq');
+	Route::get('StockActualOPMaq/{id}', 'insumo\insumo_solicitudes\gbOrdenProduccionController@StockActualOPMaq');
 	Route::get('OrdenProduccionCreate', 'insumo\insumo_solicitudes\gbOrdenProduccionController@ordenProduccionCreate');
 	Route::get('BoletaOrdenProduccion/{id}', 'ReportController@orden_de_produccion');
 	Route::get('BoletaOrdenProduccionRorp/{id}', 'ReportController@orden_de_produccion_rorp');
@@ -564,7 +561,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('boletaSolReceta/{id}', 'insumo\insumo_solicitudes\gbSolRecetaController@reporteBoletaSolReceta');
 	Route::get('boletaSolMaquila/{id}', 'insumo\insumo_solicitudes\gbSolTraspasoController@boletaSolMaquila');
 	//Route::get('boletaSolAdicional/{id}', 'insumo\insumo_solicitudes\gbSolInsumoAdController@boletaSolAdicional');
-	Route::get('boletaSolAdicional/{id}','ReportController@boleta_solicitud_adicional');
+	Route::get('boletaSolAdicional/{id}', 'ReportController@boleta_solicitud_adicional');
 	Route::get('listMaquila', 'insumo\insumo_solicitudes\gbSolRecibidasController@listMaquila');
 	Route::get('listAdicional', 'insumo\insumo_solicitudes\gbSolRecibidasController@listAdicional');
 	Route::get('listTraspaso', 'insumo\insumo_solicitudes\gbSolRecibidasController@listTraspaso');
@@ -608,9 +605,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('AprobacionDevolcuionSobrante', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@aprobacionDevolcuionSobrante');
 	Route::get('AprobacionDevolcuionDefectuoso', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@aprobacionDevolcuionDefectuoso');
 	//Route::get('BoletaAprobDevoSobrante/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@boletaAprobDevoSobrante');
-	Route::get('BoletaAprobDevoSobrante/{id}','ReportController@boleta_aprobacion_sobrante');
+	Route::get('BoletaAprobDevoSobrante/{id}', 'ReportController@boleta_aprobacion_sobrante');
 	//Route::get('BoletaAprobDevoDefectuoso/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@boletaAprobDevoDefectuoso');
-	Route::get('BoletaAprobDevoDefectuoso/{id}','ReportController@boleta_aprobacion_defectuoso');
+	Route::get('BoletaAprobDevoDefectuoso/{id}', 'ReportController@boleta_aprobacion_defectuoso');
 
 	Route::get('DevolucionDetalle/{id}', 'insumo\insumo_devoluciones\gbDevolucionInsController@listDetalleDevolucion');
 	Route::get('DevolucionDetalleRec/{id}', 'insumo\insumo_devoluciones\gbDevolucionRecibidasController@listDetalleRecibidas');
@@ -655,7 +652,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('RpKardexValoradoInsumo/{id}', ['as' => 'rptKerdexInsumo', 'uses' => 'ReportController@kardex_valorado']);
 	Route::get('RpKardexFisicoInsumo/{id}', 'ReportController@kardex_fisico');
 	//Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptMensual']);
-	Route::get('RpMensualExcel','ReportExcelController@RpMensualExcel');
+	Route::get('RpMensualExcel', 'ReportExcelController@RpMensualExcel');
 	Route::get('RpMensual', ['as' => 'rptMensual', 'uses' => 'ReportController@RpMensual']);
 	Route::get('RpCostoAlmacen', ['as' => 'rptCostoAlmacen', 'uses' => 'insumo\insumo_reportes\gbInsumoReporteController@rptCostoAlmacen']);
 	Route::get('RptInventarioPlanta', 'insumo\insumo_registros\gbIngresoAlmacenController@rptInventarioPlanta');
@@ -670,7 +667,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('ListRecetaReport', 'insumo\insumo_reportes\gbInsumoReporteController@listReceta');
 	Route::get('ListMaquilaReport', 'insumo\insumo_reportes\gbInsumoReporteController@listMaquila');
 	Route::get('ListAdicionalReport', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicional');
-	Route::get('ListTraspasoReport','insumo\insumo_reportes\gbInsumoReporteController@listTraspasoReport');
+	Route::get('ListTraspasoReport', 'insumo\insumo_reportes\gbInsumoReporteController@listTraspasoReport');
 	// LITA REPORTE SALIDAS POR ALMACEN
 	Route::get('ListaSalidaAlm', 'insumo\insumo_reportes\gbInsumoReporteController@listarSalidasAlmacen');
 	Route::get('ListRecetaSal', 'insumo\insumo_reportes\gbInsumoReporteController@listRecetaSal');
@@ -678,24 +675,24 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('ListAdicionalSal', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicionalSal');
 
 	//NUEVOS
-	Route::get('ListRecetaSalida','insumo\insumo_reportes\gbInsumoReporteController@listRecetaSalida');
-	Route::get('ListAdicionalSalida','insumo\insumo_reportes\gbInsumoReporteController@listAdicionalSalida');
-	Route::get('ListMaquilaSalida','insumo\insumo_reportes\gbInsumoReporteController@listMaquilaSalida');
-	Route::get('ListTraspasoSalida','insumo\insumo_reportes\gbInsumoReporteController@listTraspasoSalida');
+	Route::get('ListRecetaSalida', 'insumo\insumo_reportes\gbInsumoReporteController@listRecetaSalida');
+	Route::get('ListAdicionalSalida', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicionalSalida');
+	Route::get('ListMaquilaSalida', 'insumo\insumo_reportes\gbInsumoReporteController@listMaquilaSalida');
+	Route::get('ListTraspasoSalida', 'insumo\insumo_reportes\gbInsumoReporteController@listTraspasoSalida');
 
 	//NUEVOS REPORTES GENERAL
-	Route::get('ListarReporteGralIngreso','insumo\insumo_reportes\gbInsumoReporteController@listarReporteGralIngreso');
-	Route::get('ListarReporteGralSolicitudes','insumo\insumo_reportes\gbInsumoReporteController@listarReporteGralSolicitudes');
-	Route::get('ListarReporteGralSalidas','insumo\insumo_reportes\gbInsumoReporteController@listarReporteGralSalidas');
-	Route::get('CreateListarReporteGralIngreso','insumo\insumo_reportes\gbInsumoReporteController@createListarReporteGralIngreso');
-	Route::get('ListRecetaReportGral','insumo\insumo_reportes\gbInsumoReporteController@listRecetaReportGral');
-	Route::get('ListAdicionalReportGral','insumo\insumo_reportes\gbInsumoReporteController@listAdicionalReportGral');
-	Route::get('ListMaquilaReportGral','insumo\insumo_reportes\gbInsumoReporteController@listMaquilaReportGral');
-	Route::get('ListTraspasoReportGral','insumo\insumo_reportes\gbInsumoReporteController@listTraspasoReportGral');
-	Route::get('ListRecetaSalidaGral','insumo\insumo_reportes\gbInsumoReporteController@listRecetaSalidaGral');
-	Route::get('ListAdicionalSalidaGral','insumo\insumo_reportes\gbInsumoReporteController@listAdicionalSalidaGral');
-	Route::get('ListMaquilaSalidaGral','insumo\insumo_reportes\gbInsumoReporteController@listMaquilaSalidaGral');
-	Route::get('ListTraspasoSalidaGral','insumo\insumo_reportes\gbInsumoReporteController@listTraspasoSalidaGral');
+	Route::get('ListarReporteGralIngreso', 'insumo\insumo_reportes\gbInsumoReporteController@listarReporteGralIngreso');
+	Route::get('ListarReporteGralSolicitudes', 'insumo\insumo_reportes\gbInsumoReporteController@listarReporteGralSolicitudes');
+	Route::get('ListarReporteGralSalidas', 'insumo\insumo_reportes\gbInsumoReporteController@listarReporteGralSalidas');
+	Route::get('CreateListarReporteGralIngreso', 'insumo\insumo_reportes\gbInsumoReporteController@createListarReporteGralIngreso');
+	Route::get('ListRecetaReportGral', 'insumo\insumo_reportes\gbInsumoReporteController@listRecetaReportGral');
+	Route::get('ListAdicionalReportGral', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicionalReportGral');
+	Route::get('ListMaquilaReportGral', 'insumo\insumo_reportes\gbInsumoReporteController@listMaquilaReportGral');
+	Route::get('ListTraspasoReportGral', 'insumo\insumo_reportes\gbInsumoReporteController@listTraspasoReportGral');
+	Route::get('ListRecetaSalidaGral', 'insumo\insumo_reportes\gbInsumoReporteController@listRecetaSalidaGral');
+	Route::get('ListAdicionalSalidaGral', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicionalSalidaGral');
+	Route::get('ListMaquilaSalidaGral', 'insumo\insumo_reportes\gbInsumoReporteController@listMaquilaSalidaGral');
+	Route::get('ListTraspasoSalidaGral', 'insumo\insumo_reportes\gbInsumoReporteController@listTraspasoSalidaGral');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// ESTADISTICAS //////////
 	/// /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -735,20 +732,55 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('TraeUnidadInsumo/{id}', 'insumo\insumo_solicitudes\gbSolRecetaController@traeUnidadInsumo');
 
 	//RUTAS PRODUCCION
-	Route::get('MenuProduccion', function () {
-		return view('backend.administracion.produccion.index');
-	});
 	//RUTAS PRODUCTO TERMINADO
-	Route::get('MenuDato', function(){
+	Route::get('MenuDato', function () {
 		return view('backend.administracion.producto_terminado.datos.index');
 	});
-	Route::resource('Menutransportista','producto_terminado\TransportistaController');
-	Route::resource('MenuCanastillos','producto_terminado\CanastilloController');
-	Route::resource('MenuDestinos','producto_terminado\DestinoController');
-	Route::resource('MenuIngresos','producto_terminado\IngresoProductoTerminadoController');
+
+	Route::resource('Menutransportista', 'producto_terminado\TransportistaController');
+	Route::resource('Vehiculos', 'producto_terminado\VehiculoController');
+	Route::resource('Conductor', 'producto_terminado\ConductorController');
+	Route::resource('MenuCanastillos', 'producto_terminado\CanastilloController');
+	Route::resource('MenuDestinos', 'producto_terminado\DestinoController');
+	Route::resource('MenuIngresos', 'producto_terminado\IngresoProductoTerminadoController');
+	Route::post('updateCanastillo', 'producto_terminado\CanastilloController@updateCanastillo');
+	//INGRESO PRODUCTO TERMINADO
+	Route::get('listar_ORP', 'producto_terminado\IngresoProductoTerminadoController@listar_ORP');
+	Route::get('obtenerORP/{id}', 'producto_terminado\IngresoProductoTerminadoController@obtenerORP');
+	Route::post('registrarIngreso', 'producto_terminado\IngresoProductoTerminadoController@registrarIngreso');
+	Route::get('listarIngresoORP', 'producto_terminado\IngresoProductoTerminadoController@listarIngresoORP');
+	//INGRESO CANASTILLA
+	Route::get('listarIngresoCanastillaG', 'producto_terminado\IngresoProductoTerminadoController@listarIngresoCanastillaG');
+	Route::get('lstCanastilla', 'producto_terminado\IngresoProductoTerminadoController@lstCanastilla');
+	Route::post('registrarIngresoC', 'producto_terminado\IngresoProductoTerminadoController@registrarIngresoC');
+
+	//KARDEX
+	Route::resource('MenuKardexPT', 'producto_terminado\KardexPTController');
+	Route::get('listarCanastillaKardex', 'producto_terminado\KardexPTController@listarCanastillaKardex');
+	Route::get('listarPTKardex', 'producto_terminado\KardexPTController@listarPTKardex');
+	Route::get('listarFechaVencimiento/{id_rece}/{planta}', 'producto_terminado\KardexPTController@listarFechaVencimiento');
+	//probando 3 8.5 26
+	//DESPACHO
+	Route::resource('MenuDespachoORP', 'producto_terminado\despachoController');
+	Route::get('listarCanastillaDespacho', 'producto_terminado\despachoController@listarCanastillaDespacho');
+	Route::get('listarORPInicial', 'producto_terminado\despachoController@listarORPInicial');
+	Route::get('listarPTDespacho', 'producto_terminado\despachoController@listarPTDespacho');
+	Route::post('registrarDespachoORP', 'producto_terminado\despachoController@registrarDespachoORP');
+	Route::get('obtenerORPIngreso/{id}', 'producto_terminado\despachoController@obtenerORPIngreso');
+	Route::get('listarDespachoORP', 'producto_terminado\despachoController@listarDespachoORP');
+	Route::get('lstProductoTerminado', 'producto_terminado\despachoController@lstProductoTerminado');
+	Route::get('obtenerPTDespacho/{id}', 'producto_terminado\despachoController@obtenerPTDespacho');
+	Route::post('registrarDespachoPT', 'producto_terminado\despachoController@registrarDespachoPT');
+	Route::get('listaDespachoPT', 'producto_terminado\despachoController@listaDespachoPT');
+	Route::get('lstCanastillosG', 'producto_terminado\despachoController@lstCanastillosG');
+	Route::get('obtenerDatosCanastillo/{id}', 'producto_terminado\despachoController@obtenerDatosCanastillo');
+	Route::post('regCanastillaDespacho', 'producto_terminado\despachoController@regCanastillaDespacho');
+	Route::get('lstCanastillaDespacho', 'producto_terminado\despachoController@lstCanastillaDespacho');
+	//REPORTE ALMACEN
+	Route::get('MenuRIA', 'producto_terminado\reporteAlmacenController@inicio');
 
 	/*******************************RUTAS COMERCIAL*******************************************/
-	Route::get('DatosComercial', function(){
+	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');
 	});
 	Route::resource('TipoPuntoVenta', 'comercial\DatoComercialController');
@@ -758,27 +790,27 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('SolPedidoPvComercial', 'comercial\SolicitudPedidoPvController@index');
 	Route::get('NuevaSolicitudPedidoPv', 'comercial\SolicitudPedidoPvController@nuevaSolicitudPedidoPv');
 	Route::post('RegistrarSolicitudPedidoPv', 'comercial\SolicitudPedidoPvController@registrarSolicitudPedidoPv');
-	Route::get('ImprimirSolpv/{id}','ReportController@imprimirSolpvComercial');
+	Route::get('ImprimirSolpv/{id}', 'ReportController@imprimirSolpvComercial');
 	Route::get('SolPedidoProdComercial', 'comercial\SolicitudPedidoPvController@indexSolPedidoProdComercial');
 	Route::get('NuevaSolicitudPedidoProd', 'comercial\SolicitudPedidoPvController@nuevaSolicitudPedidoProd');
 	Route::get('getProductoLinea', function () {
 		$linea_id = Input::get('linea_id');
 		$datos = DB::table('comercial.producto_comercial')
-					->join('insumo.receta as rece','comercial.producto_comercial.prod_rece_id','=','rece.rece_id')
-                    ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
-                    ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
-                    ->where('prod_codigo','<>',null)
-                    ->where('rece.rece_lineaprod_id',$linea_id)->get();
+			->join('insumo.receta as rece', 'comercial.producto_comercial.prod_rece_id', '=', 'rece.rece_id')
+			->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id')
+			->join('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+			->where('prod_codigo', '<>', null)
+			->where('rece.rece_lineaprod_id', $linea_id)->get();
 		return Response::json($datos);
 	});
-	Route::post('RegistrarSolicitudPedidoProd','comercial\SolicitudPedidoPvController@registrarSolicitudPedidoProd');
-	Route::get('ImprimirSolprod/{id}','ReportController@imprimirSolprodComercial');
+	Route::post('RegistrarSolicitudPedidoProd', 'comercial\SolicitudPedidoPvController@registrarSolicitudPedidoProd');
+	Route::get('ImprimirSolprod/{id}', 'ReportController@imprimirSolprodComercial');
 	Route::get('SolRecibidasPvComercial', 'comercial\SolicitudPedidoPvController@indexSolPedidoPvRecibidas');
 	Route::get('VerSolicitudPedidoPv/{id}', 'comercial\SolicitudPedidoPvController@verSolicitudPedidoPv');
-	Route::post('RegistrarAprobSolicitudPedidoPv','comercial\SolicitudPedidoPvController@registrarAprobSolicitudPedidoPv');
+	Route::post('RegistrarAprobSolicitudPedidoPv', 'comercial\SolicitudPedidoPvController@registrarAprobSolicitudPedidoPv');
 	Route::get('SolRecibidasProdComercial', 'comercial\SolicitudPedidoPvController@indexSolPedidoProdRecibidas');
 	Route::get('VerSolicitudPedidoProd/{id}', 'comercial\SolicitudPedidoPvController@verSolicitudPedidoProd');
-	Route::post('RegistrarAprobSolicitudPedidoProd','comercial\SolicitudPedidoPvController@registrarAprobSolicitudPedidoProd');
+	Route::post('RegistrarAprobSolicitudPedidoProd', 'comercial\SolicitudPedidoPvController@registrarAprobSolicitudPedidoProd');
 	Route::get('PuntoVentaComercial', 'comercial\PuntoVentaController@index');
 	Route::get('NuevoPuntoVenta', 'comercial\PuntoVentaController@nuevoPuntoVenta');
 	Route::post('RegistrarNuevoPuntoVenta', 'comercial\PuntoVentaController@registrarNuevoPuntoVenta');
@@ -790,6 +822,5 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('CarritoSolicitudTraspaso', 'comercial\TraspasoPuntoVentaController@carritoSolicitudTraspaso');
 	Route::get('SalidasPuntoVentaComercial', 'comercial\SalidaPuntoVentaController@index');
 });
-
 
 // Route::get('/home', 'HomeController@index')->name('home');

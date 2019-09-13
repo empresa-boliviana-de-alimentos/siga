@@ -1,19 +1,66 @@
 @extends('backend.template.app')
 <style type="text/css" media="screen">
-        table {
-    border-collapse: separate;
-    border-spacing: 0 5px;
+    .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
+        padding: 1px;
+        font-size: 12px;
     }
+    table.dataTable tbody th, table.dataTable tbody td {
+        padding: 8px 10px;
+        color: dimgrey;
+        font-size: 12px;
+    }
+
     thead th {
       background-color:#428bca;
       color: white;
+      font-size: 12px;
     }
     tbody td {
       background-color: #EEEEEE;
     }
+    .panel-tabs {
+        position: relative;
+        bottom: 30px;
+        clear:both;
+        border-bottom: 1px solid transparent;
+    }
+
+    .panel-tabs > li {
+        float: left;
+        margin-bottom: -1px;
+    }
+
+    .panel-tabs > li > a {
+        margin-right: 2px;
+        margin-top: 4px;
+        line-height: .85;
+        border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        color: #ffffff;
+    }
+
+    .panel-tabs > li > a:hover {
+        border-color: transparent;
+        color: #ffffff;
+        background-color: transparent;
+    }
+
+    .panel-tabs > li.active > a,
+    .panel-tabs > li.active > a:hover,
+    .panel-tabs > li.active > a:focus {
+        color: #fff;
+        cursor: default;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        border-radius: 2px;
+        background-color: rgba(255,255,255, .23);
+        border-bottom-color: transparent;
+    }
 </style>
 @section('main-content')
 @include('backend.administracion.producto_terminado.datos.canastillos.partials.modalCreate')
+@include('backend.administracion.producto_terminado.datos.canastillos.partials.modalUpdate')
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <div class="row">
@@ -23,341 +70,182 @@
             <div class="col-md-7 text-center">
                 <p class="panel-title">LISTA DE CANASTILLOS</p>
             </div>
-            <div class="col-md-3 text-right">
-                <button class="btn pull-right btn-default" style="background: #616A6B"  data-target="#myCreateCanastillo" data-toggle="modal"><h6 style="color: white">+&nbsp;NUEVO CANASTILLO</h6></button>
-            </div>
         </div>
     </div>
     <div class="panel-body">
-        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-proveedores">
-            <thead>
-                <tr>
-                    <th>
-                        #
-                    </th>
-                    <th>
-                        CODIGO
-                    </th>
-                    <th>
-                        DESCRIPCION
-                    </th>
-                    <th>
-                        COLOR
-                    </th>
-                    <th>
-                        MERCADO
-                    </th>
-                    <th>
-                        OPCIONES
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>CANAS-1</td>
-                    <td>CANASTILLO 1</td>
-                    <td>VERDE</td>
-                    <td>ABIERTO</td>
-                    <th>
-                        <div class="text-center">
-                            <button value="'.$persona->prs_id.'" class="btncirculo btn-xs btn-warning" onClick="MostrarPersona(this);" data-toggle="modal" data-target="#myUpdate"><i class="fa fa-pencil-square"></i></button>
-                            <button value="'.$persona->prs_id.'" class="btncirculo btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+        <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myCreateCanastillo">REGISTRAR</button>
                         </div>
-                    </th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>CANAS-2</td>
-                    <td>CANASTILLO 2</td>
-                    <td>AZUL</td>
-                    <td>CERRADO</td>
-                    <th>
-                        <div class="text-center">
-                            <button value="'.$persona->prs_id.'" class="btncirculo btn-xs btn-warning" onClick="MostrarPersona(this);" data-toggle="modal" data-target="#myUpdate"><i class="fa fa-pencil-square"></i></button>
-                            <button value="'.$persona->prs_id.'" class="btncirculo btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                        <div class="box-body">
+                            <table class="table table-hover table-striped table-condensed" id = "lts-canastillo">
+                                <thead>
+                                    <tr>
+                                        <th>Opciones</th>
+                                        <th>#</th>
+                                        <th>Descripion</th>
+                                        <th>Codigo</th>
+                                        <th>Productos a transporte</th>
+                                        <th>Altura</th>
+                                        <th>Ancho</th>
+                                        <th>Largo</th>
+                                        <th>Peso</th>
+                                        <th>Material</th>
+                                        <th>Observacion</th>
+                                        <th>C/logo</th>
+                                        <th>Foto/Adjunto</th>
+                                        <th>Almacenamiento</th>
+                                        <th>Transporte</th>
+                                        <th>Aplicación</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                            </table>
                         </div>
-                    </th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>CANAS-3</td>
-                    <td>CANASTILLO 3</td>
-                    <td>AMARRILLO</td>
-                    <td>ABIERTO</td>
-                    <th>
-                        <div class="text-center">
-                            <button value="'.$persona->prs_id.'" class="btncirculo btn-xs btn-warning" onClick="MostrarPersona(this);" data-toggle="modal" data-target="#myUpdate"><i class="fa fa-pencil-square"></i></button>
-                            <button value="'.$persona->prs_id.'" class="btncirculo btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                        <div class="box-footer clearfix">
                         </div>
-                    </th>
-                </tr>
-            </tbody>     
-        </table>               
+                    </div>
+                </div>
+            </div>
     </div>
 </div>
 @endsection
 @push('scripts')
 <script>
-    /*var t =  $('#lts-proveedores').DataTable( {
-      
-         "processing": true,
-            "serverSide": true,
-            "ajax": "/ProveedorInsumo/create/",
-            "columns":[
-                {data: 'prov_id'},
-                {data: 'acciones',orderable: false, searchable: false}, 
-                {data: 'prov_nom'},
-                {data: 'prov_dir'},
-                {data: 'prov_tel'},
-                {data: 'prov_nom_res'},
-                {data: 'evaluacion_prov'}
+
+   $('#lts-canastillo').DataTable( {
+        "processing": true,
+        "serverSide": true,
+        "responsive":true,
+        "destroy":true,
+        "ajax": "MenuCanastillos/create",
+        "columns":[
+            {data: 'acciones',orderable: false, searchable: false},
+            {data: 'ctl_id'},
+            {data: 'ctl_descripcion'},
+            {data: 'ctl_codigo'},
+            {data: 'ctl_rece_id'},
+            {data: 'ctl_altura'},
+            {data: 'ctl_ancho'},
+            {data: 'ctl_largo'},
+            {data: 'ctl_peso'},
+            {data: 'ctl_material'},
+            {data: 'ctl_observacion'},
+            {data: 'ctl_logo'},
+            {data: 'ctl_foto_canastillo'},
+            {data: 'ctl_almacenamiento'},
+            {data: 'ctl_transporte'},
+            {data: 'ctl_aplicacion'},
+            {data: 'ctl_estado'},
         ],
-        
         "language": {
-             "url": "/lenguaje"
+            "url": "/lenguaje"
         },
          "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-         "order": [[ 0, "desc" ]]
-       
     });
-    t.on( 'order.dt search.dt', function () {
-        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();*/
 
-     function Limpiar(){
-        $("#nombre").val("");
-        $("#direccion").val("");
-        $("#telefono").val("");
-        $("#nomres").val("");
-        $("#apres").val("");
-        $("#amres").val("");
-        $("#telres").val("");
-        $("#obs").val("");
-      }
-      function LimpiarEvaluacion()
-      {
-        $("#costo_aprob").val("");
-        $("#puntos_costo_aprob").val("");
-        $("#fiabilidad").val("");
-        $("#puntos_fiabilidad").val("");
-        $("#imagen").val("");
-        $("#puntos_imagen").val("");
-        $("#calidad").val("");
-        $("#puntos_calidad").val("");
-        $("#plazos").val("");
-        $("#puntos_plazos").val("");
-        $("#pagos").val("");
-        $("#puntos_pagos").val("");
-        $("#cooperacion").val("");
-        $("#puntos_cooperacion").val("");
-        $("#flexibilidad").val("");
-        $("#puntos_flexibilidad").val("");
-        $("#puntos_totales").val("");
-        $("#totales").val("");
-        $("#puntos_puntos").val("");
-        $("#puntos_porcentaje").val("");
-      }
-
-        $("#registroProv").click(function(){
-            var route="/ProveedorInsumo";
-            var token =$("#token").val();
-            $.ajax({
-                url: route,
-                headers: {'X-CSRF-TOKEN': token},
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                'nombre_proveedor':$("#nombre").val(),
-                'prov_dir':$("#direccion").val(),
-                'prov_tel':$("#telefono").val(),
-                'nombre_responsable':$("#nomres").val(),
-                'prov_ap_res':$("#apres").val(),
-                'prov_am_res':$("#amres").val(),
-                'prov_tel_res':$("#telres").val(),
-                'prov_obs':$("#obs").val(),
-                },
-                success: function(data){
-                    $("#myCreateProv").modal('toggle');Limpiar();
-                    swal("Proveedor!", "registro correcto","success");
-                    $('#lts-proveedores').DataTable().ajax.reload();
-                },
-                error: function(result)
-                {
-                // swal("Opss..!", "Error al registrar el dato", "error");
-                    var errorCompleto='Tiene los siguientes errores: ';
-                    $.each(result.responseJSON.errors,function(indice,valor){
-                       errorCompleto = errorCompleto + valor+' ' ;                       
-                    });
-                    swal("Opss..., Hubo un error!",errorCompleto,"error");
-                }
-            });
+   function MostrarCanastillos(btn){
+        var route = "MenuCanastillos/"+btn.value+"/edit";
+        $.get(route, function(res){
+            $("#ctl_descripcion1").val(res.ctl_descripcion);
+            $("#ctl_codigo1").val(res.ctl_codigo);
+            $("#ctl_rece_id1").val(res.ctl_rece_id);
+            $("#ctl_altura1").val(res.ctl_altura);
+            $("#ctl_ancho1").val(res.ctl_ancho);
+            $("#ctl_largo1").val(res.ctl_largo);
+            $("#ctl_peso1").val(res.ctl_peso);
+            $("#ctl_material1").val(res.ctl_material);
+            $("#ctl_observacion1").val(res.ctl_observacion);
+            $("#ctl_logo1").val(res.ctl_logo);
+            $("#ctl_foto_canastillo1").val(res.ctl_foto_canastillo);
+            $("#ctl_almacenamiento1").val(res.ctl_almacenamiento);
+            $("#ctl_transporte1").val(res.ctl_transporte);
+            $("#ctl_aplicacion1").val(res.ctl_aplicacion);
+            $("#ctl_id").val(res.ctl_id);
+            $('#imagenUpdate').attr('src','archivo/canastillo/'+res.ctl_foto_canastillo);
+            $('#imgCapture').val(res.ctl_foto_canastillo);
         });
+    }
 
-        function MostrarProv(btn){
-            var route = "/ProveedorInsumo/"+btn.value+"/edit";
-            $.get(route, function(res){
-                $("#prov_id1").val(res.prov_id);
-                $("#prov_nom1").val(res.prov_nom);
-                $("#prov_dir1").val(res.prov_dir);
-                $("#prov_tel1").val(res.prov_tel);
-                $("#prov_nom_res1").val(res.prov_nom_res);
-                $("#prov_ap_res1").val(res.prov_ap_res);
-                $("#prov_am_res1").val(res.prov_am_res);
-                $("#prov_tel_res1").val(res.prov_tel_res);
-                $("#prov_obs1").val(res.prov_obs);
-            });
-        }
+    function registrar()
+    {
+        console.log("persona",new FormData($("#canastillos")[0]));
+        var route="MenuCanastillos";
+        var token =$("#token").val();
+        $.ajax({
+            url: route,
+             headers: {'X-CSRF-TOKEN': token},
+            type: 'POST',
+            async:false,
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            data:new FormData($("#canastillos")[0]),
+                success: function(data){
+                    $("#myCreateCanastillo").modal('toggle');
+                    swal("El canastillo!", "Se registro correctamente!", "success");
+                    $('#lts-canastillo').DataTable().ajax.reload();
+                },
+                error: function(result) {
+                        swal("Error..!", "Sucedio un problema al registrar inserte bien los datos!", "error");
+                }
+        });
+    }
 
-        $("#actualizarProv").click(function(){
-        var value = $("#prov_id1").val();
-        var route="/ProveedorInsumo/"+value+"";
+      $("#actualizar").click(function(){
+        var value =$("#ctl_id").val();
+        var route="updateCanastillo";
         var token =$("#token").val();
         $.ajax({
             url: route,
             headers: {'X-CSRF-TOKEN': token},
-            type: 'PUT',
+            type: 'POST',
+            async:false,
+            processData: false,
+            contentType: false,
             dataType: 'json',
-            data: {
-                    'prov_nom':$("#prov_nom1").val(),
-                    'prov_dir':$("#prov_dir1").val(),
-                    'prov_tel':$("#prov_tel1").val(),
-                    'prov_nom_res':$("#prov_nom_res1").val(),
-                    'prov_ap_res':$("#prov_ap_res1").val(),
-                    'prov_am_res':$("#prov_am_res1").val(),
-                    'prov_tel_res':$("#prov_tel_res1").val(),
-                    'prov_obs':$("#prov_obs1").val(),
-                  },
-                        success: function(data){
-                $("#myUpdateProv").modal('toggle');
-                swal("Proveedor!", "edicion exitosa!", "success");
-                $('#lts-proveedores').DataTable().ajax.reload();
-
-            },  error: function(result) {
+            data:new FormData($("#canastillosUpdate")[0]),
+            success: function(data){
+                $("#myUpdateCanastillo").modal('hide');
+                $('.modal-backdrop').remove();
+                swal("El canastillo!", "Fue actualizado correctamente!", "success");
+                $('#lts-canastillo').DataTable().ajax.reload();
+            },error: function(result) {
                   console.log(result);
-                 swal("Opss..!", "Edicion rechazada", "error")
+                 swal("Opss..!", "El canastillo no se puedo actualizar intente de nuevo!", "error")
             }
         });
         });
 
-        function Eliminar(btn){
-        var route="/ProveedorInsumo/"+btn.value+"";
+    function EliminarCanastillo(btn){
+        var route="MenuCanastillos/"+btn.value+"";
         var token =$("#token").val();
-        swal({   title: "Eliminacion de registro?",
-          text: "Uds. esta a punto de eliminar 1 registro",
+        swal({   title: "Esta seguro de eliminar el Canastillo?",
+          text: "Presione ok para eliminar el registro de la base de datos!",
           type: "warning",   showCancelButton: true,
           confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Eliminar!",
+          confirmButtonText: "Si, Eliminar!",
           closeOnConfirm: false
         }, function(){
            $.ajax({
-                    url: route,
-                    headers: {'X-CSRF-TOKEN': token},
-                    type: 'DELETE',
-                    dataType: 'json',
-
-                    success: function(data){
-                        $('#lts-proveedores').DataTable().ajax.reload();
-                        swal("Proveedor!", "El registro fue dado de baja!", "success");
-                    },
-                        error: function(result) {
-                            swal("Opss..!", "error al procesar la solicitud", "error")
-                    }
-                });
-        });
-        }
-
-        function FormEval(btn){
-            var route = "/ProveedorInsumo/"+btn.value+"/edit";
-            $.get(route, function(res){
-                console.log(res);
-                $('#nombre_proveedor').val(res.prov_nom);
-                $('#prov_id_eval').val(res.prov_id);
-            });
-        }
-
-        $("#registroProvEval").click(function(){
-            var route="/EvaluacionProv";
-            var token =$("#token").val();
-            $.ajax({
                 url: route,
                 headers: {'X-CSRF-TOKEN': token},
-                type: 'POST',
+                type: 'DELETE',
                 dataType: 'json',
-                data: {
-                    'eval_prov_id':$("#prov_id_eval").val(),
-                    'eval_evaluacion':$("#evaluacion").val(),
-                    'eval_costo_apro':$("#puntos_costo_aprob").val(),
-                    'eval_fiabilidad':$("#puntos_fiabilidad").val(),
-                    'eval_imagen':$("#puntos_imagen").val(),
-                    'eval_calidad':$("#puntos_calidad").val(),
-                    'eval_cumplimientos_plazos':$("#puntos_plazos").val(),
-                    'eval_condiciones_pago':$("#puntos_pagos").val(),
-                    'eval_capacidad_cooperacion':$("#puntos_cooperacion").val(),
-                    'eval_flexibilidad': $("#puntos_flexibilidad").val(),                
-                },
+
                 success: function(data){
-                    $("#formEvaluacion").modal('toggle');
-                    swal("Evaluación Proveedor!", "Registro correcto","success");
-                    $('#lts-proveedores').DataTable().ajax.reload();
-                    LimpiarEvaluacion();
+                    $('#lts-canastillo').DataTable().ajax.reload();
+                    swal("Destino!", "Fue eliminado correctamente!", "success");
                 },
-                error: function(result)
-                {
-                    var errorCompleto='Tiene los siguientes errores: ';
-                    $.each(result.responseJSON.errors,function(indice,valor){
-                       errorCompleto = errorCompleto + valor+' ' ;                       
-                    });
-                    swal("Opss..., Hubo un error!",errorCompleto,"error");
+                    error: function(result) {
+                        swal("Error..!", "El Destino tiene registros en otras tablas!", "error")
                 }
             });
         });
+    }
 
-        //LISTAR EVALUACIONES PROVEEDOR
-        function MostrarEvaluacion(btn){
-            var route = "ListarEvalProv/"+btn.value;
-            $.get(route, function(res){
-                console.log(res);
-                if (typeof(res[0]) === "undefined") {
-                    console.log('No Existe Datos');
-                    $("#TableEvaluaciones tr td").remove(); 
-                }
-                else{
-                    console.log('Existe Datos');            
-                    //$("#TableEvaluaciones tr td").remove(); 
-                    //var nro = 0;
-                    $( "#TableEvaluaciones tbody tr" ).each( function(){ this.parentNode.removeChild( this ); }); 
-                    var nro = 0;
-                    for (i = 0; i < res.length; i++){
-                        nro = nro + 1;
-                        var totales = res[i].eval_costo_apro+res[i].eval_fiabilidad+res[i].eval_imagen+res[i].eval_calidad+res[i].eval_cumplimientos_plazos+res[i].eval_condiciones_pago+res[i].eval_capacidad_cooperacion+res[i].eval_flexibilidad;
-                        var total_puntos = totales/100;
-                        var total_porcentaje = (total_puntos/5)*100;
-                             $("#TableEvaluaciones").append('<tr class="items_columsReceta3">' + 
-                                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+nro+ '"></input></td>'+
-                                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+totales+ '"></input></td>'+
-                                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+total_puntos+ '"></input></td>'+
-                                '<td align="center" style="dislay: none;"><input type="text" name="nro[]" class="form-control" readonly value="'+total_porcentaje+ '"></input></td>'+'</tr>');
-                        }
-                    itemAux = res;
-                        
-                    
-                }
-                
-            });
-        }
-
-        function desc(id){
-            if (id == 1) {
-                return 'Entrego muy tarde';
-            }else if(id == 2){
-                return 'Entrego productos dañados';
-            }else{
-                return 'No Entrego';
-            } 
-        }
 </script>
 @endpush
 
