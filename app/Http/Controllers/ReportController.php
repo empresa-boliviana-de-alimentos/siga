@@ -26,6 +26,8 @@ use siga\Modelo\insumo\InsumoHistorial;
 use siga\Modelo\insumo\Stock;
 use siga\Http\Modelo\comercial\SolicitudPv;
 use siga\Http\Modelo\comercial\SolicitudProd;
+use siga\Http\Modelo\comercial\IngresoPv;
+use siga\Http\Modelo\comercial\DetalleIngresoPv;
 class ReportController extends Controller
 {
 
@@ -843,5 +845,37 @@ class ReportController extends Controller
         }elseif($id == 5){
             return "DERIVADOS";
         }
+    }
+
+    public function boletaIngresoPvComercial($id)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA INGRESO PRODUCTOS";
+
+        $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                        ->join('comercial.punto_venta_comercial as pv','pl.id_planta','=','pv.pv_id_planta')
+                        ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = 'PUNTO DE VENTA: '.$planta->pv_nombre;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $ingresopv = IngresoPv::where('ingpv_id',$id)->first();
+        $detingresopv = DetalleIngresoPv::join('comercial.producto_comercial as prod','comercial.detalle_ingreso_punto_venta_comercial.detingpv_prod_id','=','prod.prod_id')
+                                        ->join('insumo.receta as rece','prod.prod_rece_id','=','rece.rece_id')
+                                        ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                        ->where('detingpv_ingpv_id',$id)->get();
+        $fecha = date('d-m-Y',strtotime($ingresopv->ingpv_registrado));
+        $code = $ingresopv->ingpv_nro_ingreso;
+        $date =date('d/m/Y', strtotime($ingresopv->ingpv_registrado));
+
+        $view = \View::make('reportes.boleta_ingresopv_comercial', compact('username','ingresopv','detingresopv','date','title','storage','usuario','code','per'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
     }
 }

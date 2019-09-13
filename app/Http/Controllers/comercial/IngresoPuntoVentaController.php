@@ -7,6 +7,12 @@ use siga\Http\Controllers\Controller;
 use siga\Modelo\insumo\insumo_recetas\Receta;
 use siga\Http\Modelo\comercial\Producto;
 use siga\Http\Modelo\comercial\PuntoVenta;
+use siga\Http\Modelo\comercial\IngresoPv;
+use siga\Http\Modelo\comercial\DetalleIngresoPv;
+use siga\Http\Modelo\comercial\StockPv;
+use siga\Modelo\admin\Usuario;
+use Auth;
+use DB;
 
 class IngresoPuntoVentaController extends Controller
 {
@@ -44,6 +50,46 @@ class IngresoPuntoVentaController extends Controller
     }
     public function registrarIngresoPV(Request $request)
     {
-        dd($request);
+        $planta = Usuario::join('public._bp_planta as pl','public._bp_usuarios.usr_planta_id','=','pl.id_planta')
+                              ->where('usr_id',Auth::user()->usr_id)->first();
+        //dd($planta);
+        $punto_venta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                              ->join('comercial.punto_venta_comercial as pvc', 'planta.id_planta','=','pvc.pv_id_planta')
+                              ->where('usr_id','=',Auth::user()->usr_id)->first();
+        //dd($punto_venta);
+        $num = IngresoPv::join('public._bp_planta as plant', 'comercial.ingreso_punto_venta_comercial.ingpv_id_planta','=','plant.id_planta')->select(DB::raw('MAX(ingpv_nro_ingreso) as nro_ing'))->where('plant.id_planta', $planta->id_planta)->first();
+        $cont=$num['nro_ing'];
+        $noing = $cont + 1;
+        $ingresopv = IngresoPv::create([
+            'ingpv_origen_pv_id'    => $request['origen'],
+            'ingpv_nro_ingreso'     => $noing,
+            'ingpv_obs'             => $request['observacion'],
+            'ingpv_usr_id'          => Auth::user()->usr_id,
+            'ingpv_pv_id'           => $punto_venta->pv_id,
+            'ingpv_id_planta'       => $planta->id_planta,
+        ]);
+        $detingreso = json_decode($request['datos_json']);
+        foreach ($detingreso as $det) {
+            $deting = DetalleIngresoPv::create([
+                'detingpv_ingpv_id'     => $ingresopv->ingpv_id,
+                'detingpv_prod_id'      => $det->producto_id,
+                'detingpv_cantidad'     => $det->cantidad,
+                'detingpv_costo'        => $det->costo,
+                'detingpv_lote'         => $det->lote,
+                'detingpv_fecha_venc'   => $det->fecha_vencimiento,
+            ]);
+            StockPv::create([         
+                'stockpv_prod_id'       => $det->producto_id,
+                'stockpv_detingpv_id'   => $deting->detingpv_id,
+                'stockpv_cantidad'      => $det->cantidad,
+                'stockpv_costo'         => $det->costo,
+                'stockpv_lote'          => $det->lote,
+                'stockpv_fecha_venc'    => $det->fecha_vencimiento,   
+                'stockpv_pv_id'         => $punto_venta->pv_id,
+                'stockpv_id_planta'     => $planta->id_planta,
+            ]);
+        }
+
+        return response()->json($ingresopv);
     }
 }
