@@ -39,9 +39,10 @@
                                                 <label>
                                                     ORIGEN:
                                                 </label>
-                                                <select class="form-control" name="origen">
+                                                <select class="form-control" name="origen" id="origen">
+                                                    <option value="0">Seleccione</option>
                                                     @foreach($punto_ventas as $pv)
-                                                    <option value="{{$pv->id_planta}}">{{$pv->pv_nombre}}</option>
+                                                    <option value="{{$pv->pv_id}}">{{$pv->pv_nombre}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

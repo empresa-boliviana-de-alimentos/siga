@@ -82,7 +82,7 @@
                 <div class="panel">
                     <div class="panel-body">
                         <div class="body table-responsive">
-                            <div><button value="" class="btn btn-primary" onClick="MostrarCarritoConfirm();" data-toggle="modal" data-target="#myCreateConfirmacionIngresoPv"><span class="glyphicon glyphicon-shopping-cart"></span> Solicitar</button>
+                            <div><button value="" class="btn btn-primary" onClick="MostrarCarritoConfirm();" data-toggle="modal" data-target="#myCreateConfirmacionIngresoPv"><span class="glyphicon glyphicon-shopping-cart"></span> Confirmar</button>
                             <button class="btn btn-danger" onclick="eliminarTodos()" name="borrar" id="borrar" value="Borrar todo"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button> </div>
                             <table id="lts-carrito" class="table table-condensed" style="width:100%">
                                 <thead>
@@ -303,7 +303,7 @@ function eliminarTodosModal()
                     },
                 success: function(data){
                     //$('#myCreate').fadeIn(1000).html(data);
-                    $("#myCreateSolTraspaso").modal('toggle');
+                    $("#myCreateConfirmacionIngresoPv").modal('toggle');
                     //swal("La Persona!", "Se registrado correctamente!", "success");
                     //$('#lts-persona').DataTable().ajax.reload();
                     swal({
