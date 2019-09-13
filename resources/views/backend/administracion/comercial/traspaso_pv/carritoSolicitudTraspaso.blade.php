@@ -1,6 +1,6 @@
 @extends('backend.template.app')
 @section('main-content')
-@include('backend.administracion.comercial.ingreso_punto_venta.modalConfirmacionIngresoPv')
+@include('backend.administracion.comercial.traspaso_pv.modalConfirmSoltraspaso')
 <div class="panel panel-primary">
     <div class="panel-heading">
         <div class="row">
@@ -91,7 +91,7 @@
                 <div class="panel">
                     <div class="panel-body">
                         <div class="body table-responsive">
-                            <div><button value="" class="btn btn-primary" onClick="MostrarCarritoConfirm();" data-toggle="modal" data-target="#myCreateConfirmacionIngresoPv"><span class="glyphicon glyphicon-shopping-cart"></span> Solicitar</button>
+                            <div><button value="" class="btn btn-primary" onClick="MostrarCarritoConfirm();" data-toggle="modal" data-target="#myCreateConfirmacionSolTraspaso"><span class="glyphicon glyphicon-shopping-cart"></span> Solicitar</button>
                             <button class="btn btn-danger" onclick="eliminarTodos()" name="borrar" id="borrar" value="Borrar todo"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</button> </div>
                             <table id="lts-carrito" class="table table-condensed" style="width:100%">
                                 <thead>
