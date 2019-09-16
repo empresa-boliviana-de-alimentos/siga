@@ -99,7 +99,7 @@ class ReportController extends Controller
     public function ingreso_materia_prima($id_envio)
     {
         $username = Auth::user()->usr_usuario;
-        $title = "NOTA DE INGRESO DE MATERIA PRIMA";
+        $title = "NOTA DE INGRESO DE ORDEN PRODUCCIÓN";
         $date =Carbon::now();
         $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
                         ->where('usr_id', Auth::user()->usr_id)
@@ -877,5 +877,45 @@ class ReportController extends Controller
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->loadHTML($html_content);
         return $pdf->inline();
+    }
+
+    /**********************************************REPORTES PRODUCTO TERMINADO****************************************************/
+    public function reporteBoletaIngresoPt($id)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA INGRESO PRODUCTOS";
+
+        $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                        ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $detingresopv = $ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+            ->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+            ->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+            ->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+            ->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+            ->orderBy('orprod_id', 'DESC')
+            ->where('orprod_tiporprod_id', 1)
+            ->Where('inp.ipt_estado', 'A')
+            ->where('orprod_estado_pt', 'I')
+            ->where('inp.ipt_id',$id)
+            ->first();
+           // dd($detingresopv);
+        $fecha = date('d-m-Y',strtotime($detingresopv->ipt_registrado));
+        $code = $detingresopv->orprod_nro_orden;
+        $date =date('d/m/Y', strtotime($detingresopv->ipt_registrado));
+
+        $view = \View::make('reportes.boleta_ingreso_producto_terminado', compact('username','ingresopv','detingresopv','date','title','storage','usuario','code','per'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+        dd($id);
     }
 }
