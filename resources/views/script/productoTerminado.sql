@@ -387,6 +387,23 @@ CREATE TABLE producto_terminado.stock_producto_terminado(
 	FOREIGN KEY(spt_planta_id) REFERENCES public._bp_planta(id_planta)
 );
 
+CREATE TABLE producto_terminado.stock_producto_terminado_historial(
+    spth_id serial primary key,
+    spth_orprod_id integer NOT NULL,
+    spth_planta_id integer NOT NULL,
+  	spth_fecha timestamp without time zone NOT NULL,
+    spth_cantidad numeric(10,2) NOT NULL,
+	spth_costo numeric(10,2) NOT NULL,
+	spth_costo_unitario numeric(10,2) NOT NULL,
+    spth_usr_id integer NOT NULL,
+    spth_estado char(1) NOT NULL DEFAULT 'A',
+    spth_registrado timestamp NOT NULL DEFAULT now(),
+    spth_modificado timestamp NOT NULL DEFAULT now(),
+    spth_estado_baja char(1) NOT NULL DEFAULT 'A',
+	FOREIGN KEY(spth_orprod_id) REFERENCES insumo.orden_produccion(orprod_id),
+	FOREIGN KEY(spth_planta_id) REFERENCES public._bp_planta(id_planta)
+);
+
 CREATE OR REPLACE FUNCTION sp_lst_ctrlvehiculo_eq(
     IN id_vehiculo integer)
 	  RETURNS TABLE(xctrv_id integer, xctrv_registrado date, xgata text, xllanta text, xllaves text, xbotiquin text, xextintor text, xatomizador text, xmontacarga text, xtermometro text, xherramientas text, xobservaciones text, xpromedio text) AS
