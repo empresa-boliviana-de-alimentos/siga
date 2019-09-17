@@ -32,6 +32,7 @@ Vue.component('insumo-adicional', require('./components/InsumoAdicionalComponent
 Vue.component('producto-comercialpv', require('./components/ProductoComercialComponent.vue').default);
 Vue.component('producto-comercialpvlinea', require('./components/ProductoComercialComponentLinea.vue').default);
 Vue.component('lista-productolineacomercial', require('./components/ListaProductosLineaComercial.vue').default);
+Vue.component('ingreso-canastillo', require('./components/IngresoORPComponent.vue').default);
 
 
 /**

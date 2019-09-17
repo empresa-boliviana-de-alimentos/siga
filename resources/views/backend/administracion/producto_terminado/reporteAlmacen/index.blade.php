@@ -138,190 +138,291 @@
         </section>
     </div>
     <div class="col-md-10">
-        <!--<div class="alert alert-danger">
+        <!--<div class="alert alert-success">
             <button type="button" class="close">&times;</button>
             <strong>REPORTES</strong> Seleccione la opcion
         </div>-->
         <div class="tab-content">
-                      <div class="tab-pane fade in active" id="ingresos">
-                       <div class="box">
-                                <div class="box-header with-border text-center">
-                                    <h3 class="box-title">
-                                        LISTADO DE TODOS LOS INGRESOS
-                                    </h3>
+          <div class="tab-pane fade in active" id="ingresos">
+            <div class="box">
+              <div class="box-header with-border text-center">
+                  <h3 class="box-title" style="color: #2067b4">
+                      <strong>INGRESOS</strong>
+                  </h3>
+                  <ul class="nav nav-tabs">
+                    <li class="active" id="ingresoOrp">
+                      <a data-toggle="tab" href="#ingresosOrp" class="btn btn-primary" style="font-size: 11px">
+                        INGRESOS ORP <span class="glyphicon glyphicon-inbox"></span>
+                      </a>
+                    </li>
+                    <li id="ingresosCanastillosss">
+                      <a data-toggle="tab" href="#ingresosCanastillos" class="btn btn-primary" style="font-size: 11px">
+                        INGRESOS CANASTILLOS <span class="glyphicon glyphicon-shopping-cart"></span>
+                      </a>
+                    </li>
+                  </ul>
+              </div>
+              <div class="tab-content">
+                <div class="tab-pane in active" id="ingresosOrp">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-orp">
+                    <thead class="cf">
+                      <tr>
+                        <th class="text-center">
+                          #
+                        </th>
+                        <th class="text-center">
+                          RECETA
+                        </th>
+                        <th class="text-center">
+                          CODIGO
+                        </th>
+                        <th class="text-center">
+                          NRO ORDEN
+                        </th>
+                        <th class="text-center">
+                          CANTIDAD
+                        </th>
+                        <th class="text-center">
+                          LOTE
+                        </th>
+                        <th class="text-center">
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th class="text-center">
+                          COSTO
+                        </th>
+                        <th class="text-center">
+                          OPCIÓN
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($ingresoOrp as $io)
+                      <tr>
+                        <td class="text-center">{{$io->ipt_id}}</td>
+                        <td class="text-center">{{$io->rece_nombre.' '.$io->sab_nombre.' '.$io->rece_presentacion}}</td>
+                        <td class="text-center">{{$io->rece_codigo}}</td>
+                        <td class="text-center">{{$io->orprod_nro_orden}}</td>
+                        <td class="text-center">{{$io->ipt_cantidad}}</td>
+                        <td class="text-center">{{$io->ipt_lote}}</td>
+                        <td class="text-center">{{$io->ipt_fecha_vencimiento}}</td>
+                        <td class="text-center">{{$io->ipt_costo_unitario}}</td>
+                        <td class="text-center"><a href="imprimirBoletaIngreso/{{$io->ipt_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
+                      </tr>
+                    @endforeach
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th class="text-center">
+                          #
+                        </th>
+                        <th class="text-center">
+                          RECETA
+                        </th>
+                        <th class="text-center">
+                          CODIGO
+                        </th>
+                        <th class="text-center">
+                          NRO ORDEN
+                        </th>
+                        <th class="text-center">
+                          CANTIDAD
+                        </th>
+                        <th class="text-center">
+                          LOTE
+                        </th>
+                        <th class="text-center">
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th class="text-center">
+                          COSTO
+                        </th>
+                        <th class="text-center">
+                          OPCIÓN
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="tab-pane" id="ingresosCanastillos">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-canastillo">
+                    <thead class="cf">
+                      <tr>
+                        <th class="text-center">
+                          #
+                        </th>
+                        <th class="text-center">
+                          CANASTILLO
+                        </th>
+                        <th class="text-center">
+                          NRO. INGRESO
+                        </th>
+                        <th class="text-center">
+                          CANTIDAD
+                        </th>
+                        <th class="text-center">
+                          ORIGEN
+                        </th>
+                        <th class="text-center">
+                          PRODUCTO
+                        </th>
+                        <th class="text-center">
+                          FECHA INGRESO
+                        </th>
+                        <th class="text-center">
+                          CONDUCTOR
+                        </th>
+                        <th class="text-center">
+                          IMAGEN
+                        </th>
+                        <th class="text-center">
+                          OPCIÓN
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($ingresoCanastillos as $ic)
+                      <tr>
+                        <td class="text-center">{{$ic->iac_id}}</td>
+                        <td class="text-center">{{$ic->ctl_descripcion}}</td>
+                        <td class="text-center">{{$ic->iac_nro_ingreso}}</td>
+                        <td class="text-center">{{$ic->iac_cantidad}}</td>
+                        <td class="text-center">{{$ic->nombre_planta}}</td>
+                        <td class="text-center">{{$ic->producto}}</td>
+                        <td class="text-center">{{$ic->iac_fecha_ingreso}}</td>
+                        <td class="text-center">{{$ic->conductor}}</td>
+                        <td class="text-center"><img src="archivo/canastillo/{{$ic->ctl_foto_canastillo}}" class="img-circle" style=" width: 50px;"></td>
+                        <td class="text-center"><a href="imprimirBoletaIngresoCanastillo/{{$ic->iac_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
+                      </tr>
+                    @endforeach
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th class="text-center">
+                          #
+                        </th>
+                        <th class="text-center">
+                          CANASTILLO
+                        </th>
+                        <th class="text-center">
+                          NRO. INGRESO
+                        </th>
+                        <th class="text-center">
+                          CANTIDAD
+                        </th>
+                        <th class="text-center">
+                          ORIGEN
+                        </th>
+                        <th class="text-center">
+                          PRODUCTO
+                        </th>
+                        <th class="text-center">
+                          FECHA INGRESO
+                        </th>
+                        <th class="text-center">
+                          CONDUCTOR
+                        </th>
+                        <th class="text-center">
+                          IMAGEN
+                        </th>
+                        <th class="text-center">
+                          OPCIÓN
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="despachos">
+            <div class="box">
+              <div class="box-header with-border text-center">
+                  <h3 class="box-title" style="color: #2067b4">
+                      <strong>DESPACHOS</strong>
+                  </h3>
+              </div>
+              <div class="box-body">
+                <div id="no-more-tables">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporInsumo">
+                    <thead class="cf">
+                      <tr>
+                        <th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            NRO. ORP
+                        </th>
+                        <th class="text-center">
+                            FECHA SOLICITUD
+                        </th>
+                        <th class="text-center">
+                            NRO. SALIDA
+                        </th>
+                        <th class="text-center">
+                            FECHA ENTREGA
+                        </th>
+                        <th class="text-center">
+                            PRODUCTO PRODUCIR
+                        </th>
+                        <th class="text-center">
+                            CANTIDAD
+                        </th>
+                        <th class="text-center">
+                            SOLICITANTE
+                        </th>
+                        <th class="text-center">
+                            ESTADO
+                        </th>
+                        <th class="text-center">
+                            OPCIONES
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
 
-                                </div>
-                            <div id="no-more-tables">
-                                <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-orp">
-                                    <thead class="cf">
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    <th>
-                                                        RECETA
-                                                    </th>
-                                                    <th>
-                                                        CODIGO
-                                                    </th>
-                                                    <th>
-                                                        NRO ORDEN
-                                                    </th>
-                                                    <th>
-                                                        CANTIDAD
-                                                    </th>
-                                                    <th>
-                                                      LOTE
-                                                    </th>
-                                                    <th>
-                                                      FECHA VENCIMIENTO
-                                                    </th>
-                                                    <th>
-                                                      COSTO
-                                                    </th>
-                                                    <th>
-                                                      OPCIÓN
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($ingresoOrp as $io)
-                                              <tr>
-                                                <td>{{$io->ipt_id}}</td>
-                                                <td>{{$io->rece_nombre.' '.$io->sab_nombre.' '.$io->rece_presentacion}}</td>
-                                                <td>{{$io->rece_codigo}}</td>
-                                                <td>{{$io->orprod_nro_orden}}</td>
-                                                <td>{{$io->ipt_cantidad}}</td>
-                                                <td>{{$io->ipt_lote}}</td>
-                                                <td>{{$io->ipt_fecha_vencimiento}}</td>
-                                                <td>{{$io->ipt_costo_unitario}}</td>
-                                                <td><a href="imprimirBoletaIngreso/{{$io->ipt_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
-                                              </tr>
-                                            @endforeach
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    <th>
-                                                        RECETA
-                                                    </th>
-                                                    <th>
-                                                        CODIGO
-                                                    </th>
-                                                    <th>
-                                                        NRO ORDEN
-                                                    </th>
-                                                    <th>
-                                                        CANTIDAD
-                                                    </th>
-                                                    <th>
-                                                      LOTE
-                                                    </th>
-                                                    <th>
-                                                      FECHA VENCIMIENTO
-                                                    </th>
-                                                    <th>
-                                                      COSTO
-                                                    </th>
-                                                    <th>
-                                                      OPCIÓN
-                                                    </th>
-                                                </tr>
-                                            </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="tab-pane fade" id="despachos">
-                            <div class="box">
-                                <div class="box-header with-border text-center">
-                                    <h3 class="box-title">
-                                        LISTADO DE TODOS LOS DESPACHOS
-                                    </h3>
-                                </div>
-                                <div class="box-body">
-                                 <div id="no-more-tables">
-                                    <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporInsumo">
-                                        <thead class="cf">
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        FECHA SOLICITUD
-                                                    </th>
-                                                    <th>
-                                                        NRO. SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA ENTREGA
-                                                    </th>
-                                                    <th>
-                                                        PRODUCTO PRODUCIR
-                                                    </th>
-                                                    <th>
-                                                        CANTIDAD
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        FECHA SOLICITUD
-                                                    </th>
-                                                    <th>
-                                                        NRO. SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA ENTREGA
-                                                    </th>
-                                                    <th>
-                                                        PRODUCTO PRODUCIR
-                                                    </th>
-                                                    <th>
-                                                        CANTIDAD
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-                                                </tr>
-                                            </tfoot>
-                                    </table>
-                                </div>
-                                </div>
-                                <div class="box-footer clearfix">
-                                </div>
-                            </div>
-                        </div>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            NRO. ORP
+                        </th>
+                        <th class="text-center">
+                            FECHA SOLICITUD
+                        </th>
+                        <th class="text-center">
+                            NRO. SALIDA
+                        </th>
+                        <th class="text-center">
+                            FECHA ENTREGA
+                        </th>
+                        <th class="text-center">
+                            PRODUCTO PRODUCIR
+                        </th>
+                        <th class="text-center">
+                            CANTIDAD
+                        </th>
+                        <th class="text-center">
+                            SOLICITANTE
+                        </th>
+                        <th class="text-center">
+                            ESTADO
+                        </th>
+                        <th class="text-center">
+                            OPCIONES
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  </div>
+                </div>
+                <div class="box-footer clearfix">
+                </div>
+            </div>
+          </div>
                         <div class="tab-pane fade" id="inventarios">
                             <div class="box">
                                 <div class="box-header with-border text-center">
@@ -486,6 +587,26 @@
 @push('scripts')
 <script>
 var t = $('#lts-orp').DataTable( {
+         
+                        
+        "columnDefs": [ {
+            "searchable": false,
+            "orderable": false,
+            "targets": 0
+        } ],
+        "order": [[ 0, 'desc' ]],
+        "language": {
+             "url": "/lenguaje"
+        },
+         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+
+    });
+   t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();   
+var t = $('#lts-canastillo').DataTable( {
          
                         
         "columnDefs": [ {

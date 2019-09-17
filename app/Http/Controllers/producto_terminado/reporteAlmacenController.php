@@ -5,6 +5,8 @@ namespace siga\Http\Controllers\producto_terminado;
 use siga\Http\Controllers\Controller;
 use siga\Http\Modelo\ProductoTerminado\IngresoORP;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
+use siga\Http\Modelo\ProductoTerminado\IngresoCanastilla;
+use DB;	
 
 class reporteAlmacenController extends Controller {
 	public function inicio() {
@@ -18,7 +20,15 @@ class reporteAlmacenController extends Controller {
 			->Where('inp.ipt_estado', 'A')
 			->where('orprod_estado_pt', 'I')
 			->get();
-		//dd($ingresoOrp);
-		return view('backend.administracion.producto_terminado.reporteAlmacen.index', compact('ingresoOrp'));
+		$ingresoCanastillos = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				//->where('iac_estado', 'A')
+				->where('iac_estado_baja', 'A')
+				->orderBy('iac_id', 'desc')->get();
+		//dd($ingresoCanastillos);
+		return view('backend.administracion.producto_terminado.reporteAlmacen.index', compact('ingresoOrp','ingresoCanastillos'));
 	}
 }

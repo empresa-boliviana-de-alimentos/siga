@@ -28,6 +28,7 @@ use siga\Http\Modelo\comercial\SolicitudPv;
 use siga\Http\Modelo\comercial\SolicitudProd;
 use siga\Http\Modelo\comercial\IngresoPv;
 use siga\Http\Modelo\comercial\DetalleIngresoPv;
+use siga\Http\Modelo\ProductoTerminado\IngresoCanastilla;
 class ReportController extends Controller
 {
 
@@ -893,7 +894,7 @@ class ReportController extends Controller
         $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                 ->where('usr_id',Auth::user()->usr_id)->first();
         $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
-        $detingresopv = $ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+        $detingresopv = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
             ->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
             ->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
             ->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
@@ -916,6 +917,42 @@ class ReportController extends Controller
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->loadHTML($html_content);
         return $pdf->inline();
-        dd($id);
+        //dd($id);
+    }
+    public function reporteBoletaIngresoCanasPt($id)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA INGRESO PRODUCTOS";
+
+        $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                        ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                        ->first();
+
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $detingresocanaspv = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta')
+                ->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+                ->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+                ->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+                ->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+                //->where('iac_estado', 'A')
+                ->where('iac_estado_baja', 'A')
+                ->where('iac_id',$id)
+                ->orderBy('iac_id', 'desc')->first();
+        //dd($detingresocanaspv);
+        $fecha = date('d-m-Y',strtotime($detingresocanaspv->iac_registrado));
+        $code = $detingresocanaspv->iac_nro_ingreso;
+        $date =date('d/m/Y', strtotime($detingresocanaspv->iac_registrado));
+
+        $view = \View::make('reportes.boleta_ingreso_canastillo_producto_terminado', compact('username','ingresopv','detingresocanaspv','date','title','storage','usuario','code','per'));
+
+        $html_content = $view->render();
+        // return $html_content;
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+        //dd($id);
     }
 }
