@@ -29,6 +29,7 @@ use siga\Http\Modelo\comercial\SolicitudProd;
 use siga\Http\Modelo\comercial\IngresoPv;
 use siga\Http\Modelo\comercial\DetalleIngresoPv;
 use siga\Http\Modelo\ProductoTerminado\IngresoCanastilla;
+use siga\Http\Modelo\ProductoTerminado\despachoORP;
 class ReportController extends Controller
 {
 
@@ -922,12 +923,10 @@ class ReportController extends Controller
     public function reporteBoletaIngresoCanasPt($id)
     {
         $username = Auth::user()->usr_usuario;
-        $title = "NOTA INGRESO PRODUCTOS";
-
+        $title = "NOTA INGRESO CANASTILLOS";
         $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
                         ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
                         ->first();
-
         $storage = 'PLANTA: '.$planta->nombre_planta;
         $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                 ->where('usr_id',Auth::user()->usr_id)->first();
@@ -941,18 +940,44 @@ class ReportController extends Controller
                 ->where('iac_estado_baja', 'A')
                 ->where('iac_id',$id)
                 ->orderBy('iac_id', 'desc')->first();
-        //dd($detingresocanaspv);
         $fecha = date('d-m-Y',strtotime($detingresocanaspv->iac_registrado));
         $code = $detingresocanaspv->iac_nro_ingreso;
         $date =date('d/m/Y', strtotime($detingresocanaspv->iac_registrado));
-
         $view = \View::make('reportes.boleta_ingreso_canastillo_producto_terminado', compact('username','ingresopv','detingresocanaspv','date','title','storage','usuario','code','per'));
-
         $html_content = $view->render();
-        // return $html_content;
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->loadHTML($html_content);
         return $pdf->inline();
-        //dd($id);
+    }
+    public function reporteBoletaDespachoOrpPt($id)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "NOTA SALIDA ORP";
+        $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                        ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                        ->first();
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+            ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+            ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+            ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+            ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+            ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+            ->where('dao_estado', 'A')
+            ->where('dao_tipo_orp', 1)
+            ->where('dao_id',$id)
+            ->first();
+        $fecha = date('d-m-Y',strtotime($despachoORP->dao_fecha_despacho));
+        $code = $despachoORP->dao_codigo_salida;
+        $date =date('d/m/Y', strtotime($despachoORP->dao_fecha_despacho));
+
+        $view = \View::make('reportes.boleta_despacho_orp_producto_terminado', compact('username','ingresopv','despachoORP','date','title','storage','usuario','code','per'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
     }
 }

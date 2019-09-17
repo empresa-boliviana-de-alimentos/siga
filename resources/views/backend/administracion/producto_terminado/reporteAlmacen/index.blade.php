@@ -341,9 +341,107 @@
                   <h3 class="box-title" style="color: #2067b4">
                       <strong>DESPACHOS</strong>
                   </h3>
+                  <ul class="nav nav-tabs">
+                    <li class="active" id="despachoOrps">
+                      <a data-toggle="tab" href="#despachoOrp" class="btn btn-primary" style="font-size: 11px">
+                        DESPACHO ORP <span class="glyphicon glyphicon-inbox"></span>
+                      </a>
+                    </li>
+                    <li id="despachoPts">
+                      <a data-toggle="tab" href="#despachoPt" class="btn btn-primary" style="font-size: 11px">
+                        DESPACHO PRODUCTO TERMINADO <span class="glyphicon glyphicon-inbox"></span>
+                      </a>
+                    </li>
+                    <li id="despachoCanastilloss">
+                      <a data-toggle="tab" href="#despachoCanastillos" class="btn btn-primary" style="font-size: 11px">
+                        DESPACHO CANASTILLOS <span class="glyphicon glyphicon-shopping-cart"></span>
+                      </a>
+                    </li>
+                  </ul>
               </div>
-              <div class="box-body">
-                <div id="no-more-tables">
+              <div class="tab-content">
+                <div class="tab-pane in active" id="despachoOrp">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoOrp">
+                    <thead class="cf">
+                      <tr>
+                        <th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            PRODUCTO
+                        </th>
+                        <th class="text-center">
+                            COD. ORP
+                        </th>
+                        <th class="text-center">
+                            COD. SALIDA
+                        </th>
+                        <th class="text-center">
+                            CANTIDAD
+                        </th>
+                        <th class="text-center">
+                            ORIGEN
+                        </th>
+                        <th class="text-center">
+                            DESTINO
+                        </th>
+                        <th class="text-center">
+                            LINEA
+                        </th>
+                        <th class="text-center">
+                            OPCIONES
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($despachoORP as $dorp)
+                    <tr>
+                      <td class="text-center">{{$dorp->dao_id}}</td>
+                      <td class="text-center">{{$dorp->rece_nombre}}</td>
+                      <td class="text-center">{{$dorp->rece_codigo}}</td>
+                      <td class="text-center">{{$dorp->dao_codigo_salida}}</td>
+                      <td class="text-center">{{$dorp->dao_cantidad}}</td>
+                      <td class="text-center">{{$dorp->origen}}</td>
+                      <td class="text-center">{{$dorp->destino}}</td>
+                      <td class="text-center">{{lineaProd($dorp->rece_lineaprod_id)}}</td>
+                      <td class="text-center"><a href="imprimirBoletaDespachoOrp/{{$dorp->dao_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            PRODUCTO
+                        </th>
+                        <th class="text-center">
+                            COD. ORP
+                        </th>
+                        <th class="text-center">
+                            COD. SALIDA
+                        </th>
+                        <th class="text-center">
+                            CANTIDAD
+                        </th>
+                        <th class="text-center">
+                            ORIGEN
+                        </th>
+                        <th class="text-center">
+                            DESTINO
+                        </th>
+                        <th class="text-center">
+                            LINEA
+                        </th>
+                        <th class="text-center">
+                            OPCIONES
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  </div>
+                  <div class="tab-pane" id="despachoPt">
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporInsumo">
                     <thead class="cf">
                       <tr>
@@ -351,28 +449,100 @@
                             #
                         </th>
                         <th class="text-center">
-                            NRO. ORP
+                            PRODUCTO
                         </th>
                         <th class="text-center">
-                            FECHA SOLICITUD
+                            COD. ORP
                         </th>
                         <th class="text-center">
-                            NRO. SALIDA
-                        </th>
-                        <th class="text-center">
-                            FECHA ENTREGA
-                        </th>
-                        <th class="text-center">
-                            PRODUCTO PRODUCIR
+                            COD. SALIDA
                         </th>
                         <th class="text-center">
                             CANTIDAD
                         </th>
                         <th class="text-center">
-                            SOLICITANTE
+                            ORIGEN
                         </th>
                         <th class="text-center">
-                            ESTADO
+                            DESTINO
+                        </th>
+                        <th class="text-center">
+                            LINEA
+                        </th>
+                        <th class="text-center">
+                            OPCIONES
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($despachoPT as $dpt)
+                    <tr>
+                      <td class="text-center">{{$dpt->dao_id}}</td>
+                      <td class="text-center">{{$dpt->rece_nombre}}</td>
+                      <td class="text-center">{{$dpt->rece_codigo}}</td>
+                      <td class="text-center">{{$dpt->dao_codigo_salida}}</td>
+                      <td class="text-center">{{$dpt->dao_cantidad}}</td>
+                      <td class="text-center">{{$dpt->origen}}</td>
+                      <td class="text-center">{{$dpt->destino}}</td>
+                      <td class="text-center">{{lineaProd($dpt->rece_lineaprod_id)}}</td>
+                      <td class="text-center"><a href="imprimirBoletaDespachoOrp/{{$dorp->dao_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            PRODUCTO
+                        </th>
+                        <th class="text-center">
+                            COD. ORP
+                        </th>
+                        <th class="text-center">
+                            COD. SALIDA
+                        </th>
+                        <th class="text-center">
+                            CANTIDAD
+                        </th>
+                        <th class="text-center">
+                            ORIGEN
+                        </th>
+                        <th class="text-center">
+                            DESTINO
+                        </th>
+                        <th class="text-center">
+                            LINEA
+                        </th>
+                        <th class="text-center">
+                            OPCIONES
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  </div>
+                  <div class="tab-pane" id="despachoCanastillos">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporInsumo">
+                    <thead class="cf">
+                      <tr>
+                        <th class="text-center">
+                            #
+                        </th>
+                        <th class="text-center">
+                            NRO. SALIDA
+                        </th>
+                        <th class="text-center">
+                            DESCRIPCIÓN
+                        </th>
+                        <th class="text-center">
+                            MATERIAL
+                        </th>
+                        <th class="text-center">
+                            FOTO
+                        </th>
+                        <th class="text-center">
+                            CANTIDAD
                         </th>
                         <th class="text-center">
                             OPCIONES
@@ -388,28 +558,19 @@
                             #
                         </th>
                         <th class="text-center">
-                            NRO. ORP
-                        </th>
-                        <th class="text-center">
-                            FECHA SOLICITUD
-                        </th>
-                        <th class="text-center">
                             NRO. SALIDA
                         </th>
                         <th class="text-center">
-                            FECHA ENTREGA
+                            DESCRIPCIÓN
                         </th>
                         <th class="text-center">
-                            PRODUCTO PRODUCIR
+                            MATERIAL
+                        </th>
+                        <th class="text-center">
+                            FOTO
                         </th>
                         <th class="text-center">
                             CANTIDAD
-                        </th>
-                        <th class="text-center">
-                            SOLICITANTE
-                        </th>
-                        <th class="text-center">
-                            ESTADO
                         </th>
                         <th class="text-center">
                             OPCIONES
@@ -583,6 +744,22 @@
                         </div>
                     </div>
     </div>
+<?php 
+function lineaProd($id)
+{
+  if ($id == 1) {
+    return "LACTEOS";
+  }elseif($id == 2){
+    return "ALMENDRA";
+  }elseif($id == 3){
+    return "MIEL";
+  }elseif($id == 4){
+    return "FRUTOS";
+  }elseif ($id == 5) {
+    return "DERIVADOS";
+  } 
+}
+?>
 @endsection
 @push('scripts')
 <script>

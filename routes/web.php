@@ -780,6 +780,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('MenuRIA', 'producto_terminado\reporteAlmacenController@inicio');
 	Route::get('imprimirBoletaIngreso/{id}','ReportController@reporteBoletaIngresoPt');
 	Route::get('imprimirBoletaIngresoCanastillo/{id}','ReportController@reporteBoletaIngresoCanasPt');
+	Route::get('imprimirBoletaDespachoOrp/{id}','ReportController@reporteBoletaDespachoOrpPt');
 
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
