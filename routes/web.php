@@ -782,6 +782,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirBoletaIngresoCanastillo/{id}','ReportController@reporteBoletaIngresoCanasPt');
 	Route::get('imprimirBoletaDespachoOrp/{id}','ReportController@reporteBoletaDespachoOrpPt');
 	Route::get('imprimirBoletaDepsachoPt/{id}','ReportController@reporteBoletaDespachoPtPt');
+	Route::get('imprimirBoletaDespachoCanasPt/{id}','ReportController@reporteBoletaDespachoCanasPt');
+	//REPORTE GENERAL
+	Route::get('MenuReporte', 'producto_terminado\reporteAlmacenController@incioReporteGeneral');
 
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
