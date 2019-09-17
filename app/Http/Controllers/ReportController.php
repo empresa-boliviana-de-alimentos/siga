@@ -980,4 +980,35 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();
     }
+    public function reporteBoletaDespachoPtPt($id)
+    {
+       $username = Auth::user()->usr_usuario;
+        $title = "NOTA SALIDA PRODUCTO TERMINADO";
+        $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                        ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                        ->first();
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+            ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+            ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+            ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+            ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+            ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+            ->where('dao_estado', 'A')
+            ->where('dao_tipo_orp', 1)
+            ->where('dao_id',$id)
+            ->first();
+        $fecha = date('d-m-Y',strtotime($despachoORP->dao_fecha_despacho));
+        $code = $despachoORP->dao_codigo_salida;
+        $date =date('d/m/Y', strtotime($despachoORP->dao_fecha_despacho));
+
+        $view = \View::make('reportes.boleta_despacho_orp_producto_terminado', compact('username','ingresopv','despachoORP','date','title','storage','usuario','code','per'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
 }
