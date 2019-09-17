@@ -70,7 +70,7 @@
     <div class="col-md-2">
         <section class="task-panel tasks-widget">
             <div class="panel-heading">
-                <div class="pull-left"><h5><i class="fa fa-tasks"></i><b>&nbsp;&nbsp;REPORTE ALMACEN</b></h5></div>
+                <div class="pull-left"><h5><i class="fa fa-tasks"></i><b>&nbsp;&nbsp;REPORTE GENERAL</b></h5></div>
             <br>
             </div>
             <input type="hidden" id="usr_id" name="usr_id" value="{{ Auth::user()->usr_id }}"/>
@@ -164,6 +164,44 @@
               </div>
               <div class="tab-content">
                 <div class="tab-pane in active" id="ingresosOrp">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="input-group">
+                          <div class="input-group">
+                              <input type="text" class="form-control datepickerMonths" id="id_mes" name="id_mes" placeholder="Introduzca mes"> 
+                          <span class="input-group-btn">
+                              <button class="btn btn-primary" type="button" id="busca_mes" onclick="ListarReporteMes();">Buscar por Mes</button>
+                          </span>
+                          </div>                            
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control datepickerDays" id="id_dia" name="id_dia" placeholder="Introduzca dia"> 
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="ListarReporteDia();">Buscar por Dia</button>
+                            </span>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <div class="input-group">
+                                <div class="col-md-6">
+                                <input type="text" class="form-control datepickerDays" id="id_dia_inicio" name="id_dia_inicio" placeholder="Introduzca dia">
+                                </div>
+                                <div class="col-md-6">
+                                <input type="text" class="form-control datepickerDays" id="id_dia_fin" name="id_dia_fin" placeholder="Introduzca dia">  
+                                </div>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="ListarReporteRango();">Buscar rango fechas</button>
+                            </span>
+                            </div>                            
+                        </div>
+                    </div>
+                  </div>
+                  <br>
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-orp">
                     <thead class="cf">
                       <tr>
@@ -197,19 +235,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach($ingresoOrp as $io)
-                      <tr>
-                        <td class="text-center">{{$io->ipt_id}}</td>
-                        <td class="text-center">{{$io->rece_nombre.' '.$io->sab_nombre.' '.$io->rece_presentacion}}</td>
-                        <td class="text-center">{{$io->rece_codigo}}</td>
-                        <td class="text-center">{{$io->orprod_nro_orden}}</td>
-                        <td class="text-center">{{$io->ipt_cantidad}}</td>
-                        <td class="text-center">{{$io->ipt_lote}}</td>
-                        <td class="text-center">{{$io->ipt_fecha_vencimiento}}</td>
-                        <td class="text-center">{{$io->ipt_costo_unitario}}</td>
-                        <td class="text-center"><a href="imprimirBoletaIngreso/{{$io->ipt_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
-                      </tr>
-                    @endforeach
+                    
                     </tbody>
                     <tfoot>
                       <tr>
@@ -281,20 +307,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach($ingresoCanastillos as $ic)
-                      <tr>
-                        <td class="text-center">{{$ic->iac_id}}</td>
-                        <td class="text-center">{{$ic->ctl_descripcion}}</td>
-                        <td class="text-center">{{$ic->iac_nro_ingreso}}</td>
-                        <td class="text-center">{{$ic->iac_cantidad}}</td>
-                        <td class="text-center">{{$ic->nombre_planta}}</td>
-                        <td class="text-center">{{$ic->producto}}</td>
-                        <td class="text-center">{{$ic->iac_fecha_ingreso}}</td>
-                        <td class="text-center">{{$ic->conductor}}</td>
-                        <td class="text-center"><img src="archivo/canastillo/{{$ic->ctl_foto_canastillo}}" class="img-circle" style=" width: 50px;"></td>
-                        <td class="text-center"><a href="imprimirBoletaIngresoCanastillo/{{$ic->iac_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
-                      </tr>
-                    @endforeach
+                    
                     </tbody>
                     <tfoot>
                       <tr>
@@ -394,19 +407,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach($despachoORP as $dorp)
-                    <tr>
-                      <td class="text-center">{{$dorp->dao_id}}</td>
-                      <td class="text-center">{{$dorp->rece_nombre}}</td>
-                      <td class="text-center">{{$dorp->rece_codigo}}</td>
-                      <td class="text-center">{{$dorp->dao_codigo_salida}}</td>
-                      <td class="text-center">{{$dorp->dao_cantidad}}</td>
-                      <td class="text-center">{{$dorp->origen}}</td>
-                      <td class="text-center">{{$dorp->destino}}</td>
-                      <td class="text-center">{{lineaProd($dorp->rece_lineaprod_id)}}</td>
-                      <td class="text-center"><a href="imprimirBoletaDespachoOrp/{{$dorp->dao_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
-                    </tr>
-                    @endforeach
+                    
                     </tbody>
                     <tfoot>
                       <tr>
@@ -442,7 +443,7 @@
                   </table>
                   </div>
                   <div class="tab-pane" id="despachoPt">
-                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoPt">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporInsumo">
                     <thead class="cf">
                       <tr>
                         <th class="text-center">
@@ -475,19 +476,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach($despachoPT as $dpt)
-                    <tr>
-                      <td class="text-center">{{$dpt->dao_id}}</td>
-                      <td class="text-center">{{$dpt->rece_nombre}}</td>
-                      <td class="text-center">{{$dpt->rece_codigo}}</td>
-                      <td class="text-center">{{$dpt->dao_codigo_salida}}</td>
-                      <td class="text-center">{{$dpt->dao_cantidad}}</td>
-                      <td class="text-center">{{$dpt->origen}}</td>
-                      <td class="text-center">{{$dpt->destino}}</td>
-                      <td class="text-center">{{lineaProd($dpt->rece_lineaprod_id)}}</td>
-                      <td class="text-center"><a href="imprimirBoletaDepsachoPt/{{$dorp->dao_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
-                    </tr>
-                    @endforeach
+                    
                     </tbody>
                     <tfoot>
                       <tr>
@@ -523,7 +512,7 @@
                   </table>
                   </div>
                   <div class="tab-pane" id="despachoCanastillos">
-                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoCanastillos">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporInsumo">
                     <thead class="cf">
                       <tr>
                         <th class="text-center">
@@ -550,17 +539,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    @foreach($datosCanastillas as $dc)
-                    <tr>
-                      <td class="text-center">{{$dc->iac_id}}</td>
-                      <td class="text-center">{{$dc->iac_codigo_salida}}</td>
-                      <td class="text-center">{{$dc->ctl_descripcion}}</td>
-                      <td class="text-center">{{$dc->ctl_material}}</td>
-                      <td class="text-center"><img src="archivo/canastillo/{{$dc->ctl_foto_canastillo}}" class="img-circle" style=" width: 50px;"></td>
-                      <td class="text-center">{{$dc->iac_cantidad}}</td>
-                      <td class="text-center"><a href="imprimirBoletaDespachoCanasPt/{{$dc->iac_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
-                    </tr>
-                    @endforeach
+                    
                     </tbody>
                     <tfoot>
                       <tr>
@@ -773,7 +752,9 @@ function lineaProd($id)
 @endsection
 @push('scripts')
 <script>
-var t = $('#lts-orp').DataTable( {                
+var t = $('#lts-orp').DataTable( {
+         
+                        
         "columnDefs": [ {
             "searchable": false,
             "orderable": false,
@@ -791,7 +772,9 @@ var t = $('#lts-orp').DataTable( {
             cell.innerHTML = i+1;
         } );
     } ).draw();   
-var t = $('#lts-canastillo').DataTable( {                 
+var t = $('#lts-canastillo').DataTable( {
+         
+                        
         "columnDefs": [ {
             "searchable": false,
             "orderable": false,
@@ -809,60 +792,19 @@ var t = $('#lts-canastillo').DataTable( {
             cell.innerHTML = i+1;
         } );
     } ).draw();
-var t = $('#lts-despachoOrp').DataTable( {                   
-        "columnDefs": [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        } ],
-        "order": [[ 0, 'desc' ]],
-        "language": {
-             "url": "/lenguaje"
-        },
-         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 
-    });
-   t.on( 'order.dt search.dt', function () {
-        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
-var t = $('#lts-despachoPt').DataTable( {
-        "columnDefs": [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        } ],
-        "order": [[ 0, 'desc' ]],
-        "language": {
-             "url": "/lenguaje"
-        },
-         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 
-    });
-   t.on( 'order.dt search.dt', function () {
-        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
-var t = $('#lts-despachoCanastillos').DataTable( {                  
-        "columnDefs": [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        } ],
-        "order": [[ 0, 'desc' ]],
-        "language": {
-             "url": "/lenguaje"
-        },
-         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+$('.datepickerMonths').datepicker({
+        format: "mm/yyyy",
+        viewMode: "months", 
+        minViewMode: "months",
+        language: "es",
+    }).datepicker("setDate", new Date()); 
 
-    });
-   t.on( 'order.dt search.dt', function () {
-        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
-            cell.innerHTML = i+1;
-        } );
-    } ).draw();
+    $('.datepickerDays').datepicker({
+        format: "dd/mm/yyyy",        
+        language: "es",
+    }).datepicker("setDate", new Date()); 
 </script>
 @endpush
 
