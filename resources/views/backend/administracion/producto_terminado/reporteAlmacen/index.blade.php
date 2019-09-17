@@ -550,7 +550,17 @@
                       </tr>
                     </thead>
                     <tbody>
-
+                    @foreach($datosCanastillas as $dc)
+                    <tr>
+                      <td class="text-center">{{$dc->iac_id}}</td>
+                      <td class="text-center">{{$dc->iac_codigo_salida}}</td>
+                      <td class="text-center">{{$dc->ctl_descripcion}}</td>
+                      <td class="text-center">{{$dc->ctl_material}}</td>
+                      <td class="text-center"><img src="archivo/canastillo/{{$dc->ctl_foto_canastillo}}" class="img-circle" style=" width: 50px;"></td>
+                      <td class="text-center">{{$dc->iac_cantidad}}</td>
+                      <td class="text-center"><a href="imprimirBoletaDespachoCanasPt/{{$dc->iac_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
+                    </tr>
+                    @endforeach
                     </tbody>
                     <tfoot>
                       <tr>

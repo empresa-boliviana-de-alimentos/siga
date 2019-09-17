@@ -47,8 +47,17 @@ class reporteAlmacenController extends Controller {
 			->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
 			->where('dao_estado', 'A')
 			->where('dao_tipo_orp', 2)
+			->get();
+		$datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+			->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+			->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+			->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+			->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+			->where('iac_estado', 'D')
+			->where('iac_estado_baja', 'A')
+			->orderBy('iac_id', 'desc')
 			->get();			
-		//dd($despachoORP);
-		return view('backend.administracion.producto_terminado.reporteAlmacen.index', compact('ingresoOrp','ingresoCanastillos','despachoORP','despachoPT'));
+		//dd($datosCanastilla);
+		return view('backend.administracion.producto_terminado.reporteAlmacen.index', compact('ingresoOrp','ingresoCanastillos','despachoORP','despachoPT','datosCanastillas'));
 	}
 }
