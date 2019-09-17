@@ -4,6 +4,9 @@ namespace siga\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use siga\Modelo\insumo\Stock;
+use siga\Modelo\insumo\Stock_Historial;
+use DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,6 +29,17 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->call(function (){
+           
+            $stock = Stock::get();
+            foreach ($stock as $st) {
+                // dd($st->stockal_id);
+                DB::table('insumo.stock_historial')->insert(
+                    ['his_stock_ins_id' => $st->stock_ins_id, 'his_stock_planta_id' => $st->stock_planta_id, 'his_stock_cant' => $st->stock_cantidad,'his_stock_cant_ingreso'=>0,'his_stock_cant_salida'=>0,'his_stock_usr_id'=>'1','his_stock_estado'=>'A']
+                );
+            }       
+        })->daily();
+
     }
 
     /**
