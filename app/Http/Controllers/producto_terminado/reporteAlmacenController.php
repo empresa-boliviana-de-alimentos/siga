@@ -9,7 +9,8 @@ use siga\Http\Modelo\ProductoTerminado\IngresoCanastilla;
 use siga\Http\Modelo\ProductoTerminado\despachoORP;
 use siga\Modelo\admin\Usuario;
 use Auth;
-use DB;	
+use DB;
+use Yajra\Datatables\Datatables;	
 
 class reporteAlmacenController extends Controller {
 	public function inicio() {
@@ -72,7 +73,59 @@ class reporteAlmacenController extends Controller {
 		//dd($datosCanastilla);
 		return view('backend.administracion.producto_terminado.reporteAlmacen.index', compact('ingresoOrp','ingresoCanastillos','despachoORP','despachoPT','datosCanastillas'));
 	}
-
+	public function listarMesInventarioProductoTerminado($mes, $anio)
+	{
+		$planta = Usuario::join('public._bp_planta as pl','public._bp_usuarios.usr_planta_id','=','pl.id_planta')
+						 ->where('usr_id',Auth::user()->usr_id)->first();
+		$anio1 = $anio;
+		$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+		$fechainicial = $anio1 . "-" . $mes . "-01";
+		$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+		$stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+						->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+						->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+						->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+						->where('spth_registrado', '>=', $fechainicial)->where('spth_registrado', '<=', $fechafinal)
+						->where('spth_planta_id',$planta->id_planta)
+						->get();
+		return Datatables::of($stockptMes)
+			->make(true);
+		//dd($stockptMes);
+	}
+	public function listarDiaInventarioProductoTerminado($dia,$mes,$anio)
+	{
+		$planta = Usuario::join('public._bp_planta as pl','public._bp_usuarios.usr_planta_id','=','pl.id_planta')
+						 ->where('usr_id',Auth::user()->usr_id)->first();
+		$dia = $anio . "-" . $mes . "-" . $dia;
+		$stockptDia = DB::table('producto_terminado.stock_producto_terminado_historial')
+						->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+						->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+						->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+						//->where('spth_registrado', '>=', $dia)->where('spth_registrado', '<=', $dia)
+						->where(DB::raw('cast(stock_producto_terminado_historial.spth_registrado as date)'),'=',$dia)
+						->where('spth_planta_id',$planta->id_planta)
+						->get();
+		//dd($stockptDia);
+		return Datatables::of($stockptDia)
+			->make(true);
+	}
+	public function listarRangoInventarioProductoTerminado($dia_inicio, $mes_inicio, $anio_inicio, $dia_fin, $mes_fin, $anio_fin)
+	{
+		$planta = Usuario::join('public._bp_planta as pl','public._bp_usuarios.usr_planta_id','=','pl.id_planta')
+						 ->where('usr_id',Auth::user()->usr_id)->first();
+		$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+		$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+		$stockptRango = DB::table('producto_terminado.stock_producto_terminado_historial')
+						->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+						->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+						->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+						->where(DB::raw('cast(stock_producto_terminado_historial.spth_registrado as date)'), '>=', $fechainicial)
+						->where(DB::raw('cast(stock_producto_terminado_historial.spth_registrado as date)'), '<=', $fechafinal)
+						->where('spth_planta_id',$planta->id_planta)
+						->get();
+		return Datatables::of($stockptRango)
+			->make(true);
+	}
 	public function incioReporteGeneral()
 	{
 		return view('backend.administracion.producto_terminado.reporteGeneralAlmacen.index');

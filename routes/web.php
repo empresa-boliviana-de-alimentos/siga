@@ -783,6 +783,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirBoletaDespachoOrp/{id}','ReportController@reporteBoletaDespachoOrpPt');
 	Route::get('imprimirBoletaDepsachoPt/{id}','ReportController@reporteBoletaDespachoPtPt');
 	Route::get('imprimirBoletaDespachoCanasPt/{id}','ReportController@reporteBoletaDespachoCanasPt');
+	Route::get('listarMesInventarioPt/{mes}/{anio}','producto_terminado\reporteAlmacenController@listarMesInventarioProductoTerminado');
+	Route::get('imprimirPdfInventarioMesAlmacenPt/{mes}/{anio}','ReportController@reporteInventarioMesAlamacenMesPt');
+	Route::get('listarDiaInventarioPt/{dia}/{mes}/{anio}', 'producto_terminado\reporteAlmacenController@listarDiaInventarioProductoTerminado');
+	Route::get('imprimirPdfInventarioDiaAlmacenPt/{dia}/{mes}/{anio}','ReportController@reporteInventarioDiaAlamacenMesPt');
+	Route::get('listarRangoInventarioPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','producto_terminado\reporteAlmacenController@listarRangoInventarioProductoTerminado');
+	Route::get('imprimirPdfInventarioRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportController@reporteInventarioRangoAlmacenRangPt');
 	//REPORTE GENERAL
 	Route::get('MenuReporte', 'producto_terminado\reporteAlmacenController@incioReporteGeneral');
 

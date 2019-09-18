@@ -51,9 +51,9 @@ class Kernel extends ConsoleKernel
                         'spth_costo'            =>$spt->spt_costo,
                         'spth_costo_unitario'   =>$spt->spt_costo_unitario,
                         'spth_usr_id'           =>$spt->spt_usr_id,
-                        'spth_registrado'       =>$spt->spt_registrado,
-                        'spth_modificado'       =>$spt->spt_modificado,
                         'spth_estado_baja'      =>$spt->spt_estado_baja,
+                        'spth_rece_id'          =>$spt->spt_rece_id,
+                        'spth_fecha_vencimiento'=>$spt->spt_fecha_vencimiento
                     ]
                 );
             }       
