@@ -706,16 +706,18 @@
                 </h3>
             </div>
             <div class="row">
-              <div class="col-md-3">
+              <div class="col-md-4"></div>
+              <div class="col-md-4">
                 <div class="input-group">
                   <div class="input-group">
-                    <input type="text" class="form-control datepickerMonths" id="id_mes" name="id_mes" placeholder="Introduzca mes"> 
+                    <input type="text" class="form-control datepickerMonths" id="id_mes_dos" name="id_mes_dos" placeholder="Introduzca mes"> 
                     <span class="input-group-btn">
                       <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasMes();">Buscar por Mes</button>
                     </span>
                   </div>                            
                 </div>
               </div>
+              <div class="col-md-4"></div>
             </div>
               
             <div class="box-body">
@@ -1007,18 +1009,18 @@ function BuscarRango() {
 }
 /*INVENTARIO POR MES*/
 function BuscarfechasMes() {
-  console.log($("#id_mes").val());
+  console.log($("#id_mes_dos").val());
   $(".ocultarBotonDescargasMes").show();
-  $(".pdfMesdos").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes").val());
-  $(".excelMesdos").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes").val());
+  $(".pdfMesdos").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_dos").val());
+  $(".excelMesdos").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_dos").val());
   var t = $('#lts-porMes').DataTable( {
             "destroy": true,
             "processing": true,
             "serverSide": true,
             "ajax":{
-               url : "listarMesInventarioPt/"+ $("#id_mes").val(),
+               url : "listarMesInventarioPt/"+ $("#id_mes_dos").val(),
                type: "GET",
-               data: {"mes": $("#id_mes").val()}
+               data: {"mes": $("#id_mes_dos").val()}
              },
             "columns":[
                 {data: 'spth_id'},
