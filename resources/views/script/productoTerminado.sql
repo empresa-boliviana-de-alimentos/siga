@@ -400,6 +400,8 @@ CREATE TABLE producto_terminado.stock_producto_terminado_historial(
     spth_registrado timestamp NOT NULL DEFAULT now(),
     spth_modificado timestamp NOT NULL DEFAULT now(),
     spth_estado_baja char(1) NOT NULL DEFAULT 'A',
+    spth_rece_id integer NOT NULL,
+    spth_fecha_vencimiento timestamp NOT NULL,
 	FOREIGN KEY(spth_orprod_id) REFERENCES insumo.orden_produccion(orprod_id),
 	FOREIGN KEY(spth_planta_id) REFERENCES public._bp_planta(id_planta)
 );

@@ -1042,4 +1042,99 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();
     }
+    public function reporteInventarioMesAlamacenMesPt($mes, $anio)
+    {
+        $username = Auth::user()->usr_usuario;
+        $title = "INVENTARIO ALMACEN";
+        $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                        ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                        ->first();
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $anio1 = $anio;
+        $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+        $fechainicial = $anio1 . "-" . $mes . "-01";
+        $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+        $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                        ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                        ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                        ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                        ->where('spth_registrado', '>=', $fechainicial)->where('spth_registrado', '<=', $fechafinal)
+                        ->where('spth_planta_id',$planta->id_planta)
+                        ->get();  
+        $fecha = 'Del '.$fechainicial.' al '.$fechafinal;
+        $code = '-';
+        $date =date('d/m/Y');
+
+        $view = \View::make('reportes.inventario_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+    public function reporteInventarioDiaAlamacenMesPt($dia,$mes,$anio)
+    {
+        //dd($dia.'-'.$mes.'-'.$anio);
+        $username = Auth::user()->usr_usuario;
+        $title = "INVENTARIO ALMACEN";
+        $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                        ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                        ->first();
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $dia = $anio . "-" . $mes . "-" . $dia;
+        $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                        ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                        ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                        ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                        //->where('spth_registrado', '>=', $dia)->where('spth_registrado', '<=', $dia)
+                        ->where(DB::raw('cast(stock_producto_terminado_historial.spth_registrado as date)'),'=',$dia)
+                        ->where('spth_planta_id',$planta->id_planta)
+                        ->get();
+        $fecha = $dia;
+        $code = '-';
+        $date =date('d/m/Y');
+
+        $view = \View::make('reportes.inventario_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+    public function reporteInventarioRangoAlmacenRangPt($dia_inicio, $mes_inicio, $anio_inicio, $dia_fin, $mes_fin, $anio_fin)
+    {
+        //dd($dia_inicio.' '.$mes_inicio.' '.$anio_inicio.' FIN '.$dia_fin.' '.$mes_fin.' '.$anio_fin);
+        $username = Auth::user()->usr_usuario;
+        $title = "INVENTARIO ALMACEN";
+        $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                        ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                        ->first();
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+        $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+        $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                        ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                        ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                        ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                        ->where(DB::raw('cast(stock_producto_terminado_historial.spth_registrado as date)'), '>=', $fechainicial)
+                        ->where(DB::raw('cast(stock_producto_terminado_historial.spth_registrado as date)'), '<=', $fechafinal)
+                        ->where('spth_planta_id',$planta->id_planta)
+                        ->get();
+        $fecha = 'Desde: '.$dia_inicio.'/'.$mes_inicio.'/'.$anio_inicio.' Hasta: '.$dia_fin.'/'.$mes_fin.'/'.$anio_inicio;
+        $code = '-';
+        $date =date('d/m/Y');
+
+        $view = \View::make('reportes.inventario_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
 }

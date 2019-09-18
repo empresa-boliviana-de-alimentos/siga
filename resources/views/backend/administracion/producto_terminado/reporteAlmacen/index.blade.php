@@ -77,7 +77,7 @@
             <div class="panel-body">
               <div class="task-content">
                   <ul id="sortable" class="task-list ui-sortable">
-                      <li class="list-primary" onClick="verDocumentosGenerados(1,{{ Auth::user()->usr_id }});" style="background: #ccc">
+                      <li class="list-primary" style="background: #ccc">
                           <i class=" fa fa-ellipsis-v"></i>
                           <div class="task-title">
                               <span class="task-title-sp">INGRESOS</span>
@@ -88,7 +88,7 @@
                               </div>
                           </div>
                       </li>
-                      <li class="list-danger" onClick="verDocumentosGenerados(2,{{ Auth::user()->usr_id }});" style="background: #ccc">
+                      <li class="list-danger" style="background: #ccc">
                           <i class=" fa fa-ellipsis-v"></i>
                           <div class="task-title">
                               <span class="task-title-sp">DESPACHOS</span>
@@ -99,7 +99,7 @@
                              </div>
                           </div>
                       </li>
-                      <li class="list-success" onClick="verDocumentosGenerados(3,{{ Auth::user()->usr_id }});" style="background: #ccc">
+                      <li class="list-success" style="background: #ccc">
                           <i class=" fa fa-ellipsis-v"></i>
                           <div class="task-title">
                               <span class="task-title-sp">INVENTARIOS</span>
@@ -110,7 +110,7 @@
                             </div>
                           </div>
                       </li>
-                      <li class="list-warning" onClick="verDocumentosGenerados(4,{{ Auth::user()->usr_id }});" style="background: #ccc">
+                      <li class="list-warning" style="background: #ccc">
                           <i class=" fa fa-ellipsis-v"></i>
                           <div class="task-title">
                               <span class="task-title-sp">POR MES</span>
@@ -594,84 +594,109 @@
                 </div>
             </div>
           </div>
-                        <div class="tab-pane fade" id="inventarios">
-                            <div class="box">
-                                <div class="box-header with-border text-center">
-                                    <h3 class="box-title">
-                                        INVENTARIOS
-                                    </h3>
-                                </div>
-                                <div class="box-body">
-                                <div id="no-more-tables">
-                                    <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporTraspaso">
-                                        <thead class="cf">
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        NRO. SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA
-                                                    </th>
-                                                    <th>
-                                                        ORIGEN
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                   <th>
-                                                        #
-                                                    </th>
-                                                    
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        NRO. SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA
-                                                    </th>
-                                                    <th>
-                                                        ORIGEN
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-
-                                                </tr>
-                                            </tfoot>
-                                    </table>
-                                    </div>
-                                </div>
-                                <div class="box-footer clearfix">
-                                </div>
+          <div class="tab-pane fade" id="inventarios">
+            <div class="box">
+              <div class="box-header with-border text-center">
+                  <h3 class="box-title" style="color: #2067b4">
+                    <strong>INVENTARIOS</strong>
+                  </h3>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="input-group">
+                          <div class="input-group">
+                              <input type="text" class="form-control datepickerMonths" id="id_mes" name="id_mes" placeholder="Introduzca mes"> 
+                          <span class="input-group-btn">
+                              <button class="btn btn-primary" type="button" id="busca_mes" onclick="Buscarfechas();">Buscar por Mes</button>
+                          </span>
+                          </div>                            
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control datepickerDays" id="id_dia" name="id_dia" placeholder="Introduzca dia"> 
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDia();">Buscar por Dia</button>
+                            </span>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="input-group">
+                        <div class="input-group">
+                          <div class="col-md-6">
+                            <input type="text" class="form-control datepickerDays" id="id_dia_inicio" name="id_dia_inicio" placeholder="Introduzca dia">
+                          </div>
+                            <div class="col-md-6">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_fin" name="id_dia_fin" placeholder="Introduzca dia">  
                             </div>
+                            <span class="input-group-btn">
+                              <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRango();">Buscar rango fechas</button>
+                            </span>
+                        </div>                            
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="box-body">
+                <div id="no-more-tables">
+                  <div class="ocultarBotonDescargas" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMes" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-inventario">
+                    <thead class="cf">
+                      <tr>
+                        <th>
+                          #
+                        </th>                                                    
+                        <th>
+                          CODIGO
+                        </th>
+                        <th>
+                          PRODUCTO
+                        </th>
+                        <th>
+                          CANTIDAD
+                        </th>
+                        <th>
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th>
+                          FECHA REGISTRO
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>
+                          #
+                        </th>                                                    
+                        <th>
+                          CODIGO
+                        </th>
+                        <th>
+                          PRODUCTO
+                        </th>
+                        <th>
+                          CANTIDAD
+                        </th>
+                        <th>
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th>
+                          FECHA REGISTRO
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+              <div class="box-footer clearfix">
+              </div>
+          </div>
                         </div>
                         <div class="tab-pane fade" id="mes">
                             <div class="box">
@@ -863,6 +888,131 @@ var t = $('#lts-despachoCanastillos').DataTable( {
             cell.innerHTML = i+1;
         } );
     } ).draw();
+/*AJAX DE INVENTARIOS*/
+function Buscarfechas() {
+  console.log($("#id_mes").val());
+  $(".ocultarBotonDescargas").show();
+  $(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes").val());
+  var t = $('#lts-inventario').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesInventarioPt/"+ $("#id_mes").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes").val()}
+             },
+            "columns":[
+                {data: 'spth_id'},
+                {data: 'rece_codigo'}, 
+                {data: 'rece_nombre'},
+                {data: 'spth_cantidad'},
+                {data: 'spth_fecha_vencimiento'},
+                {data: 'spth_registrado'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarDia() {
+  console.log($("#id_dia").val());
+  $(".ocultarBotonDescargas").show();
+  $(".pdfMes").attr('href','imprimirPdfInventarioDiaAlmacenPt/'+$("#id_dia").val());
+  var t = $('#lts-inventario').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarDiaInventarioPt/"+ $("#id_dia").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia").val()}
+             },
+            "columns":[
+                {data: 'spth_id'},
+                {data: 'rece_codigo'}, 
+                {data: 'rece_nombre'},
+                {data: 'spth_cantidad'},
+                {data: 'spth_fecha_vencimiento'},
+                {data: 'spth_registrado'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarRango() {
+  console.log($("#id_dia_inicio").val()+"/"+$("#id_dia_fin").val());
+  $(".ocultarBotonDescargas").show();
+  $(".pdfMes").attr('href','imprimirPdfInventarioRangoAlmacenPt/'+$("#id_dia_inicio").val()+"/"+$("#id_dia_fin").val());
+  var t = $('#lts-inventario').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarRangoInventarioPt/"+$("#id_dia_inicio").val()+"/"+$("#id_dia_fin").val(),
+               type: "GET",
+               data: {"dia_inicio": $("#id_dia_inicio").val()},
+               data: {"dia_fin": $("#id_dia_fin").val()}
+             },
+            "columns":[
+                {data: 'spth_id'},
+                {data: 'rece_codigo'}, 
+                {data: 'rece_nombre'},
+                {data: 'spth_cantidad'},
+                {data: 'spth_fecha_vencimiento'},
+                {data: 'spth_registrado'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+
+$('.datepickerMonths').datepicker({
+  format: "mm/yyyy",
+  viewMode: "months", 
+  minViewMode: "months",
+  language: "es",
+}).datepicker("setDate", new Date()); 
+
+$('.datepickerDays').datepicker({
+  format: "dd/mm/yyyy",        
+  language: "es",
+}).datepicker("setDate", new Date());  
 </script>
 @endpush
 

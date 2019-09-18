@@ -1,8 +1,8 @@
 @inject('menu','siga\Http\Controllers\MenuController')
 <style type="text/css">
     #sidebar {
-    height: 100%;
-    overflow-y: scroll;
+    /*height: 100%;*/
+    overflow-y: scroll;*/
 }
 </style>
 <aside>
