@@ -75,7 +75,7 @@ class gbInsumoReporteController extends Controller {
 			->where('his_stock_registrado', '2019-07-30')
 		//  ->groupBy('ins.ins_codigo', 'ins.ins_desc', 'unidad', 'part.part_nombre', 'stock_historial.his_stock_registrado', 'plan.nombre_planta')
 			->get();
-		echo $stockalhist;
+		//echo $stockalhist;
 		return view('backend.administracion.insumo.insumo_reportes.inventario_general.index');
 	}
 	public function ListarInventarioGeneral() {
