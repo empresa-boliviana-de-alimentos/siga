@@ -642,7 +642,7 @@
                 <div id="no-more-tables">
                   <div class="ocultarBotonDescargas" style="display: none;">
                     <a href="" class="btn btn-danger pdfMes" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
-                    <a href="" class="btn btn-success"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                    <a href="" class="btn btn-success excelMes"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
                   </div>
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-inventario">
                     <thead class="cf">
@@ -697,87 +697,88 @@
               <div class="box-footer clearfix">
               </div>
           </div>
-                        </div>
-                        <div class="tab-pane fade" id="mes">
-                            <div class="box">
-                                <div class="box-header with-border text-center">
-                                    <h3 class="box-title">
-                                        LISTADO DE MES
-                                    </h3>
-                                </div>
-                                <div class="box-body">
-                                <div id="no-more-tables">
-                                    <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporMaquila">
-                                        <thead class="cf">
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        NRO SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA
-                                                    </th>
-                                                    <th>
-                                                        DESTINO
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                     <th>
-                                                        #
-                                                    </th>
-                                                    
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        NRO SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA
-                                                    </th>
-                                                    <th>
-                                                        DESTINO
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-
-                                                </tr>
-                                            </tfoot>
-                                    </table>
-                                    </div>
-                                </div>
-                                <div class="box-footer clearfix">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        </div>
+        <div class="tab-pane fade" id="mes">
+          <div class="box">
+            <div class="box-header with-border text-center">
+                <h3 class="box-title">
+                    LISTADO DE MES
+                </h3>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="input-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control datepickerMonths" id="id_mes" name="id_mes" placeholder="Introduzca mes"> 
+                    <span class="input-group-btn">
+                      <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasMes();">Buscar por Mes</button>
+                    </span>
+                  </div>                            
+                </div>
+              </div>
+            </div>
+              
+            <div class="box-body">
+              <div id="no-more-tables">
+                <div class="ocultarBotonDescargasMes" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesdos" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesdos"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                </div>
+                <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-porMes">
+                  <thead class="cf">
+                    <tr>
+                      <th>
+                          #
+                        </th>                                                    
+                        <th>
+                          CODIGO
+                        </th>
+                        <th>
+                          PRODUCTO
+                        </th>
+                        <th>
+                          CANTIDAD
+                        </th>
+                        <th>
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th>
+                          FECHA REGISTRO
+                        </th>                            
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                  <tfoot>
+                    <tr>                                                   
+                      <th>
+                          #
+                        </th>                                                    
+                        <th>
+                          CODIGO
+                        </th>
+                        <th>
+                          PRODUCTO
+                        </th>
+                        <th>
+                          CANTIDAD
+                        </th>
+                        <th>
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th>
+                          FECHA REGISTRO
+                        </th>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <div class="box-footer clearfix">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 <?php 
 function lineaProd($id)
@@ -893,6 +894,7 @@ function Buscarfechas() {
   console.log($("#id_mes").val());
   $(".ocultarBotonDescargas").show();
   $(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes").val());
+  $(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes").val());
   var t = $('#lts-inventario').DataTable( {
             "destroy": true,
             "processing": true,
@@ -929,7 +931,8 @@ function Buscarfechas() {
 function BuscarDia() {
   console.log($("#id_dia").val());
   $(".ocultarBotonDescargas").show();
-  $(".pdfMes").attr('href','imprimirPdfInventarioDiaAlmacenPt/'+$("#id_dia").val());
+  $(".pdfMes").attr('href','imprimirPdfInventarioDiaAlmacenPt/'+$("#id_dia").val());  
+  $(".excelMes").attr('href','imprimirExcelInventarioDiaAlmacenPt/'+$("#id_dia").val());
   var t = $('#lts-inventario').DataTable( {
             "destroy": true,
             "processing": true,
@@ -967,6 +970,7 @@ function BuscarRango() {
   console.log($("#id_dia_inicio").val()+"/"+$("#id_dia_fin").val());
   $(".ocultarBotonDescargas").show();
   $(".pdfMes").attr('href','imprimirPdfInventarioRangoAlmacenPt/'+$("#id_dia_inicio").val()+"/"+$("#id_dia_fin").val());
+  $(".excelMes").attr('href','imprimirExcelInventarioRangoAlmacenPt/'+$("#id_dia_inicio").val()+"/"+$("#id_dia_fin").val());
   var t = $('#lts-inventario').DataTable( {
             "destroy": true,
             "processing": true,
@@ -1001,7 +1005,45 @@ function BuscarRango() {
         } );
   } ).draw();
 }
-
+/*INVENTARIO POR MES*/
+function BuscarfechasMes() {
+  console.log($("#id_mes").val());
+  $(".ocultarBotonDescargasMes").show();
+  $(".pdfMesdos").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes").val());
+  $(".excelMesdos").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes").val());
+  var t = $('#lts-porMes').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesInventarioPt/"+ $("#id_mes").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes").val()}
+             },
+            "columns":[
+                {data: 'spth_id'},
+                {data: 'rece_codigo'}, 
+                {data: 'rece_nombre'},
+                {data: 'spth_cantidad'},
+                {data: 'spth_fecha_vencimiento'},
+                {data: 'spth_registrado'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
 $('.datepickerMonths').datepicker({
   format: "mm/yyyy",
   viewMode: "months", 
