@@ -4,14 +4,14 @@
     <div class="col-md-12">
         <div class="box box-default box-solid">
             <div class="box-header with-border">
-            <div class="col-md-12">
-                <div class="col-md-1">
-                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('ReporteGralInsumo') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
-                </div>
-                    <div class="col-md-4">
-                         <h4><label for="box-title">INVENTARIO GENERAL</label></h4>
+                <div class="col-md-12">
+                    <div class="col-md-1">
+                        <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('ReporteGralInsumo') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
                     </div>
-            </div>
+                        <div class="col-md-4">
+                             <h4><label for="box-title">INVENTARIO GENERAL</label></h4>
+                        </div>
+                </div>
                 
                     <div class="col-md-3">
                         <div class="input-group">
