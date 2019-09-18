@@ -789,6 +789,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirPdfInventarioDiaAlmacenPt/{dia}/{mes}/{anio}','ReportController@reporteInventarioDiaAlamacenMesPt');
 	Route::get('listarRangoInventarioPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','producto_terminado\reporteAlmacenController@listarRangoInventarioProductoTerminado');
 	Route::get('imprimirPdfInventarioRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportController@reporteInventarioRangoAlmacenRangPt');
+	Route::get('imprimirExcelInventarioMesAlmacenPt/{mes}/{anio}','ReportExcelController@reporteMesExcelInventarioAlmacenPt');
+	Route::get('imprimirExcelInventarioDiaAlmacenPt/{dia}/{mes}/{anio}','ReportExcelController@reporteDiaExcelInventarioAlmacenPt');
+	Route::get('imprimirExcelInventarioRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportExcelController@reporteRangoExcelInventarioAlmacenPt');
 	//REPORTE GENERAL
 	Route::get('MenuReporte', 'producto_terminado\reporteAlmacenController@incioReporteGeneral');
 
