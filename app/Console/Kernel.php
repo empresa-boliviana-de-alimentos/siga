@@ -40,7 +40,7 @@ class Kernel extends ConsoleKernel
                 );
             }
             /*STOCK PRODUCTO TERMINADO*/
-            /*$stock_pt = stock_pt::get();
+            $stock_pt = stock_pt::get();
             foreach ($stock_pt as $spt) {
                 DB::table('producto_terminado.stock_producto_terminado_historial')->insert(
                     [
@@ -56,7 +56,7 @@ class Kernel extends ConsoleKernel
                         'spth_estado_baja'      =>$spt->spt_estado_baja,
                     ]
                 );
-            }*/       
+            }       
         })->everyMinute();
 
     }
