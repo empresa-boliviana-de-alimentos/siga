@@ -794,7 +794,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirExcelInventarioRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportExcelController@reporteRangoExcelInventarioAlmacenPt');
 	//REPORTE GENERAL
 	Route::get('MenuReporte', 'producto_terminado\reporteAlmacenController@incioReporteGeneral');
-
+	Route::get('listarMesIngresoGeneralPt/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarMesIngresoGeneralPt');
+	Route::get('listarDiaIngresoGeneralPt/{dia}/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarDiaIngresoGeneralPt');
+	Route::get('listarRangoIngresoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoIngresoGeneralPt');
+	Route::get('listarMesIngresoCanatilloGeneralPt/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarMesIngresoCanatilloGeneralPt');
+	Route::get('listarDiaIngresoCanatilloGeneralPt/{id}/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarDiaIngresoCanatilloGeneralPt');
+	Route::get('listarRangoIngresoCanatilloGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoIngresoCanatilloGeneralPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');
