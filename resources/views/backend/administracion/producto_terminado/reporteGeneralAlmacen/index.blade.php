@@ -227,6 +227,10 @@
                         </div>
                     </div>
                   </div>
+                  <div class="ocultarBotonDescargasIngresos" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesIngresos" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesIngresos"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
                   <br>
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-orp">
                     <thead class="cf">
@@ -371,6 +375,10 @@
                           </div>                            
                         </div>
                     </div>
+                  </div>
+                  <div class="ocultarBotonDescargasIngresosCanas" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesIngresosCanas" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesIngresosCanas"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
                   </div>
                   <br>
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-canastillo">
@@ -858,9 +866,9 @@ function lineaProd($id)
 function Buscarfechas() {
   console.log($("#id_mes").val());
   console.log($("#id_planta").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
+  $(".ocultarBotonDescargasIngresos").show();
+  $(".pdfMesIngresos").attr('href','imprimirPdfIngresosMesGeneralPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
+  $(".excelMesIngresos").attr('href','imprimirExcelIngresoMesGeneralPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
   var t = $('#lts-orp').DataTable( {
             "destroy": true,
             "processing": true,
@@ -902,9 +910,9 @@ function Buscarfechas() {
 function BuscarDia() {
   console.log($("#id_dia").val());
   console.log($("#id_planta").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
+  $(".ocultarBotonDescargasIngresos").show();
+  $(".pdfMesIngresos").attr('href','imprimirPdfIngresosDiaGeneralPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
+  $(".excelMesIngresos").attr('href','imprimirExcelIngresoDiaGeneralPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
   var t = $('#lts-orp').DataTable( {
             "destroy": true,
             "processing": true,
@@ -948,9 +956,9 @@ function BuscarRango() {
   console.log($("#id_dia_inicio").val());
   console.log($("#id_dia_fin").val());
   console.log($("#id_planta").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
+  $(".ocultarBotonDescargasIngresos").show();
+  $(".pdfMesIngresos").attr('href','imprimirPdfIngresoRangoAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
+  $(".excelMesIngresos").attr('href','imprimirExcelIngresoRangoAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
   var t = $('#lts-orp').DataTable( {
             "destroy": true,
             "processing": true,
@@ -993,9 +1001,9 @@ function BuscarRango() {
 function BuscarfechasCanastillo() {
   console.log($("#id_mes_canastillo").val());
   console.log($("#id_planta_canastillo").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".ocultarBotonDescargasIngresosCanas").show();
+  $(".pdfMesIngresosCanas").attr('href','imprimirPdfIngresosCanasMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".excelMesIngresosCanas").attr('href','imprimirExcelIngresosCanasMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
   var t = $('#lts-canastillo').DataTable( {
             "destroy": true,
             "processing": true,
@@ -1043,9 +1051,9 @@ function BuscarfechasCanastillo() {
 function BuscarDiaCanastillo() {
   console.log($("#id_dia_canastillo").val());
   console.log($("#id_planta_canastillo").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".ocultarBotonDescargasIngresosCanas").show();
+  $(".pdfMesIngresosCanas").attr('href','imprimirPdfIngresosCanasDiaAlmacenPt/'+$("#id_dia_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".excelMesIngresosCanas").attr('href','imprimirExcelIngresosCanasDiaAlmacenPt/'+$("#id_dia_canastillo").val()+'/'+$("#id_planta_canastillo").val());
   var t = $('#lts-canastillo').DataTable( {
             "destroy": true,
             "processing": true,
