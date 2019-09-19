@@ -1102,9 +1102,9 @@ function BuscarRangoCanastillo() {
   console.log($("#id_dia_inicio_canastillo").val());
   console.log($("#id_dia_fin_canastillo").val());
   console.log($("#id_planta_canastillo").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".ocultarBotonDescargasIngresosCanas").show();
+  $(".pdfMesIngresosCanas").attr('href','imprimirPdfIngresosCanasRangoAlmacenPt/'+$("#id_dia_inicio_canastillo").val()+'/'+$("#id_dia_fin_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".excelMesIngresosCanas").attr('href','imprimirExcelIngresosCanasRangoAlmacenPt/'+$("#id_dia_inicio_canastillo").val()+'/'+$("#id_dia_fin_canastillo").val()+'/'+$("#id_planta_canastillo").val());
   var t = $('#lts-canastillo').DataTable( {
             "destroy": true,
             "processing": true,
