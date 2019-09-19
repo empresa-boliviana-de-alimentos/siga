@@ -1137,4 +1137,157 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();
     }
+    public function reporteIngresoMesGeneralPt($mes,$anio,$planta)
+    {
+        //dd($mes.' '.$anio.' '.$planta);
+        if($planta == 0){
+            //dd($planta);
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE INGRESO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;        
+            $ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+                    ->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+                    ->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+                    ->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+                    ->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+                    ->orderBy('orprod_id', 'DESC')
+                    ->where('orprod_tiporprod_id', 1)
+                    ->Where('inp.ipt_estado', 'A')
+                    ->where('orprod_estado_pt', 'I')
+                    ->where('ipt_registrado', '>=', $fechainicial)->where('ipt_registrado', '<=', $fechafinal)
+                    ->orderBy('ipt_id','desc')
+                    ->get();
+            $fecha = 'Desde: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.reporte_ingreso_general_producto_terminado', compact('username','ingresoOrp','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            //dd($planta);
+            $planta1 = $planta;
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE INGRESO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;        
+            $ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+                ->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+                ->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+                ->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+                ->orderBy('orprod_id', 'DESC')
+                ->where('orprod_tiporprod_id', 1)
+                ->Where('inp.ipt_estado', 'A')
+                ->where('orprod_estado_pt', 'I')
+                ->where('orprod_planta_id',$planta1)
+                ->where('ipt_registrado', '>=', $fechainicial)->where('ipt_registrado', '<=', $fechafinal)
+                ->orderBy('ipt_id','desc')
+                ->get();
+            $fecha = 'Desde: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.reporte_ingreso_general_producto_terminado', compact('username','ingresoOrp','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }       
+        
+    }
+    public function reporteIngresoDiaGeneralPt($dia,$mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE INGRESO GENERAL DÍA";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+                    ->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+                    ->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+                    ->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+                    ->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+                    ->orderBy('orprod_id', 'DESC')
+                    ->where('orprod_tiporprod_id', 1)
+                    ->Where('inp.ipt_estado', 'A')
+                    ->where('orprod_estado_pt', 'I')
+                    ->where(DB::raw('cast(inp.ipt_registrado as date)'),'=',$dia)
+                    ->orderBy('ipt_id','desc')
+                    ->get();
+            $fecha = $dia;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.reporte_ingreso_general_producto_terminado', compact('username','ingresoOrp','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            $planta1 = $planta; 
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE INGRESO GENERAL DÍA";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+                    ->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+                    ->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+                    ->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+                    ->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+                    ->orderBy('orprod_id', 'DESC')
+                    ->where('orprod_tiporprod_id', 1)
+                    ->Where('inp.ipt_estado', 'A')
+                    ->where('orprod_estado_pt', 'I')
+                    ->where('orprod_planta_id',$planta1)
+                    ->where(DB::raw('cast(inp.ipt_registrado as date)'),'=',$dia)
+                    ->orderBy('ipt_id','desc')
+                    ->get();
+            $fecha = $dia;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.reporte_ingreso_general_producto_terminado', compact('username','ingresoOrp','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }
+        
+    }
 }

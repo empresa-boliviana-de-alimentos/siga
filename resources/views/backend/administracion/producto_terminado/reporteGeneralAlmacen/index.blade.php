@@ -227,6 +227,10 @@
                         </div>
                     </div>
                   </div>
+                  <div class="ocultarBotonDescargasIngresos" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesIngresos" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesIngresos"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
                   <br>
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-orp">
                     <thead class="cf">
@@ -858,9 +862,9 @@ function lineaProd($id)
 function Buscarfechas() {
   console.log($("#id_mes").val());
   console.log($("#id_planta").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
+  $(".ocultarBotonDescargasIngresos").show();
+  $(".pdfMesIngresos").attr('href','imprimirPdfIngresosMesGeneralPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
+  $(".excelMesIngresos").attr('href','imprimirExcelIngresoMesGeneralPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
   var t = $('#lts-orp').DataTable( {
             "destroy": true,
             "processing": true,
@@ -902,9 +906,9 @@ function Buscarfechas() {
 function BuscarDia() {
   console.log($("#id_dia").val());
   console.log($("#id_planta").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
+  $(".ocultarBotonDescargasIngresos").show();
+  $(".pdfMesIngresos").attr('href','imprimirPdfIngresosDiaGeneralPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
+  $(".excelMesIngresos").attr('href','imprimirExcelIngresoDiaGeneralPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
   var t = $('#lts-orp').DataTable( {
             "destroy": true,
             "processing": true,
