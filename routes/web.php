@@ -808,6 +808,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirExcelIngresoRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelIngresoRangoAlmacenPt');
 	Route::get('imprimirPdfIngresosCanasMesAlmacenPt/{mes}/{anio}/{planta}','ReportController@imprimirPdfIngresosCanasMesAlmacenPt');
 	Route::get('imprimirExcelIngresosCanasMesAlmacenPt/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelIngresosCanasMesAlmacenPt');
+	Route::get('imprimirPdfIngresosCanasDiaAlmacenPt/{dia}/{mes}/{anio}/{planta}','ReportController@imprimirPdfIngresosCanasDiaAlmacenPt');
+	Route::get('imprimirExcelIngresosCanasDiaAlmacenPt/{dia}/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelIngresosCanasDiaAlmacenPt');
+	Route::get('imprimirPdfIngresosCanasRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfIngresosCanasRangoAlmacenPt');
+	Route::get('imprimirExcelIngresosCanasRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelIngresosCanasRangoAlmacenPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');
