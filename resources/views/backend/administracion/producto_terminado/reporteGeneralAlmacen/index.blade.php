@@ -376,6 +376,10 @@
                         </div>
                     </div>
                   </div>
+                  <div class="ocultarBotonDescargasIngresosCanas" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesIngresosCanas" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesIngresosCanas"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
                   <br>
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-canastillo">
                     <thead class="cf">
@@ -997,9 +1001,9 @@ function BuscarRango() {
 function BuscarfechasCanastillo() {
   console.log($("#id_mes_canastillo").val());
   console.log($("#id_planta_canastillo").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".ocultarBotonDescargasIngresosCanas").show();
+  $(".pdfMesIngresosCanas").attr('href','imprimirPdfIngresosCanasMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".excelMesIngresosCanas").attr('href','imprimirExcelIngresosCanasMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
   var t = $('#lts-canastillo').DataTable( {
             "destroy": true,
             "processing": true,
@@ -1047,9 +1051,9 @@ function BuscarfechasCanastillo() {
 function BuscarDiaCanastillo() {
   console.log($("#id_dia_canastillo").val());
   console.log($("#id_planta_canastillo").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".ocultarBotonDescargasIngresosCanas").show();
+  $(".pdfMesIngresosCanas").attr('href','imprimirPdfIngresosCanasDiaAlmacenPt/'+$("#id_dia_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  $(".excelMesIngresosCanas").attr('href','imprimirExcelIngresosCanasDiaAlmacenPt/'+$("#id_dia_canastillo").val()+'/'+$("#id_planta_canastillo").val());
   var t = $('#lts-canastillo').DataTable( {
             "destroy": true,
             "processing": true,
