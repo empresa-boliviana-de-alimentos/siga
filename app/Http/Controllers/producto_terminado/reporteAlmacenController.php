@@ -126,8 +126,258 @@ class reporteAlmacenController extends Controller {
 		return Datatables::of($stockptRango)
 			->make(true);
 	}
+	/******************************************************REPORTE GENERAK************************************************************/
 	public function incioReporteGeneral()
+	{	$plantas = DB::table('public._bp_planta')->get();
+		return view('backend.administracion.producto_terminado.reporteGeneralAlmacen.index', compact('plantas'));
+	}
+	public function listarMesIngresoGeneralPt($mes,$anio,$planta)
 	{
-		return view('backend.administracion.producto_terminado.reporteGeneralAlmacen.index');
+		if($planta == 0){
+			$anio1 = $anio;
+			$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $mes . "-01";
+			$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+			$ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+				->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+				->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+				->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+				->orderBy('orprod_id', 'DESC')
+				->where('orprod_tiporprod_id', 1)
+				->Where('inp.ipt_estado', 'A')
+				->where('orprod_estado_pt', 'I')
+				->where('ipt_registrado', '>=', $fechainicial)->where('ipt_registrado', '<=', $fechafinal)
+				->orderBy('ipt_id','desc')
+				->get();
+			return Datatables::of($ingresoOrp)->addColumn('acciones', function ($ingresoOrp) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngreso/' . $ingresoOrp->ipt_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}else{
+			$anio1 = $anio;
+			$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $mes . "-01";
+			$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+			$ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+				->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+				->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+				->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+				->orderBy('orprod_id', 'DESC')
+				->where('orprod_tiporprod_id', 1)
+				->Where('inp.ipt_estado', 'A')
+				->where('orprod_estado_pt', 'I')
+				->where('orprod_planta_id',$planta)
+				->where('ipt_registrado', '>=', $fechainicial)->where('ipt_registrado', '<=', $fechafinal)
+				->orderBy('ipt_id','desc')
+				->get();
+			return Datatables::of($ingresoOrp)->addColumn('acciones', function ($ingresoOrp) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngreso/' . $ingresoOrp->ipt_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}
+		
+	}
+	public function listarDiaIngresoGeneralPt($dia, $mes, $anio, $planta)
+	{
+		if ($planta == 0) {
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+				->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+				->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+				->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+				->orderBy('orprod_id', 'DESC')
+				->where('orprod_tiporprod_id', 1)
+				->Where('inp.ipt_estado', 'A')
+				->where('orprod_estado_pt', 'I')
+				->where(DB::raw('cast(inp.ipt_registrado as date)'),'=',$dia)
+				->orderBy('ipt_id','desc')
+				->get();
+			return Datatables::of($ingresoOrp)->addColumn('acciones', function ($ingresoOrp) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngreso/' . $ingresoOrp->ipt_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}else{
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+				->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+				->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+				->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+				->orderBy('orprod_id', 'DESC')
+				->where('orprod_tiporprod_id', 1)
+				->Where('inp.ipt_estado', 'A')
+				->where('orprod_estado_pt', 'I')
+				->where('orprod_planta_id',$planta)
+				->where(DB::raw('cast(inp.ipt_registrado as date)'),'=',$dia)
+				->orderBy('ipt_id','desc')
+				->get();
+			return Datatables::of($ingresoOrp)->addColumn('acciones', function ($ingresoOrp) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngreso/' . $ingresoOrp->ipt_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}			
+	}
+	public function listarRangoIngresoGeneralPt($dia_inicio, $mes_inicio, $anio_inicio, $dia_fin, $mes_fin, $anio_fin, $planta)
+	{
+		if ($planta == 0) {
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+				->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+				->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+				->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+				->orderBy('orprod_id', 'DESC')
+				->where('orprod_tiporprod_id', 1)
+				->Where('inp.ipt_estado', 'A')
+				->where('orprod_estado_pt', 'I')
+				->where(DB::raw('cast(inp.ipt_registrado as date)'), '>=', $fechainicial)
+				->where(DB::raw('cast(inp.ipt_registrado as date)'), '<=', $fechafinal)
+				->orderBy('ipt_id','desc')
+				->get();
+			return Datatables::of($ingresoOrp)->addColumn('acciones', function ($ingresoOrp) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngreso/' . $ingresoOrp->ipt_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}else{
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+				->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+				->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+				->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+				->orderBy('orprod_id', 'DESC')
+				->where('orprod_tiporprod_id', 1)
+				->Where('inp.ipt_estado', 'A')
+				->where('orprod_estado_pt', 'I')
+				->where('orprod_planta_id',$planta)
+				->where(DB::raw('cast(inp.ipt_registrado as date)'), '>=', $fechainicial)
+				->where(DB::raw('cast(inp.ipt_registrado as date)'), '<=', $fechafinal)
+				->orderBy('ipt_id','desc')
+				->get();
+			return Datatables::of($ingresoOrp)->addColumn('acciones', function ($ingresoOrp) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngreso/' . $ingresoOrp->ipt_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}	
+	}
+	public function listarMesIngresoCanatilloGeneralPt($mes,$anio,$planta)
+	{
+		if($planta == 0){
+			$anio1 = $anio;
+			$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $mes . "-01";
+			$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+			$ingresoCanastillos = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				//->where('iac_estado', 'A')
+				->where('iac_registrado', '>=', $fechainicial)->where('iac_registrado', '<=', $fechafinal)
+				->where('iac_estado_baja', 'A')
+				->orderBy('iac_id', 'desc')->get();
+			return Datatables::of($ingresoCanastillos)->addColumn('acciones', function ($ingresoCanastillos) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngresoCanastillo/' . $ingresoCanastillos->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}else{
+			$anio1 = $anio;
+			$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $mes . "-01";
+			$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+			$ingresoCanastillos = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				//->where('iac_estado', 'A')
+				->where('iac_registrado', '>=', $fechainicial)->where('iac_registrado', '<=', $fechafinal)
+				->where('iac_origen',$planta)
+				->where('iac_estado_baja', 'A')
+				->orderBy('iac_id', 'desc')->get();
+			return Datatables::of($ingresoCanastillos)->addColumn('acciones', function ($ingresoCanastillos) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngresoCanastillo/' . $ingresoCanastillos->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}		
+	}
+	public function listarDiaIngresoCanatilloGeneralPt($dia, $mes, $anio, $planta)
+	{
+		if($planta == 0){
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$ingresoCanastillos = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				//->where('iac_estado', 'A')
+				->where(DB::raw('cast(iac_registrado as date)'),'=',$dia)
+				->where('iac_estado_baja', 'A')
+				->orderBy('iac_id', 'desc')->get();
+			return Datatables::of($ingresoCanastillos)->addColumn('acciones', function ($ingresoCanastillos) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngresoCanastillo/' . $ingresoCanastillos->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}else{
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$ingresoCanastillos = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				//->where('iac_estado', 'A')
+				->where(DB::raw('cast(iac_registrado as date)'),'=',$dia)
+				->where('iac_origen',$planta)
+				->where('iac_estado_baja', 'A')
+				->orderBy('iac_id', 'desc')->get();
+			return Datatables::of($ingresoCanastillos)->addColumn('acciones', function ($ingresoCanastillos) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngresoCanastillo/' . $ingresoCanastillos->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}
+	}
+	public function listarRangoIngresoCanatilloGeneralPt($dia_inicio, $mes_inicio, $anio_inicio, $dia_fin, $mes_fin, $anio_fin, $planta)
+	{
+		if($planta == 0){
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$ingresoCanastillos = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				//->where('iac_estado', 'A')
+				->where(DB::raw('cast(iac_registrado as date)'), '>=', $fechainicial)
+				->where(DB::raw('cast(iac_registrado as date)'), '<=', $fechafinal)
+				->where('iac_estado_baja', 'A')
+				->orderBy('iac_id', 'desc')->get();
+			return Datatables::of($ingresoCanastillos)->addColumn('acciones', function ($ingresoCanastillos) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngresoCanastillo/' . $ingresoCanastillos->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}else{
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$ingresoCanastillos = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				//->where('iac_estado', 'A')
+				->where(DB::raw('cast(iac_registrado as date)'), '>=', $fechainicial)
+				->where(DB::raw('cast(iac_registrado as date)'), '<=', $fechafinal)
+				->where('iac_origen',$planta)
+				->where('iac_estado_baja', 'A')
+				->orderBy('iac_id', 'desc')->get();
+			return Datatables::of($ingresoCanastillos)->addColumn('acciones', function ($ingresoCanastillos) {
+	            return '<div class="text-center"><a href="imprimirBoletaIngresoCanastillo/' . $ingresoCanastillos->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+	        })
+				->make(true);
+		}
 	}
 }

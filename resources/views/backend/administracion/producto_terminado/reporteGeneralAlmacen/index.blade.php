@@ -165,39 +165,65 @@
               <div class="tab-content">
                 <div class="tab-pane in active" id="ingresosOrp">
                   <div class="row">
-                    <div class="col-md-3">
-                      <div class="input-group">
-                          <div class="input-group">
-                              <input type="text" class="form-control datepickerMonths" id="id_mes" name="id_mes" placeholder="Introduzca mes"> 
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label>
+                              <strong>Seleccione un planta</strong>
+                            </label>
+                          </div>
+                          <select class="form-control" id="id_planta">
+                            <option value="0">Todas las plantas</option>
+                            @foreach($plantas as $planta)
+                            <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
+                            @endforeach
+                          </select>                         
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="text-center">
+                        <label>
+                          <strong>Seleccione Mes</strong>
+                        </label>
+                      </div>
+                        <div class="input-group">
+                          <input type="text" class="form-control datepickerMonths" id="id_mes" name="id_mes" placeholder="Introduzca mes"> 
                           <span class="input-group-btn">
-                              <button class="btn btn-primary" type="button" id="busca_mes" onclick="ListarReporteMes();">Buscar por Mes</button>
-                          </span>
-                          </div>                            
+                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="Buscarfechas();">Buscar</button>
+                          </span>                  
+                        </div>         
                       </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Día</strong></label>
+                          </div>
                             <div class="input-group">
-                                <input type="text" class="form-control datepickerDays" id="id_dia" name="id_dia" placeholder="Introduzca dia"> 
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="ListarReporteDia();">Buscar por Dia</button>
-                            </span>
+                              <input type="text" class="form-control datepickerDays" id="id_dia" name="id_dia" placeholder="Introduzca dia"> 
+                              <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDia();">Buscar</button>
+                              </span>
                             </div>                            
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group">
-                            <div class="input-group">
-                                <div class="col-md-6">
-                                <input type="text" class="form-control datepickerDays" id="id_dia_inicio" name="id_dia_inicio" placeholder="Introduzca dia">
-                                </div>
-                                <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Rango de Fecha</strong></label>
+                          </div>
+                          <div class="input-group">
+                            <div class="col-md-6">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio" name="id_dia_inicio" placeholder="Introduzca dia">
+                            </div>
+                            <div class="col-md-6">
                                 <input type="text" class="form-control datepickerDays" id="id_dia_fin" name="id_dia_fin" placeholder="Introduzca dia">  
-                                </div>
+                            </div>
                             <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="ListarReporteRango();">Buscar rango fechas</button>
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRango();">Buscar</button>
                             </span>
-                            </div>                            
+                          </div>                            
                         </div>
                     </div>
                   </div>
@@ -227,7 +253,13 @@
                           FECHA VENCIMIENTO
                         </th>
                         <th class="text-center">
+                          FECHA INGRESO
+                        </th>
+                        <th class="text-center">
                           COSTO
+                        </th>
+                        <th class="text-center">
+                          PLANTA
                         </th>
                         <th class="text-center">
                           OPCIÓN
@@ -261,7 +293,13 @@
                           FECHA VENCIMIENTO
                         </th>
                         <th class="text-center">
+                          FECHA INGRESO
+                        </th>
+                        <th class="text-center">
                           COSTO
+                        </th>
+                        <th class="text-center">
+                          PLANTA
                         </th>
                         <th class="text-center">
                           OPCIÓN
@@ -271,6 +309,70 @@
                   </table>
                 </div>
                 <div class="tab-pane" id="ingresosCanastillos">
+                  <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label>
+                              <strong>Seleccione un planta</strong>
+                            </label>
+                          </div>
+                          <select class="form-control" id="id_planta_canastillo">
+                            <option value="0">Todas las plantas</option>
+                            @foreach($plantas as $planta)
+                            <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
+                            @endforeach
+                          </select>                         
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="text-center">
+                        <label>
+                          <strong>Seleccione Mes</strong>
+                        </label>
+                      </div>
+                        <div class="input-group">
+                          <input type="text" class="form-control datepickerMonths" id="id_mes_canastillo" name="id_mes_canastillo" placeholder="Introduzca mes"> 
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasCanastillo();">Buscar</button>
+                          </span>                  
+                        </div>         
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Día</strong></label>
+                          </div>
+                            <div class="input-group">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_canastillo" name="id_dia_canastillo" placeholder="Introduzca dia"> 
+                              <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDiaCanastillo();">Buscar</button>
+                              </span>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Rango de Fecha</strong></label>
+                          </div>
+                          <div class="input-group">
+                            <div class="col-md-6">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio_canastillo" name="id_dia_inicio_canastillo" placeholder="Introduzca dia">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control datepickerDays" id="id_dia_fin_canastillo" name="id_dia_fin_canastillo" placeholder="Introduzca dia">  
+                            </div>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRangoCanastillo();">Buscar</button>
+                            </span>
+                          </div>                            
+                        </div>
+                    </div>
+                  </div>
+                  <br>
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-canastillo">
                     <thead class="cf">
                       <tr>
@@ -752,48 +854,293 @@ function lineaProd($id)
 @endsection
 @push('scripts')
 <script>
-var t = $('#lts-orp').DataTable( {
-         
-                        
-        "columnDefs": [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        } ],
-        "order": [[ 0, 'desc' ]],
+//FUNCIONES ORP
+function Buscarfechas() {
+  console.log($("#id_mes").val());
+  console.log($("#id_planta").val());
+  //$(".ocultarBotonDescargas").show();
+  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
+  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes").val()+'/'+$("#id_planta").val());
+  var t = $('#lts-orp').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesIngresoGeneralPt/"+ $("#id_mes").val()+'/'+$("#id_planta").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes").val()}
+             },
+            "columns":[
+                {data: 'ipt_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'orprod_nro_orden'},
+                {data: 'ipt_cantidad'},
+                {data: 'ipt_lote'},
+                {data: 'ipt_fecha_vencimiento'},
+                {data: 'ipt_registrado'},
+                {data: 'ipt_costo_unitario'},
+                {data: 'nombre_planta'},
+                {data: 'acciones'}
+        ],
+        
         "language": {
              "url": "/lenguaje"
         },
-         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-
-    });
-   t.on( 'order.dt search.dt', function () {
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
         t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
-    } ).draw();   
-var t = $('#lts-canastillo').DataTable( {
-         
-                        
-        "columnDefs": [ {
-            "searchable": false,
-            "orderable": false,
-            "targets": 0
-        } ],
-        "order": [[ 0, 'desc' ]],
+  } ).draw();
+}
+function BuscarDia() {
+  console.log($("#id_dia").val());
+  console.log($("#id_planta").val());
+  //$(".ocultarBotonDescargas").show();
+  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
+  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_dia").val()+'/'+$("#id_planta").val());
+  var t = $('#lts-orp').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarDiaIngresoGeneralPt/"+ $("#id_dia").val()+'/'+$("#id_planta").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia").val()}
+             },
+            "columns":[
+                {data: 'ipt_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'orprod_nro_orden'},
+                {data: 'ipt_cantidad'},
+                {data: 'ipt_lote'},
+                {data: 'ipt_fecha_vencimiento'},
+                {data: 'ipt_registrado'},
+                {data: 'ipt_costo_unitario'},
+                {data: 'nombre_planta'},
+                {data: 'acciones'}
+        ],
+        
         "language": {
              "url": "/lenguaje"
         },
-         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-
-    });
-   t.on( 'order.dt search.dt', function () {
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
         t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
-    } ).draw();
+  } ).draw();
+}
 
-
+function BuscarRango() {
+  console.log($("#id_dia_inicio").val());
+  console.log($("#id_dia_fin").val());
+  console.log($("#id_planta").val());
+  //$(".ocultarBotonDescargas").show();
+  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
+  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
+  var t = $('#lts-orp').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarRangoIngresoGeneralPt/"+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia").val()}
+             },
+            "columns":[
+                {data: 'ipt_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'orprod_nro_orden'},
+                {data: 'ipt_cantidad'},
+                {data: 'ipt_lote'},
+                {data: 'ipt_fecha_vencimiento'},
+                {data: 'ipt_registrado'},
+                {data: 'ipt_costo_unitario'},
+                {data: 'nombre_planta'},
+                {data: 'acciones'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+//FUNCIONES CANASTILLO
+function BuscarfechasCanastillo() {
+  console.log($("#id_mes_canastillo").val());
+  console.log($("#id_planta_canastillo").val());
+  //$(".ocultarBotonDescargas").show();
+  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  var t = $('#lts-canastillo').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesIngresoCanatilloGeneralPt/"+ $("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes_canastillo").val()}
+             },
+            "columns":[
+                {data: 'iac_id'},
+                {data: 'ctl_descripcion'}, 
+                {data: 'iac_nro_ingreso'},
+                {data: 'iac_cantidad'},
+                {data: 'nombre_planta'},
+                {data: 'producto'},
+                {data: 'iac_fecha_ingreso'},
+                {data: 'conductor'},
+                {data: 'ctl_foto_canastillo',
+                  'targets': [15,16],
+                  'searchable': false,
+                  'orderable':false,
+                  'render': function (data, type, full, meta) {
+                      return '<img src=archivo/canastillo/'+data+' class="img-circle" style=" width: 50px;"/>';
+                  }
+                },
+                {data: 'acciones'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarDiaCanastillo() {
+  console.log($("#id_dia_canastillo").val());
+  console.log($("#id_planta_canastillo").val());
+  //$(".ocultarBotonDescargas").show();
+  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  var t = $('#lts-canastillo').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarDiaIngresoCanatilloGeneralPt/"+ $("#id_dia_canastillo").val()+'/'+$("#id_planta_canastillo").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_canastillo").val()}
+             },
+            "columns":[
+                {data: 'iac_id'},
+                {data: 'ctl_descripcion'}, 
+                {data: 'iac_nro_ingreso'},
+                {data: 'iac_cantidad'},
+                {data: 'nombre_planta'},
+                {data: 'producto'},
+                {data: 'iac_fecha_ingreso'},
+                {data: 'conductor'},
+                {data: 'ctl_foto_canastillo',
+                  'targets': [15,16],
+                  'searchable': false,
+                  'orderable':false,
+                  'render': function (data, type, full, meta) {
+                      return '<img src=archivo/canastillo/'+data+' class="img-circle" style=" width: 50px;"/>';
+                  }
+                },
+                {data: 'acciones'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarRangoCanastillo() {
+  console.log($("#id_dia_inicio_canastillo").val());
+  console.log($("#id_dia_fin_canastillo").val());
+  console.log($("#id_planta_canastillo").val());
+  //$(".ocultarBotonDescargas").show();
+  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_mes_canastillo").val()+'/'+$("#id_planta_canastillo").val());
+  var t = $('#lts-canastillo').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarRangoIngresoCanatilloGeneralPt/"+ $("#id_dia_inicio_canastillo").val()+'/'+$("#id_dia_fin_canastillo").val()+'/'+$("#id_planta_canastillo").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_inicio_canastillo").val()}
+             },
+            "columns":[
+                {data: 'iac_id'},
+                {data: 'ctl_descripcion'}, 
+                {data: 'iac_nro_ingreso'},
+                {data: 'iac_cantidad'},
+                {data: 'nombre_planta'},
+                {data: 'producto'},
+                {data: 'iac_fecha_ingreso'},
+                {data: 'conductor'},
+                {data: 'ctl_foto_canastillo',
+                  'targets': [15,16],
+                  'searchable': false,
+                  'orderable':false,
+                  'render': function (data, type, full, meta) {
+                      return '<img src=archivo/canastillo/'+data+' class="img-circle" style=" width: 50px;"/>';
+                  }
+                },
+                {data: 'acciones'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
 $('.datepickerMonths').datepicker({
         format: "mm/yyyy",
         viewMode: "months", 

@@ -53,6 +53,7 @@
 				$nro = 1;
 				$tot1 =0;
 				$tot = $detingresopv->ipt_cantidad * $detingresopv->itp_costo_unitario;	
+				//dd($tot);
 			@endphp
 			<tr class="text-sm">
 				<td class="text-center text-xxs uppercase font-bold px-1 py-1">{{ $nro++ }}</td>
@@ -68,11 +69,11 @@
 				<td class="text-center text-xxs uppercase font-bold px-1 py-1">{{ $detingresopv->ipt_fecha_vencimiento }}</td>
 				<td class="text-center text-xxs uppercase font-bold px-1 py-1">{{ number_format($detingresopv->ipt_cantidad,2,'.',',') }}</td>
 				<td class="text-center text-xxs uppercase font-bold px-1 py-1">{{ number_format($detingresopv->ipt_costo_unitario,2,'.',',') }}</td>
-				<td class="text-center text-xxs uppercase font-bold px-1 py-1">{{ number_format($tot,2,'.',',') }}</td>
+				<td class="text-center text-xxs uppercase font-bold px-1 py-1">{{ number_format($detingresopv->ipt_cantidad*$detingresopv->ipt_costo_unitario,2,'.',',') }}</td>
 			</tr>
 			<tr class="text-sm">
 				<td colspan="7" class="text-center text-xxs bg-grey-darker text-white">TOTAL:</td>
-				<td class="text-center text-xxs uppercase font-bold px-1 py-1">{{ number_format($tot1,2,'.',',')}}</td>
+				<td class="text-center text-xxs uppercase font-bold px-1 py-1">{{ number_format($detingresopv->ipt_cantidad*$detingresopv->ipt_costo_unitario,2,'.',',')}}</td>
 			</tr>
 	</tbody>
 </table>
