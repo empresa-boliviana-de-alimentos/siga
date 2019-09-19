@@ -299,4 +299,68 @@ class ReportExcelController extends Controller
             })->export('xlsx');
         } 
     }
+    public function imprimirExcelIngresoRangoAlmacenPt($dia_inicio, $mes_inicio, $anio_inicio, $dia_fin, $mes_fin, $anio_fin, $planta)
+    {
+        if($planta == 0){
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+                    ->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+                    ->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+                    ->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+                    ->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+                    ->orderBy('orprod_id', 'DESC')
+                    ->where('orprod_tiporprod_id', 1)
+                    ->Where('inp.ipt_estado', 'A')
+                    ->where('orprod_estado_pt', 'I')
+                    ->where(DB::raw('cast(inp.ipt_registrado as date)'), '>=', $fechainicial)
+                    ->where(DB::raw('cast(inp.ipt_registrado as date)'), '<=', $fechafinal)
+                    ->orderBy('ipt_id','desc')
+                    ->get();
+            $ufvs = Ufv::get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($ingresoOrp, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($ingresoOrp, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_ingreso_general_mes_producto_terminado', array('ingresoOrp'=>$ingresoOrp,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }else{
+            $planta1 = $planta; 
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $ingresoOrp = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
+                    ->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
+                    ->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
+                    ->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+                    ->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
+                    ->orderBy('orprod_id', 'DESC')
+                    ->where('orprod_tiporprod_id', 1)
+                    ->Where('inp.ipt_estado', 'A')
+                    ->where('orprod_estado_pt', 'I')
+                    ->where('orprod_planta_id',$planta1)
+                    ->where(DB::raw('cast(inp.ipt_registrado as date)'), '>=', $fechainicial)
+                    ->where(DB::raw('cast(inp.ipt_registrado as date)'), '<=', $fechafinal)
+                    ->orderBy('ipt_id','desc')
+                    ->get();
+            $ufvs = Ufv::get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($ingresoOrp, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($ingresoOrp, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_ingreso_general_mes_producto_terminado', array('ingresoOrp'=>$ingresoOrp,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        } 
+    }
 }

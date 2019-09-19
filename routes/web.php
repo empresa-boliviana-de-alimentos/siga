@@ -804,6 +804,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirExcelIngresoMesGeneralPt/{mes}/{anio}/{planta}','ReportExcelController@reporteIngresoMesExcelGeneralPt');
 	Route::get('imprimirPdfIngresosDiaGeneralPt/{dia}/{mes}/{anio}/{planta}','ReportController@reporteIngresoDiaGeneralPt');
 	Route::get('imprimirExcelIngresoDiaGeneralPt/{dia}/{mes}/{anio}/{planta}','ReportExcelController@reporteIngresoDiaExcelGeneralPt');
+	Route::get('imprimirPdfIngresoRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfIngresoRangoAlmacenPt');
+	Route::get('imprimirExcelIngresoRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelIngresoRangoAlmacenPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');

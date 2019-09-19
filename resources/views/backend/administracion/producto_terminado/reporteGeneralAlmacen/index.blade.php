@@ -952,9 +952,9 @@ function BuscarRango() {
   console.log($("#id_dia_inicio").val());
   console.log($("#id_dia_fin").val());
   console.log($("#id_planta").val());
-  //$(".ocultarBotonDescargas").show();
-  //$(".pdfMes").attr('href','imprimirPdfInventarioMesAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
-  //$(".excelMes").attr('href','imprimirExcelInventarioMesAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
+  $(".ocultarBotonDescargasIngresos").show();
+  $(".pdfMesIngresos").attr('href','imprimirPdfIngresoRangoAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
+  $(".excelMesIngresos").attr('href','imprimirExcelIngresoRangoAlmacenPt/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val()+'/'+$("#id_planta").val());
   var t = $('#lts-orp').DataTable( {
             "destroy": true,
             "processing": true,
