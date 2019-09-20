@@ -998,7 +998,7 @@ class ReportController extends Controller
             ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
             ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
             ->where('dao_estado', 'A')
-            ->where('dao_tipo_orp', 1)
+            ->where('dao_tipo_orp', 2)
             ->where('dao_id',$id)
             ->first();
         $fecha = date('d-m-Y',strtotime($despachoORP->dao_fecha_despacho));

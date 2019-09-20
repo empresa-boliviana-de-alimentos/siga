@@ -621,6 +621,74 @@
                   </table>
                   </div>
                   <div class="tab-pane" id="despachoPt">
+                    <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label>
+                              <strong>Seleccione un planta</strong>
+                            </label>
+                          </div>
+                          <select class="form-control" id="id_planta_despachopt">
+                            <option value="0">Todas las plantas</option>
+                            @foreach($plantas as $planta)
+                            <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
+                            @endforeach
+                          </select>                         
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="text-center">
+                        <label>
+                          <strong>Seleccione Mes</strong>
+                        </label>
+                      </div>
+                        <div class="input-group">
+                          <input type="text" class="form-control datepickerMonths" id="id_mes_despachopt" name="id_mes_despachopt" placeholder="Introduzca mes"> 
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasDespachoPt();">Buscar</button>
+                          </span>                  
+                        </div>         
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Día</strong></label>
+                          </div>
+                            <div class="input-group">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_despachopt" name="id_dia_despachopt" placeholder="Introduzca dia"> 
+                              <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDiaDespachoPt();">Buscar</button>
+                              </span>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Rango de Fecha</strong></label>
+                          </div>
+                          <div class="input-group">
+                            <div class="col-md-6">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio_despachopt" name="id_dia_inicio_despachorp" placeholder="Introduzca dia">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control datepickerDays" id="id_dia_fin_despachopt" name="id_dia_fin_despachorp" placeholder="Introduzca dia">  
+                            </div>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRangoDespachoPt();">Buscar</button>
+                            </span>
+                          </div>                            
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ocultarBotonDescargasDespachosPt" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesDespachosPt" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesDespachosPt"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
+                  <br>
                   <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoGeneralPt">
                     <thead class="cf">
                       <tr>
@@ -1359,6 +1427,50 @@ function BuscarRangoDespachoOrp() {
             cell.innerHTML = i+1;
         } );
   } ).draw();
+}
+//DESPACHO PRODUCTO TERMINADO
+function BuscarfechasDespachoPt() {
+  console.log($("#id_mes_despachopt").val());
+  console.log($("#id_planta_despachopt").val());
+  $(".ocultarBotonDescargasDespachosPt").show();
+  $(".pdfMesDespachosPt").attr('href','imprimirPdfDespachosPtMesGeneralPt/'+$("#id_mes_despachopt").val()+'/'+$("#id_planta_despachopt").val());
+  $(".excelMesDespachosPt").attr('href','imprimirExcelDespachosPtMesGeneralPt/'+$("#id_mes_despachopt").val()+'/'+$("#id_planta_despachopt").val());
+  var t = $('#lts-despachoGeneralPt').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesDespachoPtGeneralPt/"+ $("#id_mes_despachopt").val()+'/'+$("#id_planta_despachopt").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes_despachorp").val()}
+             },
+            "columns":[
+                {data: 'dao_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'dao_codigo_salida'},
+                {data: 'dao_cantidad'},
+                {data: 'origen'},
+                {data: 'destino'},
+                {data: 'rece_lineaprod_id',
+                  'render': function (data, type, full, meta) {
+                      return linea(data);
+                  }
+                },
+                {data: 'acciones'},
+                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  
 }
 function linea(id)
 {
