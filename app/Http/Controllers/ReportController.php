@@ -1986,4 +1986,75 @@ class ReportController extends Controller
             return $pdf->inline();
         }
     }
+    public function imprimirPdfDespachosCanastilloMesGeneralPt($mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                                ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                                ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+                ->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+                ->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+                ->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+                ->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+                ->where('iac_estado', 'D')
+                ->where('iac_estado_baja', 'A')
+                ->where('iac_registrado', '>=', $fechainicial)->where('iac_registrado', '<=', $fechafinal)
+                ->orderBy('iac_id', 'desc')
+                ->get();
+            $fecha = 'Del: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+            $view = \View::make('reportes.reporte_despacho_canastillo_general_producto_terminado', compact('username','datosCanastillas','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            $planta1 = $planta;
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                                ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                                ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+                ->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+                ->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+                ->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+                ->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+                ->where('iac_estado', 'D')
+                ->where('iac_estado_baja', 'A')
+                ->where('iac_origen',$planta1)
+                ->where('iac_registrado', '>=', $fechainicial)->where('iac_registrado', '<=', $fechafinal)
+                ->orderBy('iac_id', 'desc')
+                ->get();
+            $fecha = 'Del: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+            $view = \View::make('reportes.reporte_despacho_canastillo_general_producto_terminado', compact('username','datosCanastillas','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }
+            
+    }
 }
