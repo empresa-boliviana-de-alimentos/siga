@@ -830,6 +830,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('listarRangoDespachoPtGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoDespachoPtGeneralPt');
 	Route::get('imprimirPdfDespachosPtRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfDespachosPtRangoGeneralPt');
 	Route::get('imprimirExcelDespachosPtRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelDespachosPtRangoGeneralPt');
+	Route::get('listarMesDespachoCanastilloGeneralPt/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarMesDespachoCanastilloGeneralPt');
+	Route::get('imprimirPdfDespachosCanastilloMesGeneralPt/{mes}/{anio}/{planta}','ReportController@imprimirPdfDespachosCanastilloMesGeneralPt');
+	Route::get('imprimirExcelDespachosCanastilloMesGeneralPt/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelDespachosCanastilloMesGeneralPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');

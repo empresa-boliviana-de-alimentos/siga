@@ -758,7 +758,75 @@
                   </table>
                   </div>
                   <div class="tab-pane" id="despachoCanastillos">
-                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoGenralCanastillo">
+                  <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label>
+                              <strong>Seleccione un planta</strong>
+                            </label>
+                          </div>
+                          <select class="form-control" id="id_planta_despachocanastillo">
+                            <option value="0">Todas las plantas</option>
+                            @foreach($plantas as $planta)
+                            <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
+                            @endforeach
+                          </select>                         
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="text-center">
+                        <label>
+                          <strong>Seleccione Mes</strong>
+                        </label>
+                      </div>
+                        <div class="input-group">
+                          <input type="text" class="form-control datepickerMonths" id="id_mes_despachocanastillo" name="id_mes_despachocanastillo" placeholder="Introduzca mes"> 
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasDespachoCanastillo();">Buscar</button>
+                          </span>                  
+                        </div>         
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Día</strong></label>
+                          </div>
+                            <div class="input-group">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_despachopt" name="id_dia_despachocanastillo" placeholder="Introduzca dia"> 
+                              <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDiaDespachoCanastillo();">Buscar</button>
+                              </span>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Rango de Fecha</strong></label>
+                          </div>
+                          <div class="input-group">
+                            <div class="col-md-6">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio_despachocanastillo" name="id_dia_inicio_despachocanastillo" placeholder="Introduzca dia">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control datepickerDays" id="id_dia_fin_despachocanastillo" name="id_dia_fin_despachocanastillo" placeholder="Introduzca dia">  
+                            </div>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRangoDespachoCanastillo();">Buscar</button>
+                            </span>
+                          </div>                            
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ocultarBotonDescargasDespachosCanastillo" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesDespachosCanastillo" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesDespachosCanastillo"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
+                  <br>
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoGeneralCanastillo">
                     <thead class="cf">
                       <tr>
                         <th class="text-center">
@@ -778,6 +846,9 @@
                         </th>
                         <th class="text-center">
                             CANTIDAD
+                        </th>
+                        <th class="text-center">
+                            ORIGEN
                         </th>
                         <th class="text-center">
                             OPCIONES
@@ -806,6 +877,9 @@
                         </th>
                         <th class="text-center">
                             CANTIDAD
+                        </th>
+                        <th class="text-center">
+                            ORIGEN
                         </th>
                         <th class="text-center">
                             OPCIONES
@@ -1546,6 +1620,43 @@ function BuscarRangoDespachoPt() {
                 },
                 {data: 'acciones'},
                 
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });  
+}
+//DESPACHO CANASTILLO
+function BuscarfechasDespachoCanastillo() {
+  console.log($("#id_mes_despachocanastillo").val());
+  console.log($("#id_planta_despachocanastillo").val());
+  $(".ocultarBotonDescargasDespachosCanastillo").show();
+  $(".pdfMesDespachosCanastillo").attr('href','imprimirPdfDespachosCanastilloMesGeneralPt/'+$("#id_mes_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val());
+  $(".excelMesDespachosCanastillo").attr('href','imprimirExcelDespachosCanastilloMesGeneralPt/'+$("#id_mes_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val());
+  var t = $('#lts-despachoGeneralCanastillo').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesDespachoCanastilloGeneralPt/"+ $("#id_mes_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes_despachocanastillo").val()}
+             },
+            "columns":[
+                {data: 'iac_id'},
+                {data: 'iac_codigo_salida'}, 
+                {data: 'ctl_descripcion'},
+                {data: 'ctl_material'},
+                {data: 'ctl_foto_canastillo'},
+                {data: 'iac_cantidad'},
+                {data: 'nombre_planta'},
+                {data: 'acciones'}                
         ],
         
         "language": {
