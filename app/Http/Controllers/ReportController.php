@@ -1774,4 +1774,216 @@ class ReportController extends Controller
             return $pdf->inline();
         }
     }
+    public function imprimirPdfDespachosPtMesGeneralPt($mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                                ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                                ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 2)
+                ->where('dao_registrado', '>=', $fechainicial)->where('dao_registrado', '<=', $fechafinal)
+                //->where('orprod_planta_id',$planta->id_planta)
+                ->orderBy('dao_id','desc')
+                ->get();
+
+            $fecha = 'Del: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+            $view = \View::make('reportes.reporte_despacho_general_producto_terminado', compact('username','despachoORP','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            $planta1 = $planta;
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                                ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                                ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 2)
+                ->where('dao_registrado', '>=', $fechainicial)->where('dao_registrado', '<=', $fechafinal)
+                ->where('orprod_planta_id',$planta1)
+                ->orderBy('dao_id','desc')
+                ->get();
+            $fecha = 'Del: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+            $view = \View::make('reportes.reporte_despacho_general_producto_terminado', compact('username','despachoORP','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }
+    }
+    public function imprimirPdfDespachosPtDiaGeneralPt($dia,$mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                                ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                                ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 2)
+                ->where(DB::raw('cast(dao_registrado as date)'),'=',$dia)
+                //->where('orprod_planta_id',$planta->id_planta)
+                ->orderBy('dao_id','desc')
+                ->get();
+
+            $fecha = $dia;
+            $code = '-';
+            $date =date('d/m/Y');
+            $view = \View::make('reportes.reporte_despacho_general_producto_terminado', compact('username','despachoORP','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            $planta1 = $planta;
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                                ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                                ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 2)
+                ->where(DB::raw('cast(dao_registrado as date)'),'=',$dia)
+                ->where('orprod_planta_id',$planta1)
+                ->orderBy('dao_id','desc')
+                ->get();
+            $fecha = $dia;
+            $code = '-';
+            $date =date('d/m/Y');
+            $view = \View::make('reportes.reporte_despacho_general_producto_terminado', compact('username','despachoORP','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }
+    }
+    public function imprimirPdfDespachosPtRangoGeneralPt($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin,$planta)
+    {
+         if ($planta == 0) {
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                                ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                                ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 2)
+                ->where(DB::raw('cast(dao_registrado as date)'), '>=', $fechainicial)
+                ->where(DB::raw('cast(dao_registrado as date)'), '<=', $fechafinal)
+                ->orderBy('dao_id','desc')
+                ->get();
+            $fecha = 'Del: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+            $view = \View::make('reportes.reporte_despacho_general_producto_terminado', compact('username','despachoORP','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            $planta1 = $planta;
+            $username = Auth::user()->usr_usuario;
+            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                                ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                                ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                        ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 2)
+                ->where(DB::raw('cast(dao_registrado as date)'), '>=', $fechainicial)
+                ->where(DB::raw('cast(dao_registrado as date)'), '<=', $fechafinal)
+                ->where('orprod_planta_id',$planta1)
+                ->orderBy('dao_id','desc')
+                ->get();
+            $fecha = 'Del: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+            $view = \View::make('reportes.reporte_despacho_general_producto_terminado', compact('username','despachoORP','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }
+    }
 }

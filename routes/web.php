@@ -822,6 +822,14 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirPdfDespachosOrpRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfDespachosOrpRangoGeneralPt');
 	Route::get('imprimirExcelDespachosOrpRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelDespachosOrpRangoGeneralPt');
 	Route::get('listarMesDespachoPtGeneralPt/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarMesDespachoPtGeneralPt');
+	Route::get('imprimirPdfDespachosPtMesGeneralPt/{mes}/{anio}/{planta}','ReportController@imprimirPdfDespachosPtMesGeneralPt');
+	Route::get('imprimirExcelDespachosPtMesGeneralPt/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelDespachosPtMesGeneralPt');
+	Route::get('listarDiaDespachoPtGeneralPt/{dia}/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarDiaDespachoPtGeneralPt');
+	Route::get('imprimirPdfDespachosPtDiaGeneralPt/{dia}/{mes}/{anio}/{planta}','ReportController@imprimirPdfDespachosPtDiaGeneralPt');
+	Route::get('imprimirExcelDespachosPtDiaGeneralPt/{dia}/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelDespachosPtDiaGeneralPt');
+	Route::get('listarRangoDespachoPtGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoDespachoPtGeneralPt');
+	Route::get('imprimirPdfDespachosPtRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfDespachosPtRangoGeneralPt');
+	Route::get('imprimirExcelDespachosPtRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelDespachosPtRangoGeneralPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');
