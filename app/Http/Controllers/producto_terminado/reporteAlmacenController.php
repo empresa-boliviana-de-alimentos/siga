@@ -380,4 +380,134 @@ class reporteAlmacenController extends Controller {
 				->make(true);
 		}
 	}
+	public function listarMesDespachoOrpGeneralPt($mes,$anio,$planta)
+	{
+		if($planta == 0){
+			$anio1 = $anio;
+			$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $mes . "-01";
+			$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+			$despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+				->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+				->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+				->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+				->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+				->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+				->where('dao_estado', 'A')
+				->where('dao_tipo_orp', 1)
+				->where('dao_registrado', '>=', $fechainicial)->where('dao_registrado', '<=', $fechafinal)
+				->orderBy('dao_id','desc')
+				->get();
+			return Datatables::of($despachoORP)->addColumn('acciones', function ($despachoORP) {
+		            return '<div class="text-center"><a href="imprimirBoletaDespachoOrp/' . $despachoORP->dao_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+		        })
+					->make(true);
+		}else{
+			$anio1 = $anio;
+			$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $mes . "-01";
+			$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+			$despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+				->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+				->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+				->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+				->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+				->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+				->where('dao_estado', 'A')
+				->where('dao_tipo_orp', 1)
+				->where('dao_registrado', '>=', $fechainicial)->where('dao_registrado', '<=', $fechafinal)
+				->where('orprod_planta_id',$planta)
+				->orderBy('dao_id','desc')
+				->get();
+			return Datatables::of($despachoORP)->addColumn('acciones', function ($despachoORP) {
+		            return '<div class="text-center"><a href="imprimirBoletaDespachoOrp/' . $despachoORP->dao_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+		        })
+					->make(true);
+		}
+		
+	}
+	public function listarDiaDespachoOrpGeneralPt($dia,$mes,$anio,$planta)
+	{
+		if($planta == 0){
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+				->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+				->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+				->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+				->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+				->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+				->where('dao_estado', 'A')
+				->where('dao_tipo_orp', 1)
+				->where(DB::raw('cast(dao_registrado as date)'),'=',$dia)
+				->orderBy('dao_id','desc')
+				->get();
+			return Datatables::of($despachoORP)->addColumn('acciones', function ($despachoORP) {
+		            return '<div class="text-center"><a href="imprimirBoletaDespachoOrp/' . $despachoORP->dao_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+		        })
+					->make(true);
+		}else{
+			$planta1 = $planta;
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+				->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+				->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+				->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+				->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+				->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+				->where('dao_estado', 'A')
+				->where('dao_tipo_orp', 1)
+				->where(DB::raw('cast(dao_registrado as date)'),'=',$dia)
+				->where('orprod_planta_id',$planta1)
+				->orderBy('dao_id','desc')
+				->get();
+			return Datatables::of($despachoORP)->addColumn('acciones', function ($despachoORP) {
+		            return '<div class="text-center"><a href="imprimirBoletaDespachoOrp/' . $despachoORP->dao_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+		        })
+					->make(true);
+		}
+	}
+	public function listarRangoDespachoOrpGeneralPt($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin,$planta)
+	{
+		if($planta == 0){
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+				->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+				->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+				->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+				->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+				->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+				->where('dao_estado', 'A')
+				->where('dao_tipo_orp', 1)
+				->where(DB::raw('cast(dao_registrado as date)'), '>=', $fechainicial)
+				->where(DB::raw('cast(dao_registrado as date)'), '<=', $fechafinal)
+				->orderBy('dao_id','desc')
+				->get();
+			return Datatables::of($despachoORP)->addColumn('acciones', function ($despachoORP) {
+		            return '<div class="text-center"><a href="imprimirBoletaDespachoOrp/' . $despachoORP->dao_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+		        })
+					->make(true);
+		}else{
+			$planta1 = $planta;
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+				->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+				->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+				->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+				->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+				->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+				->where('dao_estado', 'A')
+				->where('dao_tipo_orp', 1)
+				->where(DB::raw('cast(dao_registrado as date)'), '>=', $fechainicial)
+				->where(DB::raw('cast(dao_registrado as date)'), '<=', $fechafinal)
+				->where('orprod_planta_id',$planta1)
+				->orderBy('dao_id','desc')
+				->get();
+			return Datatables::of($despachoORP)->addColumn('acciones', function ($despachoORP) {
+		            return '<div class="text-center"><a href="imprimirBoletaDespachoOrp/' . $despachoORP->dao_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+		        })
+					->make(true);
+		}
+	}
 }

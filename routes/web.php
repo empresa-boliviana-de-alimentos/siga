@@ -812,6 +812,15 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirExcelIngresosCanasDiaAlmacenPt/{dia}/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelIngresosCanasDiaAlmacenPt');
 	Route::get('imprimirPdfIngresosCanasRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfIngresosCanasRangoAlmacenPt');
 	Route::get('imprimirExcelIngresosCanasRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelIngresosCanasRangoAlmacenPt');
+	Route::get('listarMesDespachoOrpGeneralPt/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarMesDespachoOrpGeneralPt');
+	Route::get('imprimirPdfDespachosOrpMesGeneralPt/{mes}/{anio}/{planta}','ReportController@imprimirPdfDespachosOrpMesGeneralPt');
+	Route::get('imprimirExcelDespachosOrpMesGeneralPt/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelDespachosOrpMesGeneralPt');
+	Route::get('listarDiaDespachoOrpGeneralPt/{dia}/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarDiaDespachoOrpGeneralPt');
+	Route::get('imprimirPdfDespachosOrpDiaGeneralPt/{dia}/{mes}/{anio}/{planta}','ReportController@imprimirPdfDespachosOrpDiaGeneralPt');
+	Route::get('imprimirExcelDespachosOrpDiaGeneralPt/{dia}/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelDespachosOrpDiaGeneralPt');
+	Route::get('listarRangoDespachoOrpGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoDespachoOrpGeneralPt');
+	Route::get('imprimirPdfDespachosOrpRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfDespachosOrpRangoGeneralPt');
+	Route::get('imprimirExcelDespachosOrpRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelDespachosOrpRangoGeneralPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');

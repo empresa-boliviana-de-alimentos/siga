@@ -10,6 +10,7 @@ use siga\Modelo\insumo\insumo_registros\DetalleIngreso;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
 use siga\Modelo\insumo\insumo_solicitud\DetalleOrdenProduccion;
 use siga\Http\Modelo\ProductoTerminado\IngresoCanastilla;
+use siga\Http\Modelo\ProductoTerminado\despachoORP;
 use Auth;
 use siga\Modelo\admin\Usuario;
 use DB;
@@ -533,5 +534,183 @@ class ReportExcelController extends Controller
                 });
             })->export('xlsx');
         }
+    }
+    public function imprimirExcelDespachosOrpMesGeneralPt($mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 1)
+                ->where('dao_registrado', '>=', $fechainicial)->where('dao_registrado', '<=', $fechafinal)
+                ->orderBy('dao_id','asc')
+                ->get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($despachoORP, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($despachoORP, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_orp_general_producto_terminado', array('despachoORP'=>$despachoORP,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }else{
+            $planta1 = $planta; 
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 1)
+                ->where('dao_registrado', '>=', $fechainicial)->where('dao_registrado', '<=', $fechafinal)
+                ->where('orprod_planta_id',$planta1)
+                ->orderBy('dao_id','asc')
+                ->get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($despachoORP, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($despachoORP, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_orp_general_producto_terminado', array('despachoORP'=>$despachoORP,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }            
+    }
+    public function imprimirExcelDespachosOrpDiaGeneralPt($dia,$mes,$anio,$planta)
+    {
+         if ($planta == 0) {
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 1)
+                ->where(DB::raw('cast(dao_registrado as date)'),'=',$dia)
+                ->orderBy('dao_id','asc')
+                ->get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($despachoORP, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($despachoORP, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_orp_general_producto_terminado', array('despachoORP'=>$despachoORP,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }else{
+            $planta1 = $planta; 
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 1)
+                ->where(DB::raw('cast(dao_registrado as date)'),'=',$dia)
+                ->where('orprod_planta_id',$planta1)
+                ->orderBy('dao_id','asc')
+                ->get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($despachoORP, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($despachoORP, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_orp_general_producto_terminado', array('despachoORP'=>$despachoORP,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }   
+    }
+    public function imprimirExcelDespachosOrpRangoGeneralPt($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin,$planta)
+    {
+         if ($planta == 0) {
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 1)
+                ->where(DB::raw('cast(dao_registrado as date)'), '>=', $fechainicial)
+                ->where(DB::raw('cast(dao_registrado as date)'), '<=', $fechafinal)
+                ->orderBy('dao_id','asc')
+                ->get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($despachoORP, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($despachoORP, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_orp_general_producto_terminado', array('despachoORP'=>$despachoORP,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }else{
+            $planta1 = $planta; 
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo','rece_codigo')
+                ->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
+                ->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
+                ->join('public._bp_planta as planta', 'orp.orprod_planta_id', '=', 'planta.id_planta')
+                ->join('insumo.receta as rece', 'orp.orprod_rece_id', '=', 'rece.rece_id')
+                ->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
+                ->where('dao_estado', 'A')
+                ->where('dao_tipo_orp', 1)
+                ->where(DB::raw('cast(dao_registrado as date)'), '>=', $fechainicial)
+                ->where(DB::raw('cast(dao_registrado as date)'), '<=', $fechafinal)
+                ->where('orprod_planta_id',$planta1)
+                ->orderBy('dao_id','asc')
+                ->get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($despachoORP, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($despachoORP, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_orp_general_producto_terminado', array('despachoORP'=>$despachoORP,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }  
     }
 }
