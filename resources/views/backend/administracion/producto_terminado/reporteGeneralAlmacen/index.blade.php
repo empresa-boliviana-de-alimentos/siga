@@ -77,7 +77,7 @@
             <div class="panel-body">
               <div class="task-content">
                   <ul id="sortable" class="task-list ui-sortable">
-                      <li class="list-primary" onClick="verDocumentosGenerados(1,{{ Auth::user()->usr_id }});" style="background: #ccc">
+                      <li class="list-primary" style="background: #ccc">
                           <i class=" fa fa-ellipsis-v"></i>
                           <div class="task-title">
                               <span class="task-title-sp">INGRESOS</span>
@@ -88,7 +88,7 @@
                               </div>
                           </div>
                       </li>
-                      <li class="list-danger" onClick="verDocumentosGenerados(2,{{ Auth::user()->usr_id }});" style="background: #ccc">
+                      <li class="list-danger" style="background: #ccc">
                           <i class=" fa fa-ellipsis-v"></i>
                           <div class="task-title">
                               <span class="task-title-sp">DESPACHOS</span>
@@ -99,7 +99,7 @@
                              </div>
                           </div>
                       </li>
-                      <li class="list-success" onClick="verDocumentosGenerados(3,{{ Auth::user()->usr_id }});" style="background: #ccc">
+                      <li class="list-success" style="background: #ccc">
                           <i class=" fa fa-ellipsis-v"></i>
                           <div class="task-title">
                               <span class="task-title-sp">INVENTARIOS</span>
@@ -110,7 +110,7 @@
                             </div>
                           </div>
                       </li>
-                      <li class="list-warning" onClick="verDocumentosGenerados(4,{{ Auth::user()->usr_id }});" style="background: #ccc">
+                      <li class="list-warning" style="background: #ccc">
                           <i class=" fa fa-ellipsis-v"></i>
                           <div class="task-title">
                               <span class="task-title-sp">POR MES</span>
@@ -484,7 +484,75 @@
               </div>
               <div class="tab-content">
                 <div class="tab-pane in active" id="despachoOrp">
-                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoOrp">
+                  <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label>
+                              <strong>Seleccione un planta</strong>
+                            </label>
+                          </div>
+                          <select class="form-control" id="id_planta_despachorp">
+                            <option value="0">Todas las plantas</option>
+                            @foreach($plantas as $planta)
+                            <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
+                            @endforeach
+                          </select>                         
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="text-center">
+                        <label>
+                          <strong>Seleccione Mes</strong>
+                        </label>
+                      </div>
+                        <div class="input-group">
+                          <input type="text" class="form-control datepickerMonths" id="id_mes_despachorp" name="id_mes_despachorp" placeholder="Introduzca mes"> 
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasDespachoOrp();">Buscar</button>
+                          </span>                  
+                        </div>         
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Día</strong></label>
+                          </div>
+                            <div class="input-group">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_despachorp" name="id_dia_despachorp" placeholder="Introduzca dia"> 
+                              <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDiaDespachoOrp();">Buscar</button>
+                              </span>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Rango de Fecha</strong></label>
+                          </div>
+                          <div class="input-group">
+                            <div class="col-md-6">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio_despachorp" name="id_dia_inicio_despachorp" placeholder="Introduzca dia">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control datepickerDays" id="id_dia_fin_despachorp" name="id_dia_fin_despachorp" placeholder="Introduzca dia">  
+                            </div>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRangoDespachoOrp();">Buscar</button>
+                            </span>
+                          </div>                            
+                        </div>
+                    </div>
+                  </div>
+                  <div class="ocultarBotonDescargasDespachosOrp" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesDespachosOrp" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesDespachosOrp"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
+                  <br>
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoGeneralOrp">
                     <thead class="cf">
                       <tr>
                         <th class="text-center">
@@ -553,7 +621,7 @@
                   </table>
                   </div>
                   <div class="tab-pane" id="despachoPt">
-                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporInsumo">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoGeneralPt">
                     <thead class="cf">
                       <tr>
                         <th class="text-center">
@@ -622,7 +690,7 @@
                   </table>
                   </div>
                   <div class="tab-pane" id="despachoCanastillos">
-                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporInsumo">
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-despachoGenralCanastillo">
                     <thead class="cf">
                       <tr>
                         <th class="text-center">
@@ -1149,6 +1217,164 @@ function BuscarRangoCanastillo() {
         } );
   } ).draw();
 }
+//DESPACHOS
+function BuscarfechasDespachoOrp() {
+  console.log($("#id_mes_despachorp").val());
+  console.log($("#id_planta_despachorp").val());
+  $(".ocultarBotonDescargasDespachosOrp").show();
+  $(".pdfMesDespachosOrp").attr('href','imprimirPdfDespachosOrpMesGeneralPt/'+$("#id_mes_despachorp").val()+'/'+$("#id_planta_despachorp").val());
+  $(".excelMesDespachosOrp").attr('href','imprimirExcelDespachosOrpMesGeneralPt/'+$("#id_mes_despachorp").val()+'/'+$("#id_planta_despachorp").val());
+  var t = $('#lts-despachoGeneralOrp').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesDespachoOrpGeneralPt/"+ $("#id_mes_despachorp").val()+'/'+$("#id_planta_despachorp").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes_despachorp").val()}
+             },
+            "columns":[
+                {data: 'dao_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'dao_codigo_salida'},
+                {data: 'dao_cantidad'},
+                {data: 'origen'},
+                {data: 'destino'},
+                {data: 'rece_lineaprod_id',
+                  'render': function (data, type, full, meta) {
+                      return linea(data);
+                  }
+                },
+                {data: 'acciones'},
+                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarDiaDespachoOrp() {
+  console.log($("#id_dia_despachorp").val());
+  console.log($("#id_planta_despachorp").val());
+  $(".ocultarBotonDescargasDespachosOrp").show();
+  $(".pdfMesDespachosOrp").attr('href','imprimirPdfDespachosOrpDiaGeneralPt/'+$("#id_dia_despachorp").val()+'/'+$("#id_planta_despachorp").val());
+  $(".excelMesDespachosOrp").attr('href','imprimirExcelDespachosOrpDiaGeneralPt/'+$("#id_dia_despachorp").val()+'/'+$("#id_planta_despachorp").val());
+  var t = $('#lts-despachoGeneralOrp').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarDiaDespachoOrpGeneralPt/"+ $("#id_dia_despachorp").val()+'/'+$("#id_planta_despachorp").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_despachorp").val()}
+             },
+            "columns":[
+                {data: 'dao_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'dao_codigo_salida'},
+                {data: 'dao_cantidad'},
+                {data: 'origen'},
+                {data: 'destino'},
+                {data: 'rece_lineaprod_id',
+                  'render': function (data, type, full, meta) {
+                      return linea(data);
+                  }
+                },
+                {data: 'acciones'},
+                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarRangoDespachoOrp() {
+  console.log($("#id_dia_inicio_despachorp").val());
+  console.log($("#id_dia_fin_despachorp").val());
+  console.log($("#id_planta_despachorp").val());
+  $(".ocultarBotonDescargasDespachosOrp").show();
+  $(".pdfMesDespachosOrp").attr('href','imprimirPdfDespachosOrpRangoGeneralPt/'+$("#id_dia_inicio_despachorp").val()+'/'+$("#id_dia_fin_despachorp").val()+'/'+$("#id_planta_despachorp").val());
+  $(".excelMesDespachosOrp").attr('href','imprimirExcelDespachosOrpRangoGeneralPt/'+$("#id_dia_inicio_despachorp").val()+'/'+$("#id_dia_fin_despachorp").val()+'/'+$("#id_planta_despachorp").val());
+  var t = $('#lts-despachoGeneralOrp').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarRangoDespachoOrpGeneralPt/"+ $("#id_dia_inicio_despachorp").val()+'/'+$("#id_dia_fin_despachorp").val()+'/'+$("#id_planta_despachorp").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_inicio_despachorp").val()}
+             },
+            "columns":[
+                {data: 'dao_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'dao_codigo_salida'},
+                {data: 'dao_cantidad'},
+                {data: 'origen'},
+                {data: 'destino'},
+                {data: 'rece_lineaprod_id',
+                  'render': function (data, type, full, meta) {
+                      return linea(data);
+                  }
+                },
+                {data: 'acciones'},
+                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function linea(id)
+{
+  if (id === 1) {
+    return "LACTEOS";
+  }else if(id === 2){
+    return "ALMENDRA";
+  }else if(id === 3){
+    return "MIEL";
+  }else if(id === 4){
+    return "FRUTOS";
+  }else if(id === 5){
+    return "DERIVADOS";
+  }
+}
+
 $('.datepickerMonths').datepicker({
         format: "mm/yyyy",
         viewMode: "months", 
