@@ -485,7 +485,7 @@
                       <td class="text-center">{{$dpt->origen}}</td>
                       <td class="text-center">{{$dpt->destino}}</td>
                       <td class="text-center">{{lineaProd($dpt->rece_lineaprod_id)}}</td>
-                      <td class="text-center"><a href="imprimirBoletaDepsachoPt/{{$dorp->dao_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
+                      <td class="text-center"><a href="imprimirBoletaDepsachoPt/{{$dpt->dao_id}}" target="_blank" class="btn btn-primary fa fa-file"></a></td>
                     </tr>
                     @endforeach
                     </tbody>
