@@ -672,10 +672,10 @@
                           </div>
                           <div class="input-group">
                             <div class="col-md-6">
-                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio_despachopt" name="id_dia_inicio_despachorp" placeholder="Introduzca dia">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio_despachopt" name="id_dia_inicio_despachopt" placeholder="Introduzca dia">
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control datepickerDays" id="id_dia_fin_despachopt" name="id_dia_fin_despachorp" placeholder="Introduzca dia">  
+                                <input type="text" class="form-control datepickerDays" id="id_dia_fin_despachopt" name="id_dia_fin_despachopt" placeholder="Introduzca dia">  
                             </div>
                             <span class="input-group-btn">
                                 <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRangoDespachoPt();">Buscar</button>
@@ -1443,6 +1443,93 @@ function BuscarfechasDespachoPt() {
                url : "listarMesDespachoPtGeneralPt/"+ $("#id_mes_despachopt").val()+'/'+$("#id_planta_despachopt").val(),
                type: "GET",
                data: {"mes": $("#id_mes_despachorp").val()}
+             },
+            "columns":[
+                {data: 'dao_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'dao_codigo_salida'},
+                {data: 'dao_cantidad'},
+                {data: 'origen'},
+                {data: 'destino'},
+                {data: 'rece_lineaprod_id',
+                  'render': function (data, type, full, meta) {
+                      return linea(data);
+                  }
+                },
+                {data: 'acciones'},
+                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  
+}
+function BuscarDiaDespachoPt() {
+  console.log($("#id_mes_despachopt").val());
+  console.log($("#id_planta_despachopt").val());
+  $(".ocultarBotonDescargasDespachosPt").show();
+  $(".pdfMesDespachosPt").attr('href','imprimirPdfDespachosPtDiaGeneralPt/'+$("#id_dia_despachopt").val()+'/'+$("#id_planta_despachopt").val());
+  $(".excelMesDespachosPt").attr('href','imprimirExcelDespachosPtDiaGeneralPt/'+$("#id_dia_despachopt").val()+'/'+$("#id_planta_despachopt").val());
+  var t = $('#lts-despachoGeneralPt').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarDiaDespachoPtGeneralPt/"+ $("#id_dia_despachopt").val()+'/'+$("#id_planta_despachopt").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes_despachorp").val()}
+             },
+            "columns":[
+                {data: 'dao_id'},
+                {data: 'rece_nombre'}, 
+                {data: 'rece_codigo'},
+                {data: 'dao_codigo_salida'},
+                {data: 'dao_cantidad'},
+                {data: 'origen'},
+                {data: 'destino'},
+                {data: 'rece_lineaprod_id',
+                  'render': function (data, type, full, meta) {
+                      return linea(data);
+                  }
+                },
+                {data: 'acciones'},
+                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  
+}
+function BuscarRangoDespachoPt() {
+  console.log($("#id_dia_inicio_despachopt").val());
+  console.log($("#id_dia_fin_despachopt").val());
+  console.log($("#id_planta_despachopt").val());
+  $(".ocultarBotonDescargasDespachosPt").show();
+  $(".pdfMesDespachosPt").attr('href','imprimirPdfDespachosPtRangoGeneralPt/'+$("#id_dia_inicio_despachopt").val()+'/'+$("#id_dia_fin_despachopt").val()+'/'+$("#id_planta_despachopt").val());
+  $(".excelMesDespachosPt").attr('href','imprimirExcelDespachosPtRangoGeneralPt/'+$("#id_dia_inicio_despachopt").val()+'/'+$("#id_dia_fin_despachopt").val()+'/'+$("#id_planta_despachopt").val());
+  var t = $('#lts-despachoGeneralPt').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarRangoDespachoPtGeneralPt/"+ $("#id_dia_inicio_despachopt").val()+'/'+$("#id_dia_fin_despachopt").val()+'/'+$("#id_planta_despachopt").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_inicio_despachorp").val()}
              },
             "columns":[
                 {data: 'dao_id'},
