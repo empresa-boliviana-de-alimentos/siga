@@ -778,4 +778,90 @@ class reporteAlmacenController extends Controller {
 			->make(true);
 		}	
 	}
+	public function listarMesInventarioGralPt($mes,$anio,$planta)
+	{
+		if ($planta == 0) {
+			$anio1 = $anio;
+			$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $mes . "-01";
+			$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+			$stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+							->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+							->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+							->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+							->where('spth_registrado', '>=', $fechainicial)->where('spth_registrado', '<=', $fechafinal)
+							//->where('spth_planta_id',$planta)
+							->get();
+			return Datatables::of($stockptMes)
+				->make(true);
+		}else {
+			$anio1 = $anio;
+			$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $mes . "-01";
+			$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+			$stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+							->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+							->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+							->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+							->where('spth_registrado', '>=', $fechainicial)->where('spth_registrado', '<=', $fechafinal)
+							->where('spth_planta_id',$planta)
+							->get();
+			return Datatables::of($stockptMes)
+				->make(true);
+		}	
+	}
+	public  function listarDiaInventarioGralPt($dia,$mes,$anio,$planta)
+	{
+		if ($planta == 0) {
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+							->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+							->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+							->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+							->where(DB::raw('cast(spth_registrado as date)'),'=',$dia)
+							->get();
+			return Datatables::of($stockptMes)
+				->make(true);
+		}else {
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+							->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+							->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+							->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+							->where(DB::raw('cast(spth_registrado as date)'),'=',$dia)
+							->where('spth_planta_id',$planta)
+							->get();
+			return Datatables::of($stockptMes)
+				->make(true);
+		}	
+	}
+	public function listarRangoInventarioGralPt($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin,$planta)
+	{
+		if ($planta == 0) {
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+							->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+							->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+							->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+							->where(DB::raw('cast(spth_registrado as date)'), '>=', $fechainicial)
+							->where(DB::raw('cast(spth_registrado as date)'), '<=', $fechafinal)
+							->get();
+			return Datatables::of($stockptMes)
+				->make(true);
+		}else {
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+							->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+							->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+							->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+							->where(DB::raw('cast(spth_registrado as date)'), '>=', $fechainicial)
+							->where(DB::raw('cast(spth_registrado as date)'), '<=', $fechafinal)
+							->where('spth_planta_id',$planta)
+							->get();
+			return Datatables::of($stockptMes)
+				->make(true);
+		}
+	}
 }

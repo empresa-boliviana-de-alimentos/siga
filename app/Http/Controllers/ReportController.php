@@ -1990,7 +1990,7 @@ class ReportController extends Controller
     {
         if ($planta == 0) {
             $username = Auth::user()->usr_usuario;
-            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $title = "REPORTE DESPACHO CANASTILLOS GENERAL";
             $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
                                 ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
                                 ->first();
@@ -2023,7 +2023,7 @@ class ReportController extends Controller
         }else{
             $planta1 = $planta;
             $username = Auth::user()->usr_usuario;
-            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $title = "REPORTE DESPACHO CANASTILLOS GENERAL";
             $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
                                 ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
                                 ->first();
@@ -2060,7 +2060,7 @@ class ReportController extends Controller
     {
         if ($planta == 0) {
             $username = Auth::user()->usr_usuario;
-            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $title = "REPORTE DESPACHO CANASTILLOS GENERAL";
             $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
                                 ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
                                 ->first();
@@ -2090,7 +2090,7 @@ class ReportController extends Controller
         }else{
             $planta1 = $planta;
             $username = Auth::user()->usr_usuario;
-            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $title = "REPORTE DESPACHO CANASTILLOS GENERAL";
             $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
                                 ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
                                 ->first();
@@ -2124,7 +2124,7 @@ class ReportController extends Controller
     {
         if ($planta == 0) {
             $username = Auth::user()->usr_usuario;
-            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $title = "REPORTE DESPACHO CANASTILLOS GENERAL";
             $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
                                 ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
                                 ->first();
@@ -2156,7 +2156,7 @@ class ReportController extends Controller
         }else{
             $planta1 = $planta;
             $username = Auth::user()->usr_usuario;
-            $title = "REPORTE DESPACHO PRODUCTO TERMINADO GENERAL";
+            $title = "REPORTE DESPACHO CANASTILLOS GENERAL";
             $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
                                 ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
                                 ->first();
@@ -2182,6 +2182,191 @@ class ReportController extends Controller
             $code = '-';
             $date =date('d/m/Y');
             $view = \View::make('reportes.reporte_despacho_canastillo_general_producto_terminado', compact('username','datosCanastillas','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        } 
+    }
+    public function imprimirPdfInventarioGralMesAlmacenPt($mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $username = Auth::user()->usr_usuario;
+            $title = "INVENTARIO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where('spth_registrado', '>=', $fechainicial)->where('spth_registrado', '<=', $fechafinal)
+                            ->get();  
+            $fecha = 'Del '.$fechainicial.' al '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.inventario_gral_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            $planta1 = $planta;
+            $username = Auth::user()->usr_usuario;
+            $title = "INVENTARIO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where('spth_registrado', '>=', $fechainicial)->where('spth_registrado', '<=', $fechafinal)
+                            ->where('spth_planta_id',$planta1)
+                            ->get();  
+            $fecha = 'Del '.$fechainicial.' al '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.inventario_gral_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }        
+    }
+    public function imprimirPdfInventarioGralDiaAlmacenPt($dia,$mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $username = Auth::user()->usr_usuario;
+            $title = "INVENTARIO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where(DB::raw('cast(spth_registrado as date)'),'=',$dia)
+                            ->get();  
+            $fecha = $dia;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.inventario_gral_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            $planta1 = $planta;
+            $username = Auth::user()->usr_usuario;
+            $title = "INVENTARIO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where(DB::raw('cast(spth_registrado as date)'),'=',$dia)
+                            ->where('spth_planta_id',$planta1)
+                            ->get();  
+            $fecha = $dia;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.inventario_gral_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        } 
+    }
+    public function imprimirPdfInventarioGralRangoAlmacenPt($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin,$planta)
+    {
+        if ($planta == 0) {
+            $username = Auth::user()->usr_usuario;
+            $title = "INVENTARIO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where(DB::raw('cast(spth_registrado as date)'), '>=', $fechainicial)
+                            ->where(DB::raw('cast(spth_registrado as date)'), '<=', $fechafinal)
+                            ->get();  
+            $fecha = 'Del: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.inventario_gral_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
+            $html_content = $view->render();
+            $pdf = App::make('snappy.pdf.wrapper');
+            $pdf->loadHTML($html_content);
+            return $pdf->inline();
+        }else{
+            $planta1 = $planta;
+            $username = Auth::user()->usr_usuario;
+            $title = "INVENTARIO GENERAL";
+            $planta = Usuario::join('public._bp_planta as pl', 'public._bp_usuarios.usr_planta_id', '=', 'pl.id_planta')
+                            ->where('_bp_usuarios.usr_id', Auth::user()->usr_id)
+                            ->first();
+            $storage = 'PLANTA: '.$planta->nombre_planta;
+            $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+            $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where(DB::raw('cast(spth_registrado as date)'), '>=', $fechainicial)
+                            ->where(DB::raw('cast(spth_registrado as date)'), '<=', $fechafinal)
+                            ->where('spth_planta_id',$planta1)
+                            ->get();  
+            $fecha = 'Del: '.$fechainicial.' Hasta: '.$fechafinal;
+            $code = '-';
+            $date =date('d/m/Y');
+
+            $view = \View::make('reportes.inventario_gral_mes_almacen_producto_terminado', compact('username','ingresopv','stockptMes','date','title','storage','usuario','code','per','fecha'));
             $html_content = $view->render();
             $pdf = App::make('snappy.pdf.wrapper');
             $pdf->loadHTML($html_content);

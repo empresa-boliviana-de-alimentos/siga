@@ -1068,4 +1068,164 @@ class ReportExcelController extends Controller
             })->export('xlsx');
         } 
     }
+    public function imprimirExcelInventarioGralMesAlmacenPt($mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $fecha_inventario = 'Del: '.$fechainicial.' Al: '.$fechafinal;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where('spth_registrado', '>=', $fechainicial)->where('spth_registrado', '<=', $fechafinal)
+                            ->get();  
+            $ufvs = Ufv::get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($stockptMes, $planta, $fecha_inventario) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($stockptMes, $planta, $fecha_inventario) {
+                    $sheet->loadView('reportes_excel.reporte_inventario_gral_mes_producto_terminado', array('stockptMes'=>$stockptMes,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+                });
+            })->export('xlsx');    
+        }else{
+            $planta1 = $planta;
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $anio1 = $anio;
+            $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+            $fechainicial = $anio1 . "-" . $mes . "-01";
+            $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+            $fecha_inventario = 'Del: '.$fechainicial.' Al: '.$fechafinal;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where('spth_registrado', '>=', $fechainicial)->where('spth_registrado', '<=', $fechafinal)
+                            ->where('spth_planta_id',$planta1)
+                            ->get();  
+            $ufvs = Ufv::get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($stockptMes, $planta, $fecha_inventario) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($stockptMes, $planta, $fecha_inventario) {
+                    $sheet->loadView('reportes_excel.reporte_inventario_gral_mes_producto_terminado', array('stockptMes'=>$stockptMes,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+                });
+            })->export('xlsx');
+        }        
+    }
+    public function imprimirExcelInventarioGralDiaAlmacenPt($dia,$mes,$anio,$planta)
+    {
+        if ($planta == 0) {
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $fecha_inventario = $dia;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where(DB::raw('cast(spth_registrado as date)'),'=',$dia)
+                            ->get();  
+            $ufvs = Ufv::get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($stockptMes, $planta, $fecha_inventario) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($stockptMes, $planta, $fecha_inventario) {
+                    $sheet->loadView('reportes_excel.reporte_inventario_gral_mes_producto_terminado', array('stockptMes'=>$stockptMes,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+                });
+            })->export('xlsx');    
+        }else{
+            $planta1 = $planta;
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $fecha_inventario = $dia;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where(DB::raw('cast(spth_registrado as date)'),'=',$dia)
+                            ->where('spth_planta_id',$planta1)
+                            ->get();  
+            $ufvs = Ufv::get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($stockptMes, $planta, $fecha_inventario) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($stockptMes, $planta, $fecha_inventario) {
+                    $sheet->loadView('reportes_excel.reporte_inventario_gral_mes_producto_terminado', array('stockptMes'=>$stockptMes,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+                });
+            })->export('xlsx');
+        }  
+    }
+    public function imprimirExcelInventarioGralRangoAlmacenPt($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin,$planta)
+    {
+        if ($planta == 0) {
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $fecha_inventario = $fechainicial;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where(DB::raw('cast(spth_registrado as date)'), '>=', $fechainicial)
+                            ->where(DB::raw('cast(spth_registrado as date)'), '<=', $fechafinal)
+                            ->get();  
+            $ufvs = Ufv::get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($stockptMes, $planta, $fecha_inventario) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($stockptMes, $planta, $fecha_inventario) {
+                    $sheet->loadView('reportes_excel.reporte_inventario_gral_mes_producto_terminado', array('stockptMes'=>$stockptMes,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+                });
+            })->export('xlsx');    
+        }else{
+            $planta1 = $planta;
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $fecha_inventario = $fechafinal;
+            $stockptMes = DB::table('producto_terminado.stock_producto_terminado_historial')
+                            ->join('insumo.receta as rece','producto_terminado.stock_producto_terminado_historial.spth_rece_id','=','rece.rece_id')
+                            ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                            ->join('public._bp_planta as pl','stock_producto_terminado_historial.spth_planta_id','=','pl.id_planta')
+                            ->where(DB::raw('cast(spth_registrado as date)'), '>=', $fechainicial)
+                            ->where(DB::raw('cast(spth_registrado as date)'), '<=', $fechafinal)
+                            ->where('spth_planta_id',$planta1)
+                            ->get();  
+            $ufvs = Ufv::get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($stockptMes, $planta, $fecha_inventario) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($stockptMes, $planta, $fecha_inventario) {
+                    $sheet->loadView('reportes_excel.reporte_inventario_gral_mes_producto_terminado', array('stockptMes'=>$stockptMes,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+                });
+            })->export('xlsx');
+        }  
+    }
 }

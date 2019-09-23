@@ -842,6 +842,15 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('listarRangoDespachoCanastilloGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoDespachoCanastilloGeneralPt');
 	Route::get('imprimirPdfDespachosCanastilloRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfDespachosCanastilloRangoGeneralPt');
 	Route::get('imprimirExcelDespachosCanastilloRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelDespachosCanastilloRangoGeneralPt');
+	Route::get('listarMesInventarioGralPt/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarMesInventarioGralPt');
+	Route::get('imprimirPdfInventarioGralMesAlmacenPt/{mes}/{anio}/{planta}','ReportController@imprimirPdfInventarioGralMesAlmacenPt');
+	Route::get('imprimirExcelInventarioGralMesAlmacenPt/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelInventarioGralMesAlmacenPt');
+	Route::get('listarDiaInventarioGralPt/{dia}/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarDiaInventarioGralPt');
+	Route::get('imprimirPdfInventarioGralDiaAlmacenPt/{dia}/{mes}/{anio}/{planta}','ReportController@imprimirPdfInventarioGralDiaAlmacenPt');
+	Route::get('imprimirExcelInventarioGralDiaAlmacenPt/{dia}/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelInventarioGralDiaAlmacenPt');
+	Route::get('listarRangoInventarioGralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoInventarioGralPt');
+	Route::get('imprimirPdfInventarioGralRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfInventarioGralRangoAlmacenPt');
+	Route::get('imprimirExcelInventarioGralRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelInventarioGralRangoAlmacenPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');
