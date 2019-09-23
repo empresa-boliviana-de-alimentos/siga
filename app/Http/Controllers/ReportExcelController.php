@@ -914,7 +914,7 @@ class ReportExcelController extends Controller
                 ->where('iac_estado', 'D')
                 ->where('iac_estado_baja', 'A')
                 //->where('iac_origen',$planta1)
-                ->where('iac_registrado', '>=', $fechainicial)->where('iac_registrado', '<=', $fechafinal)
+                ->where('iac_fecha_salida', '>=', $fechainicial)->where('iac_fecha_salida', '<=', $fechafinal)
                 ->orderBy('iac_id', 'desc')
                 ->get();
             //dd($datosCanastillas);
@@ -944,7 +944,7 @@ class ReportExcelController extends Controller
                 ->where('iac_estado', 'D')
                 ->where('iac_estado_baja', 'A')
                 ->where('iac_origen',$planta1)
-                ->where('iac_registrado', '>=', $fechainicial)->where('iac_registrado', '<=', $fechafinal)
+                ->where('iac_fecha_salida', '>=', $fechainicial)->where('iac_fecha_salida', '<=', $fechafinal)
                 ->orderBy('iac_id', 'desc')
                 ->get();
             \Excel::create('Reporte_General_Salida', function($excel) use ($datosCanastillas, $planta) {
@@ -952,7 +952,120 @@ class ReportExcelController extends Controller
                     $sheet->loadView('reportes_excel.reporte_despacho_canastillo_general_producto_terminado', array('datosCanastillas'=>$datosCanastillas,'planta'=>$planta));
                 });
             })->export('xlsx');
-        }
-            
+        }            
+    }
+    public function imprimirExcelDespachosCanastilloDiaGeneralPt($dia,$mes,$anio,$planta)
+    {
+        if($planta == 0){
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+                ->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+                ->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+                ->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+                ->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+                ->where('iac_estado', 'D')
+                ->where('iac_estado_baja', 'A')
+                ->where(DB::raw('cast(iac_fecha_salida as date)'),'=',$dia)
+                ->orderBy('iac_id', 'desc')
+                ->get();
+            //dd($datosCanastillas);
+            \Excel::create('Reporte_General_Salida', function($excel) use ($datosCanastillas, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($datosCanastillas, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_canastillo_general_producto_terminado', array('datosCanastillas'=>$datosCanastillas,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }else{
+            $planta1 = $planta;
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $dia = $anio . "-" . $mes . "-" . $dia;
+            $datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+                ->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+                ->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+                ->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+                ->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+                ->where('iac_estado', 'D')
+                ->where('iac_estado_baja', 'A')
+                ->where('iac_origen',$planta1)
+                ->where(DB::raw('cast(iac_fecha_salida as date)'),'=',$dia)
+                ->orderBy('iac_id', 'desc')
+                ->get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($datosCanastillas, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($datosCanastillas, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_canastillo_general_producto_terminado', array('datosCanastillas'=>$datosCanastillas,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }  
+    }
+    public function imprimirExcelDespachosCanastilloRangoGeneralPt($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin,$planta)
+    {
+        if($planta == 0){
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+                ->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+                ->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+                ->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+                ->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+                ->where('iac_estado', 'D')
+                ->where('iac_estado_baja', 'A')
+                ->where(DB::raw('cast(iac_fecha_salida as date)'), '>=', $fechainicial)
+                ->where(DB::raw('cast(iac_fecha_salida as date)'), '<=', $fechafinal)
+                ->orderBy('iac_id', 'desc')
+                ->get();
+            //dd($datosCanastillas);
+            \Excel::create('Reporte_General_Salida', function($excel) use ($datosCanastillas, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($datosCanastillas, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_canastillo_general_producto_terminado', array('datosCanastillas'=>$datosCanastillas,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        }else{
+            $planta1 = $planta;
+            $id_usuario = Auth::user()->usr_id;
+            $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+            $per = Collect($usr);
+            $id = Auth::user()->usr_id;
+            $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+            $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+            $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+            $datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+                ->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+                ->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+                ->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+                ->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+                ->where('iac_estado', 'D')
+                ->where('iac_estado_baja', 'A')
+                ->where('iac_origen',$planta1)
+                ->where(DB::raw('cast(iac_fecha_salida as date)'), '>=', $fechainicial)
+                ->where(DB::raw('cast(iac_fecha_salida as date)'), '<=', $fechafinal)
+                ->orderBy('iac_id', 'desc')
+                ->get();
+            \Excel::create('Reporte_General_Salida', function($excel) use ($datosCanastillas, $planta) {
+                 $excel->sheet('Excel sheet', function($sheet) use ($datosCanastillas, $planta) {
+                    $sheet->loadView('reportes_excel.reporte_despacho_canastillo_general_producto_terminado', array('datosCanastillas'=>$datosCanastillas,'planta'=>$planta));
+                });
+            })->export('xlsx');
+        } 
     }
 }

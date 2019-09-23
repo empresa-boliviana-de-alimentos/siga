@@ -795,7 +795,7 @@
                             <label><strong>Seleccione Día</strong></label>
                           </div>
                             <div class="input-group">
-                              <input type="text" class="form-control datepickerDays" id="id_dia_despachopt" name="id_dia_despachocanastillo" placeholder="Introduzca dia"> 
+                              <input type="text" class="form-control datepickerDays" id="id_dia_despachocanastillo" name="id_dia_despachocanastillo" placeholder="Introduzca dia"> 
                               <span class="input-group-btn">
                                 <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDiaDespachoCanastillo();">Buscar</button>
                               </span>
@@ -842,7 +842,7 @@
                             MATERIAL
                         </th>
                         <th class="text-center">
-                            FOTO
+                            FECHA SALIDA
                         </th>
                         <th class="text-center">
                             CANTIDAD
@@ -873,7 +873,7 @@
                             MATERIAL
                         </th>
                         <th class="text-center">
-                            FOTO
+                            FECHA SALIDA
                         </th>
                         <th class="text-center">
                             CANTIDAD
@@ -1544,7 +1544,11 @@ function BuscarfechasDespachoPt() {
         "ordering": true,
         "info":     true       
   });
-  
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
 }
 function BuscarDiaDespachoPt() {
   console.log($("#id_mes_despachopt").val());
@@ -1587,7 +1591,11 @@ function BuscarDiaDespachoPt() {
         "ordering": true,
         "info":     true       
   });
-  
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
 }
 function BuscarRangoDespachoPt() {
   console.log($("#id_dia_inicio_despachopt").val());
@@ -1630,7 +1638,12 @@ function BuscarRangoDespachoPt() {
         "paging":   true,
         "ordering": true,
         "info":     true       
-  });  
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();  
 }
 //DESPACHO CANASTILLO
 function BuscarfechasDespachoCanastillo() {
@@ -1653,7 +1666,7 @@ function BuscarfechasDespachoCanastillo() {
                 {data: 'iac_codigo_salida'}, 
                 {data: 'ctl_descripcion'},
                 {data: 'ctl_material'},
-                {data: 'ctl_foto_canastillo'},
+                {data: 'iac_fecha_salida'},
                 {data: 'iac_cantidad'},
                 {data: 'nombre_planta'},
                 {data: 'acciones'}                
@@ -1668,7 +1681,94 @@ function BuscarfechasDespachoCanastillo() {
         "ordering": true,
         "info":     true       
   });
-  
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarDiaDespachoCanastillo() {
+  console.log($("#id_dia_despachocanastillo").val());
+  console.log($("#id_planta_despachocanastillo").val());
+  $(".ocultarBotonDescargasDespachosCanastillo").show();
+  $(".pdfMesDespachosCanastillo").attr('href','imprimirPdfDespachosCanastilloDiaGeneralPt/'+$("#id_dia_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val());
+  $(".excelMesDespachosCanastillo").attr('href','imprimirExcelDespachosCanastilloDiaGeneralPt/'+$("#id_dia_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val());
+  var t = $('#lts-despachoGeneralCanastillo').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarDiaDespachoCanastilloGeneralPt/"+ $("#id_dia_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_despachocanastillo").val()}
+             },
+            "columns":[
+                {data: 'iac_id'},
+                {data: 'iac_codigo_salida'}, 
+                {data: 'ctl_descripcion'},
+                {data: 'ctl_material'},
+                {data: 'iac_fecha_salida'},
+                {data: 'iac_cantidad'},
+                {data: 'nombre_planta'},
+                {data: 'acciones'}                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarRangoDespachoCanastillo() {
+  console.log($("#id_dia_inicio_despachocanastillo").val());
+  console.log($("#id_dia_fin_despachocanastillo").val());
+  console.log($("#id_planta_despachocanastillo").val());
+  $(".ocultarBotonDescargasDespachosCanastillo").show();
+  $(".pdfMesDespachosCanastillo").attr('href','imprimirPdfDespachosCanastilloRangoGeneralPt/'+$("#id_dia_inicio_despachocanastillo").val()+'/'+$("#id_dia_fin_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val());
+  $(".excelMesDespachosCanastillo").attr('href','imprimirExcelDespachosCanastilloRangoGeneralPt/'+$("#id_dia_inicio_despachocanastillo").val()+'/'+$("#id_dia_fin_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val());
+  var t = $('#lts-despachoGeneralCanastillo').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarRangoDespachoCanastilloGeneralPt/"+ $("#id_dia_inicio_despachocanastillo").val()+'/'+$("#id_dia_fin_despachocanastillo").val()+'/'+$("#id_planta_despachocanastillo").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_inicio_despachocanastillo").val()}
+             },
+            "columns":[
+                {data: 'iac_id'},
+                {data: 'iac_codigo_salida'}, 
+                {data: 'ctl_descripcion'},
+                {data: 'ctl_material'},
+                {data: 'iac_fecha_salida'},
+                {data: 'iac_cantidad'},
+                {data: 'nombre_planta'},
+                {data: 'acciones'}                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
 }
 function linea(id)
 {

@@ -732,6 +732,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('TraeUnidadInsumo/{id}', 'insumo\insumo_solicitudes\gbSolRecetaController@traeUnidadInsumo');
 
 	//RUTAS PRODUCCION
+	Route::get('MenuProduccion', function () {
+		return view('backend.administracion.produccion.index');
+	});
 	//RUTAS PRODUCTO TERMINADO
 	Route::get('MenuDato', function () {
 		return view('backend.administracion.producto_terminado.datos.index');
@@ -833,6 +836,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('listarMesDespachoCanastilloGeneralPt/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarMesDespachoCanastilloGeneralPt');
 	Route::get('imprimirPdfDespachosCanastilloMesGeneralPt/{mes}/{anio}/{planta}','ReportController@imprimirPdfDespachosCanastilloMesGeneralPt');
 	Route::get('imprimirExcelDespachosCanastilloMesGeneralPt/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelDespachosCanastilloMesGeneralPt');
+	Route::get('listarDiaDespachoCanastilloGeneralPt/{dia}/{mes}/{anio}/{planta}','producto_terminado\reporteAlmacenController@listarDiaDespachoCanastilloGeneralPt');
+	Route::get('imprimirPdfDespachosCanastilloDiaGeneralPt/{dia}/{mes}/{anio}/{planta}','ReportController@imprimirPdfDespachosCanastilloDiaGeneralPt');
+	Route::get('imprimirExcelDespachosCanastilloDiaGeneralPt/{dia}/{mes}/{anio}/{planta}','ReportExcelController@imprimirExcelDespachosCanastilloDiaGeneralPt');
+	Route::get('listarRangoDespachoCanastilloGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoDespachoCanastilloGeneralPt');
+	Route::get('imprimirPdfDespachosCanastilloRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfDespachosCanastilloRangoGeneralPt');
+	Route::get('imprimirExcelDespachosCanastilloRangoGeneralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelDespachosCanastilloRangoGeneralPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');

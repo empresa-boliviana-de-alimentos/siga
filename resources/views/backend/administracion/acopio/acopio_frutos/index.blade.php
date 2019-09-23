@@ -1,18 +1,3 @@
-<!-- 63@extends('backend.template.app')
-
-@section('htmlheader_title')
-    Home
-@endsection
-
-@if(Session::has('message'))
-<div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </botton>
-    {{Session::get('message')}}
-</div>
-@endif
-@section('main-content') -->
 @inject('menuPlantasFrutos','siga\Http\Controllers\MenuController')
 @extends('backend.template.app')
 @section('main-content')

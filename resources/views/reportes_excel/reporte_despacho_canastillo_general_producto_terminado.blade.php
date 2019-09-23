@@ -23,7 +23,7 @@ $user = DB::table('public._bp_usuarios')->join('public._bp_personas as per','pub
       <td width="20" align="center" style="background-color: #808080; border: 1px solid #000000; vertical-align: middle;"><h6><strong>Nro. Salida</strong></h6></td>
       <td width="20" align="center" style="background-color: #808080; border: 1px solid #000000; vertical-align: middle;"><h6><strong>Descripción</strong></h6></td> 
       <td width="8" align="center" style="background-color: #808080; border: 1px solid #000000; vertical-align: middle;"><h6><strong>Material</strong></h6></td>
-      <td width="20" align="center" style="background-color: #808080; border: 1px solid #000000; vertical-align: middle;"><h6><strong>Foto</strong></h6></td>
+      <td width="20" align="center" style="background-color: #808080; border: 1px solid #000000; vertical-align: middle;"><h6><strong>Fecha Salida</strong></h6></td>
       <td width="20" align="center" style="background-color: #808080; border: 1px solid #000000; vertical-align: middle;"><h6><strong>Cantidad</strong></h6></td>
       <td width="20" align="center" style="background-color: #808080; border: 1px solid #000000; vertical-align: middle;"><h6><strong>Planta</strong></h6></td> 
    </tr>     
@@ -52,7 +52,7 @@ $user = DB::table('public._bp_usuarios')->join('public._bp_personas as per','pub
         </td>
         <td align="center"><h6>{{$des->ctl_descripcion}}</h6></td>
         <td align="center"><h6>{{$des->ctl_material}}</h6></td> 
-        <td align="center"><h6>{{$des->ctl_foto_canastillo}}</h6></td>
+        <td align="center"><h6>{{date('d-m-Y',strtotime($des->iac_fecha_salida))}}</h6></td>
         <td align="center"><h6>{{$des->iac_cantidad}}</h6></td>
         <td align="center"><h6>{{$des->nombre_planta}}</h6></td>
       </tr> 
