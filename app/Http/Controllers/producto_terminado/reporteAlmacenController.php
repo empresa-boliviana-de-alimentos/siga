@@ -668,7 +668,7 @@ class reporteAlmacenController extends Controller {
 				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
 				->where('iac_estado', 'D')
 				->where('iac_estado_baja', 'A')
-				->where('iac_registrado', '>=', $fechainicial)->where('iac_registrado', '<=', $fechafinal)
+				->where('iac_fecha_salida', '>=', $fechainicial)->where('iac_fecha_salida', '<=', $fechafinal)
 				->orderBy('iac_id', 'desc')
 				->get();	
 			return Datatables::of($datosCanastillas)->addColumn('acciones', function ($datosCanastillas) {
@@ -689,15 +689,93 @@ class reporteAlmacenController extends Controller {
 				->where('iac_estado', 'D')
 				->where('iac_estado_baja', 'A')
 				->where('iac_origen',$planta1)
-				->where('iac_registrado', '>=', $fechainicial)->where('iac_registrado', '<=', $fechafinal)
+				->where('iac_fecha_salida', '>=', $fechainicial)->where('iac_fecha_salida', '<=', $fechafinal)
 				->orderBy('iac_id', 'desc')
 				->get();	
 			return Datatables::of($datosCanastillas)->addColumn('acciones', function ($datosCanastillas) {
 				            return '<div class="text-center"><a href="imprimirBoletaDespachoCanasPt/' . $datosCanastillas->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
 			})
 			->make(true);
-
-		}
-		
+		}		
+	}
+	public function listarDiaDespachoCanastilloGeneralPt($dia,$mes,$anio,$planta)
+	{
+		if ($planta == 0) {
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				->where('iac_estado', 'D')
+				->where('iac_estado_baja', 'A')
+				->where(DB::raw('cast(iac_fecha_salida as date)'),'=',$dia)
+				->orderBy('iac_id', 'desc')
+				->get();	
+			return Datatables::of($datosCanastillas)->addColumn('acciones', function ($datosCanastillas) {
+				            return '<div class="text-center"><a href="imprimirBoletaDespachoCanasPt/' . $datosCanastillas->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+			})
+			->make(true);
+		}else{
+			$planta1 = $planta;
+			$dia = $anio . "-" . $mes . "-" . $dia;
+			$datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				->where('iac_estado', 'D')
+				->where('iac_estado_baja', 'A')
+				->where('iac_origen',$planta1)
+				->where(DB::raw('cast(iac_fecha_salida as date)'),'=',$dia)
+				->orderBy('iac_id', 'desc')
+				->get();	
+			return Datatables::of($datosCanastillas)->addColumn('acciones', function ($datosCanastillas) {
+				            return '<div class="text-center"><a href="imprimirBoletaDespachoCanasPt/' . $datosCanastillas->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+			})
+			->make(true);
+		}	
+	}
+	public  function listarRangoDespachoCanastilloGeneralPt($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin,$planta)
+	{
+		if ($planta == 0) {
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				->where('iac_estado', 'D')
+				->where('iac_estado_baja', 'A')
+				->where(DB::raw('cast(iac_fecha_salida as date)'), '>=', $fechainicial)
+				->where(DB::raw('cast(iac_fecha_salida as date)'), '<=', $fechafinal)
+				->orderBy('iac_id', 'desc')
+				->get();	
+			return Datatables::of($datosCanastillas)->addColumn('acciones', function ($datosCanastillas) {
+				            return '<div class="text-center"><a href="imprimirBoletaDespachoCanasPt/' . $datosCanastillas->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+			})
+			->make(true);
+		}else{
+			$planta1 = $planta;
+			$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+			$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+			$datosCanastillas = IngresoCanastilla::select('iac_id', 'iac_ctl_id', 'iac_nro_ingreso', 'iac_fecha_ingreso', 'iac_cantidad', 'iac_observacion', 'nombre_planta', DB::raw("CONCAT(rr.rece_nombre,' ',rr.rece_presentacion,' - ',rr.rece_codigo) AS producto"), 'ca.ctl_descripcion', 'ca.ctl_material', 'ca.ctl_foto_canastillo', DB::raw("CONCAT(co.pcd_nombres,' ',co.pcd_paterno,' ',co.pcd_materno) AS conductor"), 'planta.nombre_planta', 'iac_usr_id', 'iac_origen', 'iac_fecha_salida', 'iac_codigo_salida')
+				->join('producto_terminado.canastillos as ca', 'ca.ctl_id', '=', 'iac_ctl_id')
+				->join('insumo.receta as rr', 'rr.rece_id', '=', 'ca.ctl_rece_id')
+				->join('public._bp_planta as planta', 'planta.id_planta', '=', 'iac_origen')
+				->join('producto_terminado.conductor as co', 'co.pcd_id', '=', 'iac_chofer')
+				->where('iac_estado', 'D')
+				->where('iac_estado_baja', 'A')
+				->where('iac_origen',$planta1)
+				->where(DB::raw('cast(iac_fecha_salida as date)'), '>=', $fechainicial)
+				->where(DB::raw('cast(iac_fecha_salida as date)'), '<=', $fechafinal)
+				->orderBy('iac_id', 'desc')
+				->get();	
+			return Datatables::of($datosCanastillas)->addColumn('acciones', function ($datosCanastillas) {
+				            return '<div class="text-center"><a href="imprimirBoletaDespachoCanasPt/' . $datosCanastillas->iac_id . '" class="btn btn-md btn-primary" target="_blank"><span class="fa fa-file"></span></a></div>';
+			})
+			->make(true);
+		}	
 	}
 }

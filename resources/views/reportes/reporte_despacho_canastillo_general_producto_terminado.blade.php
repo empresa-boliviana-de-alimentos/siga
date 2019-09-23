@@ -29,7 +29,7 @@
         Material
       </td>
       <td class="px-15 py text-center text-xxs">
-        Foto
+        Fecha Salida
       </td>
       <td class="px-15 py text-center text-xxs ">
         Cantidad
@@ -58,7 +58,7 @@
         </td>
         <td class="px-15 py text-center text-xxs">{{$ig->ctl_descripcion}}</td>
         <td class="px-15 py text-center text-xxs">{{$ig->ctl_material}}</td> 
-        <td class="px-15 py text-center text-xxs">{{$ig->ctl_foto_canastillo}}</td>
+        <td class="px-15 py text-center text-xxs">{{date('d-m-Y',strtotime($ig->iac_fecha_salida))}}</td>
         <td class="px-15 py text-center text-xxs">{{$ig->iac_cantidad}}</td>
         <td class="px-15 py text-center text-xxs">{{$ig->nombre_planta}}</td>
       </tr> 
