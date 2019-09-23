@@ -893,165 +893,214 @@
                 </div>
             </div>
           </div>
-                        <div class="tab-pane fade" id="inventarios">
-                            <div class="box">
-                                <div class="box-header with-border text-center">
-                                    <h3 class="box-title">
-                                        INVENTARIOS
-                                    </h3>
-                                </div>
-                                <div class="box-body">
-                                <div id="no-more-tables">
-                                    <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporTraspaso">
-                                        <thead class="cf">
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        NRO. SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA
-                                                    </th>
-                                                    <th>
-                                                        ORIGEN
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                   <th>
-                                                        #
-                                                    </th>
-                                                    
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        NRO. SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA
-                                                    </th>
-                                                    <th>
-                                                        ORIGEN
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-
-                                                </tr>
-                                            </tfoot>
-                                    </table>
-                                    </div>
-                                </div>
-                                <div class="box-footer clearfix">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="mes">
-                            <div class="box">
-                                <div class="box-header with-border text-center">
-                                    <h3 class="box-title">
-                                        LISTADO DE MES
-                                    </h3>
-                                </div>
-                                <div class="box-body">
-                                <div id="no-more-tables">
-                                    <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporMaquila">
-                                        <thead class="cf">
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        NRO SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA
-                                                    </th>
-                                                    <th>
-                                                        DESTINO
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                     <th>
-                                                        #
-                                                    </th>
-                                                    
-                                                    <th>
-                                                        NRO. ORP
-                                                    </th>
-                                                    <th>
-                                                        NRO SALIDA
-                                                    </th>
-                                                    <th>
-                                                        FECHA
-                                                    </th>
-                                                    <th>
-                                                        DESTINO
-                                                    </th>
-                                                    <th>
-                                                        SOLICITANTE
-                                                    </th>
-                                                    <th>
-                                                        ESTADO
-                                                    </th>
-                                                    <th>
-                                                        OPCIONES
-                                                    </th>
-
-                                                </tr>
-                                            </tfoot>
-                                    </table>
-                                    </div>
-                                </div>
-                                <div class="box-footer clearfix">
-                                </div>
-                            </div>
+          <div class="tab-pane fade" id="inventarios">
+            <div class="box">
+              <div class="box-header with-border text-center">
+                <h3 class="box-title" style="color: #2067b4">
+                  <strong>INVENTARIOS</strong>
+                </h3>
+                <br>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label>
+                              <strong>Seleccione un planta</strong>
+                            </label>
+                          </div>
+                          <select class="form-control" id="id_planta_inventario">
+                            <option value="0">Todas las plantas</option>
+                            @foreach($plantas as $planta)
+                            <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
+                            @endforeach
+                          </select>                         
                         </div>
                     </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="text-center">
+                        <label>
+                          <strong>Seleccione Mes</strong>
+                        </label>
+                      </div>
+                        <div class="input-group">
+                          <input type="text" class="form-control datepickerMonths" id="id_mes_inventario" name="id_mes_inventario" placeholder="Introduzca mes"> 
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasInventario();">Buscar</button>
+                          </span>                  
+                        </div>         
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Día</strong></label>
+                          </div>
+                            <div class="input-group">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inventario" name="id_dia_inventario" placeholder="Introduzca dia"> 
+                              <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDiaInventario();">Buscar</button>
+                              </span>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Rango de Fecha</strong></label>
+                          </div>
+                          <div class="input-group">
+                            <div class="col-md-6">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio_inventario" name="id_dia_inicio_inventario" placeholder="Introduzca dia">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control datepickerDays" id="id_dia_fin_inventario" name="id_dia_fin_inventario" placeholder="Introduzca dia">  
+                            </div>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRangoInventario();">Buscar</button>
+                            </span>
+                          </div>                            
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="box-body">
+                <div id="no-more-tables">
+                  <div class="ocultarBotonDescargasInventarioGral" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesInventarioGral" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesInventarioGral"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
+                  <br>
+                  <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-inventario">
+                    <thead class="cf">
+                      <tr>
+                        <th>
+                          #
+                        </th>                                                    
+                        <th>
+                          CODIGO
+                        </th>
+                        <th>
+                          PŔODUCTO
+                        </th>
+                        <th>
+                          CANTIDAD
+                        </th>
+                        <th>
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th>
+                          FECHA REGISTRO
+                        </th>
+                        <th>
+                          PLANTA
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>
+                          #
+                        </th>                                                    
+                        <th>
+                          CODIGO
+                        </th>
+                        <th>
+                          PŔODUCTO
+                        </th>
+                        <th>
+                          CANTIDAD
+                        </th>
+                        <th>
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th>
+                          FECHA REGISTRO
+                        </th>
+                        <th>
+                          PLANTA
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+              <div class="box-footer clearfix">
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="mes">
+          <div class="box">
+            <div class="box-header with-border text-center">
+                <h3 class="box-title">
+                    LISTADO DE MES
+                </h3>
+            </div>
+            <div class="box-body">
+              <div id="no-more-tables">
+                <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporMaquila">
+                  <thead class="cf">
+                    <tr>
+                        <th>
+                          #
+                        </th>                                                    
+                        <th>
+                          CODIGO
+                        </th>
+                        <th>
+                          PŔODUCTO
+                        </th>
+                        <th>
+                          CANTIDAD
+                        </th>
+                        <th>
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th>
+                          FECHA REGISTRO
+                        </th>
+                        <th>
+                          PLANTA
+                        </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                        <th>
+                          #
+                        </th>                                                    
+                        <th>
+                          CODIGO
+                        </th>
+                        <th>
+                          PŔODUCTO
+                        </th>
+                        <th>
+                          CANTIDAD
+                        </th>
+                        <th>
+                          FECHA VENCIMIENTO
+                        </th>
+                        <th>
+                          FECHA REGISTRO
+                        </th>
+                        <th>
+                          PLANTA
+                        </th>
+                      </tr>                        
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <div class="box-footer clearfix">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 <?php 
 function lineaProd($id)
@@ -1753,6 +1802,125 @@ function BuscarRangoDespachoCanastillo() {
                 {data: 'iac_cantidad'},
                 {data: 'nombre_planta'},
                 {data: 'acciones'}                
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+//INVENTARIOS
+function BuscarfechasInventario() {
+  console.log($("#id_mes_inventario").val());
+  $(".ocultarBotonDescargasInventarioGral").show();
+  $(".pdfMesInventarioGral").attr('href','imprimirPdfInventarioGralMesAlmacenPt/'+$("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val());
+  $(".excelMesInventarioGral").attr('href','imprimirExcelInventarioGralMesAlmacenPt/'+$("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val());
+  var t = $('#lts-inventario').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesInventarioGralPt/"+ $("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes_inventario").val()}
+             },
+            "columns":[
+                {data: 'spth_id'},
+                {data: 'rece_codigo'}, 
+                {data: 'rece_nombre'},
+                {data: 'spth_cantidad'},
+                {data: 'spth_fecha_vencimiento'},
+                {data: 'spth_registrado'},
+                {data: 'nombre_planta'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarDiaInventario() {
+  console.log($("#id_dia_inventario").val());
+  $(".ocultarBotonDescargasInventarioGral").show();
+  $(".pdfMesInventarioGral").attr('href','imprimirPdfInventarioGralDiaAlmacenPt/'+$("#id_dia_inventario").val()+'/'+$("#id_planta_inventario").val());
+  $(".excelMesInventarioGral").attr('href','imprimirExcelInventarioGralDiaAlmacenPt/'+$("#id_dia_inventario").val()+'/'+$("#id_planta_inventario").val());
+  var t = $('#lts-inventario').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarDiaInventarioGralPt/"+ $("#id_dia_inventario").val()+'/'+$("#id_planta_inventario").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_inventario").val()}
+             },
+            "columns":[
+                {data: 'spth_id'},
+                {data: 'rece_codigo'}, 
+                {data: 'rece_nombre'},
+                {data: 'spth_cantidad'},
+                {data: 'spth_fecha_vencimiento'},
+                {data: 'spth_registrado'},
+                {data: 'nombre_planta'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+function BuscarRangoInventario() {
+  console.log($("#id_dia_inicio_inventario").val());
+  console.log($("#id_dia_fin_inventario").val());
+  $(".ocultarBotonDescargasInventarioGral").show();
+  $(".pdfMesInventarioGral").attr('href','imprimirPdfInventarioGralRangoAlmacenPt/'+$("#id_dia_inicio_inventario").val()+'/'+$("#id_dia_fin_inventario").val()+'/'+$("#id_planta_inventario").val());
+  $(".excelMesInventarioGral").attr('href','imprimirExcelInventarioGralRangoAlmacenPt/'+$("#id_dia_inicio_inventario").val()+'/'+$("#id_dia_fin_inventario").val()+'/'+$("#id_planta_inventario").val());
+  var t = $('#lts-inventario').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarRangoInventarioGralPt/"+ $("#id_dia_inicio_inventario").val()+'/'+$("#id_dia_fin_inventario").val()+'/'+$("#id_planta_inventario").val(),
+               type: "GET",
+               data: {"mes": $("#id_dia_inicio_inventario").val()}
+             },
+            "columns":[
+                {data: 'spth_id'},
+                {data: 'rece_codigo'}, 
+                {data: 'rece_nombre'},
+                {data: 'spth_cantidad'},
+                {data: 'spth_fecha_vencimiento'},
+                {data: 'spth_registrado'},
+                {data: 'nombre_planta'}
         ],
         
         "language": {
