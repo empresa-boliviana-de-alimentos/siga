@@ -1037,10 +1037,45 @@
                 <h3 class="box-title">
                     LISTADO DE MES
                 </h3>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label>
+                              <strong>Seleccione un planta</strong>
+                            </label>
+                          </div>
+                          <select class="form-control" id="id_planta_inventario">
+                            <option value="0">Todas las plantas</option>
+                            @foreach($plantas as $planta)
+                            <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
+                            @endforeach
+                          </select>                         
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <div class="text-center">
+                        <label>
+                          <strong>Seleccione Mes</strong>
+                        </label>
+                      </div>
+                        <div class="input-group">
+                          <input type="text" class="form-control datepickerMonths" id="id_mes_inventario" name="id_mes_inventario" placeholder="Introduzca mes"> 
+                          <span class="input-group-btn">
+                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasInventario();">Buscar</button>
+                          </span>                  
+                        </div>         
+                      </div>
+                    </div>
             </div>
             <div class="box-body">
               <div id="no-more-tables">
-                <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solporMaquila">
+                <div class="ocultarBotonDescargasInventarioGralMes" style="display: none;">
+                    <a href="" class="btn btn-danger pdfMesInventarioGralMes" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                    <a href="" class="btn btn-success excelMesInventarioGralMes"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+                  </div>
+                <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-inventariomes">
                   <thead class="cf">
                     <tr>
                         <th>
@@ -1912,6 +1947,46 @@ function BuscarRangoInventario() {
                url : "listarRangoInventarioGralPt/"+ $("#id_dia_inicio_inventario").val()+'/'+$("#id_dia_fin_inventario").val()+'/'+$("#id_planta_inventario").val(),
                type: "GET",
                data: {"mes": $("#id_dia_inicio_inventario").val()}
+             },
+            "columns":[
+                {data: 'spth_id'},
+                {data: 'rece_codigo'}, 
+                {data: 'rece_nombre'},
+                {data: 'spth_cantidad'},
+                {data: 'spth_fecha_vencimiento'},
+                {data: 'spth_registrado'},
+                {data: 'nombre_planta'}
+        ],
+        
+        "language": {
+             "url": "/lenguaje"
+        },
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        // "order": [[ 0, "desc" ]],
+        "paging":   true,
+        "ordering": true,
+        "info":     true       
+  });
+  t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+  } ).draw();
+}
+//INVENTARIO MES
+function BuscarfechasInventario() {
+  console.log($("#id_mes_inventario").val());
+  $(".ocultarBotonDescargasInventarioGralMes").show();
+  $(".pdfMesInventarioGralMes").attr('href','imprimirPdfInventarioGralMesAlmacenPt/'+$("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val());
+  $(".excelMesInventarioGralMes").attr('href','imprimirExcelInventarioGralMesAlmacenPt/'+$("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val());
+  var t = $('#lts-inventariomes').DataTable( {
+            "destroy": true,
+            "processing": true,
+            "serverSide": true,
+            "ajax":{
+               url : "listarMesInventarioGralPt/"+ $("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val(),
+               type: "GET",
+               data: {"mes": $("#id_mes_inventario").val()}
              },
             "columns":[
                 {data: 'spth_id'},
