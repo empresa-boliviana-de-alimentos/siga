@@ -26,7 +26,7 @@ class gbProveedorController extends Controller
         return Datatables::of($prov)->addColumn('acciones', function ($prov) {
             return '<button value="' . $prov->prov_id . '" class="btncirculo btn-xs btn-warning" onClick="MostrarProv(this);" data-toggle="modal" data-target="#myUpdateProv"><i class="fa fa-pencil-square"></i></button><button value="' . $prov->prov_id . '" class="btncirculo btn-xs btn-danger" onClick="Eliminar(this);"><i class="fa fa-trash-o"></i></button>';
         })->addColumn('evaluacion_prov', function ($eval_prov) {
-            return '<button value="' . $eval_prov->prov_id . '" class="btn-warning btn-md" onClick="FormEval(this);" data-toggle="modal" data-target="#formEvaluacion"><i class="fa fa-file"></i></button><button value="' . $eval_prov->prov_id . '" class="btn-danger btn-md" data-toggle="modal" data-target="#myListEvaluacion" onClick="MostrarEvaluacion(this);"><i class="fa fa-list-alt"></i></button>';
+            return '<button value="' . $eval_prov->prov_id . '" onClick="FormEval(this);" data-toggle="modal" data-target="#formEvaluacion"><img src="img/evaluacion_prov.png" width="50px"></button><button value="' . $eval_prov->prov_id . '"  data-toggle="modal" data-target="#myListEvaluacion" onClick="MostrarEvaluacion(this);"><img src="img/lista_eval.png" width="50px"></button>';
         })
             ->editColumn('id', 'ID: {{$prov_id}}')
             ->make(true);

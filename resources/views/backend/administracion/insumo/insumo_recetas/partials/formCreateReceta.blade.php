@@ -45,7 +45,7 @@ table {
 }
 
 thead th {
-  background-color:#428bca;
+  background-color:#202040;
   color: white;
 }
 tbody td {
@@ -55,7 +55,7 @@ tbody td {
 @section('main-content')
 <?php $now = new DateTime('America/La_Paz');?>
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" style="background-color: #202040">
         <h3 class="panel-title text-center">REGISTRO RECETA EBA</h3>
     </div>
     <div class="panel-body">
@@ -243,7 +243,7 @@ tbody td {
                 <div id="OcultaCaracEnv" style="display:none">
                     <div class="col-md-6">
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>CARACTERISTICAS DE ENVASE</strong></h4>
+                        <h4 style="color:#202040"><strong>CARACTERISTICAS DE ENVASE</strong></h4>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -309,7 +309,7 @@ tbody td {
                 <div id="OcultarformulacionBase" style="display: none">
                     <div class="col-md-6">
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>FORMULACION DE LA BASE</strong></h4>
+                        <h4 style="color:#202040"><strong>FORMULACION DE LA BASE</strong></h4>
                     </div>
                     <material-envasado :lista="{{$listarInsumo}}" nombre="bases" ></material-envasado>
 
@@ -319,7 +319,7 @@ tbody td {
                 <div id="OcultarSaborizacion" style="display: none">
                     <div class="col-md-6">
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>SABORIZACIÓN</strong></h4>
+                        <h4 style="color:#202040"><strong>SABORIZACIÓN</strong></h4>
                     </div>
                     <material-envasado :lista="{{$listarSaborizantes}}" nombre="saborizantes" ></material-envasado>
 
@@ -329,7 +329,7 @@ tbody td {
                 <div id="OcultarMatEnv" style="display: none">
                     <div class="col-md-6">
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>MATERIAL DE ENVASADO</strong></h4>
+                        <h4 style="color:#202040"><strong>MATERIAL DE ENVASADO</strong></h4>
                     </div>
                     <material-envasado :lista="{{$listarEnvase}}" nombre="envasados"></material-envasado>
 
@@ -339,7 +339,7 @@ tbody td {
                 <div id="ocultaParFisQui" style="display: none;">
                     <div class="col-md-12">
                     <div class="text">
-                        <h4 style="color:#2067b4"><strong>PARAMETROS FISICO QUÍMICO</strong></h4>
+                        <h4 style="color:#202040"><strong>PARAMETROS FISICO QUÍMICO</strong></h4>
                     </div>
                     <div class="row">
                         <div class="col-md-2">

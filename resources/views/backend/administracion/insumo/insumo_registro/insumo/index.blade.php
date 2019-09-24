@@ -5,11 +5,13 @@
     border-spacing: 0 5px;
     }
     thead th {
-      background-color:#428bca;
+      background-color:#202040;
       color: white;
+      font-size: 12px;
     }
     tbody td {
       background-color: #EEEEEE;
+      font-size: 10px;
     }
 </style>
 
@@ -17,7 +19,7 @@
 @include('backend.administracion.insumo.insumo_registro.insumo.partials.modalCreate')
 @include('backend.administracion.insumo.insumo_registro.insumo.partials.modalUpdate')
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" style="background-color:#202040">
         <div class="row">
             <div class="col-md-2">
                 <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('InsumoRegistrosMenu') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
