@@ -5,7 +5,7 @@
     border-spacing: 0 5px;
     }
     thead th {
-      background-color:#428bca;
+      background-color:#202040;
       color: white;
       font-size: 12px;
     }
@@ -17,16 +17,9 @@
 @section('main-content')
 @include('backend.administracion.insumo.insumo_registro..proveedores.partials.modalCreate')
 @include('backend.administracion.insumo.insumo_registro..proveedores.partials.modalUpdate')
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <div class="col-md-3"></div>
-        <div class="col-md-7">
-            <h3 class="panel-title"> </h3>
-        </div>
-        <div class="col-md-2"></div>
-        
-    </div>
-    <div class="panel-heading">
+<div class="panel panel-primary" >
+    
+    <div class="panel-heading" style="background-color: #202040">
         <div class="row">
             <div class="col-md-2">
                 
@@ -96,7 +89,7 @@
         "language": {
              "url": "/lenguaje"
         },
-         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+         "lengthMenu": [[15, 25, 50, -1], [15, 25, 50, "All"]],
          "order": [[ 0, "desc" ]],
 
 

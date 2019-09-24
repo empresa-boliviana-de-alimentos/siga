@@ -851,6 +851,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('listarRangoInventarioGralPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','producto_terminado\reporteAlmacenController@listarRangoInventarioGralPt');
 	Route::get('imprimirPdfInventarioGralRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportController@imprimirPdfInventarioGralRangoAlmacenPt');
 	Route::get('imprimirExcelInventarioGralRangoAlmacenPt/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}/{planta}','ReportExcelController@imprimirExcelInventarioGralRangoAlmacenPt');
+	Route::get('RpKardexValoradoPt/{id}','ReportController@RpKardexValoradoPt');
+	Route::get('RpKardexFisicoPt/{id}','ReportController@RpKardexFisicoPt');
 	/*******************************RUTAS COMERCIAL*******************************************/
 	Route::get('DatosComercial', function () {
 		return view('backend.administracion.comercial.datos.index');

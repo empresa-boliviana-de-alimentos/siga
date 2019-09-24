@@ -69,11 +69,14 @@ class KardexPTController extends Controller {
 			})->addColumn('lotes', function ($stock) {
 			return '<button value="' . $stock->xspt_rece_id . '" class="btn-round btn-xs btn-theme03"
                 onClick="obtenerORP(this);" data-toggle="modal" data-target="#myCreateAlmacen"><i class="fa fa-envelope fa-2x"></i></button>';
-		})->addColumn('kardex', function ($stock) {
-			return '<button value="' . $stock->xspt_rece_id . '" class="btn-round btn-xs btn-warning"
+		})->addColumn('kardexValorado', function ($stock) {
+			/*return '<button value="' . $stock->xspt_rece_id . '" class="btn-round btn-xs btn-warning"
                 onClick="obtenerORP(this);" data-toggle="modal" data-target="#myCreateAlmacen"><i class="glyphicon glyphicon-usd fa-2x"></i></button>
                 <button value="' . $stock->xspt_rece_id . '" class="btn-round btn-xs btn-primary"
-                onClick="obtenerORP(this);" data-toggle="modal" data-target="#myCreateAlmacen"><i class="fa fa-file-o fa-2x"></i></button>';
+                onClick="obtenerORP(this);" data-toggle="modal" data-target="#myCreateAlmacen"><i class="fa fa-file-o fa-2x"></i></button>';*/
+                return '<div class="text-center"><a style="background-color: #d4b729;border: none;color: white;padding: 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 10px;margin: 4px 2px;border-radius: 50%;" href="RpKardexValoradoPt/' . $stock->xspt_rece_id . '" type="button" target="_blank"><span class="glyphicon glyphicon-usd fa-2x"></span></a></div>';
+		})->addColumn('kardexFisico', function ($stock) {
+                return '<div class="text-center"><a style="background-color:#2067b4;border: none;color: white;padding: 5px;text-align: center;text-decoration: none;display: inline-block;font-size: 10px;margin: 4px 2px;border-radius: 50%;" href="/RpKardexFisicoPt/' . $stock->xspt_rece_id . '" type="button" target="_blank"><span class="fa fa-file-o fa-2x"></span></a></div>';
 		})->addColumn('lineaProduccion', function ($lineaProduccion) {
 			if ($lineaProduccion->xrece_lineaprod_id == 1) {
 				return 'LACTEOS';

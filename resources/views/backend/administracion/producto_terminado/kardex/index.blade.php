@@ -12,7 +12,7 @@
     }
 
     thead th {
-      background-color:#428bca;
+      background-color:#202040;
       color: white;
       font-size: 12px;
       border:1px;
@@ -64,13 +64,13 @@
 
 @section('main-content')
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" style="background-color: #080833">
     <h3 class="panel-title">KARDEX ALMACEN PRODUCTO TERMINADO / CANASTILLOS</h3>
     <span class="pull-right">
         <!-- Tabs -->
         <ul class="nav panel-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab"><i class="fa fa-shopping-cart"></i>PRODUCTO TERMINADO</a></li>
-            <li><a href="#tab2" data-toggle="tab"><i class="fa fa-shopping-cart"></i>CANASTILLOS</a></li>
+            <li class="active"><a href="#tab1" data-toggle="tab" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>PRODUCTO TERMINADO</a></li>
+            <li><a href="#tab2" data-toggle="tab" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>CANASTILLOS</a></li>
         </ul>
     </span>
     </div>
@@ -92,7 +92,8 @@
                                             <th>Nombre del Producto</th>
                                             <th>Linea</th>
                                             <th>Cantidad</th>
-                                            <th>Kardex</th>
+                                            <th>Kardex Valorado</th>
+                                            <th>Kardex Fisico</th>
                                             <th>Fecha Vencimiento</th>
                                             <th>Lotes</th>
                                         </tr>
@@ -144,7 +145,8 @@ var t1 = $('#lts-kardex').DataTable( {
         {data: 'nombreReceta'},
         {data: 'lineaProduccion'},
         {data: 'xtotal'},
-        {data: 'kardex'},
+        {data: 'kardexValorado'},
+        {data: 'kardexFisico'},
         {data: 'fechavencimiento'},
         {data: 'lotes'},
     ],
