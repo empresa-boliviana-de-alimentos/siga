@@ -47,7 +47,7 @@ class gbRecetasController extends Controller
                         ->where('rece_estado','A')->orderBy('rece_id','DESC')->get();
         // dd($recetas);
         return Datatables::of($receta)->addColumn('acciones', function ($receta) {
-            return '<a class="btn btn-primary" target="_blank" href="ImprimirReceta/'.$receta->rece_id.'"><i class="fa fa-file"></i> VER RECETA</a>';
+            return '<a class="" target="_blank" href="ImprimirReceta/'.$receta->rece_id.'"><img src="img/visualizar.jpg" width="60px"></a>';
         })->addColumn('linea_prod', function ($linea_prod) {
             if ($linea_prod->rece_lineaprod_id == 1) {
                 return 'LACTEOS';

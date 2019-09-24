@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="text-right">
-        <a href="#" style="font-size:18px;" @click="addItem()" title="Add More Person" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Añadir
+        <a href="#" style="font-size:18px; background-color:#202040" @click="addItem()" title="Add More Person" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Añadir
         </a>
         </div>
         <table  class="table small-text" >
