@@ -17,7 +17,9 @@ class gbServiciosController extends Controller
         $planta_id = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->first();
         
-        $plantas = DB::table('public._bp_planta')->where('id_linea_trabajo',$planta_id->id_linea_trabajo)->get();
+        $plantas = DB::table('public._bp_planta')
+                     //->where('id_linea_trabajo',$planta_id->id_linea_trabajo)
+                     ->get();
     	return view('backend.administracion.insumo.insumo_registro.servicios.index',compact('plantas'));
     }
 

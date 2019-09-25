@@ -36,7 +36,10 @@ class gbRecetasController extends Controller
         $ls_plantas = DB::table('public._bp_planta')->where('id_linea_trabajo','=',$id_linea_trabajo->usr_linea_trabajo)->get();
         //dd($ls_plantas);
     	$lineaTrabajo = DB::table('acopio.linea_trab')->get();
-        return view('backend.administracion.insumo.insumo_recetas.index',compact('listarInsumo','listarUnidades','plantas','planta','lineaTrabajo','listarMercados','ls_plantas'));
+        $receta = Receta::join('insumo.unidad_medida as uni','insumo.receta.rece_uni_id','uni.umed_id')
+                        ->leftjoin('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
+                        ->where('rece_estado','A')->orderBy('rece_id','DESC')->get();
+        return view('backend.administracion.insumo.insumo_recetas.index',compact('listarInsumo','listarUnidades','plantas','planta','lineaTrabajo','listarMercados','ls_plantas','receta'));
     }
 
      public function create()

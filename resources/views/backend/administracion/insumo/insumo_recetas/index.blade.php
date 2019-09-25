@@ -13,6 +13,11 @@
       background-color: #EEEEEE;
       font-size: 10px;
     }
+    tfoot th {
+      background-color:#202040;
+      color: white;
+      font-size: 12px;
+    }
 </style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_recetas.partials.modalCreate')
@@ -40,7 +45,7 @@
             <div class="box">
                 <div class="box-header with-border"></div>
                     <div class="box-body">
-                        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-receta">
+                        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-receta" style="width: 100%">
                             <thead class="cf">
                                 <tr>
                                     <th>
@@ -70,11 +75,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                            <?php $nro = 0; ?>
+                            @foreach($receta as $re)
+                             <tr>
+                                 <td class="text-center">{{$nro = $nro + 1 }}</td>
+                                 <td class="text-center">{{$re->rece_codigo}}</td>
+                                 <td class="text-center">
+                                 @if($re->sab_id == 1)
+                                    {{$re->rece_nombre.' '.$re->rece_presentacion}}
+                                 @else
+                                    {{$re->rece_nombre.' '.$re->sab_nombre.' '.$re->rece_presentacion}}
+                                 @endif
+                                 </td>
+                                 <td class="text-center">{{$re->umed_nombre}}</td>
+                                 <td class="text-center">{{linea($re->rece_lineaprod_id)}}</td>
+                                 <td class="text-center">{{$re->rece_rendimiento_base}}</td>
+                                 <td class="text-center"><a class="" target="_blank" href="ImprimirReceta/{{$re->rece_id}}"><img src="img/visualizar.jpg" width="60px"></a></td>
+                             </tr>
+                            @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
-                                     <th>
+                                    <th>
                                         #
                                     </th>
                                     <th>
@@ -101,8 +123,6 @@
 
                                 </tr>
                             </tfoot>
-                            <tr>
-                            </tr>
                     </table>
                 </div>
             </div>
@@ -110,12 +130,27 @@
 </div>
     </div>
 </div>
-
+<?php 
+function linea($id)
+{
+    if ($id == 1) {
+        return "LACTEOS";
+    }elseif($id == 2){
+        return "ALMENDRA";
+    }elseif($id == 3){
+        return "MIEL";
+    }elseif($id == 4){
+        return "FRUTOS";
+    }elseif($id == 5){
+        return "DERIVADOS";
+    }
+}
+?>
 
 @endsection
 @push('scripts')
 <script>
-    var t = $('#lts-receta').DataTable( {
+    /*var t = $('#lts-receta').DataTable( {
 
          "processing": true,
             "serverSide": true,
@@ -146,8 +181,16 @@
         t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
-    } ).draw();
+    } ).draw();*/
+    $('#lts-receta').DataTable( {
+        "responsive": true,
+        "order": [[ 0, "asc" ]],
+        "language": {
+             "url": "/lenguaje"
+        },
+         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 
+    });
      function Limpiar(){
         $("#nombre").val("");
         $("#empresa").val("");
