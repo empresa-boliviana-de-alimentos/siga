@@ -1,9 +1,9 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myCreateTipEnv" tabindex="-5">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #202040">
                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                    ×
+                    <span style="color: white">x</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
                     Registro Tipo de Envase

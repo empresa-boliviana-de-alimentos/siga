@@ -1,8 +1,8 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myUpdatePlanMaquila" tabindex="-5">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+            <div class="modal-header" style="background-color: #202040">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><span style="color: white">X</span></button>
                 <h4 class="modal-title" id="myModalLabel">
                     Modificar Registro Planta Maquila
                 </h4>
@@ -20,7 +20,7 @@
                                                     Nombre Planta Maquila:
                                                 </label>
                                                 <span class="block input-icon input-icon-right">
-                                                    {!! Form::text('nommaquila', null, array('placeholder' => 'Nombre Maquila','maxlength'=>'100','class' => 'form-control','id'=>'nommaquila', 'style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
+                                                    {!! Form::text('nommaquila', null, array('placeholder' => 'Nombre Maquila','maxlength'=>'250','class' => 'form-control','id'=>'nommaquila', 'style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                                                 </span>  
                                             </div>
                                         </div>

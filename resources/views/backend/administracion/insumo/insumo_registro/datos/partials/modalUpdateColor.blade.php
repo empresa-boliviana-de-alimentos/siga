@@ -1,9 +1,9 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myUpdateColor" tabindex="-5">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #202040">
                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                    ×
+                    <span style="color: white">x</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
                     Modificar Registro Color
@@ -22,7 +22,7 @@
                                                     Nombre Color:
                                                 </label>
                                                 <span class="block input-icon input-icon-right">
-                                                    {!! Form::text('nombreColor', null, array('placeholder' => 'Nombre Color','maxlength'=>'20','class' => 'form-control','id'=>'nomcol','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
+                                                    {!! Form::text('nombreColor', null, array('placeholder' => 'Nombre Color','maxlength'=>'250','class' => 'form-control','id'=>'nomcol','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                                                 </span>  
                                             </div>
                                         </div>

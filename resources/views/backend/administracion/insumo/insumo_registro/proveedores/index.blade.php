@@ -241,7 +241,7 @@
         }
 
         function FormEval(btn){
-            var route = "/ProveedorInsumo/"+btn.value+"/edit";
+            var route = "/ProveedorInsumo/"+btn+"/edit";
             $.get(route, function(res){
                 console.log(res);
                 $('#nombre_proveedor').val(res.prov_nom);
@@ -288,7 +288,7 @@
 
         //LISTAR EVALUACIONES PROVEEDOR
         function MostrarEvaluacion(btn){
-            var route = "ListarEvalProv/"+btn.value;
+            var route = "ListarEvalProv/"+btn;
             $.get(route, function(res){
                 console.log(res);
                 if (typeof(res[0]) === "undefined") {

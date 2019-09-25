@@ -1,8 +1,8 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myCreateIns" tabindex="-5">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+            <div class="modal-header" style="background-color: #202040">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><span style="color:white">x</span></button>
                 <h4 class="modal-title" id="myModalLabel">
                     Registro Insumo
                 </h4>
@@ -58,7 +58,7 @@
                                 </div>
                                 <div id="tipo_envase" style="display: none;">
                                     <div class="row">
-                                        <h4 class="text-center" style="color:#2067b4"><strong>ENVASE</strong></h4>
+                                        <h4 class="text-center" style="color:#202040"><strong>ENVASE</strong></h4>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -166,7 +166,7 @@
                                 </div>
                                 <div id="tipo_insumo" style="display: none;">
                                     <div class="row">
-                                        <h4 class="text-center" style="color:#2067b4"><strong>INSUMO</strong></h4>
+                                        <h4 class="text-center" style="color:#202040"><strong>INSUMO</strong></h4>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-3">
@@ -228,7 +228,7 @@
                                 </div>
                                 <div id="tipo_insumo_map" style="display: none;">
                                     <div class="row">
-                                        <h4 class="text-center" style="color:#2067b4"><strong>INSUMO MATERIA PRIMA</strong></h4>
+                                        <h4 class="text-center" style="color:#202040"><strong>INSUMO MATERIA PRIMA</strong></h4>
                                     </div>
                                     <div class="row">                                 
                                         <div class="col-md-12">

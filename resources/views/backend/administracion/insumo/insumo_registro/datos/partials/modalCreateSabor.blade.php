@@ -1,9 +1,9 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myCreateSabor" tabindex="-5">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #202040">
                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                    ×
+                    <span style="color: white">x</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
                     Registro Sabor
@@ -22,7 +22,7 @@
                                                     Nombre Sabor:
                                                 </label>
                                                 <span class="block input-icon input-icon-right">
-                                                    {!! Form::text('sabor', null, array('placeholder' => 'Nombre Sabor','maxlength'=>'20','class' => 'form-control','id'=>'sabor','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
+                                                    {!! Form::text('sabor', null, array('placeholder' => 'Nombre Sabor','maxlength'=>'250','class' => 'form-control','id'=>'sabor','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                                                 </span>  
                                             </div>
                                         </div>
