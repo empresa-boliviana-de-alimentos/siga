@@ -1,8 +1,8 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="formEvaluacion" tabindex="-5">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+            <div class="modal-header" style="background-color: #202040">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><span style="color: white">×</span></button>
                 <h4 class="modal-title" id="myModalLabel">
                     Evaluacion Proveedor
                 </h4>
@@ -34,12 +34,14 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <table class="table">
-                                            <tr>
-                                                <th class="text-center">Criterios de Evaluación</th>
-                                                <th class="text-center">Ponderación</th>
-                                                <th class="text-center">Calificación</th>
-                                                <th class="text-center">Puntos</th>
-                                            </tr>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Criterios de Evaluación</th>
+                                                    <th class="text-center">Ponderación</th>
+                                                    <th class="text-center">Calificación</th>
+                                                    <th class="text-center">Puntos</th>
+                                                </tr>
+                                            </thead>
                                             <tr>
                                                 <td class="text-center">Costo de Aprovisionamiento</th>
                                                 <td class="text-center">25</th>

@@ -1,9 +1,9 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myUpdateLineaProd" tabindex="-5">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #202040">
                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                    ×
+                    <span style="color: white">x</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
                     Modificar Registro Linea de Produccion
@@ -22,7 +22,7 @@
                                                     Nombre Linea Produccion:
                                                 </label>
                                                 <span class="block input-icon input-icon-right">
-                                                    {!! Form::text('nomlineaprod', null, array('placeholder' => 'Nombre Linea Produccion','maxlength'=>'20','class' => 'form-control','id'=>'nomlineaprod','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
+                                                    {!! Form::text('nomlineaprod', null, array('placeholder' => 'Nombre Linea Produccion','maxlength'=>'250','class' => 'form-control','id'=>'nomlineaprod','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                                                 </span>  
                                             </div>
                                         </div>

@@ -1,9 +1,9 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myUpdateMunicipio" tabindex="-5">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #202040">
                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                    ×
+                    <span style="color: white">x</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
                     Modificar Registro Municipio
@@ -22,7 +22,7 @@
                                                     Nombre Municipio:
                                                 </label>
                                                 <span class="block input-icon input-icon-right">
-                                                    {!! Form::text('municipionom', null, array('placeholder' => 'Nombre Producto','maxlength'=>'20','class' => 'form-control','id'=>'municipionom','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
+                                                    {!! Form::text('municipionom', null, array('placeholder' => 'Nombre Producto','maxlength'=>'250','class' => 'form-control','id'=>'municipionom','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                                                 </span>  
                                             </div>
                                         </div>

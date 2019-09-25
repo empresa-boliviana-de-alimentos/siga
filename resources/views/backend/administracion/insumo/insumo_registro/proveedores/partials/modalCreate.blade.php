@@ -1,8 +1,8 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myCreateProv" tabindex="-5">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+            <div class="modal-header" style="background-color: #202040">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><span style="color:white">×</span></button>
                 <h4 class="modal-title" id="myModalLabel">
                     Registro Proveedor Insumo
                 </h4>

@@ -1,8 +1,8 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myUpdateCat" tabindex="-5">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+            <div class="modal-header" style="background-color: #202040">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button"><span style="color: white">x</span></button>
                 <h4 class="modal-title" id="myModalLabel">
                     Modificar Registro Categoria
                 </h4>
@@ -20,7 +20,7 @@
                                                     Nombre Categoria:
                                                 </label>
                                                 <span class="block input-icon input-icon-right">
-                                                    {!! Form::text('nombre', null, array('placeholder' => 'Nombre Categoria','maxlength'=>'20','class' => 'form-control','id'=>'catnombre','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
+                                                    {!! Form::text('nombre', null, array('placeholder' => 'Nombre Categoria','maxlength'=>'250','class' => 'form-control','id'=>'catnombre','style'=>'text-transform:uppercase;', 'onkeyup'=>'javascript:this.value=this.value.toUpperCase();')) !!}
                                                 </span>  
                                             </div>
                                         </div>

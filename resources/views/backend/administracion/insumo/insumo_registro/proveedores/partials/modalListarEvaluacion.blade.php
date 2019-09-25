@@ -1,9 +1,9 @@
 <div class="modal fade bs-example-modal-sm in" data-backdrop="static" data-keyboard="false" id="myListEvaluacion" tabindex="-1">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: #202040">
                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                    ×
+                    <span style="color: white">×</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
                     Evaluación de Proveedor <span id="nombre_prov"></span>
