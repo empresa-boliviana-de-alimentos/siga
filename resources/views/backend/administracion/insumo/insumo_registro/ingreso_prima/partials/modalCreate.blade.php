@@ -1,8 +1,10 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myCreatePrima" tabindex="-5">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+            <div class="modal-header" style="background-color: #202040">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                    <span style="color: white">x</span>
+                </button>
                 <h4 class="modal-title" id="myModalLabel">
                     Detalle Materia Prima 
                 </h4>
@@ -44,24 +46,10 @@
                                         <div class="form-group">
                                             <div class="col-sm-12">
                                                  <label>
-                                                    Unidad:
-                                                </label>
-                                                 <select class="form-control" id="env_uni" name="env_uni" placeholder="" value="">
-                                                    <option value="">Seleccione...</option>
-                                                    <option value="1">KILO</option>
-                                                    <option value="2">LITROS</option>
-                                                </select> 
-                                            </div>
-                                        </div>
-                                    </div>
-                                     <div class="col-md-4">
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                 <label>
                                                     Insumo:
                                                 </label>
                                                 <select class="form-control" id="ins_id" name="ins_id" placeholder="" value="">
-                                                    <option value="">Seleccione...</option>
+                                                    <!--<option value="">Seleccione...</option>-->
                                                     @foreach($combo as $cmb)
                                                     <option value="{{$cmb->ins_id}}">{{$cmb->ins_desc}}</option>
                                                     @endforeach
@@ -69,6 +57,19 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                 <label>
+                                                    Costo Unitario Enviado:
+                                                </label>
+                                                <span class="block input-icon input-icon-right">
+                                                    {!! Form::number('costo_env', null, array('placeholder' => 'Costo Enviado','class' => 'form-control','id'=>'costo_env','readonly'=>'true')) !!}
+                                                </span>   
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <br>
                                 <div class="row"> 

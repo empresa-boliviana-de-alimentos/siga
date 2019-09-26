@@ -1,8 +1,10 @@
 <div class="modal fade modal-primary" data-backdrop="static" data-keyboard="false" id="myCreateIngreso" tabindex="-5">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button aria-hidden="true" class="close" data-dismiss="modal" type="button" onclick="EliminarPreliminar()">×</button>
+            <div class="modal-header" style="background-color: #202040">
+                <button aria-hidden="true" class="close" data-dismiss="modal" type="button" onclick="EliminarPreliminar()">
+                    <span style="color: white">x</span>
+                </button>
                 <h4 class="modal-title" id="myModalLabel">
                     Confirmar Ingreso Almacen
                 </h4>

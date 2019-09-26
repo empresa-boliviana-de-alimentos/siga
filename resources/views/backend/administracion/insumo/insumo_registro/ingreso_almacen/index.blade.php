@@ -6,6 +6,8 @@
         color:gray;
     }
     th {
+        background-color:#202040;
+        color: white;
         font-size: 10px;
     }
     td {
