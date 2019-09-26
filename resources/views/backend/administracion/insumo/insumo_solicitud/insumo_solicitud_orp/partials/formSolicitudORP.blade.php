@@ -25,7 +25,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         <div class="container col-lg-12" style="background: white;">        
             <?php $now = new DateTime('America/La_Paz'); ?>
             <div class="text-center">
-                <h3 style="color:#2067b4"><strong>NUEVO PEDIDO RECETA</strong></h3> 
+                <h3 style="color:#202040"><strong>NUEVO PEDIDO RECETA</strong></h3> 
             </div>
             <div class="text-center">
                 <h3>Código: ORP-{{$sol_orden_produccion->orprod_nro_orden}}</h3>
@@ -114,7 +114,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                     <div class="col-md-12">                            
                             
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">
+                                    <div class="panel-heading" style="background-color: #202040">
                                         <h3 class="panel-title">MATERIA PRIMA</h3>
                                     </div>
                                     <div class="panel-body">
@@ -160,7 +160,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                     <div class="col-md-12">                            
                             
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">
+                                    <div class="panel-heading" style="background-color: #202040">
                                         <h3 class="panel-title">FORMULACION DE BASE</h3>
                                     </div>
                                     <div class="panel-body">
@@ -214,7 +214,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 @if ($receta->rece_lineaprod_id == 1 OR $receta->rece_lineaprod_id == 4 OR $receta->rece_lineaprod_id == 5)  
                     <div class="col-md-12">                            
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">SABORIZACION</h3>
                             </div>
                             <div class="panel-body">
@@ -261,7 +261,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 
                     <div class="col-md-12">                            
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
                             </div>
                             <div class="panel-body">
