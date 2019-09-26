@@ -5,18 +5,25 @@
     border-spacing: 0 5px;
     }
     thead th {
-      background-color:#428bca;
+      background-color:#202040;
       color: white;
+      font-size: 12px;
     }
     tbody td {
       background-color: #EEEEEE;
+      font-size: 10px;
+    }
+    tfoot th {
+      background-color:#202040;
+      color: white;
+      font-size: 12px;
     }
 </style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_insumo.partials.modalCreateAdiInsumo')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_insumo.partials.modalBoletaSolAdiInsumo')
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" style="background-color: #202040">
         <div class="row">
             <div class="col-md-2">
                 <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('InsumoSolicitudesMenu') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
@@ -38,7 +45,7 @@
                 <div class="box">
                     <div class="box-header with-border"></div>
                         <div class="box-body">
-                            <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-adicional">
+                            <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-adicional" style="width: 100%">
                                 <thead class="cf">
                                     <tr>
                                         <th class="text-center">
@@ -74,7 +81,46 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                <?php $nro = 0; ?>
+                                @foreach($solAdicional as $sola)
+                                <?php $nro = $nro + 1; ?>
+                                    <tr>
+                                        <td class="text-center">{{$nro}}</td>
+                                        <td class="text-center">{{$sola->orprod_nro_orden}}</td>
+                                        <td class="text-center">{{$sola->orprod_nro_solicitud}}</td>
+                                        <td class="text-center">{{traeFechaOrp($sola->orprod_nro_orden)}}</td>
+                                        <td class="text-center">{{$sola->orprod_registrado}}</td>
+                                        <td class="text-center">
+                                        @if($sola->sab_id == 1)
+                                            {{$sola->rece_nombre.' '.$sola->rece_presentacion}}
+                                        @else
+                                            {{$sola->rece_nombre.' '.$sola->sab_nombre.' '.$sola->rece_presentacion}}
+                                        @endif
+                                        </td>
+                                        <td class="text-center">{{$sola->umed_nombre}}</td>
+                                        <td class="text-center">
+                                        @if($sola->rece_lineaprod_id == 1) 
+                                            LACTEOS
+                                        @elseif($sola->rece_lineaprod_id == 2)
+                                            ALMENDRA
+                                        @elseif($sola->rece_lineaprod_id == 3)
+                                            MIEL
+                                        @elseif($sola->rece_lineaprod_id == 4)
+                                            FRUTOS
+                                        qelseif($sola->rece_lineaprod_id == 5)
+                                            DERIVADOS
+                                        @endif
+                                        </td>
+                                        <td class="text-center">{{$sola->orprod_cantidad}}</td>
+                                        <td class="text-center">
+                                        @if($sola->orprod_estado_id == 'B')
+                                            <div class="text-center"><h4 class="text"><span class="label label-info">RECIBIDO</span></h4></div>
+                                        @else
+                                            <div class="text-center"><a href="boletaSolAdicional/{{$sola->orprod_id}}" target="_blank"><img src="img/visualizar.jpg" width="50px"></a></div>
+                                        @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
@@ -119,14 +165,17 @@
     </div>
     </div>
 </div>
-
-
-
-
+<?php 
+function traeFechaOrp($nro_orden)
+{
+    $orp_adi = \DB::table('insumo.orden_produccion')->where('orprod_nro_orden',$nro_orden)->first();
+    return $orp_adi->orprod_modificado;
+}
+?>
 @endsection
 @push('scripts')
 <script>
-    var t = $('#lts-adicional').DataTable( {
+    /*var t = $('#lts-adicional').DataTable( {
 
          "processing": true,
             "serverSide": true,
@@ -159,7 +208,7 @@
         t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
-    } ).draw();
+    } ).draw();*/
 
      function Limpiar(){
         $("#nombre").val("");

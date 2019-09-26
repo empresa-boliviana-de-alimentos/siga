@@ -15,7 +15,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         <div class="container col-lg-12" style="background: white;">
             <?php $now = new DateTime('America/La_Paz');?>
             <div class="text-center">
-                <h3 style="color:#2067b4"><strong>REALIZAR NUEVO PEDIDO</strong></h3>
+                <h3 style="color:#202040"><strong>REALIZAR NUEVO PEDIDO MAQUILA</strong></h3>
             </div>
             <form action="{{ url('RegistroSolMaquila') }}" class="form-horizontal" method="GET">
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
@@ -53,7 +53,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                                     .
                         	        </label>
                         	        <span class="block input-icon input-icon-right">
-                                    	<a class="form-control btn btn-primary" id="botonCalculos">Calcular</a>
+                                    	<a class="form-control btn btn-primary" id="botonCalculos" style="background-color: #202040">Calcular</a>
                                     	<input type="hidden" name="" id="id_recetaAux">
                                     </span>
                                 </div>
@@ -93,7 +93,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <div id="OcultarMateriaPrima" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">MATERIA PRIMA</h3>
                             </div>
                             <div class="panel-body">
@@ -131,7 +131,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <div id="OcultarformulacionBase" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">FORMULACION DE LA BASE</h3>
                             </div>
                             <div class="panel-body">
@@ -163,7 +163,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <div id="OcultarSaborizacion" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">SABORIZACIÓN</h3>
                             </div>
                             <div class="panel-body">
@@ -194,7 +194,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 <div id="OcultarMatEnv" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
                             </div>
                             <div class="panel-body">

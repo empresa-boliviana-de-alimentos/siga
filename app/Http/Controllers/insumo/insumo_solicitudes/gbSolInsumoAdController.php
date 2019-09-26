@@ -23,11 +23,19 @@ class gbSolInsumoAdController extends Controller
 {
     public function index()
     {
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();  
     	//$solAdicional = Solicitud::getlistarAdiInsumo();
     	//$mercado = Mercado::getlistar();
     	// dd($solAdicional);
+        //$solAdicional = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+        //                                ->where('orprod_nro_salida','<>',null)->orderBy('orprod_id','desc')->get();
+        //dd($solAdicional);
         $solAdicional = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
-                                        ->where('orprod_nro_salida','<>',null)->orderBy('orprod_id','desc')->get();
+                                        ->join('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                        ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                        ->where('orprod_tiporprod_id','=',2)
+                                        ->where('orprod_planta_id',$planta->id_planta)->orderBy('orprod_id','desc')->get();
         //dd($solAdicional);
     	return view('backend.administracion.insumo.insumo_solicitud.solicitud_insumo.index', compact('solAdicional'));
     }
@@ -79,6 +87,7 @@ class gbSolInsumoAdController extends Controller
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();   
         $ordenes_produccion = OrdenProduccion::where('orprod_planta_id', '=', $planta->id_planta)
                                              //->where('orprod_nro_solicitud',null)
+                                             ->where('orprod_nro_salida','<>',null)
                                              ->where('orprod_tiporprod_id',1)
                                              //->where('orprod_')
                                              ->get();
