@@ -5,18 +5,25 @@
     border-spacing: 0 5px;
     }
     thead th {
-      background-color:#428bca;
+      background-color:#202040;
       color: white;
+      font-size:12px;
     }
     tbody td {
       background-color: #EEEEEE;
+      font-size: 10px;
+    }
+    tfoot th {
+      background-color:#202040;
+      color: white;
+      font-size:12px;
     }
 </style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_traspaso.partials.modalCreateSolTras')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_traspaso.partials.modalBoletaSolMaq')
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" style="background-color: #202040">
         <div class="row">
             <div class="col-md-2">
                 <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('InsumoSolicitudesMenu') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
@@ -49,7 +56,7 @@
                 </div>-->
                 <div class="box-header with-border"></div>
                     <div class="box-body">
-                        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-solMaquila">
+                        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-solMaquila" style="width: 100%">
                             <thead class="cf">
                                 <tr>
                                     <th>

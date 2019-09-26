@@ -2,7 +2,7 @@
 @section('main-content')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_traspaso.partials.modalCreateSolTras')
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" style="background-color: #202040">
         <div class="row">
             <div class="col-md-2">
                 <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('solTraspaso') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>

@@ -5,7 +5,7 @@
         <div class="container col-lg-12" style="background: white;">
             <?php $now = new DateTime('America/La_Paz');?>
             <div class="text-center">
-                <h3 style="color:#2067b4"><strong>SOLICITUD INSUMO ADICIONAL</strong></h3>
+                <h3 style="color:#202040"><strong>SOLICITUD INSUMO ADICIONAL</strong></h3>
             </div>
             <form action="{{ url('SolicitudAdicionalCreate') }}" class="form-horizontal" method="GET">
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">
@@ -72,7 +72,7 @@
                 <div id="OcultarMateriaPrima" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">MATERIA PRIMA</h3>
                             </div>
                             <div class="panel-body">
@@ -99,7 +99,7 @@
                 <div id="OcultarformulacionBase" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">FORMULACION DE LA BASE</h3>
                             </div>
                             <div class="panel-body">
@@ -125,7 +125,7 @@
                 <div id="OcultarSaborizacion" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">SABORIZACIÓN</h3>
                             </div>
                             <div class="panel-body">
@@ -151,7 +151,7 @@
                 <div id="OcultarMatEnv" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
                             </div>
                             <div class="panel-body">
@@ -177,13 +177,13 @@
                 <div id="OcultarInsAdicional" style="display: none">
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">ADICCION INSUMO EXTRA</h3>
                             </div>
                                 <div class="panel-body">
                                     <div class="">
                                         <div class="">
-                                            <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="btn btn-primary">Añadir Insumo</span>
+                                            <a href="javascript:void(0);" style="font-size:18px;" id="addMore" title="Add More Person"><span class="btn btn-primary" style="background-color: #202040">Añadir Insumo</span>
                                             </a>
                                         </div>
                                     </div>
