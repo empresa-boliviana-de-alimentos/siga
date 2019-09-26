@@ -18,9 +18,17 @@ use PDF;
 use TCPDF;
 class gbOrdenProduccionController extends Controller
 {
-    public function index(){
-
-    	return view('backend.administracion.insumo.insumo_solicitud.insumo_ordenprod.index');
+    public function index()
+    {
+        $orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                            ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
+                                            ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                            ->leftjoin('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                            //->where('orprod_planta_id',$planta->id_planta)
+                                            ->orderBy('orprod_id','DESC')
+                                            ->where('orprod_tiporprod_id',1)
+                                            ->get();
+    	return view('backend.administracion.insumo.insumo_solicitud.insumo_ordenprod.index',compact('orden_produccion'));
     }
 
     public function create()
