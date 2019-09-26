@@ -510,7 +510,19 @@ class gbOrdenProduccionController extends Controller
     //RECEPCION DE ORDEN PRODUCCION
     public function menuRecepcionORP()
     {
-        return view('backend.administracion.insumo.insumo_solicitud.insumo_recepcion_orp.index');
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+        //$orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+        //                                    ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_planta_id',$planta->id_planta)->get();
+        $orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                            ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
+                                            ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                            ->leftjoin('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                            ->where('orprod_planta_id',$planta->id_planta)
+                                            ->orderBy('orprod_id','DESC')
+                                            ->where('orprod_tiporprod_id',1)
+                                            ->get();
+        return view('backend.administracion.insumo.insumo_solicitud.insumo_recepcion_orp.index',compact('orden_produccion'));
     }
 
     public function createRecepcionOrp()
@@ -599,7 +611,21 @@ class gbOrdenProduccionController extends Controller
     //SOLICITUD ORP RECETA
     public function menuSolOrpReceta()
     {
-        return view('backend.administracion.insumo.insumo_solicitud.insumo_solicitud_orp.index');
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+        //$orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                            //->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')->where('orprod_planta_id',$planta->id_planta)
+                                            //->where('orprod_usr_vo','<>',null)->get();
+        $orden_produccion = OrdenProduccion::join('insumo.receta as rece','insumo.orden_produccion.orprod_rece_id','=','rece.rece_id')
+                                            ->join('public._bp_planta as planta','insumo.orden_produccion.orprod_planta_id','=','planta.id_planta')
+                                            ->leftjoin('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
+                                            ->leftjoin('insumo.unidad_medida as umed','rece.rece_uni_id','=','umed.umed_id')
+                                            ->where('orprod_planta_id',$planta->id_planta)
+                                            ->where('orprod_usr_vo','<>',null)
+                                            ->where('orprod_tiporprod_id',1)
+                                            ->orderBy('orprod_id','DESC')
+                                            ->get();
+        return view('backend.administracion.insumo.insumo_solicitud.insumo_solicitud_orp.index',compact('orden_produccion'));
     }
     public function createSolcitudOrp()
     {
