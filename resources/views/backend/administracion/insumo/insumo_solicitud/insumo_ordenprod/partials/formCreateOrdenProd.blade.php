@@ -17,7 +17,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         <div class="container col-lg-12" style="background: white;">
             <?php $now = new DateTime('America/La_Paz');?>
             <div class="text-center">
-                <h3 style="color:#2067b4"><strong>REALIZAR NUEVO PEDIDO</strong></h3>
+                <h3 style="color:#202040"><strong>REALIZAR NUEVO PEDIDO</strong></h3>
             </div>
             <form action="{{ url('OrdenProduccionCreate') }}" class="form-horizontal" method="GET">
                 <input id="token" name="csrf-token" type="hidden" value="{{ csrf_token() }}">

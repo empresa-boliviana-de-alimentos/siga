@@ -103,7 +103,7 @@
                     .
         	        </label>
         	        <span class="block input-icon input-icon-right">
-                    	<a class="form-control btn btn-primary" @click="calcularCantidad()" >Calcular</a>
+                    	<a class="form-control btn btn-primary" @click="calcularCantidad()" style="background-color:#202040">Calcular</a>
                     	<input type="hidden" name="" id="id_recetaAux" >
                     </span>
                 </div>
@@ -114,7 +114,7 @@
     <div class="row" v-if="receta">
         <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
             <div class="panel panel-primary">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color:#202040">
                     <h3 class="panel-title">FORMULACION DE LA BASE</h3>
                 </div>
             </div>
@@ -124,7 +124,7 @@
         </div>
         <div class="col-md-12" v-if="receta.rece_lineaprod_id==2 || receta.rece_lineaprod_id == 3">
             <div class="panel panel-primary">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color:#202040">
                     <h3 class="panel-title">MATERIA PRIMA</h3>
                 </div>
             </div>
@@ -134,7 +134,7 @@
         </div>
         <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
             <div class="panel panel-primary">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color:#202040">
                     <h3 class="panel-title">SABORIZACIÓN</h3>
                 </div>
             </div>
@@ -144,7 +144,7 @@
         </div>
         <div class="col-md-12" v-if="receta.rece_lineaprod_id==1 || receta.rece_lineaprod_id == 2 || receta.rece_lineaprod_id == 3 || receta.rece_lineaprod_id == 4 || receta.rece_lineaprod_id == 5">
             <div class="panel panel-primary">
-                <div class="panel-heading">
+                <div class="panel-heading" style="background-color:#202040">
                     <h3 class="panel-title">MATERIAL DE ENVASADO</h3>
                 </div>
             </div>
