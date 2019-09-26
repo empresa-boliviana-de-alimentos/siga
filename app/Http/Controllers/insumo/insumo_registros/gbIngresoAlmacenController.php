@@ -862,9 +862,11 @@ class gbIngresoAlmacenController extends Controller {
 	//INGRESOS POR TRASPASOS
 	public function ingresoTraspaso() {
 		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')->select('planta.id_planta')->where('usr_id', '=', Auth::user()->usr_id)->first();
-		$ingreso_traspaso = OrdenProduccion::where('orprod_planta_id', $planta->id_planta)->where('orprod_tiporprod_id', 3)->where('orprod_estado_orp', 'D')->get();
+		//$ingreso_traspaso = OrdenProduccion::where('orprod_planta_id', $planta->id_planta)->where('orprod_tiporprod_id', 3)->where('orprod_estado_orp', 'D')->get();
 		//dd($ingreso_traspaso);
-		return view('backend.administracion.insumo.insumo_registro.ingreso_traspaso.index');
+		$ingreso_traspaso = Ingreso::where('ing_id_tiping', 4)->where('ing_planta_id', $planta->id_planta)->get();
+		//dd($ingreso_traspaso);
+		return view('backend.administracion.insumo.insumo_registro.ingreso_traspaso.index', compact('ingreso_traspaso'));
 	}
 
 	public function ingresoTraspasoCreate() {

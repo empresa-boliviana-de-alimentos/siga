@@ -33,7 +33,7 @@
         </div>
     </div>
     <div class="panel-body">
-        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-inskardex">
+        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-inskardex" style="width: 100%">
             <thead>
                 <tr>
                     <th class="text-center">

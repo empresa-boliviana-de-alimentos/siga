@@ -8,6 +8,15 @@ table.dataTable tbody th, table.dataTable tbody td {
     color: dimgrey;
     font-size: 8px;
 }
+thead th{
+    font-size: 12px;
+    color: white;
+    background-color: #202040;
+}
+tbody td{
+    font-size: 10px;
+    background-color: #EEEEEE;
+}
 </style>
 @section('main-content')
 <div class="row">
@@ -15,7 +24,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         <div class="container col-lg-12" style="background: white;">        
             <?php $now = new DateTime('America/La_Paz'); ?>
             <div class="text-center">
-                <h3 style="color:#2067b4"><strong>INGRESO PEDIDO TRASPASO</strong></h3> 
+                <h3 style="color:#202040"><strong>INGRESO PEDIDO TRASPASO</strong></h3> 
             </div>
             <div class="text-center">
             	<h3></h3>
@@ -33,7 +42,7 @@ table.dataTable tbody th, table.dataTable tbody td {
                 </div>
                     <div class="col-md-12">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">
+                            <div class="panel-heading" style="background-color: #202040">
                                 <h3 class="panel-title">INSUMOS SOLICITADOS</h3>
                             </div>
                             <div class="panel-body">
@@ -44,7 +53,10 @@ table.dataTable tbody th, table.dataTable tbody td {
                                                     <th>Insumo</th>
                                                     <th>Unidad Medida</th>
                                                     <th>Cantidad</th>
-                                                    <th>Costo</th>                            
+                                                    <th>Costo</th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>                         
                                                 </tr>
                                             </thead>
                                             <tbody>

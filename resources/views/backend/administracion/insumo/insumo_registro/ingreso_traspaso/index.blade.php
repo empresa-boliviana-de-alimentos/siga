@@ -5,16 +5,18 @@
     border-spacing: 0 5px;
     }
     thead th {
-      background-color:#428bca;
+      background-color:#202040;
       color: white;
+      font-size: 12px;
     }
     tbody td {
       background-color: #EEEEEE;
+      font-size: 10px;
     }
 </style>
 @section('main-content')
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" style="background-color: #202040">
         <div class="row">
             <div class="col-md-2">
                 <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('IngresosInsumo') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;VOLVER</h7></a>
@@ -28,7 +30,7 @@
         </div>
     </div>
     <div class="panel-body">
-        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-prima">
+        <table class="col-md-12 table-bordered table-striped table-condensed cf" id="lts-prima" style="width: 100%">
             <thead class="cf">
                 <tr>
                     <th>
@@ -48,13 +50,38 @@
                     </th>
                 </tr>
             </thead>
+            <tbody>
+            <?php $nro = 0; ?>
+            @foreach($ingreso_traspaso as $ip)
+            <?php $nro = $nro + 1 ; ?>
+                <tr>
+                    <td class="text-center">{{$nro}}</td>
+                    <td class="text-center">{{$ip->ing_registrado}}</td>
+                    <td class="text-center">{{traePlanta($ip->ing_planta_id)}}</td>
+                    <td class="text-center">{{traePlanta($ip->ing_planta_traspaso)}}</td>
+                    <td class="text-center">
+                    @if ($ip->ing_estado == 'B')
+                        <div class="text-center"><a href="verIngresoTraspaso/{{$ip->ing_id}}" class="btn btn-md btn-success"><i class="fa fa-eye"></i></a></div>
+                    @else
+                        <div class="text-center"><a href="ReporteAlmacen/{{$ip->ing_id}}" target="_blank"><img src="img/pdf_boleta.jpg" width="50px"></a></div>
+                    @endif
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
         </table>
     </div>
 </div>
+<?php 
+function traePlanta($id_planta) {
+    $planta = \DB::table('public._bp_planta')->where('id_planta', '=', $id_planta)->first();
+    return $planta->nombre_planta;
+}
+?>
 @endsection
 @push('scripts')
 <script>
-    var t = $('#lts-prima').DataTable( {
+    /*var t = $('#lts-prima').DataTable( {
          "processing": true,
             "serverSide": true,
             "ajax": "IngresoTraspasoCreate",
@@ -76,7 +103,16 @@
         t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
             cell.innerHTML = i+1;
         } );
-    } ).draw();
+    } ).draw();*/
+    $('#lts-prima').DataTable( {
+        "responsive": true,
+        "order": [[ 0, "asc" ]],
+        "language": {
+             "url": "/lenguaje"
+        },
+         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+
+    });
      function MostrarEnvio(btn){
             var route = "/IngresoPrima/"+btn.value+"/edit";
             $.get(route, function(res){
