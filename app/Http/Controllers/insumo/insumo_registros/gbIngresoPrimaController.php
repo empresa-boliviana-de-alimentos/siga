@@ -24,8 +24,17 @@ class gbIngresoPrimaController extends Controller
 {
     public function index()
     {
-      $combo = Insumo::join('insumo.tipo_insumo as tipins','insumo.insumo.ins_id_tip_ins','=','tins_id')->select('ins_id', 'ins_desc', 'ins_codigo')->where('tipins.tins_id',3)->get();
-    	return view('backend.administracion.insumo.insumo_registro.ingreso_prima.index', compact('combo'));
+        $planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
+        $combo = Insumo::join('insumo.tipo_insumo as tipins','insumo.insumo.ins_id_tip_ins','=','tins_id')->select('ins_id', 'ins_desc', 'ins_codigo')->where('tipins.tins_id',3)->where('ins_id_linea_prod',$planta->id_linea_trabajo)->get();
+        $id=$planta->id_planta;
+        $envio = \DB::table('acopio.envio_almacen')
+               ->join('public._bp_usuarios', 'acopio.envio_almacen.enval_usr_id', '=', 'usr_id')
+               ->join('public._bp_personas', '_bp_usuarios.usr_prs_id', '=', 'public._bp_personas.prs_id')
+               ->leftjoin('insumo.ingreso as ing','acopio.envio_almacen.enval_id','ing.ing_env_acop_id')
+               ->where('enval_id_planta',$id)
+               // ->where('enval_estado', 'A')
+               ->get();
+    	return view('backend.administracion.insumo.insumo_registro.ingreso_prima.index', compact('combo','envio'));
     }
 
      public function create()
@@ -84,7 +93,7 @@ class gbIngresoPrimaController extends Controller
     {
         $this->validate(request(), [
             'obs'       => 'required',
-            'unidad'    => 'required',
+            //'unidad'    => 'required',
             'insumo'    => 'required',
             'cantidad'  => 'required',
             'costo'     => 'required',

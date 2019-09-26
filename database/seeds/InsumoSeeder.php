@@ -13,11 +13,11 @@ class InsumoSeeder extends Seeder
     public function run()
     {
         $insumos = [
-            ['ins_codigo'=>'MAP-1','ins_enumeracion'=>1,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>7,'ins_id_sabor'=>null,'ins_peso_presen'=>null,'ins_desc'=>'LECHE','ins_usr_id'=>1,'ins_id_planta'=>1],
-            ['ins_codigo'=>'MAP-2','ins_enumeracion'=>2,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>6,'ins_id_sabor'=>null,'ins_peso_presen'=>null,'ins_desc'=>'ALMENDRA','ins_usr_id'=>1,'ins_id_planta'=>1],
-            ['ins_codigo'=>'MAP-3','ins_enumeracion'=>3,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>6,'ins_id_sabor'=>null,'ins_peso_presen'=>null,'ins_desc'=>'MIEL','ins_usr_id'=>1,'ins_id_planta'=>1],
-            ['ins_codigo'=>'MAP-4','ins_enumeracion'=>4,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>7,'ins_id_sabor'=>null,'ins_peso_presen'=>null,'ins_desc'=>'JUGO VIRGEN','ins_usr_id'=>1,'ins_id_planta'=>1],
-            ['ins_codigo'=>'MAP-5','ins_enumeracion'=>5,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>6,'ins_id_sabor'=>4,'ins_peso_presen'=>null,'ins_desc'=>'PULPA','ins_usr_id'=>1,'ins_id_planta'=>1],
+            ['ins_codigo'=>'MAP-1','ins_enumeracion'=>1,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>7,'ins_id_linea_prod'=>2,'ins_id_sabor'=>null,'ins_peso_presen'=>null,'ins_desc'=>'LECHE','ins_usr_id'=>1,'ins_id_planta'=>1],
+            ['ins_codigo'=>'MAP-2','ins_enumeracion'=>2,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>6,'ins_id_linea_prod'=>1,'ins_id_sabor'=>null,'ins_peso_presen'=>null,'ins_desc'=>'ALMENDRA','ins_usr_id'=>1,'ins_id_planta'=>1],
+            ['ins_codigo'=>'MAP-3','ins_enumeracion'=>3,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>6,'ins_id_linea_prod'=>3,'ins_id_sabor'=>null,'ins_peso_presen'=>null,'ins_desc'=>'MIEL','ins_usr_id'=>1,'ins_id_planta'=>1],
+            ['ins_codigo'=>'MAP-4','ins_enumeracion'=>4,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>7,'ins_id_linea_prod'=>4,'ins_id_sabor'=>null,'ins_peso_presen'=>null,'ins_desc'=>'JUGO VIRGEN','ins_usr_id'=>1,'ins_id_planta'=>1],
+            ['ins_codigo'=>'MAP-5','ins_enumeracion'=>5,'ins_id_tip_ins'=>3,'ins_id_part'=>1,'ins_id_uni'=>6,'ins_id_linea_prod'=>4,'ins_id_sabor'=>4,'ins_peso_presen'=>null,'ins_desc'=>'PULPA','ins_usr_id'=>1,'ins_id_planta'=>1],
 
             ['ins_codigo'=>'INS-1','ins_enumeracion'=>1,'ins_id_tip_ins'=>1,'ins_id_part'=>1,'ins_id_uni'=>6,'ins_id_sabor'=>null,'ins_peso_presen'=>'20 K','ins_desc'=>'ALMENDRA BROKEN','ins_usr_id'=>1,'ins_id_planta'=>1],
             ['ins_codigo'=>'INS-2','ins_enumeracion'=>2,'ins_id_tip_ins'=>1,'ins_id_part'=>1,'ins_id_uni'=>6,'ins_id_sabor'=>null,'ins_peso_presen'=>'18K','ins_desc'=>'ALMENDRA HARINA','ins_usr_id'=>1,'ins_id_planta'=>1],
