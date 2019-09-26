@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="panel-body">
-        <table class="col-md-12 table-bordered table-striped responsive table-condensed cf" id="lts-insumo">
+        <table class="col-md-12 table-bordered table-striped responsive table-condensed cf" id="lts-insumo" style="width: 100%">
             <thead class="cf">
                 <tr>
                     <th>
@@ -117,6 +117,7 @@
             var route="/Insumo";
             var token =$("#token").val();
             var unidadmed;
+            var lineaProd;
             if ($('#id_uni').val()) {
                 //console.log("Existe");
                 unidadmed = $('#id_uni').val();
@@ -125,6 +126,13 @@
                 unidadmed = $('#id_uni_ins').val();
             }else{
                 unidadmed = $('#id_uni_ins_map').val();
+            }
+            if($("#id_tip_ins").val() == 3){
+                lineaProd = $("#linea_produccion").val();
+            }else if($("#id_tip_ins").val() == 2){                
+                lineaProd = $("#id_linea_prod").val();
+            }else{
+                lineaProd = '';
             }
             $.ajax({
                 url: route,
@@ -139,14 +147,15 @@
                 'descripcion_insumo':$("#descripcion").val(),
                 'tipo_de_insumo':$("#id_tip_ins").val(),
                 'tipo_envase':$("#id_tip_env").val(),
-                'linea_produccion':$('#id_linea_prod').val(),
+                'linea_produccion':lineaProd,
                 'mercado':$('#id_mercado').val(),
                 'formato':$('#formato').val(),
                 'municipio':$('#id_municipio').val(),
                 'producto_especifico':$('#id_prod_especifico').val(),
                 'sabor':$('#id_sabor').val(),
                 'color':$('#id_color').val(),
-                'presentacion':$('#presentacion').val(),  
+                'presentacion':$('#presentacion').val(),
+                //'linea_produccion':$('#linea_produccion').val(),  
                 },
                 success: function(data){
                     $("#myCreateIns").modal('toggle');Limpiar();
@@ -189,7 +198,8 @@
                     $('#formato1').val("");
                     $('#id_uni1').val("");
                     $('#id_municipio1').val("");
-                    $('#id_prod_especifico1').val("");              
+                    $('#id_prod_especifico1').val("");
+                    $("#linea_produccion1").val("");               
                 }else if(id_tipins1==2){      
                    $('#tipo_envase1').show();
                    $('#tipo_insumo1').hide();
@@ -206,13 +216,15 @@
                    $('#id_sabor1').val("");
                    $('#id_color1').val("");
                    $('#presentacion1').val("");
-                   $('#id_uni1').val("");  
+                   $('#id_uni1').val("");
+                   $("#linea_produccion1").val("");  
                 }else if(id_tipins1==3){
                     $('#tipo_insumo1').hide();
                     $('#tipo_envase1').hide();
                     $('#tipo_insumo_map1').show();
                     // INSET DATOS
                     $('#id_uni_ins_map1').val(res.ins_id_uni);
+                    $("#linea_produccion1").val(res.ins_id_linea_prod);
                     // END INSETT DATOS
                     $('#id_tip_env1').val("");
                     $('#id_linea_prod1').val("");
@@ -238,6 +250,7 @@
                     $('#id_uni1').val("");
                     $('#id_municipio1').val("");
                     $('#id_prod_especifico1').val("");
+                    $("#linea_produccion1").val(""); 
                 }
                 $("#ins_id1").val(res.ins_id);
                 $("#codigo1").val(res.ins_codigo);
@@ -254,6 +267,7 @@
         var route="/Insumo/"+value+"";
         var token =$("#token").val();
         var unidadmededit;
+        var lineaProduccion;
             if ($('#id_uni1').val()) {
                 //console.log("Existe");
                 unidadmededit = $('#id_uni1').val();
@@ -262,6 +276,11 @@
                 unidadmededit = $('#id_uni_ins1').val();
             }else{
                 unidadmededit = $('#id_uni_ins_map1').val();
+            }
+            if($("#ins_id_tip_ins1").val() == 3){
+                lineaProduccion = $('#linea_produccion1').val();
+            }else{
+                lineaProduccion = $('#id_linea_prod1').val();
             }
         $.ajax({
             url: route,
@@ -275,7 +294,7 @@
                 'ins_desc':$("#descripcion1").val(),
                 'ins_id_tip_ins':$("#ins_id_tip_ins1").val(),
                 'ins_id_tip_env':$("#id_tip_env1").val(),
-                'ins_id_linea_prod':$('#id_linea_prod1').val(),
+                'ins_id_linea_prod':lineaProduccion,
                 'ins_id_mercado':$('#id_mercado1').val(),
                 'ins_formato':$('#formato1').val(),
                 'ins_id_municipio':$('#id_municipio1').val(),

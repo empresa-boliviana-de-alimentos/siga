@@ -231,7 +231,7 @@
                                         <h4 class="text-center" style="color:#202040"><strong>INSUMO MATERIA PRIMA</strong></h4>
                                     </div>
                                     <div class="row">                                 
-                                        <div class="col-md-12">
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <label>
@@ -242,6 +242,21 @@
                                                         @foreach($dataUni as $uni)
                                                         <option value="{{$uni->umed_id}}">{{$uni->umed_nombre}}</option>
                                                         @endforeach
+                                                    </select> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <label>
+                                                       Linea Producción:
+                                                    </label>
+                                                    <select class="form-control" id="linea_produccion1" name="linea_produccion1" value="">
+                                                        <option value="1">ALMENDRA</option>
+                                                        <option value="2">LACTEOS</option>
+                                                        <option value="3">MIEL</option>
+                                                        <option value="4">FRUTOS</option>
                                                     </select> 
                                                 </div>
                                             </div>
