@@ -405,7 +405,25 @@ CREATE TABLE producto_terminado.stock_producto_terminado_historial(
 	FOREIGN KEY(spth_orprod_id) REFERENCES insumo.orden_produccion(orprod_id),
 	FOREIGN KEY(spth_planta_id) REFERENCES public._bp_planta(id_planta)
 );
-
+--KARDEX PRODUCTO HISTORIAL
+CREATE TABLE producto_terminado.producto_terminado_historial(
+    pth_id serial primary key,
+    pth_rece_id integer NOT NULL,
+    pth_planta_id integer NOT NULL,
+    pth_tipo integer NOT NULL,
+  	pth_ipt_id integer,
+  	pth_dao_id integer,
+    pth_cantidad numeric(10,2) NOT NULL,
+    pth_fecha_vencimiento timestamp NOT NULL,
+    pth_lote text NOT NULL,    
+    pth_registrado timestamp NOT NULL DEFAULT now(),
+    pth_modificado timestamp NOT NULL DEFAULT now(),
+    pth_estado char(1) NOT NULL DEFAULT 'A',
+	FOREIGN KEY(pth_ipt_id) REFERENCES producto_terminado.ingreso_almacen_orp(ipt_id),
+	FOREIGN KEY(pth_dao_id) REFERENCES producto_terminado.despacho_almacen_orp(dao_id),
+	FOREIGN KEY(pth_planta_id) REFERENCES public._bp_planta(id_planta) 
+);
+--END KARDEX PRODUCTO HISTORIAL
 CREATE OR REPLACE FUNCTION sp_lst_ctrlvehiculo_eq(
     IN id_vehiculo integer)
 	  RETURNS TABLE(xctrv_id integer, xctrv_registrado date, xgata text, xllanta text, xllaves text, xbotiquin text, xextintor text, xatomizador text, xmontacarga text, xtermometro text, xherramientas text, xobservaciones text, xpromedio text) AS

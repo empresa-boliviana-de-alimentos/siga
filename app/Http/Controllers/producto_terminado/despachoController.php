@@ -14,6 +14,7 @@ use siga\Http\Modelo\ProductoTerminado\IngresoORP;
 use siga\Http\Modelo\ProductoTerminado\stock_pt;
 use siga\Modelo\admin\Usuario;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
+use siga\Http\Modelo\ProductoTerminado\ProductoTerminadoHistorial;
 use Yajra\Datatables\Datatables;
 
 class despachoController extends Controller {
@@ -130,6 +131,8 @@ class despachoController extends Controller {
 	}
 
 	public function registrarDespachoORP(Request $request) {
+		$planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
 		$datetime = new Carbon();
 		$fecha_actual = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $datetime);
 		$ids = Auth::user()->usr_id;
@@ -143,6 +146,20 @@ class despachoController extends Controller {
 				'dao_tipo_orp' => 1,
 				'dao_estado' => 'A',
 			]);
+			$ipt = IngresoORP::where('ipt_id',$request['ipt_id'])->first();
+			/*PRODUCTO TERMINADO HISTORIAL*/
+			ProductoTerminadoHistorial::create([
+				'pth_planta_id' 		=> $planta->id_planta,
+				'pth_rece_id'			=> $request['rece_id'],
+				'pth_ipt_id'			=> $request['ipt_id'],
+				'pth_dao_id'			=> $despachoORP->dao_id,
+				'pth_tipo'				=> 2,
+				'pth_cantidad'			=> $request['ipt_cantidad_enviar'],
+				'pth_fecha_vencimiento'	=> $ipt->ipt_fecha_vencimiento,
+				'pth_lote'				=> $ipt->ipt_lote,
+				'pth_estado'			=> 'A',
+			]);
+			/*END PRODUCTO TERMINADO*/
 			Correlativo::where('corr_codigo', 'SALIDA')->where('corr_tpd_id', $request->ipt_id_planta)
 				->increment('corr_correlativo', 1);
 			$sqlPedido = Correlativo::select()
@@ -293,6 +310,8 @@ class despachoController extends Controller {
 
 	public function registrarDespachoPT(Request $request) {
 		//return response()->json($request->all());
+		$planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
 		$datetime = new Carbon();
 		$fecha_actual = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $datetime);
 		$ids = Auth::user()->usr_id;
@@ -310,6 +329,7 @@ class despachoController extends Controller {
 				'ipt_estado' => 'D',
 				'ipt_estado_baja' => 'A',
 			]);
+			//$ipt = IngresoORP::where('ipt_id',$request['ipt_id_pt'])->first();
 			$despachoORP = despachoORP::create([
 				'dao_ipt_id' => $request['ipt_id_pt'],
 				'dao_de_id' => $request['ipt_despacho_id_pt'],
@@ -319,7 +339,22 @@ class despachoController extends Controller {
 				'dao_usr_id' => $ids,
 				'dao_estado' => 'A',
 			]);
-
+			$receta = IngresoORP::join('insumo.orden_produccion as orp','producto_terminado.ingreso_almacen_orp.ipt_orprod_id','=','orp.orprod_id')
+								->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+								->where('ipt_id',$request['ipt_id_pt'])->first(); 
+			/*PRODUCTO TERMINADO HISTORIAL*/
+			ProductoTerminadoHistorial::create([
+				'pth_planta_id' 		=> $planta->id_planta,
+				'pth_rece_id'			=> $receta->rece_id,
+				'pth_ipt_id'			=> $request['ipt_id_pt'],
+				'pth_dao_id'			=> $despachoORP->dao_id,
+				'pth_tipo'				=> 2,
+				'pth_cantidad'			=> $request['ipt_sobrante_pt'],
+				'pth_fecha_vencimiento'	=> $receta->ipt_fecha_vencimiento,
+				'pth_lote'				=> $receta->ipt_lote,
+				'pth_estado'			=> 'A',
+			]);
+			/*END PRODUCTO TERMINADO*/
 			Correlativo::where('corr_codigo', 'SALIDA')->where('corr_tpd_id', $request->ipt_planta_pt)
 				->increment('corr_correlativo', 1);
 			$sqlPedido = Correlativo::select()

@@ -15,6 +15,7 @@ use siga\Http\Modelo\ProductoTerminado\Correlativo;
 use siga\Http\Modelo\ProductoTerminado\IngresoCanastilla;
 use siga\Http\Modelo\ProductoTerminado\IngresoORP;
 use siga\Http\Modelo\ProductoTerminado\stock_pt;
+use siga\Http\Modelo\ProductoTerminado\ProductoTerminadoHistorial;
 use siga\Modelo\admin\Usuario;
 use siga\Modelo\insumo\insumo_solicitud\OrdenProduccion;
 use Yajra\Datatables\Datatables;
@@ -200,6 +201,8 @@ class IngresoProductoTerminadoController extends Controller {
 
 	public function registrarIngreso(Request $request) {
 		//return response()->json($request->all());
+		$planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
+                            ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
 		$datetime = new Carbon();
 		$fecha_actual = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $datetime);
 		$ids = Auth::user()->usr_id;
@@ -231,6 +234,18 @@ class IngresoProductoTerminadoController extends Controller {
 				'ipt_estado' => 'A',
 				'ipt_estado_baja' => 'A',
 			]);
+			/*PRODUCTO TERMINADO HISTORIAL*/
+			ProductoTerminadoHistorial::create([
+				'pth_planta_id' 		=> $planta->id_planta,
+				'pth_rece_id'			=> $request['rece_id'],
+				'pth_ipt_id'			=> $ingresoORP->ipt_id,
+				'pth_tipo'				=> 1,
+				'pth_cantidad'			=> floatval($request['ctl_cantidad_producida']),
+				'pth_fecha_vencimiento'	=> $request['ctl_fecha_vencimiento'],
+				'pth_lote'				=> strtoupper($request['ctl_lote']),
+				'pth_estado'			=> 'A',
+			]);
+			/*END PRODUCTO TERMINADO*/
 			$orden_produccion = OrdenProduccion::select()->where('orprod_id', $request['ctl_orprod_id'])->update(['orprod_estado_pt' => 'I']);
 
 			$sqlstock = stock_pt::select()
