@@ -410,6 +410,7 @@ CREATE TABLE producto_terminado.producto_terminado_historial(
     pth_id serial primary key,
     pth_rece_id integer NOT NULL,
     pth_planta_id integer NOT NULL,
+    pth_tipo integer NOT NULL,
   	pth_ipt_id integer,
   	pth_dao_id integer,
     pth_cantidad numeric(10,2) NOT NULL,

@@ -31,6 +31,7 @@ use siga\Http\Modelo\comercial\DetalleIngresoPv;
 use siga\Http\Modelo\ProductoTerminado\IngresoCanastilla;
 use siga\Http\Modelo\ProductoTerminado\despachoORP;
 use siga\Http\Modelo\ProductoTerminado\ProductoTerminadoHistorial;
+use siga\Http\Modelo\ProductoTerminado\IngresoORP;
 
 class ReportController extends Controller
 {
@@ -2409,8 +2410,18 @@ class ReportController extends Controller
             ->where('stock_ins_id', $rep)
             ->orderby('deting_ing_id')
             ->get();*/
+        $producto = Receta::join('insumo.sabor as sab','insumo.receta.rece_sabor_id','=','sab.sab_id')
+                          ->join('insumo.unidad_medida as umed','insumo.receta.rece_uni_id','=','umed.umed_id')
+                          ->where('rece_id',$id)->first();
+        $tabkarde = ProductoTerminadoHistorial::leftjoin('producto_terminado.ingreso_almacen_orp as ipt','producto_terminado.producto_terminado_historial.pth_ipt_id','=','ipt.ipt_id')
+                                              ->leftjoin('producto_terminado.despacho_almacen_orp as dp','producto_terminado.producto_terminado_historial.pth_dao_id','=','dp.dao_id')
+                                              ->where('pth_rece_id',$id)->get();
+        $detallesIngresos = IngresoORP::join('insumo.orden_produccion as orp','producto_terminado.ingreso_almacen_orp.ipt_orprod_id','=','orp.orprod_id')
+                                      ->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
+                                      ->where('rece_id',$id)->get();
+        //dd($detallesIngresos);
         $code = '001';
-        $view = \View::make('reportes.kardex_valorado_pt', compact('username','date','title','storage','insumo','tabkarde','code','detallesIngresos','stocks'));
+        $view = \View::make('reportes.kardex_valorado_pt', compact('username','date','title','storage','producto','tabkarde','code','detallesIngresos'));
         $html_content = $view->render();
         $pdf = App::make('snappy.pdf.wrapper');
         $pdf->loadHTML($html_content);
@@ -2449,6 +2460,8 @@ class ReportController extends Controller
             ->where('stock_ins_id', $rep)
             ->orderby('deting_ing_id')
             ->get();*/
+        $productoHistorial = ProductoTerminadoHistorial::where('pth_rece_id',$id)->get();
+        dd($productoHistorial);
         $code = '001';
         $view = \View::make('reportes.kardex_fisico_pt', compact('username','date','title','storage','insumo','tabkarde','code','detallesIngresos','stocks'));
         $html_content = $view->render();

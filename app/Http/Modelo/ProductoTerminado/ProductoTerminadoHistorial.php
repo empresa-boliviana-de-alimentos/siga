@@ -11,6 +11,7 @@ class ProductoTerminadoHistorial extends Model
 		'pth_id', 
 		'pth_rece_id',
 		'pth_planta_id',
+		'pth_tipo',
 		'pth_ipt_id',
 		'pth_dao_id',
 		'pth_cantidad',

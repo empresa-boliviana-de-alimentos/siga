@@ -239,6 +239,7 @@ class IngresoProductoTerminadoController extends Controller {
 				'pth_planta_id' 		=> $planta->id_planta,
 				'pth_rece_id'			=> $request['rece_id'],
 				'pth_ipt_id'			=> $ingresoORP->ipt_id,
+				'pth_tipo'				=> 1,
 				'pth_cantidad'			=> floatval($request['ctl_cantidad_producida']),
 				'pth_fecha_vencimiento'	=> $request['ctl_fecha_vencimiento'],
 				'pth_lote'				=> strtoupper($request['ctl_lote']),
