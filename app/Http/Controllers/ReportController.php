@@ -30,6 +30,8 @@ use siga\Http\Modelo\comercial\IngresoPv;
 use siga\Http\Modelo\comercial\DetalleIngresoPv;
 use siga\Http\Modelo\ProductoTerminado\IngresoCanastilla;
 use siga\Http\Modelo\ProductoTerminado\despachoORP;
+use siga\Http\Modelo\ProductoTerminado\ProductoTerminadoHistorial;
+
 class ReportController extends Controller
 {
 
@@ -2377,7 +2379,7 @@ class ReportController extends Controller
     public function RpKardexValoradoPt($id)
     {
         $username = Auth::user()->usr_usuario;
-        $title = "KARDEX VALORADO";
+        $title = "KARDEX VALORADO PRODUCTO TERMINADO";
         $date =Carbon::now();
         $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                         ->where('usr_id',Auth::user()->usr_id)
@@ -2417,7 +2419,7 @@ class ReportController extends Controller
     public function RpKardexFisicoPt($id)
     {
         $username = Auth::user()->usr_usuario;
-        $title = "KARDEX FISICO";
+        $title = "KARDEX FISICO PRODUCTO TERMINADO";
         $date =Carbon::now();
         $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
                         ->where('usr_id',Auth::user()->usr_id)
