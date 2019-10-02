@@ -349,7 +349,7 @@ class despachoController extends Controller {
 								->join('insumo.receta as rece','orp.orprod_rece_id','=','rece.rece_id')
 								->where('ipt_id',$request['ipt_id_pt'])->first(); 
 			/*PRODUCTO TERMINADO HISTORIAL*/
-			ProductoTerminadoHistorial::create([
+			/*ProductoTerminadoHistorial::create([
 				'pth_planta_id' 		=> $planta->id_planta,
 				'pth_rece_id'			=> $receta->rece_id,
 				'pth_ipt_id'			=> $request['ipt_id_pt'],
@@ -359,7 +359,7 @@ class despachoController extends Controller {
 				'pth_fecha_vencimiento'	=> $receta->ipt_fecha_vencimiento,
 				'pth_lote'				=> $receta->ipt_lote,
 				'pth_estado'			=> 'A',
-			]);
+			]);*/
 			/*END PRODUCTO TERMINADO*/
 			Correlativo::where('corr_codigo', 'SALIDA')->where('corr_tpd_id', $request->ipt_planta_pt)
 				->increment('corr_correlativo', 1);
@@ -371,6 +371,34 @@ class despachoController extends Controller {
 				->first();
 			$codigoSalida = $sqlPedido->codigo_planta . '-SAL-' . str_pad($sqlPedido->corr_correlativo, 5, '0', STR_PAD_LEFT);
 			$ingresoORP = IngresoORP::join('insumo.orden_produccion as orp1', 'orp1.orprod_id', '=', 'ipt_orprod_id')
+				->join('insumo.receta as rece', 'orp1.orprod_rece_id', '=', 'rece.rece_id')
+				->join('public._bp_planta as planta', 'orp1.orprod_planta_id', '=', 'planta.id_planta')
+				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id')
+				->leftjoin('insumo.unidad_medida as umed', 'rece.rece_uni_id', '=', 'umed.umed_id')
+				->where('orprod_tiporprod_id', 1)
+				->where('ipt_estado', 'D')
+				->where('orp1.orprod_estado_orp', 'D')
+				->where('ipt_sobrante', '>', 0)
+				->where('orp1.orprod_rece_id', '=', $request->idreceta_pt)
+				//->update(['ipt_sobrante' => 0]);
+				->orderBy('ipt_id','asc')
+				->get();
+			foreach ($ingresoORP as $ing) {
+				/*PRODUCTO TERMINADO HISTORIAL*/
+				ProductoTerminadoHistorial::create([
+					'pth_planta_id' 		=> $planta->id_planta,
+					'pth_rece_id'			=> $receta->rece_id,
+					'pth_ipt_id'			=> $ing->ipt_id,
+					'pth_dao_id'			=> $despachoORP->dao_id,
+					'pth_tipo'				=> 2,
+					'pth_cantidad'			=> $ing->ipt_sobrante,
+					'pth_fecha_vencimiento'	=> $receta->ipt_fecha_vencimiento,
+					'pth_lote'				=> $receta->ipt_lote,
+					'pth_estado'			=> 'A',
+				]);
+				/*END PRODUCTO TERMINADO*/
+			}
+			IngresoORP::join('insumo.orden_produccion as orp1', 'orp1.orprod_id', '=', 'ipt_orprod_id')
 				->join('insumo.receta as rece', 'orp1.orprod_rece_id', '=', 'rece.rece_id')
 				->join('public._bp_planta as planta', 'orp1.orprod_planta_id', '=', 'planta.id_planta')
 				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id')
