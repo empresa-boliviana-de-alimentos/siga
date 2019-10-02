@@ -5,11 +5,18 @@
     border-spacing: 0 5px;
     }
     thead th {
-      background-color:#428bca;
+      background-color:#202040;
       color: white;
+      font-size: 12px;
     }
     tbody td {
       background-color: #EEEEEE;
+      font-size: 10px;
+    }
+    tfoot th {
+      background-color:#202040;
+      color: white;
+      font-size: 12px;
     }
 </style>
 @section('main-content')
@@ -30,7 +37,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.modalBoletaAprobacionInsumoAdi')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.modalBoletaAprobacionMaquila')
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" style="background-color: #202040">
         <div class="row">
             <div class="col-md-2">
                 <a type="button" class="btn btn-danger fa fa-arrow-left" href="{{ url('InsumoSolicitudesMenu') }}"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
