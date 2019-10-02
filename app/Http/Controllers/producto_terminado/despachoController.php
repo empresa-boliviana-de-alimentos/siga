@@ -66,6 +66,8 @@ class despachoController extends Controller {
 		}
 	}
 	public function listarORPInicial() {
+		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->select('planta.id_planta')->where('usr_id', '=', Auth::user()->usr_id)->first();
 		$orden_produccion = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
 			->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
 			->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
@@ -75,6 +77,7 @@ class despachoController extends Controller {
 			->where('orprod_tiporprod_id', 1)
 			->where('inp.ipt_estado', 'A')
 			->where('orprod_estado_orp', 'D')
+			->where('orprod_planta_id',$planta->id_planta)
 			->get();
 		return Datatables::of($orden_produccion)
 			->addColumn('acciones', function ($nombreReceta) {
@@ -168,7 +171,7 @@ class despachoController extends Controller {
 				->where('corr_tpd_id', $request->ipt_id_planta)
 				->where('corr_estado', 'A')
 				->first();
-			$codigoSalida = $sqlPedido->codigo_planta . '-SAL-' . str_pad($sqlPedido->corr_correlativo, 5, '0', STR_PAD_LEFT);
+			$codigoSalida = '-SAL-' . str_pad($sqlPedido->corr_correlativo, 5, '0', STR_PAD_LEFT);
 			$ingresoORP = IngresoORP::select()->where('ipt_id', $request['ipt_id'])->update(['ipt_estado' => 'D', 'ipt_sobrante' => $request['ipt_cantidad_stock']]);
 			$despachoORPUpdate = despachoORP::select()->where('dao_id', $despachoORP->dao_id)->update(['dao_codigo_salida' => $codigoSalida]);
 			$sqlstock = stock_pt::select()
@@ -187,6 +190,8 @@ class despachoController extends Controller {
 	}
 
 	public function listarDespachoORP() {
+		//$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+		//	->select('planta.id_planta')->where('usr_id', '=', Auth::user()->usr_id)->first();
 		$despachoORP = despachoORP::select('dao_id', 'dao_ipt_id', 'dao_de_id', 'dao_fecha_despacho', 'dao_cantidad', 'dao_usr_id', 'dao_codigo_salida', 'rece_nombre', 'rece_presentacion', 'planta.id_planta as id_origen', 'planta.nombre_planta as origen', 'desti.de_nombre as destino', 'rece.rece_lineaprod_id', 'orp.orprod_codigo')
 			->join('producto_terminado.ingreso_almacen_orp as din', 'din.ipt_id', '=', 'dao_ipt_id')
 			->join('insumo.orden_produccion as orp', 'orp.orprod_id', '=', 'din.ipt_orprod_id')
@@ -195,6 +200,7 @@ class despachoController extends Controller {
 			->join('producto_terminado.destino as desti', 'desti.de_id', '=', 'dao_de_id')
 			->where('dao_estado', 'A')
 			->where('dao_tipo_orp', 1)
+			//->where('orp.orprod_planta_id',$planta->id_planta)
 			->get();
 		return Datatables::of($despachoORP)
 			->addColumn('acciones', function ($nombreReceta) {

@@ -46,6 +46,7 @@ class IngresoProductoTerminadoController extends Controller {
 			->where('orprod_tiporprod_id', 1)
 			->where('orprod_estado_orp', 'D')
 			->where('orprod_estado_pt', 'A')
+			->where('orprod_planta_id',$planta->id_planta)
 			->get();
 
 		return Datatables::of($orden_produccion)->addColumn('opciones', function ($orden_produccion) {
@@ -168,6 +169,8 @@ class IngresoProductoTerminadoController extends Controller {
 		return $string ? implode(', ', $string) . ' hace' : 'justo ahora';
 	}
 	public function listarIngresoORP() {
+		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->select('planta.id_planta')->where('usr_id', '=', Auth::user()->usr_id)->first();
 		$orden_produccion = OrdenProduccion::join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
 			->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
 			->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id', 'ipt_id', 'ipt_cantidad', 'ipt_lote', 'ipt_hora_falta', 'ipt_fecha_vencimiento', 'ipt_costo_unitario', 'ipt_usr_id')
@@ -177,6 +180,7 @@ class IngresoProductoTerminadoController extends Controller {
 			->where('orprod_tiporprod_id', 1)
 			->Where('inp.ipt_estado', 'A')
 			->where('orprod_estado_pt', 'I')
+			->where('orprod_planta_id',$planta->id_planta)
 			->get();
 		return Datatables::of($orden_produccion)->addColumn('nombreReceta', function ($nombreReceta) {
 			return $nombreReceta->rece_nombre . ' ' . $nombreReceta->sab_nombre . ' ' . $nombreReceta->rece_presentacion;
