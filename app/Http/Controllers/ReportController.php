@@ -2416,7 +2416,8 @@ class ReportController extends Controller
                           ->where('rece_id',$id)->first();
         $tabkarde = ProductoTerminadoHistorial::leftjoin('producto_terminado.ingreso_almacen_orp as ipt','producto_terminado.producto_terminado_historial.pth_ipt_id','=','ipt.ipt_id')
                                               ->leftjoin('producto_terminado.despacho_almacen_orp as dp','producto_terminado.producto_terminado_historial.pth_dao_id','=','dp.dao_id')
-                                              ->where('pth_rece_id',$id)->get();
+                                              ->where('pth_rece_id',$id)
+                                              ->orderBy('pth_id','asc')->get();
         $stocks = stock_pt::join('insumo.receta as rece','producto_terminado.stock_producto_terminado.spt_rece_id','=','rece.rece_id')
                           ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                           ->select(DB::raw('sum(spt_cantidad) as total'),'rece.rece_nombre','rece.rece_presentacion','sab_id','sab_nombre')
@@ -2451,7 +2452,8 @@ class ReportController extends Controller
                           ->where('rece_id',$id)->first();
         $tabkarde = ProductoTerminadoHistorial::leftjoin('producto_terminado.ingreso_almacen_orp as ipt','producto_terminado.producto_terminado_historial.pth_ipt_id','=','ipt.ipt_id')
                                               ->leftjoin('producto_terminado.despacho_almacen_orp as dp','producto_terminado.producto_terminado_historial.pth_dao_id','=','dp.dao_id')
-                                              ->where('pth_rece_id',$id)->get();
+                                              ->where('pth_rece_id',$id)
+                                              ->orderBy('pth_id','asc')->get();
         $stocks = stock_pt::join('insumo.receta as rece','producto_terminado.stock_producto_terminado.spt_rece_id','=','rece.rece_id')
                           ->join('insumo.sabor as sab','rece.rece_sabor_id','=','sab.sab_id')
                           ->select(DB::raw('sum(spt_cantidad) as total'),'rece.rece_nombre','rece.rece_presentacion','sab_id','sab_nombre')
