@@ -142,7 +142,6 @@
 <br>
 <table class="table-info w-100">
     <thead class="bg-grey-darker">
-     
         <tr class="font-medium text-white text-sm">
             <td rowspan="1" class="px-15 py text-center text-xxs ">
                 Nro.
@@ -150,12 +149,9 @@
             <td rowspan="1" class="px-15 py text-center  text-xxs">
                 Fecha Ingreso/Movimiento
             </td>
-
-
             <td colspan="3" class="px-15 py text-center text-xxs">
                 Resumen de Saldos
             </td>
-
         </tr>
         <tr class="font-medium text-white text-sm">
             <td class="px-15 py text-center  text-xxs"></td>
@@ -163,9 +159,25 @@
             <td class="px-15 py text-center  text-xxs">Cant.</td>
             <td class="px-15 py text-center  text-xxs">C.U.</td>
             <td class="px-15 py text-center  text-xxs">Total </td>
-
         </tr>
     </thead>
+    <tbody>
+        <tr>
+            <td class="text-center text-xxs font-bold">1</td>
+            <td class="text-center text-xxs font-bold">{{$stocks->rece_nombre}}</td>
+            <td class="text-center text-xxs font-bold">{{$stocks->total}}</td>
+            <td class="text-center text-xxs font-bold">0.00</td>
+            <td class="text-center text-xxs font-bold">{{number_format($stocks->total*0,2,'.',',')}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2" class="px-15 py text-center text-xxs bg-grey-darker text-white">TOTAL:</td>
+            <td class="px-15 py text-center text-xxs font-bold">{{$stocks->total}}</td>
+            <td class="px-15 py text-center text-xxs font-bold">{{0.00}}</td>
+            <td class="px-15 py text-center text-xxs font-bold">{{number_format($stocks->total*0,2,'.',',')}}</td>
+        </tr>
+    </tfoot>
    
 </table>
 
