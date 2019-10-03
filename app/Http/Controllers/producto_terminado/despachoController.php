@@ -148,8 +148,9 @@ class despachoController extends Controller {
 				'dao_usr_id' => $ids,
 				'dao_tipo_orp' => 1,
 				'dao_estado' => 'A',
-			]);
+			]);			
 			$ipt = IngresoORP::where('ipt_id',$request['ipt_id'])->first();
+			
 			/*PRODUCTO TERMINADO HISTORIAL*/
 			ProductoTerminadoHistorial::create([
 				'pth_planta_id' 		=> $planta->id_planta,
@@ -172,7 +173,22 @@ class despachoController extends Controller {
 				->where('corr_estado', 'A')
 				->first();
 			$codigoSalida = '-SAL-' . str_pad($sqlPedido->corr_correlativo, 5, '0', STR_PAD_LEFT);
-			$ingresoORP = IngresoORP::select()->where('ipt_id', $request['ipt_id'])->update(['ipt_estado' => 'D', 'ipt_sobrante' => $request['ipt_cantidad_stock']]);
+			$ingresoORP2 = IngresoORP::select()->where('ipt_id', $request['ipt_id'])->update(['ipt_estado' => 'D']);
+			/*NEUEVO CODIGO*/
+			$ingresoORP = IngresoORP::create([
+				'ipt_orprod_id' => $ipt->ipt_orprod_id,
+				'ipt_cantidad' => $request['ipt_cantidad_stock'],
+				'ipt_lote' => strtoupper($ipt->ipt_lote),
+				'ipt_hora_falta' => $ipt->ipt_hora_falta,
+				'ipt_fecha_vencimiento' => $ipt->ipt_fecha_vencimiento,
+				'ipt_costo_unitario' => $ipt->ipt_costo_unitario,
+				'ipt_observacion' => 'SE AGREGO EL SOBRANTE A ESTE NUEVO INGRESO',
+				'ipt_usr_id' => $ids,
+				'ipt_sobrante' => $request['ipt_cantidad_stock'],
+				'ipt_estado' => 'D',
+				'ipt_estado_baja' => 'A',
+			]);
+			/*END NUEVO CODIGO*/
 			$despachoORPUpdate = despachoORP::select()->where('dao_id', $despachoORP->dao_id)->update(['dao_codigo_salida' => $codigoSalida]);
 			$sqlstock = stock_pt::select()
 				->join('insumo.receta as rece', 'spt_rece_id', '=', 'rece.rece_id')
@@ -323,7 +339,7 @@ class despachoController extends Controller {
 		$fecha_actual = \Carbon\Carbon::createFromFormat('Y-m-d H:s:i', $datetime);
 		$ids = Auth::user()->usr_id;
 		try {
-			$ingresoORP = IngresoORP::create([
+			/*$ingresoORP = IngresoORP::create([
 				'ipt_orprod_id' => $request['ipt_orprod_id'],
 				'ipt_cantidad' => $request['ipt_sobrante_pt'],
 				'ipt_lote' => strtoupper($request['ipt_lote']),
@@ -335,7 +351,7 @@ class despachoController extends Controller {
 				'ipt_sobrante' => 0,
 				'ipt_estado' => 'D',
 				'ipt_estado_baja' => 'A',
-			]);
+			]);*/
 			//$ipt = IngresoORP::where('ipt_id',$request['ipt_id_pt'])->first();
 			$despachoORP = despachoORP::create([
 				'dao_ipt_id' => $request['ipt_id_pt'],
@@ -398,7 +414,8 @@ class despachoController extends Controller {
 	                    $cantidad_aprobada = 0;
 	                }
 	                $ingreso = IngresoORP::where('ipt_id',$ing->ipt_id)->first();
-	                $ingreso->ipt_sobrante = $ing->ipt_sobrante;
+	                //$ingreso->ipt_sobrante = $ing->ipt_sobrante;
+	                $ingreso->ipt_sobrante = 0;
 	                $ingreso->save();
 					/*PRODUCTO TERMINADO HISTORIAL*/
 					ProductoTerminadoHistorial::create([
@@ -415,6 +432,19 @@ class despachoController extends Controller {
 					/*END PRODUCTO TERMINADO*/
 				}
 			}
+			$ingresoORP = IngresoORP::create([
+					'ipt_orprod_id' => $request['ipt_orprod_id'],
+					'ipt_cantidad' => $descuento,
+					'ipt_lote' => strtoupper($request['ipt_lote']),
+					'ipt_hora_falta' => $request['ipt_hora_falta'],
+					'ipt_fecha_vencimiento' => $request['ipt_fecha_vencimiento'],
+					'ipt_costo_unitario' => $request['ipt_costo_unitario'],
+					'ipt_observacion' => 'SE AGREGO EL SOBRANTE A ESTE NUEVO INGRESO',
+					'ipt_usr_id' => $ids,
+					'ipt_sobrante' => $descuento,
+					'ipt_estado' => 'D',
+					'ipt_estado_baja' => 'A',
+			]);
 			/*IngresoORP::join('insumo.orden_produccion as orp1', 'orp1.orprod_id', '=', 'ipt_orprod_id')
 				->join('insumo.receta as rece', 'orp1.orprod_rece_id', '=', 'rece.rece_id')
 				->join('public._bp_planta as planta', 'orp1.orprod_planta_id', '=', 'planta.id_planta')
