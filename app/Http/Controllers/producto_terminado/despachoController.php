@@ -315,6 +315,7 @@ class despachoController extends Controller {
 	}
 
 	public function registrarDespachoPT(Request $request) {
+		
 		//return response()->json($request->all());
 		$planta = Usuario::join('public._bp_planta as planta','public._bp_usuarios.usr_planta_id','=','planta.id_planta')
                             ->select('planta.id_planta')->where('usr_id','=',Auth::user()->usr_id)->first();
@@ -383,22 +384,38 @@ class despachoController extends Controller {
 				//->update(['ipt_sobrante' => 0]);
 				->orderBy('ipt_id','asc')
 				->get();
+			$cantidad_aprobada = $request['ipt_despacho'];
 			foreach ($ingresoORP as $ing) {
-				/*PRODUCTO TERMINADO HISTORIAL*/
-				ProductoTerminadoHistorial::create([
-					'pth_planta_id' 		=> $planta->id_planta,
-					'pth_rece_id'			=> $receta->rece_id,
-					'pth_ipt_id'			=> $ing->ipt_id,
-					'pth_dao_id'			=> $despachoORP->dao_id,
-					'pth_tipo'				=> 2,
-					'pth_cantidad'			=> $ing->ipt_sobrante,
-					'pth_fecha_vencimiento'	=> $receta->ipt_fecha_vencimiento,
-					'pth_lote'				=> $receta->ipt_lote,
-					'pth_estado'			=> 'A',
-				]);
-				/*END PRODUCTO TERMINADO*/
+				if ($cantidad_aprobada>0) {
+					if ($cantidad_aprobada >= $ing->ipt_sobrante) {
+	                    $cantidad_aprobada = $cantidad_aprobada - $ing->ipt_sobrante;
+	                    $descuento = $ing->ipt_sobrante;
+	                    $ing->ipt_sobrante = 0;
+	                }else
+	                {
+	                    $ing->ipt_sobrante = $ing->ipt_sobrante - $cantidad_aprobada;
+	                    $descuento = $cantidad_aprobada;
+	                    $cantidad_aprobada = 0;
+	                }
+	                $ingreso = IngresoORP::where('ipt_id',$ing->ipt_id)->first();
+	                $ingreso->ipt_sobrante = $ing->ipt_sobrante;
+	                $ingreso->save();
+					/*PRODUCTO TERMINADO HISTORIAL*/
+					ProductoTerminadoHistorial::create([
+						'pth_planta_id' 		=> $planta->id_planta,
+						'pth_rece_id'			=> $receta->rece_id,
+						'pth_ipt_id'			=> $ing->ipt_id,
+						'pth_dao_id'			=> $despachoORP->dao_id,
+						'pth_tipo'				=> 2,
+						'pth_cantidad'			=> $descuento,
+						'pth_fecha_vencimiento'	=> $receta->ipt_fecha_vencimiento,
+						'pth_lote'				=> $receta->ipt_lote,
+						'pth_estado'			=> 'A',
+					]);
+					/*END PRODUCTO TERMINADO*/
+				}
 			}
-			IngresoORP::join('insumo.orden_produccion as orp1', 'orp1.orprod_id', '=', 'ipt_orprod_id')
+			/*IngresoORP::join('insumo.orden_produccion as orp1', 'orp1.orprod_id', '=', 'ipt_orprod_id')
 				->join('insumo.receta as rece', 'orp1.orprod_rece_id', '=', 'rece.rece_id')
 				->join('public._bp_planta as planta', 'orp1.orprod_planta_id', '=', 'planta.id_planta')
 				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id')
@@ -408,7 +425,7 @@ class despachoController extends Controller {
 				->where('orp1.orprod_estado_orp', 'D')
 				->where('ipt_sobrante', '>', 0)
 				->where('orp1.orprod_rece_id', '=', $request->idreceta_pt)
-				->update(['ipt_sobrante' => 0]);
+				->update(['ipt_sobrante' => 0]);*/
 			$sqlstock = stock_pt::select()
 				->join('insumo.receta as rece', 'spt_rece_id', '=', 'rece.rece_id')
 				->Where('spt_estado', 'A')
@@ -416,7 +433,7 @@ class despachoController extends Controller {
 				->where('spt_costo_unitario', $request['ipt_costo_unitario'])
 				->where('spt_planta_id', $request->ipt_planta_pt)
 				->first();
-			$restoStock = $sqlstock->spt_cantidad - $request['ipt_sobrante_pt'];
+			$restoStock = $sqlstock->spt_cantidad - $request['ipt_despacho'];
 			$stockUpdate = stock_pt::select()->where('spt_id', $sqlstock->spt_id)->update(['spt_cantidad' => $restoStock, 'spt_fecha' => $fecha_actual]);
 			$despachoORPUpdate = despachoORP::select()->where('dao_id', $despachoORP->dao_id)->update(['dao_codigo_salida' => $codigoSalida]);
 			return response()->json(["success" => "true", "mensaje" => "Se registro el despacho orden de produccion", "data" => $ingresoORP]);
