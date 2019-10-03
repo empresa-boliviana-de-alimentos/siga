@@ -19,14 +19,14 @@
                                         </div>
                                         <div class="box">
                                             <div class="box-body">
-                                                <table class="table table-hover table-striped table-condensed" id = "lts-fecha-vencimiento">
+                                                <table class="table table-hover table-striped table-condensed" id = "lts-fecha-vencimiento" style="width: 100%">
                                                     <thead>
                                                         <tr>
                                                             <th>Nro</th>
-                                                            <th>Producto</th>
+                                                            <!--<th>Producto</th>
                                                             <th>Codigo</th>
                                                             <th>Planta</th>
-                                                            <th>Linea</th>
+                                                            <th>Linea</th>-->
                                                             <th>Fecha Vencimiento</th>
                                                             <th>Lote</th>
                                                             <th>Precio Unitario</th>
@@ -35,7 +35,7 @@
                                                     </thead>
                                                     <tfoot>
                                                         <tr>
-                                                            <th colspan="7" style="text-align:right">Total:</th>
+                                                            <th colspan="4" style="text-align:right">Total:</th>
                                                             <th></th>
                                                         </tr>
                                                     </tfoot>

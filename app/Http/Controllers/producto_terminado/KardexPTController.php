@@ -68,7 +68,7 @@ class KardexPTController extends Controller {
                 onClick="obtenerFechaVencimiento(this,' . $stock->xspt_planta_id . ');" data-toggle="modal" data-target="#myPTFecha"><i class="fa fa-calendar fa-2x"></i></button>';
 			})->addColumn('lotes', function ($stock) {
 			return '<button value="' . $stock->xspt_rece_id . '" class="btn-round btn-xs btn-theme03"
-                onClick="obtenerORP(this);" data-toggle="modal" data-target="#myCreateAlmacen"><i class="fa fa-envelope fa-2x"></i></button>';
+                onClick="obtenerLotes(this,'.$stock->xspt_planta_id.');" data-toggle="modal" data-target="#myPTLote"><i class="fa fa-envelope fa-2x"></i></button>';
 		})->addColumn('kardexValorado', function ($stock) {
 			/*return '<button value="' . $stock->xspt_rece_id . '" class="btn-round btn-xs btn-warning"
                 onClick="obtenerORP(this);" data-toggle="modal" data-target="#myCreateAlmacen"><i class="glyphicon glyphicon-usd fa-2x"></i></button>
@@ -101,7 +101,7 @@ class KardexPTController extends Controller {
 	}
 
 	public function listarFechaVencimiento($id_rece, $planta) {
-		$fecha_vencimiento_stock = OrdenProduccion::select('orprod_id', 'rece.rece_id', 'rece.rece_nombre', 'rece.rece_codigo', 'rece.rece_presentacion', 'rece.rece_lineaprod_id', 'id_planta', 'nombre_planta', 'id_linea_trabajo', 'ipt_cantidad', 'ipt_lote', 'ipt_fecha_vencimiento', 'ipt_usr_id')
+		$fecha_vencimiento_stock = OrdenProduccion::select('orprod_id', 'rece.rece_id', 'rece.rece_nombre', 'rece.rece_codigo', 'rece.rece_presentacion', 'rece.rece_lineaprod_id', 'id_planta', 'nombre_planta', 'id_linea_trabajo', 'ipt_cantidad', 'ipt_lote', 'ipt_fecha_vencimiento', 'ipt_usr_id','ipt_costo_unitario')
 			->join('insumo.receta as rece', 'insumo.orden_produccion.orprod_rece_id', '=', 'rece.rece_id')
 			->join('public._bp_planta as planta', 'insumo.orden_produccion.orprod_planta_id', '=', 'planta.id_planta')
 			->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')

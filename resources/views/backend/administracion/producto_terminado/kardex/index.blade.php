@@ -1,5 +1,6 @@
 @extends('backend.template.app')
 @include('backend.administracion.producto_terminado.kardex.partials.modalPTFechas')
+@include('backend.administracion.producto_terminado.kardex.partials.modalPTLotes')
 
 <style type="text/css" media="screen">
       .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{
@@ -84,7 +85,7 @@
                                 LISTADO PRODUCTO TERMINADO KARDEX
                             </div>
                             <div class="box-body">
-                                <table class="table table-hover table-striped table-condensed" id = "lts-kardex">
+                                <table class="table table-hover table-striped table-condensed" id = "lts-kardex" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th>Nro</th>
@@ -182,14 +183,14 @@ var t1 = $('#lts-kardex').DataTable( {
             };
 
              var friTotal = api
-                    .column( 7 )
+                    .column( 4 )
                     .data()
                     .reduce( function (a, b) {
                         return intVal(a) + intVal(b);
                     }, 0 );
             // Update footer by showing the total with the reference of the column index
             $( api.column( 0 ).footer() ).html('Cantidad Total:');
-                $( api.column( 7 ).footer() ).html(friTotal);
+                $( api.column( 4 ).footer() ).html(friTotal);
             },
             "processing": true,
             "serverSide": true,
@@ -199,12 +200,74 @@ var t1 = $('#lts-kardex').DataTable( {
             "ajax": "listarFechaVencimiento/"+id_rece.value+"/"+planta,
             "columns":[
                 {data: 'orprod_id'},
-                {data:'rece_nombre'},
+                /*{data:'rece_nombre'},
                 {data: 'rece_codigo'},
                 {data: 'nombre_planta'},
-                {data: 'lineaProduccion'},
+                {data: 'lineaProduccion'},*/
                 {data: 'ipt_fecha_vencimiento'},
                 {data: 'ipt_lote'},
+                {data: 'ipt_costo_unitario'},
+                {data: 'ipt_cantidad'},
+            ],
+
+            "columnDefs": [ {
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            } ],
+
+            "order": [[ 0, 'asc' ]],
+            "language": {
+                 "url": "/lenguaje"
+            },
+             "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            });
+             t1.on( 'order.dt search.dt', function () {
+                    t1.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                        cell.innerHTML = i+1;
+                    } );
+            } ).draw();
+     }
+
+     function obtenerLotes(id_rece,planta){
+        console.log("algo",id_rece,planta);
+        var t1 = $('#lts-lotes').DataTable( {
+            "footerCallback": function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+
+            // converting to interger to find total
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+
+             var friTotal = api
+                    .column( 4 )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+            // Update footer by showing the total with the reference of the column index
+            $( api.column( 0 ).footer() ).html('Cantidad Total:');
+                $( api.column( 4 ).footer() ).html(friTotal);
+            },
+            "processing": true,
+            "serverSide": true,
+            "responsive":true,
+            "destroy":true,
+
+            "ajax": "listarFechaVencimiento/"+id_rece.value+"/"+planta,
+            "columns":[
+                {data: 'orprod_id'},
+                /*{data:'rece_nombre'},
+                {data: 'rece_codigo'},
+                {data: 'nombre_planta'},
+                {data: 'lineaProduccion'},*/                
+                {data: 'ipt_lote'},
+                {data: 'ipt_fecha_vencimiento'},
+                {data: 'ipt_costo_unitario'},
                 {data: 'ipt_cantidad'},
             ],
 
