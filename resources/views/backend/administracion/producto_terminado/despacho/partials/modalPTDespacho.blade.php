@@ -87,7 +87,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="col-md-3">
-                                                <font style="color:green">Cantidad a despachar sobrantes:</font>
+                                                <font style="color:green">Cantidad sobrantes:</font>
                                             </label>
                                             <div class="col-md-9">
                                                 <span class="block input-icon input-icon-right">
@@ -99,6 +99,22 @@
                                                         </span>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3">
+                                                Cantidad a despachar:
+                                            </label>
+                                            <div class="col-md-9">
+                                                <span class="block input-icon input-icon-right">
+                                                </span>
+                                                <div class="input-group">
+                                                    <input class="form-control" type="text" name="" id="ipt_despacho" name="ipt_despacho">
+                                                    <div class="input-group-addon">
+                                                        <span class="fa fa-hourglass-end">
+                                                        </span>
+                                                    </div>
+                                                </div>   
                                             </div>
                                         </div>
                                     </form>
@@ -120,5 +136,6 @@
     </div>
 </div>
 @push('scripts')
-
+<script type="text/javascript">
+</script>
 @endpush

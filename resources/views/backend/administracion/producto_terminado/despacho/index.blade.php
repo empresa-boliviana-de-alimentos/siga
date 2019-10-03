@@ -499,14 +499,20 @@ var t1 = $('#lts-ingreso_orp').DataTable( {
 
 
     function registrarProductoTerminado(){
+        var cantsobrante = parseFloat($("#ipt_sobrante_pt").val());
+        var cantdespacho = parseFloat($("#ipt_despacho").val());
         var token =$("#token").val();
         var route = "/registrarDespachoPT";
-        $.ajax({
-            url: route,
-            headers: {'X-CSRF-TOKEN': token},
-            type: 'POST',
-            dataType: 'json',
-            data: {'ipt_id_pt':$("#ipt_id_pt").val(),'ipt_planta_pt':$("#ipt_planta_pt").val(),'ipt_sobrante_pt':$("#ipt_sobrante_pt").val(),'ipt_fecha_despacho_pt':$("#ipt_fecha_despacho_pt").val(),'ipt_despacho_id_pt':$("#ipt_despacho_id_pt").val(),'idreceta_pt':$("#idreceta_pt").val(),'ipt_orprod_id':$("#ipt_orprod_id").val(),'ipt_costo_unitario':$("#ipt_costo_unitario").val(),'ipt_fecha_vencimiento':$("#ipt_fecha_vencimiento").val(),'ipt_hora_falta':$("#ipt_hora_falta").val(),'ipt_lote':$("#ipt_lote").val()},
+        if (cantsobrante < cantdespacho) {
+            swal('Advertencia','Cantidad Despacho: '+cantdespacho+', es mayor a la cantidad sobrante: '+cantsobrante,'warning');
+        }else{
+            console.log("positivo");
+            $.ajax({
+                url: route,
+                headers: {'X-CSRF-TOKEN': token},
+                type: 'POST',
+                dataType: 'json',
+                data: {'ipt_id_pt':$("#ipt_id_pt").val(),'ipt_planta_pt':$("#ipt_planta_pt").val(),'ipt_sobrante_pt':$("#ipt_sobrante_pt").val(),'ipt_fecha_despacho_pt':$("#ipt_fecha_despacho_pt").val(),'ipt_despacho_id_pt':$("#ipt_despacho_id_pt").val(),'idreceta_pt':$("#idreceta_pt").val(),'ipt_orprod_id':$("#ipt_orprod_id").val(),'ipt_costo_unitario':$("#ipt_costo_unitario").val(),'ipt_fecha_vencimiento':$("#ipt_fecha_vencimiento").val(),'ipt_hora_falta':$("#ipt_hora_falta").val(),'ipt_lote':$("#ipt_lote").val(),'ipt_despacho':$("#ipt_despacho").val()},
                 success: function(data){
                     if (data.success=="true") {
                         $("#modalPTDespacho").modal('toggle');
@@ -520,7 +526,9 @@ var t1 = $('#lts-ingreso_orp').DataTable( {
                 error: function(result) {
                         swal("Error..!", result, "error");
                 }
-        });
+            });
+        }
+        
     }
 
     function listarCanastilloGeneral(){
