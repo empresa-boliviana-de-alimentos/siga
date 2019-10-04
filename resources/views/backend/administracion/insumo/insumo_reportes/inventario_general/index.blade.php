@@ -142,11 +142,11 @@ function Buscarfechas() {
                 } );
             } );
         },
-         // "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        // "order": [[ 0, "desc" ]],
-        "paging":   false,
-        "ordering": false,
-        "info":     false,
+         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+         "order": [[ 0, "desc" ]],
+        /*"paging":   true,
+        "ordering": true,
+        "info":     true,
         "dom" : 'Bfrtip',
         "buttons" : [
 
@@ -159,7 +159,7 @@ function Buscarfechas() {
                 download: 'open',
                 title: 'PDF INVENTARIO GENERAL'
             }
-        ]
+        ]*/
        
     });
 
