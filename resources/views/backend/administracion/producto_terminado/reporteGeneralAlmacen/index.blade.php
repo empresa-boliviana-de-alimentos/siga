@@ -1061,9 +1061,9 @@
                         </label>
                       </div>
                         <div class="input-group">
-                          <input type="text" class="form-control datepickerMonths" id="id_mes_inventario" name="id_mes_inventario" placeholder="Introduzca mes"> 
+                          <input type="text" class="form-control datepickerMonths" id="id_mes_inventario_mes" name="id_mes_inventario_mes" placeholder="Introduzca mes"> 
                           <span class="input-group-btn">
-                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasInventario();">Buscar</button>
+                            <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarfechasInventarioMes();">Buscar</button>
                           </span>                  
                         </div>         
                       </div>
@@ -1974,19 +1974,19 @@ function BuscarRangoInventario() {
   } ).draw();
 }
 //INVENTARIO MES
-function BuscarfechasInventario() {
+function BuscarfechasInventarioMes() {
   console.log($("#id_mes_inventario").val());
   $(".ocultarBotonDescargasInventarioGralMes").show();
-  $(".pdfMesInventarioGralMes").attr('href','imprimirPdfInventarioGralMesAlmacenPt/'+$("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val());
-  $(".excelMesInventarioGralMes").attr('href','imprimirExcelInventarioGralMesAlmacenPt/'+$("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val());
+  $(".pdfMesInventarioGralMes").attr('href','imprimirPdfInventarioGralMesAlmacenPt/'+$("#id_mes_inventario_mes").val()+'/'+$("#id_planta_inventario").val());
+  $(".excelMesInventarioGralMes").attr('href','imprimirExcelInventarioGralMesAlmacenPt/'+$("#id_mes_inventario_mes").val()+'/'+$("#id_planta_inventario").val());
   var t = $('#lts-inventariomes').DataTable( {
             "destroy": true,
             "processing": true,
             "serverSide": true,
             "ajax":{
-               url : "listarMesInventarioGralPt/"+ $("#id_mes_inventario").val()+'/'+$("#id_planta_inventario").val(),
+               url : "listarMesInventarioGralPt/"+ $("#id_mes_inventario_mes").val()+'/'+$("#id_planta_inventario_mes").val(),
                type: "GET",
-               data: {"mes": $("#id_mes_inventario").val()}
+               data: {"mes": $("#id_mes_inventario_mes").val()}
              },
             "columns":[
                 {data: 'spth_id'},
