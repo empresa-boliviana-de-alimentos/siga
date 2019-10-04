@@ -62,7 +62,7 @@
         @foreach ($tabkarde as $ig)
             <tr class="text-sm">
                 <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{ $count++ }}</td>
-                <td class="text-center text-xxs uppercase font-bold px-5 py-3">{{Carbon\Carbon::parse($ig->inshis_registrado, 'UTC')->format('d-m-Y')}}</td>
+                <td class="text-center text-xxxs uppercase font-bold px-5 py-3">{{Carbon\Carbon::parse($ig->inshis_registrado, 'UTC')->format('d-m-Y')}}</td>
                 @if($ig->inshis_tipo == 'Entrada')
                     <td class="text-center text-xxxs font-bold px-5 py-3">{{ 'Ingreso (NI-'.$ig->ing_enumeracion.')' }}</td>
                 @else
