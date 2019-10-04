@@ -76,7 +76,7 @@
   	@foreach($insumo_ingreso as $key => $ig)
       <?php 
         $nro = $nro + 1;
-        $salidas = traeSalidas($ig->deting_ins_id,$planta->id_planta);
+        $salidas = traeSalidas($ig->deting_ins_id,$planta->id_planta,$ig->deting_id);
         $saldo_cantidad = $ig->deting_cantidad - $salidas;
         $costo_entrada = $ig->deting_cantidad * $ig->deting_costo;
         $costo_salida = $ig->deting_costo * $salidas;
@@ -145,11 +145,16 @@
       ->where('ins_id', $id_insumo)->first();
     return $insumo->umed_nombre;
   }
-  function traeSalidas($id_insumo,$id_planta)
+  function traeSalidas($id_insumo,$id_planta,$id_deting)
   {
-    //dd("INS ID: ".$id_insumo.", ID DETING: ".$id_deting);
-    $insumo = siga\Modelo\insumo\InsumoHistorial::select(DB::raw('SUM(inshis_cantidad) as cantidad'))->where('inshis_ins_id',$id_insumo)->where('inshis_detorprod_id','<>',null)->where('inshis_planta_id',$id_planta)->first();
-    //dd($insumo);
+    $inicio = date("Y-m-01");
+    $fin = date("Y-m-t");
+    $insumo = siga\Modelo\insumo\InsumoHistorial::select(DB::raw('SUM(inshis_cantidad) as cantidad'))->where('inshis_ins_id',$id_insumo)->where('inshis_detorprod_id','<>',null)
+      ->where('inshis_planta_id',$id_planta)
+      ->where('inshis_deting_id',$id_deting)
+      //->where('inshis_registrado','>=',$inicio)
+      //->where('inshis_registrado','<=',$fin)
+      ->first();
     if ($insumo->cantidad) {
       return $insumo->cantidad;
     }else{
