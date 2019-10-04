@@ -626,6 +626,8 @@ class ReportController extends Controller
     public function RpMensual()
     {
         //dd("REPORTE GENERAL MENSUAL");
+        //$inicio = date("Y-m-01");
+        //$fin = date("Y-m-t");
         $username = Auth::user()->usr_usuario;
         $title = "REPORTE MENSUAL";
         $date =Carbon::now();
@@ -639,7 +641,12 @@ class ReportController extends Controller
         $per=Collect($usr);
 
 
-        $insumo_ingreso = DetalleIngreso::select(DB::raw('SUM(deting_cantidad) as deting_cantidad'),'deting_ins_id','deting_costo')->join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')->where('ing_planta_id', '=', $planta->id_planta)->groupBy('deting_costo','deting_ins_id')->orderby('deting_ins_id', 'ASC')->get();
+        $insumo_ingreso = DetalleIngreso::select(DB::raw('SUM(deting_cantidad) as deting_cantidad'),'deting_ins_id','deting_costo','deting_id')->join('insumo.ingreso as ing','insumo.detalle_ingreso.deting_ing_id','=','ing.ing_id')
+                       ->where('ing_planta_id', '=', $planta->id_planta)
+                       //->where('ing_registrado','>=',$inicio)
+                       //->where('ing_registrado','<=',$fin)
+                       ->groupBy('deting_costo','deting_ins_id','deting_id')->orderby('deting_ins_id', 'ASC')->orderby('deting_id','ASC')
+                       ->get();
         //dd($reg);
         $view = \View::make('reportes.reporte_mensual', compact('username','date','title','storage','insumo_ingreso','per','storage','planta'));
 
@@ -906,7 +913,7 @@ class ReportController extends Controller
             ->join('producto_terminado.ingreso_almacen_orp as inp', 'inp.ipt_orprod_id', '=', 'orprod_id')
             ->orderBy('orprod_id', 'DESC')
             ->where('orprod_tiporprod_id', 1)
-            ->Where('inp.ipt_estado', 'A')
+            //->Where('inp.ipt_estado', 'A')
             ->where('orprod_estado_pt', 'I')
             ->where('inp.ipt_id',$id)
             ->first();
