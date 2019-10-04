@@ -62,6 +62,9 @@
                             <thead class="cf">
                                 <tr>
                                     <th>
+                                        Nro
+                                    </th>
+                                    <th>
                                         Codigo Insumo
                                     </th>
                                     <th>
@@ -99,8 +102,8 @@ $(document).ready(function() {
 });
 
 function Buscarfechas() {
-        console.log($("#id_mes").val());
-        $('#lts-listaInventario').DataTable( {
+    console.log($("#id_mes").val());
+    var t = $('#lts-listaInventario').DataTable( {
             "destroy": true,
             "processing": true,
             "serverSide": true,
@@ -110,6 +113,7 @@ function Buscarfechas() {
                data: {"mes": $("#id_mes").val()}
              },
             "columns":[
+                {data: 'his_stock_id'},
                 {data: 'ins_codigo'},
                 {data: 'ins_desc'}, 
                 {data: 'unidad'},
@@ -123,7 +127,7 @@ function Buscarfechas() {
              "url": "/lenguaje"
         },
         initComplete: function () {
-            this.api().columns(6).every( function () {
+            this.api().columns(7).every( function () {
                 var column = this;
                 var select = $('<select><option value="">Planta</option></select>')
                     .appendTo( $(column.header()).text('') )
@@ -142,11 +146,11 @@ function Buscarfechas() {
                 } );
             } );
         },
-         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-         "order": [[ 0, "desc" ]],
-        /*"paging":   true,
-        "ordering": true,
-        "info":     true,
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "order": [[ 0, "desc" ]],
+        /*"paging":   false,
+        "ordering": false,
+        "info":     false,
         "dom" : 'Bfrtip',
         "buttons" : [
 
@@ -162,7 +166,11 @@ function Buscarfechas() {
         ]*/
        
     });
-
+    t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();    
 }
 function BuscarfechaDia() {
         console.log($("#id_dia").val());

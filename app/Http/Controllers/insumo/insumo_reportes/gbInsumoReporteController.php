@@ -102,6 +102,8 @@ class gbInsumoReporteController extends Controller {
 	}
 	// BUSQUEDA POR MES
 	public function ReporteInvMes($mes, $anio) {
+		ini_set('memory_limit','512M');
+      	set_time_limit(640);
 		$anio1 = $anio;
 		$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
 		$fechainicial = $anio1 . "-" . $mes . "-01";
@@ -111,9 +113,9 @@ class gbInsumoReporteController extends Controller {
 		// ->join('insumo.categoria as cat','ins.ins_id_cat','=','cat.cat_id')
 			->join('insumo.partida as part', 'ins.ins_id_part', '=', 'part.part_id')
 			->join('public._bp_planta as plan', 'insumo.stock_historial.his_stock_planta_id', '=', 'plan.id_planta')
-			->select('ins.ins_codigo', 'ins.ins_desc', 'unidad.umed_nombre as unidad', 'part.part_nombre', 'stock_historial.his_stock_registrado', 'plan.nombre_planta', DB::raw('sum(stock_historial.his_stock_cant) as quantity'))
+			->select('stock_historial.his_stock_id','ins.ins_codigo', 'ins.ins_desc', 'unidad.umed_nombre as unidad', 'part.part_nombre', 'stock_historial.his_stock_registrado', 'plan.nombre_planta', DB::raw('sum(stock_historial.his_stock_cant) as quantity'))
 			->where('his_stock_registrado', '>=', $fechainicial)->where('his_stock_registrado', '<=', $fechafinal)
-			->groupBy('ins.ins_codigo', 'ins.ins_desc', 'unidad', 'part.part_nombre', 'stock_historial.his_stock_registrado', 'plan.nombre_planta')
+			->groupBy('stock_historial.his_stock_id','ins.ins_codigo', 'ins.ins_desc', 'unidad', 'part.part_nombre', 'stock_historial.his_stock_registrado', 'plan.nombre_planta')
 			->get();
 		return Datatables::of($stockalhist)
 			->make(true);
