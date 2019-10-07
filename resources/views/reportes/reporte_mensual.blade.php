@@ -75,7 +75,7 @@
   	?>
   	@foreach($insumo_ingreso as $key => $ig)
       <?php 
-        $nro = $nro + 1;
+        
         $salidas = traeSalidas($ig->deting_ins_id,$planta->id_planta,$ig->deting_id);
         $saldo_cantidad = $ig->deting_cantidad - $salidas;
         $costo_entrada = $ig->deting_cantidad * $ig->deting_costo;
@@ -86,6 +86,9 @@
         $totaSalida = $totaSalida +$costo_salida;
         $totaSaldo = $totaSaldo + $saldo_costos;
       ?>
+      @if($saldo_cantidad > 0)
+      {{--@if($salidas > 0)--}}
+      <?php $nro = $nro + 1; ?>
       <tr>      
         <td class="px-15 py text-center text-xxs">{{$nro}}</td>
         <td class="px-15 py text-center text-xxs">{{traeCodigo($ig->deting_ins_id)}}</td>
@@ -100,6 +103,8 @@
         <td class="px-15 py text-center text-xxs">{{number_format($costo_salida,2,'.',',')}}</td>
         <td class="px-15 py text-center text-xxs">{{number_format($saldo_costos,2,'.',',')}}</td>
       </tr> 
+      {{--@endif--}}
+      @endif
     @endforeach
 	  <tr>
       	<td class="px-15 py bg-grey-darker text-center text-xxs text-white" colspan="9"><strong>TOTALES</strong></td>
@@ -152,8 +157,8 @@
     $insumo = siga\Modelo\insumo\InsumoHistorial::select(DB::raw('SUM(inshis_cantidad) as cantidad'))->where('inshis_ins_id',$id_insumo)->where('inshis_detorprod_id','<>',null)
       ->where('inshis_planta_id',$id_planta)
       ->where('inshis_deting_id',$id_deting)
-      //->where('inshis_registrado','>=',$inicio)
-      //->where('inshis_registrado','<=',$fin)
+      //->where('inshis_registrado','>=','2019-09-01')
+      //->where('inshis_registrado','<=','2019-10-10')
       ->first();
     if ($insumo->cantidad) {
       return $insumo->cantidad;
