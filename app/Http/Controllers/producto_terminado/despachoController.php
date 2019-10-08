@@ -284,28 +284,41 @@ class despachoController extends Controller {
 			->where('orprod_rece_id', '=', 1)
 			->get();
 		return response()->json($ingresoORP);*/
-		$producto_terminado = \DB::select('select * from producto_terminado.sp_listado_sobrantes()');
+		//$producto_terminado = \DB::select('select * from producto_terminado.sp_listado_sobrantes()');
+		$producto_terminado = \DB::select("select DISTINCT ON (e.orprod_rece_id) e.orprod_rece_id,e.total,rece.rece_nombre,rece.rece_lineaprod_id,rece.rece_presentacion,umed.umed_nombre,sab.sab_nombre,ing1.ipt_id,ing1.ipt_orprod_id,ing1.ipt_fecha_vencimiento,ing1.ipt_usr_id,orp2.orprod_planta_id,ing1.ipt_lote,ing1.ipt_costo_unitario,orp2.orprod_codigo,orp2.orprod_nro_orden
+	from 
+	(select orp1.orprod_rece_id,sum(ipt_sobrante) as total
+		from producto_terminado.ingreso_almacen_orp 
+		inner join insumo.orden_produccion as orp1 on orp1.orprod_id=ipt_orprod_id
+		where ipt_estado='D' and ipt_sobrante>0 group by orp1.orprod_rece_id) e
+	inner join insumo.orden_produccion as orp2 on orp2.orprod_rece_id=e.orprod_rece_id
+	inner join insumo.receta as rece on e.orprod_rece_id=rece.rece_id
+	inner join producto_terminado.ingreso_almacen_orp  as ing1 on ing1.ipt_orprod_id= orp2.orprod_id
+	inner join insumo.sabor as sab on rece.rece_sabor_id=sab.sab_id
+	inner join insumo.unidad_medida as umed on rece.rece_uni_id=umed.umed_id
+	where orp2.orprod_estado_orp='D'");
+		//return $producto_terminado;
 		$sql = collect($producto_terminado);
 		return Datatables::of($sql)
 			->addColumn('acciones', function ($nombreReceta) {
-				return '<button value="' . $nombreReceta->xipt_id . '" class="btn-round btn-xs btn-danger" onClick="obtenerPT(this,' . $nombreReceta->xtotal . ',' . $nombreReceta->xorprod_rece_id . ');" data-toggle="modal" data-target="#modalPTDespacho"><i class="fa fa-sign-out fa-2x"></i></button>';
+				return '<button value="' . $nombreReceta->ipt_id . '" class="btn-round btn-xs btn-danger" onClick="obtenerPT(this,' . $nombreReceta->total . ',' . $nombreReceta->orprod_rece_id . ');" data-toggle="modal" data-target="#modalPTDespacho"><i class="fa fa-sign-out fa-2x"></i></button>';
 			})
 			->addColumn('nombreReceta', function ($nombreReceta) {
-				return $nombreReceta->xrece_nombre . ' ' . $nombreReceta->xsab_nombre . ' ' . $nombreReceta->xrece_presentacion;
+				return $nombreReceta->rece_nombre . ' ' . $nombreReceta->sab_nombre . ' ' . $nombreReceta->rece_presentacion;
 			})->addColumn('lineaProduccion', function ($lineaProduccion) {
-			if ($lineaProduccion->xrece_lineaprod_id == 1) {
+			if ($lineaProduccion->rece_lineaprod_id == 1) {
 				return 'LACTEOS';
-			} elseif ($lineaProduccion->xrece_lineaprod_id == 2) {
+			} elseif ($lineaProduccion->rece_lineaprod_id == 2) {
 				return 'ALMENDRA';
-			} elseif ($lineaProduccion->xrece_lineaprod_id == 3) {
+			} elseif ($lineaProduccion->rece_lineaprod_id == 3) {
 				return 'MIEL';
-			} elseif ($lineaProduccion->xrece_lineaprod_id == 4) {
+			} elseif ($lineaProduccion->rece_lineaprod_id == 4) {
 				return 'FRUTOS';
-			} elseif ($lineaProduccion->xrece_lineaprod_id == 5) {
+			} elseif ($lineaProduccion->rece_lineaprod_id == 5) {
 				return 'DERIVADOS';
 			}
 		})->addColumn('usuario', function ($usuario_ingreso) {
-			return $this->traeUser($usuario_ingreso->xipt_usr_id);
+			return $this->traeUser($usuario_ingreso->ipt_usr_id);
 		})
 			->make(true);
 	}
@@ -432,7 +445,8 @@ class despachoController extends Controller {
 					/*END PRODUCTO TERMINADO*/
 				}
 			}
-			$ingresoORP = IngresoORP::create([
+			//if($cantidad_aprobada != 0){
+				$ingresoORP = IngresoORP::create([
 					'ipt_orprod_id' => $request['ipt_orprod_id'],
 					'ipt_cantidad' => $descuento,
 					'ipt_lote' => strtoupper($request['ipt_lote']),
@@ -444,8 +458,9 @@ class despachoController extends Controller {
 					'ipt_sobrante' => $descuento,
 					'ipt_estado' => 'D',
 					'ipt_estado_baja' => 'A',
-			]);
-			/*IngresoORP::join('insumo.orden_produccion as orp1', 'orp1.orprod_id', '=', 'ipt_orprod_id')
+				]);
+			//}
+						/*IngresoORP::join('insumo.orden_produccion as orp1', 'orp1.orprod_id', '=', 'ipt_orprod_id')
 				->join('insumo.receta as rece', 'orp1.orprod_rece_id', '=', 'rece.rece_id')
 				->join('public._bp_planta as planta', 'orp1.orprod_planta_id', '=', 'planta.id_planta')
 				->leftjoin('insumo.sabor as sab', 'rece.rece_sabor_id', '=', 'sab.sab_id')
