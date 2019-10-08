@@ -574,3 +574,159 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION producto_terminado.sp_listado_stock()
   OWNER TO postgres;
+
+/**************************************************SCRIP NUEVOS PARA LAS MIGRACIONES*******************************************************************/
+INSERT INTO producto_terminado.correlativo(corr_codigo,corr_gestion,corr_usr_id,corr_tpd_id)
+	VALUES
+('ENTRADA',2019,1,1),
+('ENTRADA',2019,1,2),
+('ENTRADA',2019,1,3),
+('ENTRADA',2019,1,4),
+('ENTRADA',2019,1,5),
+('ENTRADA',2019,1,6),
+('ENTRADA',2019,1,7),
+('ENTRADA',2019,1,8),
+('ENTRADA',2019,1,9),
+('ENTRADA',2019,1,10),
+('ENTRADA',2019,1,11),
+('ENTRADA',2019,1,12),
+('ENTRADA',2019,1,13),
+('ENTRADA',2019,1,14),
+('ENTRADA',2019,1,15),
+('ENTRADA',2019,1,16),
+('ENTRADA',2019,1,17),
+('ENTRADA',2019,1,18),
+('ENTRADA',2019,1,19),
+('ENTRADA',2019,1,20),
+('ENTRADA',2019,1,21),
+('ENTRADA',2019,1,22),
+('ENTRADA',2019,1,23),
+('ENTRADA',2019,1,24),
+('ENTRADA',2019,1,25),
+('ENTRADA',2019,1,26),
+
+('SALIDA',2019,1,1),
+('SALIDA',2019,1,2),
+('SALIDA',2019,1,3),
+('SALIDA',2019,1,4),
+('SALIDA',2019,1,5),
+('SALIDA',2019,1,6),
+('SALIDA',2019,1,7),
+('SALIDA',2019,1,8),
+('SALIDA',2019,1,9),
+('SALIDA',2019,1,10),
+('SALIDA',2019,1,11),
+('SALIDA',2019,1,12),
+('SALIDA',2019,1,13),
+('SALIDA',2019,1,14),
+('SALIDA',2019,1,15),
+('SALIDA',2019,1,16),
+('SALIDA',2019,1,17),
+('SALIDA',2019,1,18),
+('SALIDA',2019,1,19),
+('SALIDA',2019,1,20),
+('SALIDA',2019,1,21),
+('SALIDA',2019,1,22),
+('SALIDA',2019,1,23),
+('SALIDA',2019,1,24),
+('SALIDA',2019,1,25),
+('SALIDA',2019,1,26),
+
+('ENTRADA_CANASTILLA',2019,1,1),
+('ENTRADA_CANASTILLA',2019,1,2),
+('ENTRADA_CANASTILLA',2019,1,3),
+('ENTRADA_CANASTILLA',2019,1,4),
+('ENTRADA_CANASTILLA',2019,1,5),
+('ENTRADA_CANASTILLA',2019,1,6),
+('ENTRADA_CANASTILLA',2019,1,7),
+('ENTRADA_CANASTILLA',2019,1,8),
+('ENTRADA_CANASTILLA',2019,1,9),
+('ENTRADA_CANASTILLA',2019,1,10),
+('ENTRADA_CANASTILLA',2019,1,11),
+('ENTRADA_CANASTILLA',2019,1,12),
+('ENTRADA_CANASTILLA',2019,1,13),
+('ENTRADA_CANASTILLA',2019,1,14),
+('ENTRADA_CANASTILLA',2019,1,15),
+('ENTRADA_CANASTILLA',2019,1,16),
+('ENTRADA_CANASTILLA',2019,1,17),
+('ENTRADA_CANASTILLA',2019,1,18),
+('ENTRADA_CANASTILLA',2019,1,19),
+('ENTRADA_CANASTILLA',2019,1,20),
+('ENTRADA_CANASTILLA',2019,1,21),
+('ENTRADA_CANASTILLA',2019,1,22),
+('ENTRADA_CANASTILLA',2019,1,23),
+('ENTRADA_CANASTILLA',2019,1,24),
+('ENTRADA_CANASTILLA',2019,1,25),
+('ENTRADA_CANASTILLA',2019,1,26),
+
+('SALIDA_CANASTILLA',2019,1,1),
+('SALIDA_CANASTILLA',2019,1,2),
+('SALIDA_CANASTILLA',2019,1,3),
+('SALIDA_CANASTILLA',2019,1,4),
+('SALIDA_CANASTILLA',2019,1,5),
+('SALIDA_CANASTILLA',2019,1,6),
+('SALIDA_CANASTILLA',2019,1,7),
+('SALIDA_CANASTILLA',2019,1,8),
+('SALIDA_CANASTILLA',2019,1,9),
+('SALIDA_CANASTILLA',2019,1,10),
+('SALIDA_CANASTILLA',2019,1,11),
+('SALIDA_CANASTILLA',2019,1,12),
+('SALIDA_CANASTILLA',2019,1,13),
+('SALIDA_CANASTILLA',2019,1,14),
+('SALIDA_CANASTILLA',2019,1,15),
+('SALIDA_CANASTILLA',2019,1,16),
+('SALIDA_CANASTILLA',2019,1,17),
+('SALIDA_CANASTILLA',2019,1,18),
+('SALIDA_CANASTILLA',2019,1,19),
+('SALIDA_CANASTILLA',2019,1,20),
+('SALIDA_CANASTILLA',2019,1,21),
+('SALIDA_CANASTILLA',2019,1,22),
+('SALIDA_CANASTILLA',2019,1,23),
+('SALIDA_CANASTILLA',2019,1,24),
+('SALIDA_CANASTILLA',2019,1,25),
+('SALIDA_CANASTILLA',2019,1,26);
+
+/************STORE PROCEDURE*******/
+CREATE OR REPLACE FUNCTION producto_terminado.sp_listado_sobrantes()
+  RETURNS TABLE(xorprod_rece_id bigint, xtotal bigint, xrece_nombre text, xrece_lineaprod_id integer, xrece_presentacion character varying, xumed_nombre character varying, xsab_nombre character varying, xipt_id integer, xipt_orprod_id integer, xipt_fecha_vencimiento date, xipt_usr_id integer, xorprod_planta_id integer, xipt_lote text, ipt_costo_unitario numeric, xorprod_codigo character varying, xorprod_nro_orden bigint) AS
+$BODY$
+ BEGIN
+ RETURN QUERY
+	select DISTINCT ON (e.orprod_rece_id) e.orprod_rece_id,e.total,rece.rece_nombre,rece.rece_lineaprod_id,rece.rece_presentacion,umed.umed_nombre,sab.sab_nombre,ing1.ipt_id,ing1.ipt_orprod_id,ing1.ipt_fecha_vencimiento,ing1.ipt_usr_id,orp2.orprod_planta_id,ing1.ipt_lote,ing1.ipt_costo_unitario,orp2.orprod_codigo,orp2.orprod_nro_orden
+	from 
+	(select orp1.orprod_rece_id,sum(ipt_sobrante) as total
+		from producto_terminado.ingreso_almacen_orp 
+		inner join insumo.orden_produccion as orp1 on orp1.orprod_id=ipt_orprod_id
+		where ipt_estado='D' and ipt_sobrante>0 group by orp1.orprod_rece_id) e
+	inner join insumo.orden_produccion as orp2 on orp2.orprod_rece_id=e.orprod_rece_id
+	inner join insumo.receta as rece on e.orprod_rece_id=rece.rece_id
+	inner join producto_terminado.ingreso_almacen_orp  as ing1 on ing1.ipt_orprod_id= orp2.orprod_id
+	inner join insumo.sabor as sab on rece.rece_sabor_id=sab.sab_id
+	inner join insumo.unidad_medida as umed on rece.rece_uni_id=umed.umed_id
+	where orp2.orprod_estado_orp='D';
+ END;
+ $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION producto_terminado.sp_listado_sobrantes()
+  OWNER TO postgres;
+
+CREATE OR REPLACE FUNCTION producto_terminado.sp_listado_stock()
+  RETURNS TABLE(xspt_rece_id integer, xspt_planta_id integer, xtotal numeric, xrece_codigo character varying, xrece_nombre text, xrece_presentacion character varying, xrece_lineaprod_id integer) AS
+$BODY$
+ BEGIN
+ RETURN QUERY
+	select spt_rece_id,spt_planta_id, total,rece_codigo,rece_nombre,rece_presentacion,rece_lineaprod_id from
+	(select spt_rece_id, sum(spt_cantidad) as total,spt_planta_id from producto_terminado.stock_producto_terminado where spt_estado='A' group By spt_rece_id,spt_planta_id) as st ,
+	insumo.receta as rece
+	where rece.rece_id=st.spt_rece_id 
+	and rece.rece_estado='A';
+ END;
+ $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION producto_terminado.sp_listado_stock()
+  OWNER TO postgres;
+  
