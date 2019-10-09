@@ -2479,4 +2479,88 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();
     }
+
+    public function imprimirPdfIngresosAlmacenInsumosMes($mes,$anio)
+    {
+        $planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+            ->where('usr_id', '=', Auth::user()->usr_id)->first();
+        $username = Auth::user()->usr_usuario;
+        $title = "INVENTARIO ALMACEN";
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $anio1 = $anio;
+        $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+        $fechainicial = $anio1 . "-" . $mes . "-01";
+        $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+        $reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+                        ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+                        ->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+                        ->where('ing_planta_id',$planta->id_planta)
+                        ->where('ing_registrado', '>=', $fechainicial)->where('ing_registrado', '<=', $fechafinal)
+                        ->orderBy('ing_id','desc')->get(); 
+        $fecha = 'Del '.$fechainicial.' al '.$fechafinal;
+        $code = '-';
+        $date =date('d/m/Y');
+        $view = \View::make('reportes.ingreso_almacen_insumos', compact('username','reg','date','title','storage','usuario','code','per','fecha'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+    public function imprimirPdfIngresosAlmacenInsumosDia($dia,$mes,$anio)
+    {
+        $planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+            ->where('usr_id', '=', Auth::user()->usr_id)->first();
+        $username = Auth::user()->usr_usuario;
+        $title = "INVENTARIO ALMACEN";
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $dia = $anio . "-" . $mes . "-" . $dia;
+        $reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+                        ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+                        ->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+                        ->where('ing_planta_id',$planta->id_planta)
+                        ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'),'=',$dia)
+                        ->orderBy('ing_id','desc')->get(); 
+        $fecha = $dia;
+        $code = '-';
+        $date =date('d/m/Y');
+        $view = \View::make('reportes.ingreso_almacen_insumos', compact('username','reg','date','title','storage','usuario','code','per','fecha'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
+    public function imprimirPdfIngresosAlmacenInsumosRango($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin)
+    {
+        $planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+            ->where('usr_id', '=', Auth::user()->usr_id)->first();
+        $username = Auth::user()->usr_usuario;
+        $title = "INVENTARIO ALMACEN";
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+        $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+        $reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+                        ->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+                        ->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+                        ->where('ing_planta_id',$planta->id_planta)
+                        ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'), '>=', $fechainicial)
+                        ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'), '<=', $fechafinal)
+                        ->orderBy('ing_id','desc')->get(); 
+        $fecha = 'Del: '.$fechainicial.' al: '.$fechafinal;
+        $code = '-';
+        $date =date('d/m/Y');
+        $view = \View::make('reportes.ingreso_almacen_insumos', compact('username','reg','date','title','storage','usuario','code','per','fecha'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline();
+    }
 }
