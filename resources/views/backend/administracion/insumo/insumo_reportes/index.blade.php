@@ -67,12 +67,12 @@
                                                     </a>
                                                     <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                       <li class="dropdown-submenu">
-                                                        <a href="{{url('ListaIngresoAlm')}}" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO INGRESOS</a>
+                                                        <a href="{{url('ReporteIngresoAlmacen')}}" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO INGRESOS</a>
                                                         <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                         </ul>
                                                       </li>
                                                       <li class="dropdown-submenu">
-                                                        <a href="{{url('ReporteIngresoAlmacen')}}" target="_blank" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> REPORTES INGRESOS</a>
+                                                        <a href="{{url('ListaIngresoAlm')}}" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO INGRESOS DE INSUMOS</a>
                                                         <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
                                                         </ul>
                                                       </li>                                                     
