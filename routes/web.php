@@ -672,6 +672,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('imprimirExcelIngresoAlmacenporInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportExcelController@imprimirExcelIngresoAlmacenporInsumosRango');
 	// LISTA REPORTE SOLICITUD POR ALMACEN
 	Route::get('ListaSolicitudAlm', 'insumo\insumo_reportes\gbInsumoReporteController@listarSolicitudAlmacen');
+	Route::get('ListaSolicitudAlmInsumos','insumo\insumo_reportes\gbInsumoReporteController@ListaSolicitudAlmInsumos');
 	Route::get('ListRecetaReport', 'insumo\insumo_reportes\gbInsumoReporteController@listReceta');
 	Route::get('ListMaquilaReport', 'insumo\insumo_reportes\gbInsumoReporteController@listMaquila');
 	Route::get('ListAdicionalReport', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicional');

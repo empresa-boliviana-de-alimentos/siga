@@ -2092,4 +2092,8 @@ class gbInsumoReporteController extends Controller {
 			->editColumn('id', 'ID: {{$orprod_id}}')
 			->make(true);
 	}
+	public function ListaSolicitudAlmInsumos()
+	{
+		return view('backend.administracion.insumo.insumo_reportes.solicitud_almacen.solicitudInsumo');
+	}
 }
