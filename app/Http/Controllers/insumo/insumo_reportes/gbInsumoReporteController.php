@@ -1950,4 +1950,64 @@ class gbInsumoReporteController extends Controller {
 			})
 			->make(true);
 	}
+	 public function reporteIngresoAlmacen()
+	 {
+	 	$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$reg = Ingreso::where('ing_planta_id',$planta->id_planta)->get();
+		return view('backend.administracion.insumo.insumo_reportes.ingresos_almacen.reporteAlmacen');
+	 }
+	 public function createListarIngresoAlmacenInsumos($mes,$anio)
+	 {
+	 	$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$anio1 = $anio;
+		$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+		$fechainicial = $anio1 . "-" . $mes . "-01";
+		$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+		$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+						->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+						->where('ing_planta_id',$planta->id_planta)
+						->where('ing_registrado', '>=', $fechainicial)->where('ing_registrado', '<=', $fechafinal)
+						->orderBy('ing_id','desc')->get();
+		
+		return Datatables::of($reg)
+			->editColumn('id', 'ID: {{$ing_id}}')
+			->make(true);
+	 }
+	 public function createListarIngresoAlmacenInsumosDia($dia,$mes,$anio)
+	 {
+	 	$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$dia = $anio . "-" . $mes . "-" . $dia;
+		$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+						->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+						->where('ing_planta_id',$planta->id_planta)
+						->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'),'=',$dia)
+						->orderBy('ing_id','desc')->get();
+		
+		return Datatables::of($reg)
+			->editColumn('id', 'ID: {{$ing_id}}')
+			->make(true);	
+	 }
+	 public function createListarIngresoAlmacenInsumosRango($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin)
+	 {
+	 	$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+		$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+		$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+						->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+						->where('ing_planta_id',$planta->id_planta)
+						->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'), '>=', $fechainicial)
+						->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'), '<=', $fechafinal)
+						->orderBy('ing_id','desc')->get();
+		
+		return Datatables::of($reg)
+			->editColumn('id', 'ID: {{$ing_id}}')
+			->make(true);	
+	 }
 }

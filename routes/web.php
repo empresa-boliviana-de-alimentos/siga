@@ -693,6 +693,17 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('ListAdicionalSalidaGral', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicionalSalidaGral');
 	Route::get('ListMaquilaSalidaGral', 'insumo\insumo_reportes\gbInsumoReporteController@listMaquilaSalidaGral');
 	Route::get('ListTraspasoSalidaGral', 'insumo\insumo_reportes\gbInsumoReporteController@listTraspasoSalidaGral');
+	//REPORTES DE INSUMOS ALAMCEN
+	Route::get('ReporteIngresoAlmacen','insumo\insumo_reportes\gbInsumoReporteController@reporteIngresoAlmacen');
+	Route::get('createListarIngresoAlmacenInsumos/{mes}/{anio}','insumo\insumo_reportes\gbInsumoReporteController@createListarIngresoAlmacenInsumos');
+	Route::get('createListarIngresoAlmacenInsumosDia/{dia}/{mes}/{anio}','insumo\insumo_reportes\gbInsumoReporteController@createListarIngresoAlmacenInsumosDia');
+	Route::get('createListarIngresoAlmacenInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','insumo\insumo_reportes\gbInsumoReporteController@createListarIngresoAlmacenInsumosRango');
+	Route::get('imprimirPdfIngresosAlmacenInsumosMes/{mes}/{anio}','ReportController@imprimirPdfIngresosAlmacenInsumosMes');
+	Route::get('imprimirExcelIngresoAlmacenInsumosMes/{mes}/{anio}','ReportExcelController@imprimirExcelIngresoAlmacenInsumosMes');
+	Route::get('imprimirPdfIngresosAlmacenInsumosDia/{dia}/{mes}/{anio}','ReportController@imprimirPdfIngresosAlmacenInsumosDia');
+	Route::get('imprimirExcelIngresoAlmacenInsumosDia/{dia}/{mes}/{anio}','ReportExcelController@imprimirExcelIngresoAlmacenInsumosDia');
+	Route::get('imprimirPdfIngresosAlmacenInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportController@imprimirPdfIngresosAlmacenInsumosRango');
+	Route::get('imprimirExcelIngresoAlmacenInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportExcelController@imprimirExcelIngresoAlmacenInsumosRango');
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/// ESTADISTICAS //////////
 	/// /////////////////////////////////////////////////////////////////////////////////////////////////////
