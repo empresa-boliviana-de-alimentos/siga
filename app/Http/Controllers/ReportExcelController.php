@@ -1301,5 +1301,76 @@ class ReportExcelController extends Controller
                 $sheet->loadView('reportes_excel.reporte_ingreso_almacen_insumos', array('reg'=>$reg,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
             });
         })->export('xlsx');
+    }
+    public function imprimirExcelIngresoAlmacenporInsumosMes($mes,$anio)
+    {
+        $id_usuario = Auth::user()->usr_id;
+        $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+        $per = Collect($usr);
+        $id = Auth::user()->usr_id;
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+        $anio1 = $anio;
+        $diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+        $fechainicial = $anio1 . "-" . $mes . "-01";
+        $fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+        $fecha_inventario = 'Del: '.$fechainicial.' Al: '.$fechafinal;
+        $reg = Ingreso::join('insumo.detalle_ingreso as det','insumo.ingreso.ing_id','=','det.deting_ing_id')
+                      ->join('insumo.insumo as ins','det.deting_ins_id','=','ins.ins_id')
+                      ->join('insumo.tipo_ingreso as tip','insumo.ingreso.ing_id_tiping','=','tip.ting_id')
+                      ->where('ing_registrado', '>=', $fechainicial)->where('ing_registrado', '<=', $fechafinal)
+                      ->where('ing_planta_id',$planta->id_planta)->get();
+        \Excel::create('Reporte_General_Salida', function($excel) use ($reg, $planta, $fecha_inventario) {
+            $excel->sheet('Excel sheet', function($sheet) use ($reg, $planta, $fecha_inventario) {
+                $sheet->loadView('reportes_excel.reporte_ingreso_almacen_por_insumos', array('reg'=>$reg,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+            });
+        })->export('xlsx');
+    }
+    public function imprimirExcelIngresoAlmacenporInsumosDia($dia,$mes,$anio)
+    {
+        $id_usuario = Auth::user()->usr_id;
+        $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+        $per = Collect($usr);
+        $id = Auth::user()->usr_id;
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+        $dia = $anio . "-" . $mes . "-" . $dia;
+        $fecha_inventario = $dia;
+        $reg = Ingreso::join('insumo.detalle_ingreso as det','insumo.ingreso.ing_id','=','det.deting_ing_id')
+                      ->join('insumo.insumo as ins','det.deting_ins_id','=','ins.ins_id')
+                      ->join('insumo.tipo_ingreso as tip','insumo.ingreso.ing_id_tiping','=','tip.ting_id')
+                      ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'),'=',$dia)
+                      ->where('ing_planta_id',$planta->id_planta)->get();
+        \Excel::create('Reporte_General_Salida', function($excel) use ($reg, $planta, $fecha_inventario) {
+            $excel->sheet('Excel sheet', function($sheet) use ($reg, $planta, $fecha_inventario) {
+                $sheet->loadView('reportes_excel.reporte_ingreso_almacen_por_insumos', array('reg'=>$reg,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+            });
+        })->export('xlsx');
+    }
+    public function imprimirExcelIngresoAlmacenporInsumosRango($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin)
+    {
+        $id_usuario = Auth::user()->usr_id;
+        $usr = Usuario::join('public._bp_personas as persona', 'public._bp_usuarios.usr_prs_id', '=', 'persona.prs_id')
+                ->where('usr_id', $id_usuario)->first();
+        $per = Collect($usr);
+        $id = Auth::user()->usr_id;
+        $planta = Usuario::join('_bp_planta', '_bp_usuarios.usr_planta_id', '=', '_bp_planta.id_planta')
+                ->where('usr_id', $id)->first();
+        $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+        $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+        $fecha_inventario = 'Del: '.$fechainicial.' al: '.$fechafinal;
+        $reg = Ingreso::join('insumo.detalle_ingreso as det','insumo.ingreso.ing_id','=','det.deting_ing_id')
+                      ->join('insumo.insumo as ins','det.deting_ins_id','=','ins.ins_id')
+                      ->join('insumo.tipo_ingreso as tip','insumo.ingreso.ing_id_tiping','=','tip.ting_id')
+                      ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'), '>=', $fechainicial)
+                      ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'), '<=', $fechafinal)
+                      ->where('ing_planta_id',$planta->id_planta)->get();
+        \Excel::create('Reporte_General_Salida', function($excel) use ($reg, $planta, $fecha_inventario) {
+            $excel->sheet('Excel sheet', function($sheet) use ($reg, $planta, $fecha_inventario) {
+                $sheet->loadView('reportes_excel.reporte_ingreso_almacen_por_insumos', array('reg'=>$reg,'planta'=>$planta,'fecha_inventario'=>$fecha_inventario));
+            });
+        })->export('xlsx');   
     }   
 }

@@ -1052,28 +1052,57 @@ class gbInsumoReporteController extends Controller {
 	public function listarIngresoAlmacen() {
 		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
 			->where('usr_id', '=', Auth::user()->usr_id)->first();
-		$reg = Ingreso::where('ing_planta_id',$planta->id_planta)->get();
+		$reg = Ingreso::join('insumo.detalle_ingreso as det','insumo.ingreso.ing_id','=','det.deting_ing_id')
+					  ->join('insumo.insumo as ins','det.deting_ins_id','=','ins.ins_id')
+					  ->join('insumo.tipo_ingreso as tip','insumo.ingreso.ing_id_tiping','=','tip.ting_id')
+					  ->where('ing_planta_id',$planta->id_planta)->get();
 		//dd($reg);
 		return view('backend.administracion.insumo.insumo_reportes.ingresos_almacen.index');
 	}
 
-	public function createListarIngresoAlmacen() {
+	public function createListarIngresoAlmacen($mes,$anio) {
 		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
 			->where('usr_id', '=', Auth::user()->usr_id)->first();
-		$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
-						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')->where('ing_planta_id',$planta->id_planta)->orderBy('ing_id','desc')->get();
-		return Datatables::of($reg)->addColumn('acciones', function ($reg) {
-			return '<a value="' . $reg->ing_id . '" target="_blank" class="btn btn-primary" href="/ReporteAlmacen/' . $reg->ing_id . '" type="button" ><i class="fa fa-eye"></i> REPORTE</a>';
-		})->addColumn('nombre_usuario', function ($usuario) {
-			return $usuario->prs_nombres . ' ' . $usuario->prs_paterno . ' ' . $usuario->prs_materno;
-		})
-		->addColumn('factura', function ($factura) {
-			if ($factura->ing_factura == 'sin_factura.png') {
-				return '<div style="background-color:red">NO TIENE FACTURA</div>';
-			}else{
-				return '<div style="background-color:greeen">TIENE FACTURA</div>';
-			}			
-		})
+		$anio1 = $anio;
+		$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+		$fechainicial = $anio1 . "-" . $mes . "-01";
+		$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+		$reg = Ingreso::join('insumo.detalle_ingreso as det','insumo.ingreso.ing_id','=','det.deting_ing_id')
+					  ->join('insumo.insumo as ins','det.deting_ins_id','=','ins.ins_id')
+					  ->join('insumo.tipo_ingreso as tip','insumo.ingreso.ing_id_tiping','=','tip.ting_id')
+					  ->where('ing_registrado', '>=', $fechainicial)->where('ing_registrado', '<=', $fechafinal)
+					  ->where('ing_planta_id',$planta->id_planta)->get();
+		return Datatables::of($reg)
+			->editColumn('id', 'ID: {{$ing_id}}')
+			->make(true);
+	}
+	public function createListarIngresoAlmacenDia($dia,$mes,$anio)
+	{
+		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$dia = $anio . "-" . $mes . "-" . $dia;
+		$reg = Ingreso::join('insumo.detalle_ingreso as det','insumo.ingreso.ing_id','=','det.deting_ing_id')
+					  ->join('insumo.insumo as ins','det.deting_ins_id','=','ins.ins_id')
+					  ->join('insumo.tipo_ingreso as tip','insumo.ingreso.ing_id_tiping','=','tip.ting_id')
+					  ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'),'=',$dia)
+					  ->where('ing_planta_id',$planta->id_planta)->get();
+		return Datatables::of($reg)
+			->editColumn('id', 'ID: {{$ing_id}}')
+			->make(true);
+	}
+	public function createListarIngresoAlmacenRango($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin)
+	{
+		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+		$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+		$reg = Ingreso::join('insumo.detalle_ingreso as det','insumo.ingreso.ing_id','=','det.deting_ing_id')
+					  ->join('insumo.insumo as ins','det.deting_ins_id','=','ins.ins_id')
+					  ->join('insumo.tipo_ingreso as tip','insumo.ingreso.ing_id_tiping','=','tip.ting_id')
+					  ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'), '>=', $fechainicial)
+					  ->where(DB::raw('cast(insumo.ingreso.ing_registrado as date)'), '<=', $fechafinal)
+					  ->where('ing_planta_id',$planta->id_planta)->get();
+		return Datatables::of($reg)
 			->editColumn('id', 'ID: {{$ing_id}}')
 			->make(true);
 	}

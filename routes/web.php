@@ -660,8 +660,16 @@ Route::group(['middleware' => ['auth']], function () {
 
 	// LISTA  REPORTE INGRESO POR ALMACEN
 	Route::get('ListaIngresoAlm', 'insumo\insumo_reportes\gbInsumoReporteController@listarIngresoAlmacen');
-	Route::get('createListarIngresoAlmacen', 'insumo\insumo_reportes\gbInsumoReporteController@createListarIngresoAlmacen');
+	Route::get('createListarIngresoAlmacen/{mes}/{anio}', 'insumo\insumo_reportes\gbInsumoReporteController@createListarIngresoAlmacen');
+	Route::get('createListarIngresoAlmacenDia/{dia}/{mes}/{anio}','insumo\insumo_reportes\gbInsumoReporteController@createListarIngresoAlmacenDia');
+	Route::get('createListarIngresoAlmacenRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','insumo\insumo_reportes\gbInsumoReporteController@createListarIngresoAlmacenRango');
 	Route::get('ReporteIngreso/{id}', 'insumo\insumo_reportes\gbInsumoReporteController@reporteIngreso');
+	Route::get('imprimirPdfIngresosAlmacenporInsumosMes/{mes}/{anio}','ReportController@imprimirPdfIngresosAlmacenporInsumosMes');
+	Route::get('imprimirExcelIngresoAlmacenporInsumosMes/{mes}/{anio}','ReportExcelController@imprimirExcelIngresoAlmacenporInsumosMes');
+	Route::get('imprimirPdfIngresosAlmacenporInsumosDia/{dia}/{mes}/{anio}','ReportController@imprimirPdfIngresosAlmacenporInsumosDia');
+	Route::get('imprimirExcelIngresoAlmacenporInsumosDia/{dia}/{mes}/{anio}','ReportExcelController@imprimirExcelIngresoAlmacenporInsumosDia');
+	Route::get('imprimirPdfIngresosAlmacenporInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportController@imprimirPdfIngresosAlmacenporInsumosRango');
+	Route::get('imprimirExcelIngresoAlmacenporInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportExcelController@imprimirExcelIngresoAlmacenporInsumosRango');
 	// LISTA REPORTE SOLICITUD POR ALMACEN
 	Route::get('ListaSolicitudAlm', 'insumo\insumo_reportes\gbInsumoReporteController@listarSolicitudAlmacen');
 	Route::get('ListRecetaReport', 'insumo\insumo_reportes\gbInsumoReporteController@listReceta');
