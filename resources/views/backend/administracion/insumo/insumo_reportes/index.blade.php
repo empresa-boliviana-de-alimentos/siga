@@ -94,7 +94,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <a href="{{ url('ListaSalidaAlm') }}">
+                                            <!--<a href="{{ url('ListaSalidaAlm') }}">
                                                 <div class="small-box bg-blue-gradient efectoboton">
                                                     <div class="inner">
                                                       <h4>SALIDA POR ALMACÉN</h4>
@@ -104,7 +104,29 @@
                                                       <img src="img/botones/reportes_lacteos.png" alt="" width="80">
                                                     </div>
                                                 </div>
-                                            </a>                                 
+                                            </a>--> 
+                                            <li class="dropdown small-box bg-blue-gradient">
+                                              <div class="inner">
+                                                  <h4> SALIDA POR ALMACÉN</h4>
+                                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="color: white;"> SELECCIONE UNA OPCIÓN<span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ListaSalidaAlm')}}" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO SALIDAS</a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>
+                                                      <li class="dropdown-submenu">
+                                                        <a href="{{url('ListaSalidaAlmInsumos')}}" class="test cambioPlantasLacteos" tabindex="-1" href="#" style="color:white"><span class="fa fa-file-o"></span> LISTADO SALIDAS DE INSUMOS </a>
+                                                        <ul class="dropdown-menu dropdown-cart" role="menu" style="background: #39b6ff">
+                                                        </ul>
+                                                      </li>                                                     
+                                                    </ul>
+                                                </div>
+                                                <div class="icon efectoicon">
+                                                    <img src="img/botones/reportes_lacteos.png" alt="" width="80">
+                                                </div>                                              
+                                            </li>                                  
                                     </div>
                                     <div class="col-sm-8">
                                       <div class="row">
