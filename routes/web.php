@@ -678,6 +678,16 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('ListTraspasoReport', 'insumo\insumo_reportes\gbInsumoReporteController@listTraspasoReport');
 	// LITA REPORTE SALIDAS POR ALMACEN
 	Route::get('ListaSalidaAlm', 'insumo\insumo_reportes\gbInsumoReporteController@listarSalidasAlmacen');
+	Route::get('ListaSalidaAlmInsumos','insumo\insumo_reportes\gbInsumoReporteController@listarSalidasAlmacenInsumos');
+	Route::get('createListarSalidasAlmacenInsumos/{mes}/{anio}','insumo\insumo_reportes\gbInsumoReporteController@createListarSalidasAlmacenInsumos');
+	Route::get('createListarSalidasAlmacenInsumosDia/{dia}/{mes}/{anio}','insumo\insumo_reportes\gbInsumoReporteController@createListarSalidasAlmacenInsumosDia');
+	Route::get('createListarSalidasAlmacenInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','insumo\insumo_reportes\gbInsumoReporteController@createListarSalidasAlmacenInsumosRango');
+	Route::get('imprimirPdfSalidasAlmacenInsumosMes/{mes}/{anio}','ReportController@imprimirPdfSalidasAlmacenInsumosMes');
+	Route::get('imprimirExcelSalidasAlmacenInsumosMes/{mes}/{anio}','ReportExcelController@imprimirExcelSalidasAlmacenInsumosMes');
+	Route::get('imprimirPdfSalidasAlmacenInsumosDia/{dia}/{mes}/{anio}','ReportController@imprimirPdfSalidasAlmacenInsumosDia');
+	Route::get('imprimirExcelSalidasAlmacenInsumosDia/{dia}/{mes}/{anio}','ReportExcelController@imprimirExcelSalidasAlmacenInsumosDia');
+	Route::get('imprimirPdfSalidasAlmacenInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportController@imprimirPdfSalidasAlmacenInsumosRango');
+	Route::get('imprimirExcelSalidasAlmacenInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','ReportExcelController@imprimirExcelSalidasAlmacenInsumosRango');
 	Route::get('ListRecetaSal', 'insumo\insumo_reportes\gbInsumoReporteController@listRecetaSal');
 	Route::get('ListMaquilaSal', 'insumo\insumo_reportes\gbInsumoReporteController@listMaquilaSal');
 	Route::get('ListAdicionalSal', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicionalSal');
