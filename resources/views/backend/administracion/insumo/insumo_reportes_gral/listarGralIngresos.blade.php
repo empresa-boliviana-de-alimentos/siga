@@ -1,4 +1,23 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+        table {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+    }
+    thead th {
+      background-color:#202040;
+      color: white;
+      font-size: 12px;
+    }
+    tfoot th {
+      background-color:#202040;
+      color: white;
+      font-size: 12px;
+    }
+    tbody td {
+        font-size: 10px
+    }
+</style>
 @section('main-content')
 <div class="row">
     <div class="col-md-12">
@@ -6,7 +25,7 @@
             <div class="box-header with-border">
             <div class="col-md-12">
                 <div class="col-md-1">
-                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('ReporteGralInsumo') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
+                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('ReporteGralInsumo') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><span style="color:#ffffff">&nbsp;&nbsp;MENU</span></a>
                 </div>
                 <div class="col-md-8">
                      <h4><label for="box-title">INGRESOS ALMACEN (REPORTES GENERAL)</label></h4>
@@ -21,17 +40,73 @@
     </div>
 </div>
 <div class="row">
-        <div class="col-md-12">
-         
+  <div class="col-md-12">
     <div class="tab-content">
       <div class="tab-pane fade in active" id="ingresoNormal">
        <div class="box">
-                <div class="box-header with-border text-center">
-                    <h3 class="box-title">
-                        INGRESOS ALMACEN
-                    </h3>
-                        
+            <div class="box-header with-border text-center">
+                <div class="col-md-4" style="background-color: #338CC2; color: white">
+                        <div class="form-group">
+                          <div class="text-center">
+                            <label>
+                              <strong>Seleccione un planta</strong>
+                            </label>
+                          </div>
+                          <select class="form-control selectpicker" id="id_planta">
+                            <option value="0">Todas las plantas</option>
+                            @foreach($plantas as $planta)
+                            <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
+                            @endforeach
+                          </select>                         
+                        </div>
+                    </div>
+                <div class="col-md-2" style="background-color: #338CC0; color: white">
+                    <div class="form-group">
+                        <div class="text-center">
+                            <label>
+                                <strong>Seleccione Mes</strong>
+                            </label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control datepickerMonths" id="id_mes" name="id_mes" placeholder="Introduzca mes"> 
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="Buscarfechas();">Buscar</button>
+                            </span>                  
+                        </div>         
+                    </div>
                 </div>
+                <div class="col-md-2" style="background-color: #30759D; color: white">
+                    <div class="form-group">
+                        <div class="text-center">
+                            <label><strong>Seleccione Día</strong></label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control datepickerDays" id="id_dia" name="id_dia" placeholder="Introduzca dia"> 
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarDia();">Buscar</button>
+                            </span>
+                        </div>                            
+                    </div>
+                </div>
+                <div class="col-md-4" style="background-color: #5993B6; color: white">
+                    <div class="form-group">
+                          <div class="text-center">
+                            <label><strong>Seleccione Rango de Fecha</strong></label>
+                          </div>
+                          <div class="input-group">
+                            <div class="col-md-6">
+                              <input type="text" class="form-control datepickerDays" id="id_dia_inicio" name="id_dia_inicio" placeholder="Introduzca dia">
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control datepickerDays" id="id_dia_fin" name="id_dia_fin" placeholder="Introduzca dia">  
+                            </div>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button" id="busca_mes" onclick="BuscarRango();">Buscar</button>
+                            </span>
+                          </div>                            
+                    </div>
+                </div>                         
+            </div>
             <div id="no-more-tables">
                 <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-ingresoNormales">
                     <thead class="cf">
@@ -53,6 +128,9 @@
                                     </th>
                                     <th>
                                         Nro. Remisión
+                                    </th>
+                                    <th>
+                                        Factura
                                     </th>                    
                                 </tr>
                             </thead>
@@ -78,6 +156,9 @@
                                     </th>
                                     <th>
                                         Nro. Remisión
+                                    </th>
+                                    <th>
+                                        Factura
                                     </th>                                   
                                 </tr>
                             </tfoot>
@@ -99,12 +180,24 @@
             "ajax": "CreateListarReporteGralIngreso",
             "columns":[
                 {data: 'ing_id'},
-                {data: 'acciones',orderable: false, searchable: false},
+                {data: 'ing_id',
+                       'render': function (data, type, full, meta) {
+                            return '<a value="'+data+'" target="_blank" class="btn btn-primary" href="/ReporteAlmacen/'+data+'" type="button" ><i class="fa fa-eye"></i> REPORTE</a>';
+                        }
+                },
                 {data: 'ing_enumeracion'}, 
                 {data: 'ing_registrado'},
-                {data: 'nombre_usuario'},
+                {data: 'nombrecompleto'},
                 {data: 'ing_remision'},
-                {data: 'factura'},
+                {data: 'ing_factura',
+                       'render': function(data, type, full, meta){
+                            if(data === 'sin_factura.png'){
+                                return '<h5><span class="label label-danger">NO TIENE FACTURA</span></h5>';
+                            }else{
+                                return '<h5><span class="label label-success">TIENE FACTURA</span></h5>';
+                            }
+                       }
+                },
 
         ],
         
@@ -121,6 +214,17 @@
             cell.innerHTML = i+1;
         } );
     } ).draw();
+$('.datepickerMonths').datepicker({
+        format: "mm/yyyy",
+        viewMode: "months", 
+        minViewMode: "months",
+        language: "es",
+    }).datepicker("setDate", new Date()); 
+
+    $('.datepickerDays').datepicker({
+        format: "dd/mm/yyyy",        
+        language: "es",
+    }).datepicker("setDate", new Date()); 
 </script>
 @endpush  
 
