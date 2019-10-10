@@ -2055,6 +2055,7 @@ class gbInsumoReporteController extends Controller {
 		$reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
 							  ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
 							  ->where('orprod_planta_id',$planta->id_planta)
+							  ->where('orprod_nro_salida','<>',null)
 							  ->where('orprod_fecha_vodos', '>=', $fechainicial)->where('orprod_fecha_vodos', '<=', $fechafinal)
 							  ->orderBy('orprod_id','desc')->get();
 		
@@ -2070,6 +2071,7 @@ class gbInsumoReporteController extends Controller {
 		$reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
 							  ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
 							  ->where('orprod_planta_id',$planta->id_planta)
+							  ->where('orprod_nro_salida','<>',null)
 							  ->where(DB::raw('cast(insumo.orden_produccion.orprod_fecha_vodos as date)'),'=',$dia)
 							  ->orderBy('orprod_id','desc')->get();		
 		return Datatables::of($reg)
@@ -2085,6 +2087,7 @@ class gbInsumoReporteController extends Controller {
 		$reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
 							  ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
 							  ->where('orprod_planta_id',$planta->id_planta)
+							  ->where('orprod_nro_salida','<>',null)
 							  ->where(DB::raw('cast(insumo.orden_produccion.orprod_fecha_vodos as date)'), '>=', $fechainicial)
 							  ->where(DB::raw('cast(insumo.orden_produccion.orprod_fecha_vodos as date)'), '<=', $fechafinal)
 							  ->orderBy('orprod_id','desc')->get();		
@@ -2095,5 +2098,51 @@ class gbInsumoReporteController extends Controller {
 	public function ListaSolicitudAlmInsumos()
 	{
 		return view('backend.administracion.insumo.insumo_reportes.solicitud_almacen.solicitudInsumo');
+	}
+	public function createListarSolicitudesAlmacenInsumos($mes,$anio)
+	{
+		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$anio1 = $anio;
+		$diafinal = date("d", mktime(0, 0, 0, $mes + 1, 0, $anio1));
+		$fechainicial = $anio1 . "-" . $mes . "-01";
+		$fechafinal = $anio1 . "-" . $mes . "-" . $diafinal;
+		$reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
+							  ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
+							  ->where('orprod_planta_id',$planta->id_planta)
+							  ->where('orprod_registrado', '>=', $fechainicial)->where('orprod_registrado', '<=', $fechafinal)
+							  ->orderBy('orprod_id','desc')->get();		
+		return Datatables::of($reg)
+			->editColumn('id', 'ID: {{$orprod_id}}')
+			->make(true);
+	}
+	public function createListarSolicitudesAlmacenInsumosDia($dia,$mes,$anio)
+	{
+		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$dia = $anio . "-" . $mes . "-" . $dia;
+		$reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
+							  ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
+							  ->where('orprod_planta_id',$planta->id_planta)
+							  ->where(DB::raw('cast(insumo.orden_produccion.orprod_fecha_vodos as date)'),'=',$dia)
+							  ->orderBy('orprod_id','desc')->get();		
+		return Datatables::of($reg)
+			->editColumn('id', 'ID: {{$orprod_id}}')
+			->make(true);
+	}
+	public function createListarSolicitudesAlmacenInsumosRango($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin)
+	{
+		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+		$fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+		$reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
+							  ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
+							  ->where('orprod_planta_id',$planta->id_planta)
+							  ->where('orprod_registrado', '>=', $fechainicial)->where('orprod_registrado', '<=', $fechafinal)
+							  ->orderBy('orprod_id','desc')->get();		
+		return Datatables::of($reg)
+			->editColumn('id', 'ID: {{$orprod_id}}')
+			->make(true);	
 	}
 }
