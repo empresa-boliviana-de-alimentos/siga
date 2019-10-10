@@ -2754,4 +2754,55 @@ class ReportController extends Controller
         $pdf->loadHTML($html_content);
         return $pdf->inline();    
     }
+    public function imprimirPdfSolicitudesAlmacenInsumosDia($dia,$mes,$anio)
+    {
+        $planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+            ->where('usr_id', '=', Auth::user()->usr_id)->first();
+        $username = Auth::user()->usr_usuario;
+        $title = "SOLICITUDES ALMACEN POR INSUMOS";
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $dia = $anio . "-" . $mes . "-" . $dia;
+        $reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
+                              ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
+                              ->where('orprod_planta_id',$planta->id_planta)
+                              ->where(DB::raw('cast(insumo.orden_produccion.orprod_registrado as date)'),'=',$dia)
+                              ->orderBy('orprod_id','desc')->get(); 
+        $fecha = $dia;
+        $code = '-';
+        $date =date('d/m/Y');
+        $view = \View::make('reportes.solicitudes_almacen_por_insumo', compact('username','reg','date','title','storage','usuario','code','per','fecha'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline(); 
+    }
+    public function imprimirPdfSolicitudesAlmacenInsumosRango($dia_inicio,$mes_inicio,$anio_inicio,$dia_fin,$mes_fin,$anio_fin)
+    {
+        $planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+            ->where('usr_id', '=', Auth::user()->usr_id)->first();
+        $username = Auth::user()->usr_usuario;
+        $title = "SOLICITUDES ALMACEN POR INSUMOS";
+        $storage = 'PLANTA: '.$planta->nombre_planta;
+        $usuario = Usuario::join('public._bp_personas as per','public._bp_usuarios.usr_prs_id','=','per.prs_id')
+                    ->where('usr_id',Auth::user()->usr_id)->first();
+        $per= $usuario->prs_nombres.' '.$usuario->prs_paterno.' '.$usuario->prs_materno;
+        $fechainicial = $anio_inicio . "-" . $mes_inicio . "-" . $dia_inicio;
+        $fechafinal = $anio_fin . "-" . $mes_fin . "-" . $dia_fin;
+        $reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
+                              ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
+                              ->where('orprod_planta_id',$planta->id_planta)
+                              ->where('orprod_registrado', '>=', $fechainicial)->where('orprod_registrado', '<=', $fechafinal)
+                              ->orderBy('orprod_id','desc')->get(); 
+        $fecha = 'Del: '.$fechainicial.' al: '.$fechafinal;
+        $code = '-';
+        $date =date('d/m/Y');
+        $view = \View::make('reportes.solicitudes_almacen_por_insumo', compact('username','reg','date','title','storage','usuario','code','per','fecha'));
+        $html_content = $view->render();
+        $pdf = App::make('snappy.pdf.wrapper');
+        $pdf->loadHTML($html_content);
+        return $pdf->inline(); 
+    }
 }
