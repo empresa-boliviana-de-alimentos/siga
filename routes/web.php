@@ -21,7 +21,8 @@ use siga\Modelo\acopio\acopio_miel\Municipio;
 Auth::routes();
 
 Route::get('/', function () {
-	return view('frontend.index');
+	//return view('frontend.index');
+	return view('frontend.page.login');
 });
 
 // Route::post('sesion', [
