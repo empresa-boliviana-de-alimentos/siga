@@ -2124,7 +2124,7 @@ class gbInsumoReporteController extends Controller {
 		$reg = OrdenProduccion::join('insumo.detalle_orden_produccion as det','insumo.orden_produccion.orprod_id','=','det.detorprod_orprod_id')
 							  ->join('insumo.insumo as ins','det.detorprod_ins_id','=','ins.ins_id')
 							  ->where('orprod_planta_id',$planta->id_planta)
-							  ->where(DB::raw('cast(insumo.orden_produccion.orprod_fecha_vodos as date)'),'=',$dia)
+							  ->where(DB::raw('cast(insumo.orden_produccion.orprod_registrado as date)'),'=',$dia)
 							  ->orderBy('orprod_id','desc')->get();		
 		return Datatables::of($reg)
 			->editColumn('id', 'ID: {{$orprod_id}}')
