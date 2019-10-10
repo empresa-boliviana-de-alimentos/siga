@@ -17,6 +17,9 @@ tfoot th {
 tbody td {
   font-size: 10px
 }
+.col-search-input{
+  color: black;
+}
 </style>
 @section('main-content')
 
@@ -90,19 +93,19 @@ tbody td {
                     </div>
                 </div>                                       
             </div>
-            <div class="ocultarBotonDescargasSalidasInsumos" style="display: none;">
-                <a href="" class="btn btn-danger pdfSalidasAlmacen" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
-                <a href="" class="btn btn-success excelSalidasAlmacen"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
+            <div class="ocultarBotonDescargasSolicitudesInsumos" style="display: none;">
+                <a href="" class="btn btn-danger pdfSolicitudesAlmacen" target="_blank"><span class="fa fa-file-pdf-o"> DESCARGAR PDF</span></a>
+                <a href="" class="btn btn-success excelSolicitudesAlmacen"><span class="fa fa-file-excel-o"> DESCARGAR EXCEL</span></a>
             </div> 
             <div id="no-more-tables">
-                <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-salidasInsumos">
+                <table class="table table-hover table-striped table-condensed cf" style="width: 100%" id="lts-solicitudesInsumos">
                     <thead class="cf">
                         <tr>
                             <th>
                                 Nro
                             </th>                                    
                             <th>
-                                Nro. Salida
+                                Nro. ORP
                             </th>
                             <th>
                                 Codigo
@@ -114,7 +117,10 @@ tbody td {
                                 Cantidad
                             </th>
                             <th>
-                                Fecha Salida
+                                Fecha Solicitud
+                            </th>
+                            <th>
+                                Estado
                             </th>             
                         </tr>
                     </thead>
@@ -126,7 +132,7 @@ tbody td {
                                 Nro
                             </th>                                    
                             <th>
-                                Nro. Salida
+                                Nro. ORP
                             </th>
                             <th>
                                 Codigo
@@ -138,7 +144,10 @@ tbody td {
                                 Cantidad
                             </th>
                             <th>
-                                Fecha Salida
+                                Fecha Solicitud
+                            </th>
+                            <th>
+                                Estado
                             </th>                   
                         </tr>      
                     </tfoot>
@@ -153,28 +162,44 @@ tbody td {
 @endsection
 @push('scripts')
 <script>
+$(document).ready(function ()
+{
+  $('#lts-solicitudesInsumos thead th').each(function () {
+    var title = $(this).text();
+      $(this).html(title+' <input type="text" class="col-search-input" placeholder="Buscar' + title + '" />');
+    });      
+});
 function Buscarfechas() {
   console.log($("#id_mes").val());
-  $(".ocultarBotonDescargasSalidasInsumos").show();
-  $(".pdfSalidasAlmacen").attr('href','imprimirPdfSalidasAlmacenInsumosMes/'+$("#id_mes").val());
-  $(".excelSalidasAlmacen").attr('href','imprimirExcelSalidasAlmacenInsumosMes/'+$("#id_mes").val());
+  $(".ocultarBotonDescargasSolicitudesInsumos").show();
+  $(".pdfSolicitudesAlmacen").attr('href','imprimirPdfSolicitudesAlmacenInsumosMes/'+$("#id_mes").val());
+  $(".excelSolicitudesAlmacen").attr('href','imprimirExcelSolicitudesAlmacenInsumosMes/'+$("#id_mes").val());
   
-  var t = $('#lts-salidasInsumos').DataTable( {
+  var t = $('#lts-solicitudesInsumos').DataTable( {
             "destroy": true,
             "processing": true,
             "serverSide": true,
             "ajax":{
-               url : "createListarSalidasAlmacenInsumos/"+ $("#id_mes").val(),
+               url : "createListarSolicitudesAlmacenInsumos/"+ $("#id_mes").val(),
                type: "GET",
                data: {"mes": $("#id_mes").val()}
              },
             "columns":[
                 {data: 'orprod_id'},
-                {data: 'orprod_nro_salida'},
+                {data: 'orprod_nro_orden'},
                 {data: 'ins_codigo'},
                 {data: 'ins_desc'},
                 {data: 'detorprod_cantidad'},
-                {data: 'orprod_fecha_vodos'} 
+                {data: 'orprod_fecha_vodos'},
+                {data: 'orprod_nro_salida',
+                       'render': function(data, type, full, meta){
+                          if(data){
+                            return '<h5><span class="label label-success">APROBADO</span></h5>';
+                          }else{
+                            return '<h5><span class="label label-danger">SIN APROBACIÓN</span></h5>';
+                          }
+                        }
+                } 
             ],        
         "language": {
              "url": "/lenguaje"
@@ -189,29 +214,46 @@ function Buscarfechas() {
             cell.innerHTML = i+1;
         } );
   } ).draw();
+  t.columns().every(function () {
+            var t = this;
+            $('input', this.header()).on('keyup change', function () {
+                if (t.search() !== this.value) {
+                     t.search(this.value).draw();
+                }
+            });
+        });
 }
 function BuscarDia() {
-  console.log($("#id_mes").val());
-  $(".ocultarBotonDescargasSalidasInsumos").show();
-  $(".pdfSalidasAlmacen").attr('href','imprimirPdfSalidasAlmacenInsumosDia/'+$("#id_dia").val());
-  $(".excelSalidasAlmacen").attr('href','imprimirExcelSalidasAlmacenInsumosDia/'+$("#id_dia").val());
+  console.log($("#id_dia").val());
+  $(".ocultarBotonDescargasSolicitudesInsumos").show();
+  $(".pdfSolicitudesAlmacen").attr('href','imprimirPdfSolicitudesAlmacenInsumosDia/'+$("#id_dia").val());
+  $(".excelSolicitudesAlmacen").attr('href','imprimirExcelSolicitudesAlmacenInsumosDia/'+$("#id_dia").val());
   
-  var t = $('#lts-salidasInsumos').DataTable( {
+  var t = $('#lts-solicitudesInsumos').DataTable( {
             "destroy": true,
             "processing": true,
             "serverSide": true,
             "ajax":{
-               url : "createListarSalidasAlmacenInsumosDia/"+ $("#id_dia").val(),
+               url : "createListarSolicitudesAlmacenInsumosDia/"+ $("#id_dia").val(),
                type: "GET",
-               data: {"mes": $("#id_dia").val()}
+               data: {"mes": $("#id_mes").val()}
              },
             "columns":[
                 {data: 'orprod_id'},
-                {data: 'orprod_nro_salida'},
+                {data: 'orprod_nro_orden'},
                 {data: 'ins_codigo'},
                 {data: 'ins_desc'},
                 {data: 'detorprod_cantidad'},
-                {data: 'orprod_fecha_vodos'} 
+                {data: 'orprod_fecha_vodos'},
+                {data: 'orprod_nro_salida',
+                       'render': function(data, type, full, meta){
+                          if(data){
+                            return '<h5><span class="label label-success">APROBADO</span></h5>';
+                          }else{
+                            return '<h5><span class="label label-danger">SIN APROBACIÓN</span></h5>';
+                          }
+                        }
+                } 
             ],        
         "language": {
              "url": "/lenguaje"
@@ -226,29 +268,46 @@ function BuscarDia() {
             cell.innerHTML = i+1;
         } );
   } ).draw();
+  t.columns().every(function () {
+            var t = this;
+            $('input', this.header()).on('keyup change', function () {
+                if (t.search() !== this.value) {
+                     t.search(this.value).draw();
+                }
+            });
+        });
 }
 function BuscarRango() {
-  console.log($("#id_mes").val());
-  $(".ocultarBotonDescargasSalidasInsumos").show();
-  $(".pdfSalidasAlmacen").attr('href','imprimirPdfSalidasAlmacenInsumosRango/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val());
-  $(".excelSalidasAlmacen").attr('href','imprimirExcelSalidasAlmacenInsumosRango/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val());
+  console.log($("#id_dia_inicio").val()+' '+$("#id_dia_fin"));
+  $(".ocultarBotonDescargasSolicitudesInsumos").show();
+  $(".pdfSolicitudesAlmacen").attr('href','imprimirPdfSolicitudesAlmacenInsumosRango/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val());
+  $(".excelSolicitudesAlmacen").attr('href','imprimirExcelSolicitudesAlmacenInsumosRango/'+$("#id_dia_inicio").val()+'/'+$("#id_dia_fin").val());
   
-  var t = $('#lts-salidasInsumos').DataTable( {
+  var t = $('#lts-solicitudesInsumos').DataTable( {
             "destroy": true,
             "processing": true,
             "serverSide": true,
             "ajax":{
-               url : "createListarSalidasAlmacenInsumosRango/"+ $("#id_dia_inicio").val()+"/"+$("#id_dia_fin").val(),
+               url : "createListarSolicitudesAlmacenInsumosRango/"+ $("#id_dia_inicio").val()+"/"+$("#id_dia_fin").val(),
                type: "GET",
-               data: {"mes": $("#id_dia_inicio").val()}
+               data: {"mes": $("#id_mes").val()}
              },
             "columns":[
                 {data: 'orprod_id'},
-                {data: 'orprod_nro_salida'},
+                {data: 'orprod_nro_orden'},
                 {data: 'ins_codigo'},
                 {data: 'ins_desc'},
                 {data: 'detorprod_cantidad'},
-                {data: 'orprod_fecha_vodos'} 
+                {data: 'orprod_fecha_vodos'},
+                {data: 'orprod_nro_salida',
+                       'render': function(data, type, full, meta){
+                          if(data){
+                            return '<h5><span class="label label-success">APROBADO</span></h5>';
+                          }else{
+                            return '<h5><span class="label label-danger">SIN APROBACIÓN</span></h5>';
+                          }
+                        }
+                } 
             ],        
         "language": {
              "url": "/lenguaje"
@@ -263,8 +322,15 @@ function BuscarRango() {
             cell.innerHTML = i+1;
         } );
   } ).draw();
+  t.columns().every(function () {
+            var t = this;
+            $('input', this.header()).on('keyup change', function () {
+                if (t.search() !== this.value) {
+                     t.search(this.value).draw();
+                }
+            });
+        });
 }
-
 $('.datepickerMonths').datepicker({
         format: "mm/yyyy",
         viewMode: "months", 

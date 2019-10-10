@@ -677,6 +677,11 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('ListMaquilaReport', 'insumo\insumo_reportes\gbInsumoReporteController@listMaquila');
 	Route::get('ListAdicionalReport', 'insumo\insumo_reportes\gbInsumoReporteController@listAdicional');
 	Route::get('ListTraspasoReport', 'insumo\insumo_reportes\gbInsumoReporteController@listTraspasoReport');
+	Route::get('createListarSolicitudesAlmacenInsumos/{mes}/{anio}','insumo\insumo_reportes\gbInsumoReporteController@createListarSolicitudesAlmacenInsumos');
+	Route::get('createListarSolicitudesAlmacenInsumosDia/{dia}/{mes}/{anio}','insumo\insumo_reportes\gbInsumoReporteController@createListarSolicitudesAlmacenInsumosDia');
+	Route::get('createListarSolicitudesAlmacenInsumosRango/{dia_inicio}/{mes_inicio}/{anio_inicio}/{dia_fin}/{mes_fin}/{anio_fin}','insumo\insumo_reportes\gbInsumoReporteController@createListarSolicitudesAlmacenInsumosRango');
+	Route::get('imprimirPdfSolicitudesAlmacenInsumosMes/{mes}/{anio}','ReportController@imprimirPdfSolicitudesAlmacenInsumosMes');
+	Route::get('imprimirExcelSolicitudesAlmacenInsumosMes/{mes}/{anio}','ReportExcelController@imprimirExcelSolicitudesAlmacenInsumosMes');
 	// LITA REPORTE SALIDAS POR ALMACEN
 	Route::get('ListaSalidaAlm', 'insumo\insumo_reportes\gbInsumoReporteController@listarSalidasAlmacen');
 	Route::get('ListaSalidaAlmInsumos','insumo\insumo_reportes\gbInsumoReporteController@listarSalidasAlmacenInsumos');
