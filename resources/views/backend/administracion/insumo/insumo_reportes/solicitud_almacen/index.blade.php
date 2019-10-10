@@ -1,4 +1,26 @@
 @extends('backend.template.app')
+<style type="text/css" media="screen">
+table {
+  border-collapse: separate;
+  border-spacing: 0 5px;
+}
+thead th {
+  background-color:#202040;
+  color: white;
+  font-size: 12px;
+}
+tfoot th {
+  background-color:#202040;
+  color: white;
+  font-size: 12px;
+}
+tbody td {
+  font-size: 10px
+}
+.col-search-input{
+  color: black;
+}
+</style>
 @section('main-content')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.modalCreateAprobacion')
 @include('backend.administracion.insumo.insumo_solicitud.solicitud_recibida.partials.modalCreateAproSolInsumos')
@@ -13,7 +35,7 @@
             <div class="box-header with-border">
             <div class="col-md-12">
                 <div class="col-md-1">
-                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('ReportesInsumoMenu') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><h7 style="color:#ffffff">&nbsp;&nbsp;MENU</h7></a>
+                    <a type="button" class="btn btn-dark"  style="background: #000000;" href="{{ url('ReportesInsumoMenu') }}"><span class="fa fas fa-align-justify" style="background: #ffffff;"></span><span style="color:#ffffff">&nbsp;&nbsp;MENU</span></a>
                 </div>
                 <div class="col-md-8">
                      <h4><label for="box-title">REPORTES SOLICITUDES</label></h4>

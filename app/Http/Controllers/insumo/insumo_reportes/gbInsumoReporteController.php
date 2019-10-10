@@ -1664,12 +1664,21 @@ class gbInsumoReporteController extends Controller {
 
 	public function listarReporteGralIngreso()
 	{
+		$usuario_roles = Usuario::join('public._bp_usuarios_roles as ur','public._bp_usuarios.usr_id','=','ur.usrls_usr_id')
+								->join('public._bp_roles as rol','ur.usrls_rls_id','=','rol.rls_id')
+								->where('usr_id',Auth::user()->usr_id)->first();
+		if($usuario_roles->rls_id == 1){
+			$plantas = DB::table('public._bp_planta')->get();
+		}else{
+			$plantas = DB::table('public._bp_planta')->where('id_linea_trabajo',$usuario_roles->usr_linea_trabajo)->get();
+		}
 		$reg = Ingreso::get();
-		return view('backend.administracion.insumo.insumo_reportes_gral.listarGralIngresos');
+		//$plantas = DB::table('public._bp_planta')->get();
+		return view('backend.administracion.insumo.insumo_reportes_gral.listarGralIngresos',compact('plantas'));
 	}
 	public function createListarReporteGralIngreso()
 	{
-		$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+		/*$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
 						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')->orderBy('ing_id','desc')->get();
 		return Datatables::of($reg)->addColumn('acciones', function ($reg) {
 			return '<a value="' . $reg->ing_id . '" target="_blank" class="btn btn-primary" href="/ReporteAlmacen/' . $reg->ing_id . '" type="button" ><i class="fa fa-eye"></i> REPORTE</a>';
@@ -1683,6 +1692,18 @@ class gbInsumoReporteController extends Controller {
 				return '<div style="background-color:greeen">TIENE FACTURA</div>';
 			}			
 		})
+			->editColumn('id', 'ID: {{$ing_id}}')
+			->make(true);*/
+		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
+			->where('usr_id', '=', Auth::user()->usr_id)->first();
+		$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+						->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+						//->where('ing_planta_id',$planta->id_planta)
+						//->where('ing_registrado', '>=', $fechainicial)->where('ing_registrado', '<=', $fechafinal)
+						->orderBy('ing_id','desc')->get();
+		
+		return Datatables::of($reg)
 			->editColumn('id', 'ID: {{$ing_id}}')
 			->make(true);
 	}
