@@ -1,7 +1,8 @@
 <?php
 
 namespace siga\Http\Controllers\insumo\insumo_reportes;
-
+use Illuminate\Http\Request;
+use siga\Http\Requests;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -1676,33 +1677,32 @@ class gbInsumoReporteController extends Controller {
 		//$plantas = DB::table('public._bp_planta')->get();
 		return view('backend.administracion.insumo.insumo_reportes_gral.listarGralIngresos',compact('plantas'));
 	}
-	public function createListarReporteGralIngreso()
+	public function createListarReporteGralIngreso(Request $request)
 	{
-		/*$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
-						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')->orderBy('ing_id','desc')->get();
-		return Datatables::of($reg)->addColumn('acciones', function ($reg) {
-			return '<a value="' . $reg->ing_id . '" target="_blank" class="btn btn-primary" href="/ReporteAlmacen/' . $reg->ing_id . '" type="button" ><i class="fa fa-eye"></i> REPORTE</a>';
-		})->addColumn('nombre_usuario', function ($usuario) {
-			return $usuario->prs_nombres . ' ' . $usuario->prs_paterno . ' ' . $usuario->prs_materno;
-		})
-		->addColumn('factura', function ($factura) {
-			if ($factura->ing_factura == 'sin_factura.png') {
-				return '<div style="background-color:red">NO TIENE FACTURA</div>';
-			}else{
-				return '<div style="background-color:greeen">TIENE FACTURA</div>';
-			}			
-		})
-			->editColumn('id', 'ID: {{$ing_id}}')
-			->make(true);*/
-		$planta = Usuario::join('public._bp_planta as planta', 'public._bp_usuarios.usr_planta_id', '=', 'planta.id_planta')
-			->where('usr_id', '=', Auth::user()->usr_id)->first();
-		$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+		$plantas = $request['planta'];
+		if (is_null($plantas)) {
+			$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
 						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
-						->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
-						//->where('ing_planta_id',$planta->id_planta)
+						->join('public._bp_planta as planta','insumo.ingreso.ing_planta_id','=','planta.id_planta')
+						->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','nombre_planta','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+						->where('ing_planta_id',0)
 						//->where('ing_registrado', '>=', $fechainicial)->where('ing_registrado', '<=', $fechafinal)
 						->orderBy('ing_id','desc')->get();
-		
+		}else{
+			$fecha = explode('/',$request['mes']);
+			$anio1 = $fecha[1];
+			$diafinal = date("d", mktime(0, 0, 0, $fecha[0] + 1, 0, $anio1));
+			$fechainicial = $anio1 . "-" . $fecha[0] . "-01";
+			$fechafinal = $anio1 . "-" . $fecha[0] . "-" . $diafinal;
+			//dd($mes);
+			$reg = Ingreso::join('public._bp_usuarios as usu','insumo.ingreso.ing_usr_id','=','usu.usr_id')
+						->join('public._bp_personas as per','usu.usr_prs_id','=','per.prs_id')
+						->join('public._bp_planta as planta','insumo.ingreso.ing_planta_id','=','planta.id_planta')
+						->select('ing_id','ing_registrado','ing_enumeracion','ing_remision','nombre_planta','ing_factura',DB::raw("CONCAT(per.prs_nombres,' ',per.prs_paterno,' ',per.prs_materno) as nombreCompleto"))
+						->whereIn('ing_planta_id',$plantas)
+						->where('ing_registrado', '>=', $fechainicial)->where('ing_registrado', '<=', $fechafinal)
+						->orderBy('ing_id','desc')->get();
+		}
 		return Datatables::of($reg)
 			->editColumn('id', 'ID: {{$ing_id}}')
 			->make(true);
