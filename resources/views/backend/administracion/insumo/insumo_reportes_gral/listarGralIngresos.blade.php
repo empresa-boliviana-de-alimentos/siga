@@ -17,6 +17,9 @@
     tbody td {
         font-size: 10px
     }
+    .select2-selection__choice{
+        color: black;
+    }
 </style>
 @section('main-content')
 <div class="row">
@@ -52,7 +55,7 @@
                               <strong>Seleccione un planta</strong>
                             </label>
                           </div>
-                          <select class="form-control selectpicker" id="id_planta">
+                          <select class="form-control selectplantas" id="id_planta" name="id_planta" multiple="multiple">
                             <option value="0">Todas las plantas</option>
                             @foreach($plantas as $planta)
                             <option value="{{$planta->id_planta}}">{{$planta->nombre_planta}}</option>
@@ -131,7 +134,10 @@
                                     </th>
                                     <th>
                                         Factura
-                                    </th>                    
+                                    </th> 
+                                    <th>
+                                        Planta
+                                    </th>                   
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,6 +165,9 @@
                                     </th>
                                     <th>
                                         Factura
+                                    </th>
+                                    <th>
+                                        Planta
                                     </th>                                   
                                 </tr>
                             </tfoot>
@@ -173,40 +182,47 @@
 @endsection
 @push('scripts')
 <script>
-    var t = $('#lts-ingresoNormales').DataTable( {
-      
-            "processing": false,
-            "serverSide": true,
-            "ajax": "CreateListarReporteGralIngreso",
-            "columns":[
-                {data: 'ing_id'},
-                {data: 'ing_id',
-                       'render': function (data, type, full, meta) {
-                            return '<a value="'+data+'" target="_blank" class="btn btn-primary" href="/ReporteAlmacen/'+data+'" type="button" ><i class="fa fa-eye"></i> REPORTE</a>';
+function Buscarfechas() {
+    var t = $('#lts-ingresoNormales').DataTable( {      
+        "destroy": true,
+        "processing": true,
+        "serverSide": true,
+        //"ajax": "CreateListarReporteGralIngreso"+$("#id_planta").val(),
+        "ajax":{
+               url : "CreateListarReporteGralIngreso",
+               type: "GET",
+               data: {
+                    "planta": $("#id_planta").val(),
+                    "mes": $("#id_mes").val(),
+                }
+             },
+        "columns":[
+            {data: 'ing_id'},
+            {data: 'ing_id',
+                   'render': function (data, type, full, meta) {
+                        return '<a value="'+data+'" target="_blank" class="btn btn-primary" href="/ReporteAlmacen/'+data+'" type="button" ><i class="fa fa-eye"></i> REPORTE</a>';
+                    }
+            },
+            {data: 'ing_enumeracion'}, 
+            {data: 'ing_registrado'},
+            {data: 'nombrecompleto'},
+            {data: 'ing_remision'},
+            {data: 'ing_factura',
+                   'render': function(data, type, full, meta){
+                        if(data === 'sin_factura.png'){
+                            return '<h5><span class="label label-danger">NO TIENE FACTURA</span></h5>';
+                        }else{
+                            return '<h5><span class="label label-success">TIENE FACTURA</span></h5>';
                         }
-                },
-                {data: 'ing_enumeracion'}, 
-                {data: 'ing_registrado'},
-                {data: 'nombrecompleto'},
-                {data: 'ing_remision'},
-                {data: 'ing_factura',
-                       'render': function(data, type, full, meta){
-                            if(data === 'sin_factura.png'){
-                                return '<h5><span class="label label-danger">NO TIENE FACTURA</span></h5>';
-                            }else{
-                                return '<h5><span class="label label-success">TIENE FACTURA</span></h5>';
-                            }
-                       }
-                },
-
-        ],
-        
+                    }
+            },
+            {data: 'nombre_planta'}
+        ],        
         "language": {
              "url": "/lenguaje"
         },
          "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-         "order": [[ 0, "desc" ]],
-         
+         "order": [[ 0, "desc" ]],         
        
     });
     t.on( 'order.dt search.dt', function () {
@@ -214,6 +230,7 @@
             cell.innerHTML = i+1;
         } );
     } ).draw();
+}
 $('.datepickerMonths').datepicker({
         format: "mm/yyyy",
         viewMode: "months", 
@@ -224,7 +241,11 @@ $('.datepickerMonths').datepicker({
     $('.datepickerDays').datepicker({
         format: "dd/mm/yyyy",        
         language: "es",
-    }).datepicker("setDate", new Date()); 
+    }).datepicker("setDate", new Date());
+
+$('.selectplantas').select2({
+    placeholder: "Seleccione una o mas plantas",
+});
 </script>
 @endpush  
 
